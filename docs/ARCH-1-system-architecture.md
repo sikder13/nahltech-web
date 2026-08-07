@@ -221,29 +221,40 @@ nahltech-web/
 # 5. PAGE GRAPH (internal link topology)
 
 ```
-                              ┌──────────┐
-                    ┌────────►│   HOME   │◄───────────┐
-                    │         └────┬─────┘            │
-                    │   ┌──────────┼──────────────┐   │
-                    ▼   ▼          ▼              ▼   │
-              ┌─────────┐  ┌────────────┐  ┌─────────────┐
-              │SERVICES │  │  PRODUCTS  │  │  RESEARCH   │
-              │  hub    │  │    hub     │  │    hub      │
-              └──┬──────┘  └──┬─────────┘  └──────┬──────┘
-        ┌────────┼────┐       │                   │
-        ▼        ▼    ▼       ▼                   ▼
-   ┌─────────┐ ┌───┐ ┌───┐ ┌──────────┐   ┌──────────────┐
-   │AI SEARCH│ │SEO│ │WEB│ │CRAWLMOUSE│◄──│ INDY REPORT  │
-   │VISIBILTY│ └─┬─┘ └─┬─┘ └────┬─────┘   └──────┬───────┘
-   └────┬────┘   │     │        │    ▲            │
-        │        ▼     ▼        ▼    │            │
-        │      ┌──────────┐  crawlmouse.com       │
-        └─────►│ PRICING  │◄── (external, ────────┘
-               └────┬─────┘    reciprocal)
-                    ▼
-               ┌─────────┐        ┌──────┐
-               │ CONTACT │◄───────│ BLOG │──► every post: 1 service link,
-               └─────────┘        └──────┘    2 sibling links, pillar link
+                                  ┌──────────┐
+                        ┌────────►│   HOME   │◄───────────┐
+                        │         └────┬─────┘            │
+                        │   ┌──────────┼──────────────┐   │
+                        ▼   ▼          ▼              ▼   │
+                  ┌─────────┐  ┌────────────┐  ┌─────────────┐
+                  │SERVICES │  │  PRODUCTS  │  │  RESEARCH   │
+                  │  hub    │  │    hub     │  │    hub      │
+                  └────┬────┘  └──────┬─────┘  └──────┬──────┘
+       ┌───────┬───────┴┬────────┐    │               │
+       ▼       ▼        ▼        ▼    ▼               ▼
+ ┌──────────┐┌───────┐┌───────┐┌──────────┐   ┌──────────────┐
+ │AI SEARCH ││ LOCAL ││  WEB  ││    AI    │   │ INDY REPORT  │
+ │VISIBILITY││  SEO  ││  DEV  ││   AUTO   │   └──────┬───────┘
+ └────┬─────┘└───┬───┘└───┬───┘└────┬─────┘          │
+      │          │        │         │                │
+      │          │        │         │    ┌───────────┘
+      │          │        │         │    ▼
+      │          │        │         │  ┌──────────┐
+      │          │        │         │  │CRAWLMOUSE│◄─┐
+      │          │        │         │  └────┬─────┘  │
+      │          │        │         │       ▼        │
+      └──────────┴───┬────┴─────────┘  crawlmouse.com│
+                     ▼                   (external, ─┘
+                ┌──────────┐              reciprocal)
+                │ PRICING  │
+                └────┬─────┘
+                     ▼
+                ┌─────────┐        ┌──────┐
+                │ CONTACT │◄───────│ BLOG │──► every post: 1 service link,
+                └─────────┘        └──────┘    2 sibling links, pillar link
+
+ Service pages (4): /services/ai-search-visibility · /services/local-seo
+                    /services/web-development     · /services/ai-automation
 ```
 
 Rules (build-enforced): zero orphans · max depth 3 from home · descriptive anchors · every service page → pricing + ≥1 product + ≥2 posts.
