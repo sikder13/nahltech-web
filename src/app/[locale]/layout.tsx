@@ -1,7 +1,11 @@
 import { Inter } from "next/font/google";
 import { notFound } from "next/navigation";
 
+import { Footer } from "@/components/layout/Footer";
+import { Header } from "@/components/layout/Header";
+import { MotionProvider } from "@/components/layout/MotionProvider";
 import { getDirection, isLiveLocale, liveLocales } from "@/lib/i18n/config";
+import { getDictionary } from "@/lib/i18n/get-dictionary";
 
 import type { ReactNode } from "react";
 
@@ -43,6 +47,8 @@ export default async function LocaleLayout({
     notFound();
   }
 
+  const t = await getDictionary(locale);
+
   return (
     <html
       lang={locale}
@@ -50,7 +56,21 @@ export default async function LocaleLayout({
       className={inter.variable}
       suppressHydrationWarning
     >
-      <body>{children}</body>
+      <body className="flex min-h-dvh flex-col">
+        <MotionProvider>
+          <a
+            href="#main"
+            className="sr-only focus:not-sr-only focus:absolute focus:start-sm focus:top-sm focus:z-50 focus:rounded-md focus:bg-accent focus:px-sm focus:py-2xs focus:text-on-accent"
+          >
+            {t.a11y.skipToContent}
+          </a>
+          <Header t={t} />
+          <div id="main" className="flex-1">
+            {children}
+          </div>
+          <Footer t={t} />
+        </MotionProvider>
+      </body>
     </html>
   );
 }
