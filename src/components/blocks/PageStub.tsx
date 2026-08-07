@@ -1,9 +1,9 @@
 /**
  * Structural placeholder for a page whose copy has not been approved yet.
  *
- * Per CLAUDE.md rule 12 the layout ships before the words do: the heading is
- * real, everything else is an explicit marker. No invented claims, prices or
- * statistics reach a page through this component.
+ * The layout ships before the words do: the heading is real, everything else
+ * is an explicit marker. No invented claim, price or statistic reaches a page
+ * through this component — real copy replaces the marker once approved.
  */
 export function PageStub({
   title,
