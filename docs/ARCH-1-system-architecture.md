@@ -264,7 +264,7 @@ SERVER holds: SUPABASE_SERVICE_ROLE_KEY · ANTHROPIC_API_KEY ·
   → all in Vercel env vars, all absent from the client bundle,
     enforced by `import 'server-only'` in lib/supabase/server.ts
 
-DB: RLS on every table · anon = INSERT-only on chat + subscribe tables ·
+DB: RLS on every table · anon = INSERT-only on the two chat tables ·
     zero anon SELECT policies (deliberate — RLS can't restrict columns)
 
 HEADERS (middleware): CSP, X-Frame-Options DENY, X-Content-Type-Options,
