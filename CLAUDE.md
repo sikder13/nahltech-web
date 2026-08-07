@@ -44,3 +44,12 @@ acceptance criteria in the task prompt verified and stated back.
 Full architecture: ARCH-1 (docs/ARCH-1-system-architecture.md once added).
 When a decision isn't covered there or here, choose the boring,
 verifiable option and note the decision in the PR description.
+11. Commit messages: conventional commits, written as the project author.
+    NEVER include AI attribution of any kind — no "Generated with",
+    no Co-Authored-By trailers, no mention of Claude, Claude Code,
+    Cursor, or any AI tool in commits, PR titles, PR descriptions,
+    code comments, or file headers.
+12. Page copy: build structure with [PLACEHOLDER: description] markers.
+    NEVER invent product facts, statistics, client claims, or pricing.
+    Real copy is provided by the founder after explicit approval —
+    if copy for a section hasn't been provided, it stays a placeholder.
