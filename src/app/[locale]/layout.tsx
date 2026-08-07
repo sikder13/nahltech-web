@@ -5,7 +5,7 @@ import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { MotionProvider } from "@/components/layout/MotionProvider";
 import { getDirection, isLiveLocale, liveLocales } from "@/lib/i18n/config";
-import { getDictionary } from "@/lib/i18n/get-dictionary";
+import { requireDictionary } from "@/lib/i18n/require-dictionary";
 
 import type { ReactNode } from "react";
 
@@ -47,7 +47,7 @@ export default async function LocaleLayout({
     notFound();
   }
 
-  const t = await getDictionary(locale);
+  const t = await requireDictionary(locale);
 
   return (
     <html
@@ -65,9 +65,9 @@ export default async function LocaleLayout({
             {t.a11y.skipToContent}
           </a>
           <Header t={t} />
-          <div id="main" className="flex-1">
+          <main id="main" className="flex-1">
             {children}
-          </div>
+          </main>
           <Footer t={t} />
         </MotionProvider>
       </body>

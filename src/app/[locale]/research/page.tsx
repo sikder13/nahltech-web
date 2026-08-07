@@ -11,7 +11,7 @@ export default async function Page({
 
   return (
     <PageStub
-      title={t.pages.home.title}
+      title={t.pages.research.title}
       placeholder={t.common.contentPlaceholder}
     />
   );
