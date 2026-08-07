@@ -16,7 +16,5 @@ export default defineConfig({
     setupFiles: ["./src/test/setup.ts"],
     include: ["src/**/*.test.{ts,tsx}"],
     restoreMocks: true,
-    // Temporary: no suites exist yet. Removed with the first real test.
-    passWithNoTests: true,
   },
 });
