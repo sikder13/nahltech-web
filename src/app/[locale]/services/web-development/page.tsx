@@ -1,6 +1,19 @@
 import { PageStub } from "@/components/blocks/PageStub";
 import { requireDictionary } from "@/lib/i18n/require-dictionary";
 
+import type { Metadata } from "next";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await requireDictionary(locale);
+
+  return { title: t.pages.webDevelopment.title };
+}
+
 export default async function Page({
   params,
 }: {

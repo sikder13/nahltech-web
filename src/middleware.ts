@@ -103,7 +103,12 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    // Everything except Next internals and files with an extension.
-    "/((?!_next/static|_next/image|favicon.ico|.*\\..*).*)",
+    /**
+     * Everything except Next internals, files with an extension, and the
+     * metadata file-convention routes. Those last ones matter: they have no
+     * extension, so without an explicit exclusion they would be rewritten
+     * under /en and 404 — taking the Open Graph image and favicon with them.
+     */
+    "/((?!_next/static|_next/image|favicon.ico|opengraph-image|twitter-image|icon|apple-icon|manifest|.*\\..*).*)",
   ],
 };

@@ -6,7 +6,9 @@ import { Header } from "@/components/layout/Header";
 import { MotionProvider } from "@/components/layout/MotionProvider";
 import { getDirection, isLiveLocale, liveLocales } from "@/lib/i18n/config";
 import { requireDictionary } from "@/lib/i18n/require-dictionary";
+import { siteUrl } from "@/lib/routes";
 
+import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
 import "@/styles/globals.css";
@@ -32,6 +34,27 @@ const inter = Inter({
  */
 export function generateStaticParams() {
   return liveLocales.map((locale) => ({ locale }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+
+  if (!isLiveLocale(locale)) return {};
+
+  const t = await requireDictionary(locale);
+
+  return {
+    metadataBase: new URL(siteUrl),
+    title: {
+      default: t.site.name,
+      template: `%s | ${t.site.name}`,
+    },
+    description: t.site.description,
+  };
 }
 
 export default async function LocaleLayout({
