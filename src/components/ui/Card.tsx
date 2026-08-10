@@ -49,9 +49,38 @@ export function ImageSlot({
     <div
       role="img"
       aria-label={label}
-      className={`flex hex-watermark ${ratio} items-center justify-center rounded-md border border-divider ${className}`}
+      className={`relative flex ${ratio} items-center justify-center overflow-hidden rounded-md border border-divider bg-surface ${className}`}
     >
-      <span className="px-sm text-center text-xs text-text-muted">{label}</span>
+      {/* A real honeycomb, at divider strength. This is the one repeating
+          hexagon on the site: there is no text over it, and it reads as
+          "artwork pending" rather than decorating a live surface. */}
+      <svg
+        aria-hidden="true"
+        className="absolute inset-0 size-full text-divider"
+        width="100%"
+        height="100%"
+      >
+        <defs>
+          <pattern
+            id="hex-watermark"
+            width="56"
+            height="32"
+            patternUnits="userSpaceOnUse"
+          >
+            <path
+              d="M14 0 L28 8 L28 24 L14 32 L0 24 L0 8 Z M42 0 L56 8 L56 24 L42 32 L28 24 L28 8 Z"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1"
+            />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#hex-watermark)" />
+      </svg>
+
+      <span className="relative px-sm text-center text-xs text-text-muted">
+        {label}
+      </span>
     </div>
   );
 }
