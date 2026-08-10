@@ -231,7 +231,7 @@ export function PricingTable({
         <div className={shell}>
           <FadeIn>
             <SectionHeading>{projectsHeading}</SectionHeading>
-            <dl className="mt-lg max-w-2xl divide-y divide-divider border-y border-divider">
+            <dl className="mt-lg max-w-(--container-measure) divide-y divide-divider border-y border-divider">
               {projects.map((project) => (
                 <div
                   key={project.name}

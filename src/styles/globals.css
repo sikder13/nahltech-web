@@ -68,7 +68,23 @@
   --radius-lg: 1rem;
 
   --container-page: 72rem;
+  --container-measure: 48rem;
+  --container-card: 28rem;
 }
+
+/* ---------------------------------------------------------------------------
+ * WIDTH UTILITIES — read this before adding one.
+ *
+ * The semantic spacing scale above shares its suffixes (sm, md, lg, xl, 2xl,
+ * 3xl) with Tailwind's built-in width scale, and spacing wins. A width
+ * utility ending in one of those suffixes resolves to the spacing value —
+ * so a card asked to be 28rem wide silently becomes 1.5rem. The same applies
+ * to the w-, h-, min-w-, max-h-, size- and basis- families.
+ *
+ * So: never use a named size utility from that list. Use `max-w-prose`, an
+ * explicit `max-w-(--container-*)` token, or add a new --container-* value
+ * here. `src/styles/tokens.test.ts` fails the build if one slips in.
+ * ------------------------------------------------------------------------ */
 
 /**
  * Link hover treatment: a gold underline under text that is already a

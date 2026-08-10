@@ -112,7 +112,7 @@ export function PriceCard({
     <section className={shell}>
       <FadeIn>
         <SectionHeading>{heading}</SectionHeading>
-        <div className="mt-lg max-w-md rounded-lg border border-border p-lg">
+        <div className="mt-lg max-w-(--container-card) rounded-lg border border-border p-lg">
           {startingAtLabel ? (
             <p className="text-sm text-text-muted">{startingAtLabel}</p>
           ) : null}
@@ -144,7 +144,7 @@ export function DeliverablesList({
       <div className={shell}>
         <FadeIn>
           <SectionHeading>{heading}</SectionHeading>
-          <ul className="mt-lg grid max-w-3xl gap-sm sm:grid-cols-2">
+          <ul className="mt-lg grid max-w-(--container-measure) gap-sm sm:grid-cols-2">
             {items.map((item) => (
               <li key={item} className="flex gap-2xs text-sm text-text">
                 <Icon name="check" className="mt-px size-4 shrink-0" />

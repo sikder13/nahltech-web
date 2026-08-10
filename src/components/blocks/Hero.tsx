@@ -17,7 +17,7 @@ export function Hero({
   return (
     <section className="mx-auto max-w-(--container-page) px-sm pt-3xl pb-2xl">
       <FadeIn>
-        <h1 className="max-w-3xl text-4xl font-bold tracking-tight text-balance text-text sm:text-5xl">
+        <h1 className="max-w-(--container-measure) text-4xl font-bold tracking-tight text-balance text-text sm:text-5xl">
           {headline}
         </h1>
         <span className="mt-md heading-rule" aria-hidden="true" />
