@@ -49,7 +49,7 @@ export function MethodStrip({
                 <span className="relative flex size-12 items-center justify-center">
                   <HexOutline
                     orientation="flat"
-                    className="absolute inset-0 size-full text-border"
+                    className="absolute inset-0 size-full stroke-border"
                     strokeWidth={1}
                   />
                   <span className="relative font-mono text-sm font-semibold text-text tabular-nums">

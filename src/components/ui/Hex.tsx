@@ -12,6 +12,11 @@ import type { ReactNode } from "react";
  * Every hexagon here is decorative and `aria-hidden`. Gold sits at 1.59:1 on
  * white, well under the 3:1 floor for meaningful non-text, so a hexagon can
  * never be the only thing carrying information.
+ *
+ * Colour arrives through `stroke-*` rather than `text-*`. Both would work —
+ * the path could inherit currentColor — but a text utility on a gold element
+ * reads like a violation of the accent rule to anyone auditing the codebase,
+ * and there is no text here to colour.
  */
 
 /** Pointy-top hexagon, as a clip-path polygon. Used for avatar frames. */
@@ -44,7 +49,6 @@ export function HexOutline({
       <path
         d={orientation === "flat" ? FLAT_TOP : POINTY_TOP}
         fill="none"
-        stroke="currentColor"
         strokeWidth={strokeWidth}
         vectorEffect="non-scaling-stroke"
       />
@@ -68,7 +72,7 @@ export function HexFrame({
       className={`relative inline-flex size-10 shrink-0 items-center justify-center ${className}`}
     >
       <HexOutline
-        className="absolute inset-0 size-full text-border"
+        className="absolute inset-0 size-full stroke-border"
         strokeWidth={1}
       />
       <span className="relative flex items-center justify-center">
@@ -91,19 +95,19 @@ export function HexCluster({ className = "" }: { className?: string }) {
       className={`pointer-events-none relative aspect-square w-full ${className}`}
     >
       <HexOutline
-        className="absolute top-0 left-[18%] h-[46%] w-[52%] text-accent"
+        className="absolute top-0 left-[18%] h-[46%] w-[52%] stroke-accent"
         strokeWidth={1.5}
       />
       <HexOutline
-        className="absolute top-[27%] left-0 h-[46%] w-[52%] text-accent"
+        className="absolute top-[27%] left-0 h-[46%] w-[52%] stroke-accent"
         strokeWidth={1.5}
       />
       <HexOutline
-        className="absolute top-[27%] right-0 h-[46%] w-[52%] text-accent"
+        className="absolute top-[27%] right-0 h-[46%] w-[52%] stroke-accent"
         strokeWidth={1.5}
       />
       <HexOutline
-        className="absolute bottom-0 left-[18%] h-[46%] w-[52%] text-divider"
+        className="absolute bottom-0 left-[18%] h-[46%] w-[52%] stroke-divider"
         strokeWidth={1.5}
       />
     </div>
