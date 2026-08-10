@@ -1,6 +1,7 @@
 import { Fraunces, Inter } from "next/font/google";
 import Link from "next/link";
 
+import { BeeMark } from "@/components/ui/BeeMark";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { defaultLocale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
@@ -51,15 +52,19 @@ export default async function NotFound() {
             <Link
               href={routes.home}
               aria-label={t.a11y.homeLink}
-              className="text-base font-bold tracking-tight text-text"
+              className="group flex items-center gap-2xs text-base font-semibold tracking-tight text-text"
             >
+              <BeeMark className="size-6 text-text" />
               {t.site.name}
             </Link>
           </div>
         </header>
 
         <main className="mx-auto w-full max-w-(--container-page) flex-1 px-sm py-3xl">
-          <p className="text-sm font-semibold text-text-muted">404</p>
+          {/* The bee, lost. The one page where a moment of charm costs
+              nothing — and the second and final appearance of the mark. */}
+          <BeeMark className="size-16 text-text" />
+          <p className="mt-md caption">404</p>
           <h1 className="mt-2xs text-display text-text">{t.notFound.title}</h1>
           <span className="mt-sm heading-rule" aria-hidden="true" />
           <p className="mt-md text-text-muted">{t.notFound.body}</p>

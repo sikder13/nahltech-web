@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { MobileNav } from "@/components/layout/MobileNav";
 import { NavDropdown } from "@/components/layout/NavDropdown";
+import { BeeMark } from "@/components/ui/BeeMark";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { contactDetails, routes } from "@/lib/routes";
 
@@ -28,9 +29,9 @@ export function Header({ t }: { t: Dictionary }) {
         <Link
           href={routes.home}
           aria-label={t.a11y.homeLink}
-          className="text-base font-bold tracking-tight text-text"
+          className="group flex items-center gap-2xs text-base font-semibold tracking-tight text-text"
         >
-          {/* [PLACEHOLDER: logo mark — wordmark stands in until the asset is supplied] */}
+          <BeeMark className="size-6 text-text" />
           {t.site.name}
         </Link>
 

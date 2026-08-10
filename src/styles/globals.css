@@ -245,3 +245,55 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* ---------------------------------------------------------------------------
+ * Bee wing-flap.
+ *
+ * Two wings alternating scaleY on an 80ms beat, out of phase, so the flap
+ * reads as motion rather than a pulse. Runs only while the mark's group is
+ * hovered or focused, and only when the visitor has not asked for less
+ * motion — the reduced-motion block below stops it outright rather than
+ * merely shortening it, because a shortened flap is a flicker.
+ * ------------------------------------------------------------------------ */
+@keyframes bee-flap-left {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(0.35);
+  }
+}
+
+@keyframes bee-flap-right {
+  0%,
+  100% {
+    transform: scaleY(0.35);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+.bee .bee-wing {
+  transform-origin: 60% 100%;
+}
+
+.group:hover .bee .bee-wing-left,
+.group:focus-visible .bee .bee-wing-left,
+.bee:hover .bee-wing-left {
+  animation: bee-flap-left 80ms linear infinite;
+}
+
+.group:hover .bee .bee-wing-right,
+.group:focus-visible .bee .bee-wing-right,
+.bee:hover .bee-wing-right {
+  animation: bee-flap-right 80ms linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bee .bee-wing {
+    animation: none !important;
+    transform: none !important;
+  }
+}
