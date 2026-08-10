@@ -82,13 +82,13 @@ export function Footer({ t }: { t: Dictionary }) {
             <span className="block">{t.footer.cityRegionPostal}</span>
             <a
               href={contactDetails.phoneHref}
-              className="mt-3xs block link-accent hover:text-text"
+              className="mt-3xs inline-block py-3xs link-accent hover:text-text"
             >
               {t.footer.phoneDisplay}
             </a>
             <a
               href={contactDetails.emailHref}
-              className="block link-accent hover:text-text"
+              className="inline-block py-3xs link-accent hover:text-text"
             >
               {t.footer.email}
             </a>

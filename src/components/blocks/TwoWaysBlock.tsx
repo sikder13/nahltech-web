@@ -48,23 +48,25 @@ export function TwoWaysBlock({
               {google.label}
             </dt>
 
-            <p className="mt-md font-mono text-sm text-text-muted">
-              <span aria-hidden="true">&gt; </span>
-              [query]
-            </p>
+            <dd>
+              <p className="mt-md font-mono text-sm text-text-muted">
+                <span aria-hidden="true">&gt; </span>
+                [query]
+              </p>
 
-            <ol className="mt-md space-y-2xs" aria-hidden="true">
-              {[0, 1, 2].map((rank) => (
-                <li key={rank} className="flex items-center gap-2xs">
-                  <span className="font-mono text-xs text-text-muted">
-                    {rank + 1}
-                  </span>
-                  <span className="h-px flex-1 bg-divider" />
-                </li>
-              ))}
-            </ol>
+              <ol className="mt-md space-y-2xs" aria-hidden="true">
+                {[0, 1, 2].map((rank) => (
+                  <li key={rank} className="flex items-center gap-2xs">
+                    <span className="font-mono text-xs text-text-muted">
+                      {rank + 1}
+                    </span>
+                    <span className="h-px flex-1 bg-divider" />
+                  </li>
+                ))}
+              </ol>
 
-            <dd className="mt-md text-sm text-text-muted">{google.body}</dd>
+              <p className="mt-md text-sm text-text-muted">{google.body}</p>
+            </dd>
           </div>
 
           {/* Right: the single-answer world. */}
@@ -74,20 +76,22 @@ export function TwoWaysBlock({
               {ai.label}
             </dt>
 
-            <p className="mt-md font-display text-lg text-text-muted italic">
-              “[prompt]”
-            </p>
+            <dd>
+              <p className="mt-md font-display text-lg text-text-muted italic">
+                “[prompt]”
+              </p>
 
-            <div
-              aria-hidden="true"
-              className="mt-md space-y-2xs border-s-2 border-accent ps-sm"
-            >
-              <span className="block h-px w-full bg-divider" />
-              <span className="block h-px w-11/12 bg-divider" />
-              <span className="block h-px w-4/5 bg-divider" />
-            </div>
+              <div
+                aria-hidden="true"
+                className="mt-md space-y-2xs border-s-2 border-accent ps-sm"
+              >
+                <span className="block h-px w-full bg-divider" />
+                <span className="block h-px w-11/12 bg-divider" />
+                <span className="block h-px w-4/5 bg-divider" />
+              </div>
 
-            <dd className="mt-md text-sm text-text-muted">{ai.body}</dd>
+              <p className="mt-md text-sm text-text-muted">{ai.body}</p>
+            </dd>
           </div>
         </dl>
       </FadeIn>
