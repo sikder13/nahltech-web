@@ -211,5 +211,283 @@
       "imageLabel": "[PLACEHOLDER: featured research image — awaiting approved copy]",
       "cta": "Read the research"
     }
+  },
+  "service": {
+    "problemHeading": "The problem",
+    "demoHeading": "What it looks like",
+    "methodHeading": "How we do it",
+    "priceHeading": "Price",
+    "deliverablesHeading": "What you get",
+    "measurementHeading": "How we measure",
+    "faqHeading": "Questions",
+    "startingAt": "Starting at",
+    "metricLabel": "Metric",
+    "methodLabel": "Method"
+  },
+  "servicePages": {
+    "aiSearchVisibility": {
+      "intro": "[PLACEHOLDER: AI Search Visibility intro line — awaiting approved copy]",
+      "problem": "[PLACEHOLDER: AI Search Visibility problem statement — awaiting approved copy]",
+      "demo": {
+        "body": "[PLACEHOLDER: AI Search Visibility demonstration body — awaiting approved copy]",
+        "imageLabel": "[PLACEHOLDER: AI Search Visibility demonstration screenshot — awaiting approved copy]"
+      },
+      "steps": [
+        {
+          "label": "Observe",
+          "body": "[PLACEHOLDER: AI Search Visibility observe step — awaiting approved copy]"
+        },
+        {
+          "label": "Analyze",
+          "body": "[PLACEHOLDER: AI Search Visibility analyze step — awaiting approved copy]"
+        },
+        {
+          "label": "Quantify",
+          "body": "[PLACEHOLDER: AI Search Visibility quantify step — awaiting approved copy]"
+        },
+        {
+          "label": "Build",
+          "body": "[PLACEHOLDER: AI Search Visibility build step — awaiting approved copy]"
+        }
+      ],
+      "price": {
+        "amount": "[PRICE]",
+        "unit": "[PLACEHOLDER: AI Search Visibility price unit — awaiting approved copy]",
+        "note": "[PLACEHOLDER: AI Search Visibility price note — awaiting approved copy]"
+      },
+      "deliverables": [
+        "[PLACEHOLDER: AI Search Visibility deliverable 1 — awaiting approved copy]",
+        "[PLACEHOLDER: AI Search Visibility deliverable 2 — awaiting approved copy]",
+        "[PLACEHOLDER: AI Search Visibility deliverable 3 — awaiting approved copy]",
+        "[PLACEHOLDER: AI Search Visibility deliverable 4 — awaiting approved copy]"
+      ],
+      "measurementIntro": "[PLACEHOLDER: AI Search Visibility measurement intro — awaiting approved copy]",
+      "measurement": [
+        {
+          "metric": "[PLACEHOLDER: AI Search Visibility metric 1 — awaiting approved copy]",
+          "method": "[PLACEHOLDER: AI Search Visibility method 1 — awaiting approved copy]"
+        },
+        {
+          "metric": "[PLACEHOLDER: AI Search Visibility metric 2 — awaiting approved copy]",
+          "method": "[PLACEHOLDER: AI Search Visibility method 2 — awaiting approved copy]"
+        },
+        {
+          "metric": "[PLACEHOLDER: AI Search Visibility metric 3 — awaiting approved copy]",
+          "method": "[PLACEHOLDER: AI Search Visibility method 3 — awaiting approved copy]"
+        }
+      ],
+      "faq": [
+        {
+          "question": "[PLACEHOLDER: AI Search Visibility question 1 — awaiting approved copy]",
+          "answer": "[PLACEHOLDER: AI Search Visibility answer 1 — awaiting approved copy]"
+        },
+        {
+          "question": "[PLACEHOLDER: AI Search Visibility question 2 — awaiting approved copy]",
+          "answer": "[PLACEHOLDER: AI Search Visibility answer 2 — awaiting approved copy]"
+        },
+        {
+          "question": "[PLACEHOLDER: AI Search Visibility question 3 — awaiting approved copy]",
+          "answer": "[PLACEHOLDER: AI Search Visibility answer 3 — awaiting approved copy]"
+        }
+      ]
+    },
+    "localSeo": {
+      "intro": "[PLACEHOLDER: Local SEO intro line — awaiting approved copy]",
+      "problem": "[PLACEHOLDER: Local SEO problem statement — awaiting approved copy]",
+      "demo": {
+        "body": "[PLACEHOLDER: Local SEO demonstration body — awaiting approved copy]",
+        "imageLabel": "[PLACEHOLDER: Local SEO demonstration screenshot — awaiting approved copy]"
+      },
+      "steps": [
+        {
+          "label": "Observe",
+          "body": "[PLACEHOLDER: Local SEO observe step — awaiting approved copy]"
+        },
+        {
+          "label": "Analyze",
+          "body": "[PLACEHOLDER: Local SEO analyze step — awaiting approved copy]"
+        },
+        {
+          "label": "Quantify",
+          "body": "[PLACEHOLDER: Local SEO quantify step — awaiting approved copy]"
+        },
+        {
+          "label": "Build",
+          "body": "[PLACEHOLDER: Local SEO build step — awaiting approved copy]"
+        }
+      ],
+      "price": {
+        "amount": "[PRICE]",
+        "unit": "[PLACEHOLDER: Local SEO price unit — awaiting approved copy]",
+        "note": "[PLACEHOLDER: Local SEO price note — awaiting approved copy]"
+      },
+      "deliverables": [
+        "[PLACEHOLDER: Local SEO deliverable 1 — awaiting approved copy]",
+        "[PLACEHOLDER: Local SEO deliverable 2 — awaiting approved copy]",
+        "[PLACEHOLDER: Local SEO deliverable 3 — awaiting approved copy]",
+        "[PLACEHOLDER: Local SEO deliverable 4 — awaiting approved copy]"
+      ],
+      "measurementIntro": "[PLACEHOLDER: Local SEO measurement intro — awaiting approved copy]",
+      "measurement": [
+        {
+          "metric": "[PLACEHOLDER: Local SEO metric 1 — awaiting approved copy]",
+          "method": "[PLACEHOLDER: Local SEO method 1 — awaiting approved copy]"
+        },
+        {
+          "metric": "[PLACEHOLDER: Local SEO metric 2 — awaiting approved copy]",
+          "method": "[PLACEHOLDER: Local SEO method 2 — awaiting approved copy]"
+        },
+        {
+          "metric": "[PLACEHOLDER: Local SEO metric 3 — awaiting approved copy]",
+          "method": "[PLACEHOLDER: Local SEO method 3 — awaiting approved copy]"
+        }
+      ],
+      "faq": [
+        {
+          "question": "[PLACEHOLDER: Local SEO question 1 — awaiting approved copy]",
+          "answer": "[PLACEHOLDER: Local SEO answer 1 — awaiting approved copy]"
+        },
+        {
+          "question": "[PLACEHOLDER: Local SEO question 2 — awaiting approved copy]",
+          "answer": "[PLACEHOLDER: Local SEO answer 2 — awaiting approved copy]"
+        },
+        {
+          "question": "[PLACEHOLDER: Local SEO question 3 — awaiting approved copy]",
+          "answer": "[PLACEHOLDER: Local SEO answer 3 — awaiting approved copy]"
+        }
+      ]
+    },
+    "webDevelopment": {
+      "intro": "[PLACEHOLDER: Web Development intro line — awaiting approved copy]",
+      "problem": "[PLACEHOLDER: Web Development problem statement — awaiting approved copy]",
+      "demo": {
+        "body": "[PLACEHOLDER: Web Development demonstration body — awaiting approved copy]",
+        "imageLabel": "[PLACEHOLDER: Web Development demonstration screenshot — awaiting approved copy]"
+      },
+      "steps": [
+        {
+          "label": "Observe",
+          "body": "[PLACEHOLDER: Web Development observe step — awaiting approved copy]"
+        },
+        {
+          "label": "Analyze",
+          "body": "[PLACEHOLDER: Web Development analyze step — awaiting approved copy]"
+        },
+        {
+          "label": "Quantify",
+          "body": "[PLACEHOLDER: Web Development quantify step — awaiting approved copy]"
+        },
+        {
+          "label": "Build",
+          "body": "[PLACEHOLDER: Web Development build step — awaiting approved copy]"
+        }
+      ],
+      "price": {
+        "amount": "[PRICE]",
+        "unit": "[PLACEHOLDER: Web Development price unit — awaiting approved copy]",
+        "note": "[PLACEHOLDER: Web Development price note — awaiting approved copy]"
+      },
+      "deliverables": [
+        "[PLACEHOLDER: Web Development deliverable 1 — awaiting approved copy]",
+        "[PLACEHOLDER: Web Development deliverable 2 — awaiting approved copy]",
+        "[PLACEHOLDER: Web Development deliverable 3 — awaiting approved copy]",
+        "[PLACEHOLDER: Web Development deliverable 4 — awaiting approved copy]"
+      ],
+      "measurementIntro": "[PLACEHOLDER: Web Development measurement intro — awaiting approved copy]",
+      "measurement": [
+        {
+          "metric": "[PLACEHOLDER: Web Development metric 1 — awaiting approved copy]",
+          "method": "[PLACEHOLDER: Web Development method 1 — awaiting approved copy]"
+        },
+        {
+          "metric": "[PLACEHOLDER: Web Development metric 2 — awaiting approved copy]",
+          "method": "[PLACEHOLDER: Web Development method 2 — awaiting approved copy]"
+        },
+        {
+          "metric": "[PLACEHOLDER: Web Development metric 3 — awaiting approved copy]",
+          "method": "[PLACEHOLDER: Web Development method 3 — awaiting approved copy]"
+        }
+      ],
+      "faq": [
+        {
+          "question": "[PLACEHOLDER: Web Development question 1 — awaiting approved copy]",
+          "answer": "[PLACEHOLDER: Web Development answer 1 — awaiting approved copy]"
+        },
+        {
+          "question": "[PLACEHOLDER: Web Development question 2 — awaiting approved copy]",
+          "answer": "[PLACEHOLDER: Web Development answer 2 — awaiting approved copy]"
+        },
+        {
+          "question": "[PLACEHOLDER: Web Development question 3 — awaiting approved copy]",
+          "answer": "[PLACEHOLDER: Web Development answer 3 — awaiting approved copy]"
+        }
+      ]
+    },
+    "aiAutomation": {
+      "intro": "[PLACEHOLDER: AI Automation intro line — awaiting approved copy]",
+      "problem": "[PLACEHOLDER: AI Automation problem statement — awaiting approved copy]",
+      "demo": {
+        "body": "[PLACEHOLDER: AI Automation demonstration body — awaiting approved copy]",
+        "imageLabel": "[PLACEHOLDER: AI Automation demonstration screenshot — awaiting approved copy]"
+      },
+      "steps": [
+        {
+          "label": "Observe",
+          "body": "[PLACEHOLDER: AI Automation observe step — awaiting approved copy]"
+        },
+        {
+          "label": "Analyze",
+          "body": "[PLACEHOLDER: AI Automation analyze step — awaiting approved copy]"
+        },
+        {
+          "label": "Quantify",
+          "body": "[PLACEHOLDER: AI Automation quantify step — awaiting approved copy]"
+        },
+        {
+          "label": "Build",
+          "body": "[PLACEHOLDER: AI Automation build step — awaiting approved copy]"
+        }
+      ],
+      "price": {
+        "amount": "[PRICE]",
+        "unit": "[PLACEHOLDER: AI Automation price unit — awaiting approved copy]",
+        "note": "[PLACEHOLDER: AI Automation price note — awaiting approved copy]"
+      },
+      "deliverables": [
+        "[PLACEHOLDER: AI Automation deliverable 1 — awaiting approved copy]",
+        "[PLACEHOLDER: AI Automation deliverable 2 — awaiting approved copy]",
+        "[PLACEHOLDER: AI Automation deliverable 3 — awaiting approved copy]",
+        "[PLACEHOLDER: AI Automation deliverable 4 — awaiting approved copy]"
+      ],
+      "measurementIntro": "[PLACEHOLDER: AI Automation measurement intro — awaiting approved copy]",
+      "measurement": [
+        {
+          "metric": "[PLACEHOLDER: AI Automation metric 1 — awaiting approved copy]",
+          "method": "[PLACEHOLDER: AI Automation method 1 — awaiting approved copy]"
+        },
+        {
+          "metric": "[PLACEHOLDER: AI Automation metric 2 — awaiting approved copy]",
+          "method": "[PLACEHOLDER: AI Automation method 2 — awaiting approved copy]"
+        },
+        {
+          "metric": "[PLACEHOLDER: AI Automation metric 3 — awaiting approved copy]",
+          "method": "[PLACEHOLDER: AI Automation method 3 — awaiting approved copy]"
+        }
+      ],
+      "faq": [
+        {
+          "question": "[PLACEHOLDER: AI Automation question 1 — awaiting approved copy]",
+          "answer": "[PLACEHOLDER: AI Automation answer 1 — awaiting approved copy]"
+        },
+        {
+          "question": "[PLACEHOLDER: AI Automation question 2 — awaiting approved copy]",
+          "answer": "[PLACEHOLDER: AI Automation answer 2 — awaiting approved copy]"
+        },
+        {
+          "question": "[PLACEHOLDER: AI Automation question 3 — awaiting approved copy]",
+          "answer": "[PLACEHOLDER: AI Automation answer 3 — awaiting approved copy]"
+        }
+      ]
+    }
   }
 }
