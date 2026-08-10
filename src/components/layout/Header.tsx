@@ -28,7 +28,7 @@ export function Header({ t }: { t: Dictionary }) {
         <Link
           href={routes.home}
           aria-label={t.a11y.homeLink}
-          className="text-base font-bold tracking-tight text-accent"
+          className="text-base font-bold tracking-tight text-text"
         >
           {/* [PLACEHOLDER: logo mark — wordmark stands in until the asset is supplied] */}
           {t.site.name}
@@ -49,7 +49,7 @@ export function Header({ t }: { t: Dictionary }) {
             <li>
               <Link
                 href={routes.pricing}
-                className="text-sm font-medium text-text hover:text-accent"
+                className="text-sm font-medium text-text link-accent"
               >
                 {t.nav.pricing}
               </Link>
@@ -57,7 +57,7 @@ export function Header({ t }: { t: Dictionary }) {
             <li>
               <Link
                 href={routes.research}
-                className="text-sm font-medium text-text hover:text-accent"
+                className="text-sm font-medium text-text link-accent"
               >
                 {t.nav.research}
               </Link>
@@ -65,7 +65,7 @@ export function Header({ t }: { t: Dictionary }) {
             <li>
               <Link
                 href={routes.about}
-                className="text-sm font-medium text-text hover:text-accent"
+                className="text-sm font-medium text-text link-accent"
               >
                 {t.nav.about}
               </Link>
@@ -76,7 +76,7 @@ export function Header({ t }: { t: Dictionary }) {
         <div className="hidden items-center gap-sm md:flex">
           <a
             href={contactDetails.phoneHref}
-            className="text-sm font-medium text-text-muted hover:text-accent"
+            className="text-sm font-medium text-text-muted link-accent hover:text-text"
           >
             {t.cta.phoneDisplay}
           </a>

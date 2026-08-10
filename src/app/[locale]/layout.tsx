@@ -14,11 +14,9 @@ import type { ReactNode } from "react";
 import "@/styles/globals.css";
 
 /**
- * Self-hosted at build time by next/font — the files are served from our own
- * origin, so the page makes no request to a third-party font host.
- *
- * [PLACEHOLDER: brand typeface — Inter stands in until the family is
- * confirmed. Swapping it is a change to this import plus --font-sans.]
+ * Inter is the brand typeface. Self-hosted at build time by next/font — the
+ * files are served from our own origin, so the page makes no request to a
+ * third-party font host.
  */
 const inter = Inter({
   subsets: ["latin"],
@@ -83,7 +81,7 @@ export default async function LocaleLayout({
         <MotionProvider>
           <a
             href="#main"
-            className="sr-only focus:not-sr-only focus:absolute focus:start-sm focus:top-sm focus:z-50 focus:rounded-md focus:bg-accent focus:px-sm focus:py-2xs focus:text-on-accent"
+            className="sr-only focus:not-sr-only focus:absolute focus:start-sm focus:top-sm focus:z-50 focus:rounded-md focus:bg-cta focus:px-sm focus:py-2xs focus:text-on-cta"
           >
             {t.a11y.skipToContent}
           </a>

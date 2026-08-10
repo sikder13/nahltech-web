@@ -104,7 +104,7 @@ export function MobileNav({ t }: { t: Dictionary }) {
         aria-controls={panelId}
         aria-label={open ? t.a11y.closeMenu : t.a11y.openMenu}
         onClick={() => setOpen((value) => !value)}
-        className="p-2xs text-text hover:text-accent"
+        className="p-2xs text-text hover:text-cta-hover"
       >
         <svg aria-hidden="true" viewBox="0 0 24 24" className="size-6">
           {open ? (
@@ -137,7 +137,7 @@ export function MobileNav({ t }: { t: Dictionary }) {
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className="block py-2xs text-base text-text hover:text-accent"
+                  className="block py-2xs text-base text-text link-accent"
                 >
                   {link.label}
                 </Link>
@@ -149,7 +149,7 @@ export function MobileNav({ t }: { t: Dictionary }) {
         <div className="mt-md flex flex-col gap-2xs border-t border-divider pt-md">
           <a
             href={contactDetails.phoneHref}
-            className="py-2xs text-base text-text-muted hover:text-accent"
+            className="py-2xs text-base text-text-muted link-accent hover:text-text"
           >
             {t.cta.phoneDisplay}
           </a>

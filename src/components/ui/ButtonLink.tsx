@@ -9,9 +9,10 @@ const base =
   "text-sm font-semibold transition-colors motion-reduce:transition-none";
 
 const variants: Record<Variant, string> = {
-  // Black label on gold: 13.22:1.
-  primary: "bg-accent text-on-accent hover:bg-accent-hover",
-  ghost: "text-text hover:text-accent",
+  // Solid dark on white, white label: 18.88:1. Never gold — #F5C842 as a
+  // button fill would put the label at 1.59:1 against the page.
+  primary: "bg-cta text-on-cta hover:bg-cta-hover",
+  ghost: "link-accent text-text",
 };
 
 export function ButtonLink({

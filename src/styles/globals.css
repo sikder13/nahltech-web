@@ -1,38 +1,52 @@
 @import "tailwindcss";
 
 /* ---------------------------------------------------------------------------
- * Design tokens.
+ * Design tokens — brand light theme.
  *
- * Declared inside `@theme` so Tailwind emits them as CSS custom properties on
- * :root *and* generates matching utilities (bg-surface, text-accent,
- * border-border, p-md, …). Nothing in the codebase should hardcode a colour;
- * every reference goes through a token so the palette is a one-file swap.
+ * Values are taken from the production nahltech.com stylesheet. Declared
+ * inside `@theme` so Tailwind emits them as CSS custom properties on :root
+ * *and* generates matching utilities (bg-surface, text-text-muted,
+ * border-divider, p-md, …). Nothing in the codebase hardcodes a colour;
+ * every reference goes through a token.
  *
- * [PLACEHOLDER: exact secondary palette values — awaiting the brand hex codes
- * from the current site. Confirmed so far: --color-bg #000000,
- * --color-text #ffffff, --color-accent #F5C842. Everything else below is a
- * derivation of black/white/gold and is expected to change.]
+ * GOLD IS DECORATION ONLY. #F5C842 measures 1.59:1 on #FFFFFF — below the
+ * 4.5:1 AA floor for text and below the 3:1 floor for non-text that carries
+ * meaning. It therefore never states anything on its own. Permitted uses:
+ * short rules under headings, blockquote left borders, link underline
+ * decoration, and small decorative icon fills. It is never a text colour,
+ * never a large background fill, never a focus ring, and never the only
+ * signal that an element is interactive. The `link-accent` utility below is
+ * the single place the underline treatment is defined.
  *
  * Contrast, verified against WCAG 2.1 (1.4.3 text 4.5:1, 1.4.11 non-text 3:1):
- *   text        on bg / surface   21.00:1 / 19.03:1
- *   text-muted  on bg / surface    8.33:1 /  7.54:1
- *   accent      on bg / surface   13.22:1 / 11.98:1
- *   accent-hover on bg / surface  15.38:1 / 13.93:1
- *   on-accent   on accent         13.22:1  (black label on the gold button)
- *   border      on bg / surface    3.94:1 /  3.57:1  (control boundaries)
- * `--color-divider` (1.46:1) is decorative hairline only and must never be
- * the sole boundary of an interactive control — use `--color-border` there.
+ *   text       on bg / surface   18.88:1 / 17.32:1
+ *   text-muted on bg / surface    7.46:1 /  6.84:1
+ *   on-cta     on cta / hover    18.88:1 / 21.00:1   (Book a call)
+ *   border     on bg / surface    4.54:1 /  4.17:1   (control boundaries)
+ *   focus      on bg / surface   18.88:1 / 17.32:1
+ * Decorative, no minimum and never load-bearing:
+ *   surface 1.09:1 · divider 1.26:1 · accent 1.59:1 (all vs bg)
  * ------------------------------------------------------------------------ */
 @theme {
-  --color-bg: #000000;
-  --color-surface: #101010;
-  --color-divider: #2a2a2a;
-  --color-border: #6b6b6b;
-  --color-text: #ffffff;
-  --color-text-muted: #a3a3a3;
+  --color-bg: #ffffff;
+  --color-surface: #f5f5f5;
+  --color-text: #111111;
+  --color-text-muted: #555555;
+  --color-divider: #e5e5e5;
+
+  /* Boundary of an interactive control, where 1.4.11 applies. `divider` is
+   * a hairline and is far too light to carry that job. */
+  --color-border: #767676;
+
+  /* Decoration only — see the note above. */
   --color-accent: #f5c842;
-  --color-accent-hover: #ffd968;
-  --color-on-accent: #000000;
+
+  /* Primary call to action: solid dark on white, not gold. */
+  --color-cta: #111111;
+  --color-cta-hover: #000000;
+  --color-on-cta: #ffffff;
+
+  --color-focus: #111111;
 
   --font-sans:
     var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
@@ -56,9 +70,32 @@
   --container-page: 72rem;
 }
 
+/**
+ * Link hover treatment: a gold underline under text that is already a
+ * compliant colour. The underline is decoration; the text carries the
+ * meaning, so the 1.59:1 gold never has to be legible on its own.
+ */
+@utility link-accent {
+  text-underline-offset: 4px;
+
+  &:hover {
+    text-decoration-line: underline;
+    text-decoration-color: var(--color-accent);
+    text-decoration-thickness: 2px;
+  }
+}
+
+/** Short gold rule beneath a heading. Purely ornamental. */
+@utility heading-rule {
+  display: block;
+  width: --spacing(12);
+  height: 3px;
+  background-color: var(--color-accent);
+}
+
 @layer base {
   html {
-    color-scheme: dark;
+    color-scheme: light;
   }
 
   body {
@@ -68,9 +105,10 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  /* Visible, high-contrast focus for keyboard users on every focusable thing. */
+  /* Visible, high-contrast focus for keyboard users on every focusable thing.
+   * Deliberately not gold: a focus ring conveys state and must clear 3:1. */
   :focus-visible {
-    outline: 2px solid var(--color-accent);
+    outline: 2px solid var(--color-focus);
     outline-offset: 2px;
     border-radius: var(--radius-sm);
   }

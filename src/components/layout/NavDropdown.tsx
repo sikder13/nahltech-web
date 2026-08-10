@@ -62,7 +62,7 @@ export function NavDropdown({
         aria-controls={menuId}
         aria-haspopup="true"
         onClick={() => setOpen((value) => !value)}
-        className="flex items-center gap-3xs py-2xs text-sm font-medium text-text hover:text-accent"
+        className="flex items-center gap-3xs py-2xs text-sm font-medium text-text link-accent"
       >
         {label}
         <svg
@@ -84,7 +84,7 @@ export function NavDropdown({
             <Link
               href={item.href}
               onClick={() => setOpen(false)}
-              className="block px-sm py-2xs text-sm text-text-muted hover:bg-bg hover:text-accent"
+              className="block px-sm py-2xs text-sm text-text-muted link-accent hover:bg-surface hover:text-text"
             >
               {item.label}
             </Link>

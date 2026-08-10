@@ -12,7 +12,11 @@ export const alt = "Nahl Technologies";
  * Nothing references a static /og-image.png path — the old site's did, and it
  * 404s on X today (ARCH-1 §7).
  *
- * [PLACEHOLDER: brand OG treatment — wordmark on black until artwork exists.]
+ * Light theme, matching the site: dark wordmark on white with the gold rule
+ * as decoration. Gold is not used for the lettering — the same 1.59:1 reason
+ * it is never used for text anywhere else.
+ *
+ * [PLACEHOLDER: logo artwork — typeset wordmark until the mark is supplied.]
  */
 export default async function OpengraphImage() {
   const t = await getDictionary(defaultLocale);
@@ -26,7 +30,7 @@ export default async function OpengraphImage() {
         flexDirection: "column",
         alignItems: "flex-start",
         justifyContent: "flex-end",
-        backgroundColor: "#000000",
+        backgroundColor: "#ffffff",
         padding: "80px",
       }}
     >
@@ -42,7 +46,7 @@ export default async function OpengraphImage() {
         style={{
           fontSize: 84,
           fontWeight: 700,
-          color: "#f5c842",
+          color: "#111111",
           letterSpacing: "-0.02em",
         }}
       >

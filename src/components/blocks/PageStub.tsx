@@ -17,6 +17,9 @@ export function PageStub({
       <h1 className="text-3xl font-bold tracking-tight text-balance text-text">
         {title}
       </h1>
+      {/* Ornamental gold rule. aria-hidden because it says nothing: at
+          1.59:1 it is not legible enough to carry meaning. */}
+      <span className="mt-sm heading-rule" aria-hidden="true" />
       <p className="mt-md text-text-muted">{placeholder}</p>
     </div>
   );
