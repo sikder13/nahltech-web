@@ -13,6 +13,11 @@ import type { CtaAction } from "./CtaBlock";
  * confetti, and the headline is the LCP element that matters. To stop the
  * mobile hero reading bare without it, the gold rule thickens and lengthens
  * there — the brand gesture stays present, just in the register that fits.
+ *
+ * The headline is deliberately NOT wrapped in FadeIn. It is the LCP element,
+ * and a scroll-triggered fade server-renders it at opacity 0, so the largest
+ * paint waits on hydration — worth 1.7s of LCP on throttled mobile. Entrance
+ * animation belongs below the fold. Only the decorative cluster fades in.
  */
 export function Hero({
   headline,
@@ -28,7 +33,7 @@ export function Hero({
   return (
     <section className="mx-auto max-w-(--container-page) px-sm pt-2xl pb-2xl lg:pt-3xl">
       <div className="grid items-center gap-xl lg:grid-cols-[58fr_42fr]">
-        <FadeIn>
+        <div>
           <h1 className="text-display text-balance text-text">{headline}</h1>
 
           <span
@@ -44,7 +49,7 @@ export function Hero({
               {secondary.label}
             </ButtonLink>
           </div>
-        </FadeIn>
+        </div>
 
         <div className="hidden lg:block">
           <FadeIn delay={0.12}>
