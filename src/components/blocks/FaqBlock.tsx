@@ -45,10 +45,7 @@ export function FaqBlock({
       className="mx-auto max-w-(--container-page) px-sm py-2xl"
     >
       <FadeIn>
-        <h2
-          id={`${baseId}-heading`}
-          className="text-2xl font-bold tracking-tight text-text"
-        >
+        <h2 id={`${baseId}-heading`} className="text-section text-text">
           {heading}
         </h2>
         <span className="mt-xs heading-rule" aria-hidden="true" />

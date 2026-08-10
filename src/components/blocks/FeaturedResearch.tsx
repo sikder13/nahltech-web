@@ -30,7 +30,7 @@ export function FeaturedResearch({
       <FadeIn>
         <h2
           id="featured-research-heading"
-          className="max-w-prose text-2xl font-bold tracking-tight text-balance text-text"
+          className="max-w-prose text-section text-balance text-text"
         >
           {heading}
         </h2>

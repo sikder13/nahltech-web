@@ -26,7 +26,7 @@ export function CtaBlock({
     <section className="border-t border-divider bg-surface">
       <div className="mx-auto max-w-(--container-page) px-sm py-2xl">
         <FadeIn>
-          <h2 className="max-w-prose text-2xl font-bold tracking-tight text-balance text-text">
+          <h2 className="max-w-prose text-section text-balance text-text">
             {heading}
           </h2>
           <span className="mt-xs heading-rule" aria-hidden="true" />

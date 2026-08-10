@@ -14,9 +14,7 @@ export default async function NotFound() {
   return (
     <div className="mx-auto max-w-(--container-page) px-sm py-3xl">
       <p className="text-sm font-semibold text-text-muted">404</p>
-      <h1 className="mt-2xs text-3xl font-bold tracking-tight text-text">
-        {t.notFound.title}
-      </h1>
+      <h1 className="mt-2xs text-display text-text">{t.notFound.title}</h1>
       <span className="mt-sm heading-rule" aria-hidden="true" />
       <p className="mt-md text-text-muted">{t.notFound.body}</p>
       <ButtonLink href={routes.home} className="mt-lg">

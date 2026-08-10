@@ -1,4 +1,4 @@
-import { Inter } from "next/font/google";
+import { Fraunces, Inter } from "next/font/google";
 import { notFound } from "next/navigation";
 
 import { Footer } from "@/components/layout/Footer";
@@ -22,6 +22,17 @@ const inter = Inter({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-inter",
+});
+
+/**
+ * Display face, h1/h2 only. Two weights, latin subset — the whole family is
+ * one file under the font budget in ARCH-1 §7.
+ */
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["400", "600"],
+  variable: "--font-fraunces",
 });
 
 /**
@@ -74,7 +85,7 @@ export default async function LocaleLayout({
     <html
       lang={locale}
       dir={getDirection(locale)}
-      className={inter.variable}
+      className={`${inter.variable} ${fraunces.variable}`}
       suppressHydrationWarning
     >
       <head>

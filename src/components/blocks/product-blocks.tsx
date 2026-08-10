@@ -27,9 +27,7 @@ export function ProductHero({
     <section className="mx-auto max-w-(--container-page) px-sm pt-3xl pb-2xl">
       <FadeIn>
         <p className="text-sm font-semibold text-text-muted">{status}</p>
-        <h1 className="mt-2xs text-4xl font-bold tracking-tight text-balance text-text">
-          {name}
-        </h1>
+        <h1 className="mt-2xs text-display text-balance text-text">{name}</h1>
         <span className="mt-md heading-rule" aria-hidden="true" />
         <p className="mt-md max-w-prose text-lg text-text-muted">{tagline}</p>
 

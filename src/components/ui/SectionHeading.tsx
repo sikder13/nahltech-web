@@ -27,10 +27,7 @@ export function SectionHeading({
       {eyebrow ? (
         <p className="text-sm font-semibold text-text-muted">{eyebrow}</p>
       ) : null}
-      <Tag
-        id={id}
-        className="mt-2xs text-2xl font-bold tracking-tight text-balance text-text"
-      >
+      <Tag id={id} className="mt-2xs text-section text-balance text-text">
         {children}
       </Tag>
       {/* Ornamental only: at 1.59:1 the rule cannot carry meaning. */}

@@ -33,7 +33,7 @@ export function MethodStrip({
         <FadeIn>
           <h2
             id="method-heading"
-            className="max-w-prose text-2xl font-bold tracking-tight text-balance text-text"
+            className="max-w-prose text-section text-balance text-text"
           >
             {heading}
           </h2>

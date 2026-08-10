@@ -41,7 +41,7 @@ export function ArticleTemplate({
   return (
     <>
       <div className="mx-auto max-w-(--container-page) px-sm pt-2xl pb-lg">
-        <h1 className="max-w-prose text-4xl font-bold tracking-tight text-balance text-text">
+        <h1 className="max-w-prose text-section text-balance text-text">
           {title}
         </h1>
         <span className="mt-md heading-rule" aria-hidden="true" />

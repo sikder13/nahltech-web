@@ -16,7 +16,7 @@ export function PageHeader({
       {eyebrow ? (
         <p className="text-sm font-semibold text-text-muted">{eyebrow}</p>
       ) : null}
-      <h1 className="mt-2xs max-w-prose text-4xl font-bold tracking-tight text-balance text-text">
+      <h1 className="mt-2xs max-w-prose text-section text-balance text-text">
         {title}
       </h1>
       <span className="mt-md heading-rule" aria-hidden="true" />

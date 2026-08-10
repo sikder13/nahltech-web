@@ -48,10 +48,28 @@
 
   --color-focus: #111111;
 
+  /**
+   * Three voices, deliberately.
+   *
+   * display — Fraunces, h1/h2 and hero only. Its optical-size axis redraws
+   *   the letterforms per size instead of scaling them, which is the
+   *   precision half; the flared terminals are the warmth half.
+   * sans    — Inter, all body and UI.
+   * mono    — system stack, no download. Query strings and figures.
+   */
+  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
   --font-sans:
     var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
     sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --text-display: clamp(2.5rem, 6vw, 4.5rem);
+  --text-display--line-height: 1.05;
+  --text-display--letter-spacing: -0.02em;
+
+  --text-section: clamp(1.75rem, 3vw, 2.25rem);
+  --text-section--line-height: 1.15;
+  --text-section--letter-spacing: -0.015em;
 
   --spacing-3xs: 0.25rem;
   --spacing-2xs: 0.5rem;
@@ -109,9 +127,32 @@
   background-color: var(--color-accent);
 }
 
+/**
+ * The fourth voice: captions and metadata. Inter, small, widely tracked and
+ * muted — distinct enough from body copy to read as a different register
+ * without introducing another family.
+ */
+@utility caption {
+  font-size: var(--text-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
 @layer base {
   html {
     color-scheme: light;
+  }
+
+  /**
+   * h1 and h2 carry the display face everywhere, including MDX output in
+   * Phase 3. h3 and below stay in Inter — the serif is for the two ranks
+   * that set a page's voice, not for every heading on it.
+   */
+  h1,
+  h2 {
+    font-family: var(--font-display);
+    font-weight: 600;
   }
 
   body {

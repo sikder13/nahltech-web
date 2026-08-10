@@ -1,4 +1,4 @@
-import { Inter } from "next/font/google";
+import { Fraunces, Inter } from "next/font/google";
 import Link from "next/link";
 
 import { ButtonLink } from "@/components/ui/ButtonLink";
@@ -12,6 +12,17 @@ const inter = Inter({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-inter",
+});
+
+/**
+ * Display face, h1/h2 only. Two weights, latin subset — the whole family is
+ * one file under the font budget in ARCH-1 §7.
+ */
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["400", "600"],
+  variable: "--font-fraunces",
 });
 
 /**
@@ -29,7 +40,11 @@ export default async function NotFound() {
   const t = await getDictionary(defaultLocale);
 
   return (
-    <html lang={defaultLocale} dir="ltr" className={inter.variable}>
+    <html
+      lang={defaultLocale}
+      dir="ltr"
+      className={`${inter.variable} ${fraunces.variable}`}
+    >
       <body className="flex min-h-dvh flex-col">
         <header className="border-b border-divider">
           <div className="mx-auto flex h-16 max-w-(--container-page) items-center px-sm">
@@ -45,9 +60,7 @@ export default async function NotFound() {
 
         <main className="mx-auto w-full max-w-(--container-page) flex-1 px-sm py-3xl">
           <p className="text-sm font-semibold text-text-muted">404</p>
-          <h1 className="mt-2xs text-3xl font-bold tracking-tight text-text">
-            {t.notFound.title}
-          </h1>
+          <h1 className="mt-2xs text-display text-text">{t.notFound.title}</h1>
           <span className="mt-sm heading-rule" aria-hidden="true" />
           <p className="mt-md text-text-muted">{t.notFound.body}</p>
           <ButtonLink href={routes.home} className="mt-lg">
