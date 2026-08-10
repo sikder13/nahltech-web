@@ -237,8 +237,8 @@ nahltech-web/
        ┌───────┬───────┴┬────────┐    │               │
        ▼       ▼        ▼        ▼    ▼               ▼
  ┌──────────┐┌───────┐┌───────┐┌──────────┐   ┌──────────────┐
- │AI SEARCH ││ LOCAL ││  WEB  ││    AI    │   │ INDY REPORT  │
- │VISIBILITY││  SEO  ││  DEV  ││   AUTO   │   └──────┬───────┘
+ │    AI    ││AI SRCH││   AI  ││   WEB /  │   │ INDY REPORT  │
+ │CONSULTNCY││ + SEO ││  AUTO ││ SOFTWARE │   └──────┬───────┘
  └────┬─────┘└───┬───┘└───┬───┘└────┬─────┘          │
       │          │        │         │                │
       │          │        │         │    ┌───────────┘
@@ -257,8 +257,11 @@ nahltech-web/
                 │ CONTACT │◄───────│ BLOG │──► every post: 1 service link,
                 └─────────┘        └──────┘    2 sibling links, pillar link
 
- Service pages (4): /services/ai-search-visibility · /services/local-seo
-                    /services/web-development     · /services/ai-automation
+ Service pages (5), in nav order:
+   /services/ai-consultancy         · /services/ai-search-visibility
+   /services/ai-automation          · /services/web-development
+   /services/software-development
+   /services/local-seo 301s to /services/ai-search-visibility.
 ```
 
 Rules (build-enforced): zero orphans · max depth 3 from home · descriptive anchors · every service page → pricing + ≥1 product + ≥2 posts.
