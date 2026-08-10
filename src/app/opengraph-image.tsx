@@ -34,14 +34,25 @@ export default async function OpengraphImage() {
         padding: "80px",
       }}
     >
-      <div
-        style={{
-          width: "120px",
-          height: "8px",
-          backgroundColor: "#f5c842",
-          marginBottom: "40px",
-        }}
-      />
+      <svg
+        width="96"
+        height="110"
+        viewBox="0 0 96 110"
+        style={{ marginBottom: "40px" }}
+      >
+        <path
+          d="M48 3 L92 28 V82 L48 107 L4 82 V28 Z"
+          fill="none"
+          stroke="#f5c842"
+          strokeWidth="3"
+        />
+        <path
+          d="M48 21 L76 37 V69 L48 85 L20 69 V37 Z"
+          fill="none"
+          stroke="#e5e5e5"
+          strokeWidth="2"
+        />
+      </svg>
       <div
         style={{
           fontSize: 84,
