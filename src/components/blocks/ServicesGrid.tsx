@@ -33,8 +33,12 @@ export function ServicesGrid({
 
         <div className="mt-lg">
           <CardGrid columns={4}>
-            {services.map((service) => (
-              <ServiceCard key={service.href} {...service} />
+            {services.map((service, index) => (
+              <ServiceCard
+                key={service.href}
+                {...service}
+                delay={index * 0.06}
+              />
             ))}
           </CardGrid>
         </div>

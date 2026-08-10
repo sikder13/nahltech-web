@@ -21,7 +21,7 @@ export function Card({
       className={[
         "rounded-lg border border-divider bg-surface p-md",
         interactive &&
-          "transition-colors hover:border-border motion-reduce:transition-none",
+          "transition duration-150 hover:-translate-y-0.5 hover:border-border hover:shadow-md motion-reduce:translate-y-0 motion-reduce:transition-none",
         className,
       ]
         .filter(Boolean)
