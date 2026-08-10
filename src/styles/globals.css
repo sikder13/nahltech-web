@@ -139,6 +139,67 @@
   color: var(--color-text-muted);
 }
 
+/** Pointy-top hexagon mask. Team avatars; never a hit target. */
+@utility hex-clip {
+  clip-path: polygon(
+    50% 0%,
+    93.3% 25%,
+    93.3% 75%,
+    50% 100%,
+    6.7% 75%,
+    6.7% 25%
+  );
+}
+
+/**
+ * Faint honeycomb watermark for empty image slots. A single small tile at
+ * divider strength — the one place a repeating hexagon is allowed, because
+ * there is no text over it and it marks "artwork pending" rather than
+ * decorating a live surface.
+ */
+@utility hex-watermark {
+  background-color: var(--color-surface);
+  background-image:
+    linear-gradient(
+      30deg,
+      var(--color-divider) 12%,
+      transparent 12.5%,
+      transparent 87%,
+      var(--color-divider) 87.5%,
+      var(--color-divider)
+    ),
+    linear-gradient(
+      150deg,
+      var(--color-divider) 12%,
+      transparent 12.5%,
+      transparent 87%,
+      var(--color-divider) 87.5%,
+      var(--color-divider)
+    ),
+    linear-gradient(
+      30deg,
+      var(--color-divider) 12%,
+      transparent 12.5%,
+      transparent 87%,
+      var(--color-divider) 87.5%,
+      var(--color-divider)
+    ),
+    linear-gradient(
+      150deg,
+      var(--color-divider) 12%,
+      transparent 12.5%,
+      transparent 87%,
+      var(--color-divider) 87.5%,
+      var(--color-divider)
+    );
+  background-size: 40px 70px;
+  background-position:
+    0 0,
+    0 0,
+    20px 35px,
+    20px 35px;
+}
+
 @layer base {
   html {
     color-scheme: light;
