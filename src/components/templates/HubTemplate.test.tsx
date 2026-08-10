@@ -17,10 +17,10 @@ describe("HubTemplate", () => {
       <HubTemplate {...fixture}>
         <CardGrid>
           <ServiceCard
-            title="Local SEO"
+            title="AI Consultancy"
             description="[PLACEHOLDER: summary]"
-            href="/services/local-seo"
-            icon="search"
+            href="/services/ai-consultancy"
+            icon="analyze"
           />
         </CardGrid>
       </HubTemplate>,
@@ -30,10 +30,9 @@ describe("HubTemplate", () => {
       screen.getByRole("heading", { level: 1, name: fixture.title }),
     ).toBeInTheDocument();
     expect(screen.getByText(fixture.intro)).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Local SEO" })).toHaveAttribute(
-      "href",
-      "/services/local-seo",
-    );
+    expect(
+      screen.getByRole("link", { name: "AI Consultancy" }),
+    ).toHaveAttribute("href", "/services/ai-consultancy");
     expect(screen.queryByText(fixture.emptyLabel)).not.toBeInTheDocument();
   });
 

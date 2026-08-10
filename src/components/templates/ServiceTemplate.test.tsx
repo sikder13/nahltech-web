@@ -6,13 +6,11 @@ import { ServiceTemplate } from "./ServiceTemplate";
 import en from "@/lib/i18n/dictionaries/en.json";
 import { routes } from "@/lib/routes";
 
-const content = en.servicePages.localSeo;
+const content = en.servicePages.aiConsultancy;
 
 describe("ServiceTemplate", () => {
   it("renders the anatomy in order: problem, demo, method, price, deliverables, measurement, faq, cta", () => {
-    const { container } = render(
-      <ServiceTemplate t={en} title="Local SEO" content={content} />,
-    );
+    const { container } = render(<ServiceTemplate t={en} content={content} />);
 
     const h2s = Array.from(container.querySelectorAll("h2")).map(
       (node) => node.textContent,
@@ -31,14 +29,14 @@ describe("ServiceTemplate", () => {
   });
 
   it("shows the published price rather than hiding it behind an enquiry", () => {
-    render(<ServiceTemplate t={en} title="Local SEO" content={content} />);
+    render(<ServiceTemplate t={en} content={content} />);
 
     expect(screen.getByText(content.price.amount)).toBeInTheDocument();
     expect(screen.getByText(en.service.startingAt)).toBeInTheDocument();
   });
 
   it("pairs every measured metric with the method used to obtain it", () => {
-    render(<ServiceTemplate t={en} title="Local SEO" content={content} />);
+    render(<ServiceTemplate t={en} content={content} />);
 
     const table = screen.getByRole("table", {
       name: en.service.measurementHeading,
@@ -54,7 +52,7 @@ describe("ServiceTemplate", () => {
   });
 
   it("closes with a CTA pointing at contact", () => {
-    render(<ServiceTemplate t={en} title="Local SEO" content={content} />);
+    render(<ServiceTemplate t={en} content={content} />);
 
     const ctas = screen.getAllByRole("link", { name: en.cta.bookCall });
     expect(ctas.length).toBeGreaterThan(0);

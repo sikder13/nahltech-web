@@ -16,12 +16,14 @@ export function ProductHero({
   status,
   liveUrl,
   liveLabel,
+  note,
 }: {
   name: string;
   tagline: string;
   status: string;
   liveUrl: string | null;
   liveLabel: string;
+  note?: string;
 }) {
   return (
     <section className="mx-auto max-w-(--container-page) px-sm pt-3xl pb-2xl">
@@ -36,6 +38,7 @@ export function ProductHero({
             {liveLabel}
           </ButtonLink>
         ) : null}
+        {note ? <p className="mt-lg text-sm text-text">{note}</p> : null}
       </FadeIn>
     </section>
   );

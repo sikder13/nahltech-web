@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { contactDetails, routes } from "@/lib/routes";
+import { contactDetails, routes, serviceRouteKeys } from "@/lib/routes";
 
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
 
@@ -8,15 +8,10 @@ export function Footer({ t }: { t: Dictionary }) {
   const columns = [
     {
       heading: t.footer.servicesHeading,
-      links: [
-        {
-          href: routes.aiSearchVisibility,
-          label: t.services.aiSearchVisibility,
-        },
-        { href: routes.localSeo, label: t.services.localSeo },
-        { href: routes.webDevelopment, label: t.services.webDevelopment },
-        { href: routes.aiAutomation, label: t.services.aiAutomation },
-      ],
+      links: serviceRouteKeys.map((key) => ({
+        href: routes[key],
+        label: t.services[key],
+      })),
     },
     {
       heading: t.footer.productsHeading,

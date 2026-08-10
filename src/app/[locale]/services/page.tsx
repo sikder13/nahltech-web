@@ -1,7 +1,8 @@
 import { CardGrid, ServiceCard } from "@/components/blocks/cards";
 import { HubTemplate } from "@/components/templates/HubTemplate";
 import { requireDictionary } from "@/lib/i18n/require-dictionary";
-import { routes } from "@/lib/routes";
+import { serviceIcons } from "@/lib/service-icons";
+import { routes, serviceRouteKeys } from "@/lib/routes";
 
 import type { Metadata } from "next";
 
@@ -30,31 +31,18 @@ export default async function Page({
       intro={t.hubPages.services.intro}
       emptyLabel={t.hub.emptyLabel}
     >
-      <CardGrid columns={4}>
-        <ServiceCard
-          title={t.services.aiSearchVisibility}
-          description={t.serviceSummaries.aiSearchVisibility}
-          href={routes.aiSearchVisibility}
-          icon="sparkle"
-        />
-        <ServiceCard
-          title={t.services.localSeo}
-          description={t.serviceSummaries.localSeo}
-          href={routes.localSeo}
-          icon="pin"
-        />
-        <ServiceCard
-          title={t.services.webDevelopment}
-          description={t.serviceSummaries.webDevelopment}
-          href={routes.webDevelopment}
-          icon="build"
-        />
-        <ServiceCard
-          title={t.services.aiAutomation}
-          description={t.serviceSummaries.aiAutomation}
-          href={routes.aiAutomation}
-          icon="method"
-        />
+      {/* Three then two at lg — five in a four-column grid would orphan one. */}
+      <CardGrid columns={3}>
+        {serviceRouteKeys.map((key, index) => (
+          <ServiceCard
+            key={key}
+            title={t.services[key]}
+            description={t.serviceSummaries[key]}
+            href={routes[key]}
+            icon={serviceIcons[key]}
+            delay={index * 0.06}
+          />
+        ))}
       </CardGrid>
     </HubTemplate>
   );

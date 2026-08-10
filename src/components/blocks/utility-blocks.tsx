@@ -8,17 +8,19 @@ const shell = "mx-auto max-w-(--container-page) px-sm py-2xl";
 
 export function StorySection({
   heading,
-  body,
+  paragraphs,
 }: {
   heading: string;
-  body: string;
+  paragraphs: readonly string[];
 }) {
   return (
     <section className={shell}>
       <FadeIn>
         <SectionHeading>{heading}</SectionHeading>
         <Prose className="mt-md">
-          <p>{body}</p>
+          {paragraphs.map((paragraph) => (
+            <p key={paragraph.slice(0, 40)}>{paragraph}</p>
+          ))}
         </Prose>
       </FadeIn>
     </section>

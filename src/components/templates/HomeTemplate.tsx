@@ -5,7 +5,8 @@ import { MethodStrip } from "@/components/blocks/MethodStrip";
 import { ProofBar } from "@/components/blocks/ProofBar";
 import { ServicesGrid } from "@/components/blocks/ServicesGrid";
 import { TwoWaysBlock } from "@/components/blocks/TwoWaysBlock";
-import { contactDetails, routes } from "@/lib/routes";
+import { contactDetails, routes, serviceRouteKeys } from "@/lib/routes";
+import { serviceIcons } from "@/lib/service-icons";
 
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
 
@@ -64,32 +65,12 @@ export function HomeTemplate({ t }: { t: Dictionary }) {
 
       <ServicesGrid
         heading={t.home.services.heading}
-        services={[
-          {
-            title: t.services.aiSearchVisibility,
-            description: t.serviceSummaries.aiSearchVisibility,
-            href: routes.aiSearchVisibility,
-            icon: "sparkle",
-          },
-          {
-            title: t.services.localSeo,
-            description: t.serviceSummaries.localSeo,
-            href: routes.localSeo,
-            icon: "pin",
-          },
-          {
-            title: t.services.webDevelopment,
-            description: t.serviceSummaries.webDevelopment,
-            href: routes.webDevelopment,
-            icon: "build",
-          },
-          {
-            title: t.services.aiAutomation,
-            description: t.serviceSummaries.aiAutomation,
-            href: routes.aiAutomation,
-            icon: "method",
-          },
-        ]}
+        services={serviceRouteKeys.map((key) => ({
+          title: t.services[key],
+          description: t.serviceSummaries[key],
+          href: routes[key],
+          icon: serviceIcons[key],
+        }))}
       />
 
       <MethodStrip

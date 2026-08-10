@@ -58,18 +58,16 @@ describe("ContactTemplate", () => {
 });
 
 describe("PricingTemplate", () => {
-  it("renders three tiers with placeholder prices only", () => {
+  it("lists the five services and publishes no figure", () => {
     render(<PricingTemplate t={en} />);
 
-    for (const tier of en.pricing.tiers) {
-      expect(
-        screen.getByRole("heading", { level: 3, name: tier.name }),
-      ).toBeInTheDocument();
+    for (const label of Object.values(en.services)) {
+      expect(screen.getByRole("link", { name: label })).toBeInTheDocument();
     }
-    // Every price on the page is still a gated placeholder.
-    const prices = screen.getAllByText("[PRICE]");
-    expect(prices).toHaveLength(
-      en.pricing.tiers.length + en.pricing.projects.length,
-    );
+    // Prices are unpublished: no placeholder token may reach the page.
+    expect(screen.queryByText("[PRICE]")).not.toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: en.pricing.ctaHeading }),
+    ).toBeInTheDocument();
   });
 });

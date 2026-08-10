@@ -4,17 +4,17 @@ import { MobileNav } from "@/components/layout/MobileNav";
 import { NavDropdown } from "@/components/layout/NavDropdown";
 import { BeeMark } from "@/components/ui/BeeMark";
 import { ButtonLink } from "@/components/ui/ButtonLink";
-import { contactDetails, routes } from "@/lib/routes";
+import { contactDetails, routes, serviceRouteKeys } from "@/lib/routes";
 
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
 
 export function Header({ t }: { t: Dictionary }) {
   const serviceItems = [
     { href: routes.services, label: t.nav.services },
-    { href: routes.aiSearchVisibility, label: t.services.aiSearchVisibility },
-    { href: routes.localSeo, label: t.services.localSeo },
-    { href: routes.webDevelopment, label: t.services.webDevelopment },
-    { href: routes.aiAutomation, label: t.services.aiAutomation },
+    ...serviceRouteKeys.map((key) => ({
+      href: routes[key],
+      label: t.services[key],
+    })),
   ];
 
   const productItems = [

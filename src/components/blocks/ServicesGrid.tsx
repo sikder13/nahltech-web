@@ -32,7 +32,7 @@ export function ServicesGrid({
         <span className="mt-xs heading-rule" aria-hidden="true" />
 
         <div className="mt-lg">
-          <CardGrid columns={4}>
+          <CardGrid columns={3}>
             {services.map((service, index) => (
               <ServiceCard
                 key={service.href}

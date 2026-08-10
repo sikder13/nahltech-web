@@ -11,10 +11,13 @@
 export const routes = {
   home: "/",
   services: "/services",
+  // Canonical service order — nav, footer, grids and the sitemap all read it
+  // from here so they cannot drift apart.
+  aiConsultancy: "/services/ai-consultancy",
   aiSearchVisibility: "/services/ai-search-visibility",
-  localSeo: "/services/local-seo",
-  webDevelopment: "/services/web-development",
   aiAutomation: "/services/ai-automation",
+  webDevelopment: "/services/web-development",
+  softwareDevelopment: "/services/software-development",
   products: "/products",
   crawlmouse: "/products/crawlmouse",
   hafsaSastho: "/products/hafsa-sastho",
@@ -32,6 +35,17 @@ export type RouteKey = keyof typeof routes;
 export type RoutePath = (typeof routes)[RouteKey];
 
 export const allRoutePaths: readonly RoutePath[] = Object.values(routes);
+
+/** The five services, in the order they appear everywhere on the site. */
+export const serviceRouteKeys = [
+  "aiConsultancy",
+  "aiSearchVisibility",
+  "aiAutomation",
+  "webDevelopment",
+  "softwareDevelopment",
+] as const satisfies readonly RouteKey[];
+
+export type ServiceKey = (typeof serviceRouteKeys)[number];
 
 /**
  * NAP details. These must match the Google Business Profile exactly — see

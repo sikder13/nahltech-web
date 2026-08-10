@@ -25,16 +25,14 @@ export type ServiceContent = Dictionary["servicePages"]["aiSearchVisibility"];
  */
 export function ServiceTemplate({
   t,
-  title,
   content,
 }: {
   t: Dictionary;
-  title: string;
   content: ServiceContent;
 }) {
   return (
     <>
-      <PageHeader title={title} intro={content.intro} />
+      <PageHeader title={content.headline} />
 
       <ProblemStatement
         heading={t.service.problemHeading}

@@ -11,7 +11,7 @@ export async function generateMetadata({
   const { locale } = await params;
   const t = await requireDictionary(locale);
 
-  return { title: t.pages.webDevelopment.title };
+  return { title: { absolute: t.pages.webDevelopment.metaTitle } };
 }
 
 export default async function Page({
@@ -22,11 +22,5 @@ export default async function Page({
   const { locale } = await params;
   const t = await requireDictionary(locale);
 
-  return (
-    <ServiceTemplate
-      t={t}
-      title={t.pages.webDevelopment.title}
-      content={t.servicePages.webDevelopment}
-    />
-  );
+  return <ServiceTemplate t={t} content={t.servicePages.webDevelopment} />;
 }

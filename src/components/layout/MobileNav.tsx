@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 
 import { ButtonLink } from "@/components/ui/ButtonLink";
-import { contactDetails, routes } from "@/lib/routes";
+import { contactDetails, routes, serviceRouteKeys } from "@/lib/routes";
 
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
 
@@ -83,10 +83,10 @@ export function MobileNav({ t }: { t: Dictionary }) {
 
   const links = [
     { href: routes.services, label: t.nav.services },
-    { href: routes.aiSearchVisibility, label: t.services.aiSearchVisibility },
-    { href: routes.localSeo, label: t.services.localSeo },
-    { href: routes.webDevelopment, label: t.services.webDevelopment },
-    { href: routes.aiAutomation, label: t.services.aiAutomation },
+    ...serviceRouteKeys.map((key) => ({
+      href: routes[key],
+      label: t.services[key],
+    })),
     { href: routes.products, label: t.nav.products },
     { href: routes.crawlmouse, label: t.products.crawlmouse },
     { href: routes.hafsaSastho, label: t.products.hafsaSastho },

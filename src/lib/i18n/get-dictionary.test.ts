@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 
 import { getDictionary } from "./get-dictionary";
 
+import { routes } from "@/lib/routes";
+
 describe("getDictionary", () => {
   it("returns the populated English dictionary", async () => {
     const dictionary = await getDictionary("en");
@@ -9,7 +11,11 @@ describe("getDictionary", () => {
     expect(dictionary.site.name).toBe("Nahl Technologies");
     expect(dictionary.nav.services).toBe("Services");
     expect(dictionary.footer.email).toBe("info@nahltech.com");
-    expect(Object.keys(dictionary.pages)).toHaveLength(17);
+    // Every route must have a page entry — asserted against the registry so
+    // adding or removing a service cannot leave this behind.
+    expect(Object.keys(dictionary.pages).sort()).toEqual(
+      Object.keys(routes).sort(),
+    );
   });
 
   it("throws for a locale that is not configured at all", async () => {

@@ -32,10 +32,7 @@ describe("Header", () => {
 
     // Every service and product in the dropdowns.
     for (const label of [
-      en.services.aiSearchVisibility,
-      en.services.localSeo,
-      en.services.webDevelopment,
-      en.services.aiAutomation,
+      ...Object.values(en.services),
       en.products.crawlmouse,
       en.products.hafsaSastho,
     ]) {

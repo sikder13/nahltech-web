@@ -30,10 +30,11 @@
     "orCall": "or call"
   },
   "services": {
-    "aiSearchVisibility": "AI Search Visibility",
-    "localSeo": "Local SEO",
+    "aiConsultancy": "AI Consultancy",
+    "aiSearchVisibility": "AI Search Visibility & SEO",
+    "aiAutomation": "AI Automation",
     "webDevelopment": "Web Development",
-    "aiAutomation": "AI Automation"
+    "softwareDevelopment": "Software Development"
   },
   "products": {
     "crawlmouse": "Crawlmouse",
@@ -58,31 +59,37 @@
   },
   "pages": {
     "home": {
-      "title": "Nahl Technologies"
+      "title": "Nahl Technologies",
+      "metaTitle": "Nahl Technologies — AI Consulting & Implementation | Indianapolis, Serving Worldwide",
+      "description": "AI consultancy that ships. We analyze your business, quantify where AI recovers money, and build it — automation, custom software, and AI search visibility. Based in Indiana, working worldwide."
     },
     "services": {
       "title": "Services"
     },
     "aiSearchVisibility": {
-      "title": "AI Search Visibility"
-    },
-    "localSeo": {
-      "title": "Local SEO"
+      "title": "AI Search Visibility & SEO",
+      "metaTitle": "AI Search Visibility & SEO Services | Nahl Technologies"
     },
     "webDevelopment": {
-      "title": "Web Development"
+      "title": "Web Development",
+      "metaTitle": "Web Development | Nahl Technologies"
     },
     "aiAutomation": {
-      "title": "AI Automation"
+      "title": "AI Automation",
+      "metaTitle": "AI Automation for Business Workflows | Nahl Technologies"
     },
     "products": {
       "title": "Products"
     },
     "crawlmouse": {
-      "title": "Crawlmouse"
+      "title": "Crawlmouse",
+      "metaTitle": "Crawlmouse — Free Internal Linking & AI-Readiness Audit",
+      "description": "Paste a URL, get an honest A–F grade on your internal links and what AI crawlers actually see. Orphan pages, click depth, link graph. Free, no signup."
     },
     "hafsaSastho": {
-      "title": "Hafsa Sastho"
+      "title": "Hafsa Sastho",
+      "metaTitle": "Hafsa Sastho — AI Maternal & Infant Health Companion (Bangla)",
+      "description": "A Bengali-language AI health companion for new mothers — vaccine schedules, growth tracking, and Hafsa Apa, an AI guide that speaks her language. Coming to Google Play September 2026."
     },
     "pricing": {
       "title": "Pricing"
@@ -94,7 +101,8 @@
       "title": "Blog"
     },
     "about": {
-      "title": "About"
+      "title": "About",
+      "metaTitle": "About Nahl Technologies — AI Consultancy"
     },
     "contact": {
       "title": "Contact"
@@ -107,6 +115,14 @@
     },
     "dpa": {
       "title": "Data Processing Addendum"
+    },
+    "aiConsultancy": {
+      "title": "AI Consultancy",
+      "metaTitle": "AI Consulting & Implementation | Nahl Technologies"
+    },
+    "softwareDevelopment": {
+      "title": "Software Development",
+      "metaTitle": "Custom Software & AI Application Development | Nahl Technologies"
     }
   },
   "notFound": {
@@ -118,8 +134,8 @@
     "contentPlaceholder": "[PLACEHOLDER: page content — awaiting approved copy]"
   },
   "ctaBlock": {
-    "heading": "[PLACEHOLDER: closing CTA heading — awaiting approved copy]",
-    "body": "[PLACEHOLDER: closing CTA supporting line — awaiting approved copy]"
+    "heading": "Fifteen minutes. Bring your website or your workflow problem.",
+    "body": "You'll leave with something useful either way."
   },
   "ctaSlim": {
     "body": "[PLACEHOLDER: inline CTA line — awaiting approved copy]"
@@ -142,65 +158,66 @@
     }
   },
   "serviceSummaries": {
-    "aiSearchVisibility": "[PLACEHOLDER: AI Search Visibility summary — awaiting approved copy]",
-    "localSeo": "[PLACEHOLDER: Local SEO summary — awaiting approved copy]",
-    "webDevelopment": "[PLACEHOLDER: Web Development summary — awaiting approved copy]",
-    "aiAutomation": "[PLACEHOLDER: AI Automation summary — awaiting approved copy]"
+    "aiConsultancy": "We study your operations and data, find the highest-ROI places for AI, and hand you the numbers before you spend a dollar building.",
+    "aiSearchVisibility": "Get found on Google and recommended by ChatGPT, Gemini, and Perplexity. Measured with our own tool.",
+    "aiAutomation": "Workflows and agents that take real work off your team's plate, integrated with the systems you already run.",
+    "webDevelopment": "Fast, accessible, search-ready websites. This one is our own work — run it through Crawlmouse.",
+    "softwareDevelopment": "Custom software and AI applications, built to production standard and owned by you."
   },
   "productSummaries": {
-    "crawlmouse": "[PLACEHOLDER: Crawlmouse summary — awaiting approved copy]",
-    "hafsaSastho": "[PLACEHOLDER: Hafsa Sastho summary — awaiting approved copy]"
+    "crawlmouse": "Paste a URL. Get an honest grade on your internal links and what AI crawlers actually see.",
+    "hafsaSastho": "A Bangla-language AI health companion for new mothers in Bangladesh."
   },
   "productStatus": {
-    "live": "Live",
-    "closedBeta": "Closed beta"
+    "live": "Live · Free",
+    "closedBeta": "Beta · Google Play September 1, 2026"
   },
   "home": {
     "hero": {
-      "headline": "[PLACEHOLDER: home hero headline — awaiting approved copy]",
-      "subline": "[PLACEHOLDER: home hero subline — awaiting approved copy]"
+      "headline": "We help businesses worldwide find where AI pays — then we build it.",
+      "subline": "Nahl Technologies is an AI consultancy from Indianapolis working with businesses everywhere. We study your operations, quantify where AI genuinely recovers money, and build the automation and software to capture it — measured against numbers you can check."
     },
     "proof": {
-      "heading": "[PLACEHOLDER: proof bar heading — awaiting approved copy]",
+      "heading": "Don't take our word for it. Check our work.",
       "items": {
-        "product": "[PLACEHOLDER: proof: live product line — awaiting approved copy]",
-        "app": "[PLACEHOLDER: proof: shipped app line — awaiting approved copy]",
-        "research": "[PLACEHOLDER: proof: original research line — awaiting approved copy]",
-        "method": "[PLACEHOLDER: proof: open methodology line — awaiting approved copy]"
+        "product": "Crawlmouse — our free SEO audit tool. 250+ audits run.",
+        "app": "Hafsa Sastho — AI health app, 80 daily beta users.",
+        "research": "The Indianapolis AI Visibility Report — our own published data.",
+        "method": "Every claim measured. Every method shown."
       }
     },
     "twoWays": {
-      "heading": "[PLACEHOLDER: two-ways section heading — awaiting approved copy]",
+      "heading": "The search your website was built for is only half the search that happens now.",
       "google": {
         "label": "Searching on Google",
-        "body": "[PLACEHOLDER: google-search side body — awaiting approved copy]"
+        "body": "Ten blue links, ranked. Twenty years of SEO practice tells you how to compete here."
       },
       "ai": {
         "label": "Asking AI",
-        "body": "[PLACEHOLDER: ai-assistant side body — awaiting approved copy]"
+        "body": "One synthesized answer. No ranking, no page two. Either the AI names you, or you don't exist."
       }
     },
     "services": {
-      "heading": "[PLACEHOLDER: services grid heading — awaiting approved copy]"
+      "heading": "What we do"
     },
     "method": {
-      "heading": "[PLACEHOLDER: method strip heading — awaiting approved copy]",
+      "heading": "How we work",
       "steps": {
         "observe": {
           "label": "Observe",
-          "body": "[PLACEHOLDER: observe step body — awaiting approved copy]"
+          "body": "We learn your business the way an engineer would — processes, systems, data, and where the money actually moves."
         },
         "analyze": {
           "label": "Analyze",
-          "body": "[PLACEHOLDER: analyze step body — awaiting approved copy]"
+          "body": "We find the gaps and opportunities AI can genuinely address, and rule out the ones it can't."
         },
         "quantify": {
           "label": "Quantify",
-          "body": "[PLACEHOLDER: quantify step body — awaiting approved copy]"
+          "body": "Every recommendation comes with ROI math you can check. Ranges, sources, no hand-waving."
         },
         "build": {
           "label": "Build",
-          "body": "[PLACEHOLDER: build step body — awaiting approved copy]"
+          "body": "We ship it — automation, integration, or custom software — and measure the result against the numbers we promised."
         }
       }
     },
@@ -225,9 +242,74 @@
     "methodLabel": "Method"
   },
   "servicePages": {
+    "aiConsultancy": {
+      "problem": "Every consultancy will tell you AI is transformative. Almost none will tell you, in numbers, what it's worth in YOUR operation — before you commit to building anything. We do the analysis first: your processes, your data, your costs. Then we show you where AI pays, what it costs to capture, and how we'd measure success. If the numbers don't work, we tell you that too.",
+      "demo": {
+        "body": "[PLACEHOLDER: AI Consultancy demonstration body — awaiting approved copy]",
+        "imageLabel": "[PLACEHOLDER: AI Consultancy demonstration screenshot — awaiting approved copy]"
+      },
+      "steps": [
+        {
+          "label": "Observe",
+          "body": "[PLACEHOLDER: AI Consultancy observe step — awaiting approved copy]"
+        },
+        {
+          "label": "Analyze",
+          "body": "[PLACEHOLDER: AI Consultancy analyze step — awaiting approved copy]"
+        },
+        {
+          "label": "Quantify",
+          "body": "[PLACEHOLDER: AI Consultancy quantify step — awaiting approved copy]"
+        },
+        {
+          "label": "Build",
+          "body": "[PLACEHOLDER: AI Consultancy build step — awaiting approved copy]"
+        }
+      ],
+      "price": {
+        "amount": "[PLACEHOLDER: AI Consultancy price — awaiting approved copy]",
+        "unit": "[PLACEHOLDER: AI Consultancy price unit — awaiting approved copy]",
+        "note": "[PLACEHOLDER: AI Consultancy price note — awaiting approved copy]"
+      },
+      "deliverables": [
+        "[PLACEHOLDER: AI Consultancy deliverable 1 — awaiting approved copy]",
+        "[PLACEHOLDER: AI Consultancy deliverable 2 — awaiting approved copy]",
+        "[PLACEHOLDER: AI Consultancy deliverable 3 — awaiting approved copy]",
+        "[PLACEHOLDER: AI Consultancy deliverable 4 — awaiting approved copy]"
+      ],
+      "measurementIntro": "[PLACEHOLDER: AI Consultancy measurement intro — awaiting approved copy]",
+      "measurement": [
+        {
+          "metric": "[PLACEHOLDER: AI Consultancy metric 1 — awaiting approved copy]",
+          "method": "[PLACEHOLDER: AI Consultancy method 1 — awaiting approved copy]"
+        },
+        {
+          "metric": "[PLACEHOLDER: AI Consultancy metric 2 — awaiting approved copy]",
+          "method": "[PLACEHOLDER: AI Consultancy method 2 — awaiting approved copy]"
+        },
+        {
+          "metric": "[PLACEHOLDER: AI Consultancy metric 3 — awaiting approved copy]",
+          "method": "[PLACEHOLDER: AI Consultancy method 3 — awaiting approved copy]"
+        }
+      ],
+      "faq": [
+        {
+          "question": "[PLACEHOLDER: AI Consultancy question 1 — awaiting approved copy]",
+          "answer": "[PLACEHOLDER: AI Consultancy answer 1 — awaiting approved copy]"
+        },
+        {
+          "question": "[PLACEHOLDER: AI Consultancy question 2 — awaiting approved copy]",
+          "answer": "[PLACEHOLDER: AI Consultancy answer 2 — awaiting approved copy]"
+        },
+        {
+          "question": "[PLACEHOLDER: AI Consultancy question 3 — awaiting approved copy]",
+          "answer": "[PLACEHOLDER: AI Consultancy answer 3 — awaiting approved copy]"
+        }
+      ],
+      "headline": "Most AI advice starts with the technology. Ours starts with your P&L."
+    },
     "aiSearchVisibility": {
-      "intro": "[PLACEHOLDER: AI Search Visibility intro line — awaiting approved copy]",
-      "problem": "[PLACEHOLDER: AI Search Visibility problem statement — awaiting approved copy]",
+      "problem": "Nearly half of consumers now ask AI assistants for recommendations, and most businesses never appear in the answers. The work that fixes it is measurable: we test the exact prompts your customers use, show you where you stand, do the technical and content work both Google and AI engines reward, and re-test on a schedule you can verify yourself.",
       "demo": {
         "body": "[PLACEHOLDER: AI Search Visibility demonstration body — awaiting approved copy]",
         "imageLabel": "[PLACEHOLDER: AI Search Visibility demonstration screenshot — awaiting approved copy]"
@@ -251,7 +333,7 @@
         }
       ],
       "price": {
-        "amount": "[PRICE]",
+        "amount": "[PLACEHOLDER: AI Search Visibility price — awaiting approved copy]",
         "unit": "[PLACEHOLDER: AI Search Visibility price unit — awaiting approved copy]",
         "note": "[PLACEHOLDER: AI Search Visibility price note — awaiting approved copy]"
       },
@@ -289,143 +371,11 @@
           "question": "[PLACEHOLDER: AI Search Visibility question 3 — awaiting approved copy]",
           "answer": "[PLACEHOLDER: AI Search Visibility answer 3 — awaiting approved copy]"
         }
-      ]
-    },
-    "localSeo": {
-      "intro": "[PLACEHOLDER: Local SEO intro line — awaiting approved copy]",
-      "problem": "[PLACEHOLDER: Local SEO problem statement — awaiting approved copy]",
-      "demo": {
-        "body": "[PLACEHOLDER: Local SEO demonstration body — awaiting approved copy]",
-        "imageLabel": "[PLACEHOLDER: Local SEO demonstration screenshot — awaiting approved copy]"
-      },
-      "steps": [
-        {
-          "label": "Observe",
-          "body": "[PLACEHOLDER: Local SEO observe step — awaiting approved copy]"
-        },
-        {
-          "label": "Analyze",
-          "body": "[PLACEHOLDER: Local SEO analyze step — awaiting approved copy]"
-        },
-        {
-          "label": "Quantify",
-          "body": "[PLACEHOLDER: Local SEO quantify step — awaiting approved copy]"
-        },
-        {
-          "label": "Build",
-          "body": "[PLACEHOLDER: Local SEO build step — awaiting approved copy]"
-        }
       ],
-      "price": {
-        "amount": "[PRICE]",
-        "unit": "[PLACEHOLDER: Local SEO price unit — awaiting approved copy]",
-        "note": "[PLACEHOLDER: Local SEO price note — awaiting approved copy]"
-      },
-      "deliverables": [
-        "[PLACEHOLDER: Local SEO deliverable 1 — awaiting approved copy]",
-        "[PLACEHOLDER: Local SEO deliverable 2 — awaiting approved copy]",
-        "[PLACEHOLDER: Local SEO deliverable 3 — awaiting approved copy]",
-        "[PLACEHOLDER: Local SEO deliverable 4 — awaiting approved copy]"
-      ],
-      "measurementIntro": "[PLACEHOLDER: Local SEO measurement intro — awaiting approved copy]",
-      "measurement": [
-        {
-          "metric": "[PLACEHOLDER: Local SEO metric 1 — awaiting approved copy]",
-          "method": "[PLACEHOLDER: Local SEO method 1 — awaiting approved copy]"
-        },
-        {
-          "metric": "[PLACEHOLDER: Local SEO metric 2 — awaiting approved copy]",
-          "method": "[PLACEHOLDER: Local SEO method 2 — awaiting approved copy]"
-        },
-        {
-          "metric": "[PLACEHOLDER: Local SEO metric 3 — awaiting approved copy]",
-          "method": "[PLACEHOLDER: Local SEO method 3 — awaiting approved copy]"
-        }
-      ],
-      "faq": [
-        {
-          "question": "[PLACEHOLDER: Local SEO question 1 — awaiting approved copy]",
-          "answer": "[PLACEHOLDER: Local SEO answer 1 — awaiting approved copy]"
-        },
-        {
-          "question": "[PLACEHOLDER: Local SEO question 2 — awaiting approved copy]",
-          "answer": "[PLACEHOLDER: Local SEO answer 2 — awaiting approved copy]"
-        },
-        {
-          "question": "[PLACEHOLDER: Local SEO question 3 — awaiting approved copy]",
-          "answer": "[PLACEHOLDER: Local SEO answer 3 — awaiting approved copy]"
-        }
-      ]
-    },
-    "webDevelopment": {
-      "intro": "[PLACEHOLDER: Web Development intro line — awaiting approved copy]",
-      "problem": "[PLACEHOLDER: Web Development problem statement — awaiting approved copy]",
-      "demo": {
-        "body": "[PLACEHOLDER: Web Development demonstration body — awaiting approved copy]",
-        "imageLabel": "[PLACEHOLDER: Web Development demonstration screenshot — awaiting approved copy]"
-      },
-      "steps": [
-        {
-          "label": "Observe",
-          "body": "[PLACEHOLDER: Web Development observe step — awaiting approved copy]"
-        },
-        {
-          "label": "Analyze",
-          "body": "[PLACEHOLDER: Web Development analyze step — awaiting approved copy]"
-        },
-        {
-          "label": "Quantify",
-          "body": "[PLACEHOLDER: Web Development quantify step — awaiting approved copy]"
-        },
-        {
-          "label": "Build",
-          "body": "[PLACEHOLDER: Web Development build step — awaiting approved copy]"
-        }
-      ],
-      "price": {
-        "amount": "[PRICE]",
-        "unit": "[PLACEHOLDER: Web Development price unit — awaiting approved copy]",
-        "note": "[PLACEHOLDER: Web Development price note — awaiting approved copy]"
-      },
-      "deliverables": [
-        "[PLACEHOLDER: Web Development deliverable 1 — awaiting approved copy]",
-        "[PLACEHOLDER: Web Development deliverable 2 — awaiting approved copy]",
-        "[PLACEHOLDER: Web Development deliverable 3 — awaiting approved copy]",
-        "[PLACEHOLDER: Web Development deliverable 4 — awaiting approved copy]"
-      ],
-      "measurementIntro": "[PLACEHOLDER: Web Development measurement intro — awaiting approved copy]",
-      "measurement": [
-        {
-          "metric": "[PLACEHOLDER: Web Development metric 1 — awaiting approved copy]",
-          "method": "[PLACEHOLDER: Web Development method 1 — awaiting approved copy]"
-        },
-        {
-          "metric": "[PLACEHOLDER: Web Development metric 2 — awaiting approved copy]",
-          "method": "[PLACEHOLDER: Web Development method 2 — awaiting approved copy]"
-        },
-        {
-          "metric": "[PLACEHOLDER: Web Development metric 3 — awaiting approved copy]",
-          "method": "[PLACEHOLDER: Web Development method 3 — awaiting approved copy]"
-        }
-      ],
-      "faq": [
-        {
-          "question": "[PLACEHOLDER: Web Development question 1 — awaiting approved copy]",
-          "answer": "[PLACEHOLDER: Web Development answer 1 — awaiting approved copy]"
-        },
-        {
-          "question": "[PLACEHOLDER: Web Development question 2 — awaiting approved copy]",
-          "answer": "[PLACEHOLDER: Web Development answer 2 — awaiting approved copy]"
-        },
-        {
-          "question": "[PLACEHOLDER: Web Development question 3 — awaiting approved copy]",
-          "answer": "[PLACEHOLDER: Web Development answer 3 — awaiting approved copy]"
-        }
-      ]
+      "headline": "When someone asks ChatGPT for the best option in your market — are you the answer?"
     },
     "aiAutomation": {
-      "intro": "[PLACEHOLDER: AI Automation intro line — awaiting approved copy]",
-      "problem": "[PLACEHOLDER: AI Automation problem statement — awaiting approved copy]",
+      "problem": "Quoting, intake, scheduling, data entry, reporting — every business has hours of repeatable work buried in its week. We find it, price what it's costing you, and build automation that fits the systems you already run — including the legacy ones nobody wants to touch.",
       "demo": {
         "body": "[PLACEHOLDER: AI Automation demonstration body — awaiting approved copy]",
         "imageLabel": "[PLACEHOLDER: AI Automation demonstration screenshot — awaiting approved copy]"
@@ -449,7 +399,7 @@
         }
       ],
       "price": {
-        "amount": "[PRICE]",
+        "amount": "[PLACEHOLDER: AI Automation price — awaiting approved copy]",
         "unit": "[PLACEHOLDER: AI Automation price unit — awaiting approved copy]",
         "note": "[PLACEHOLDER: AI Automation price note — awaiting approved copy]"
       },
@@ -487,57 +437,206 @@
           "question": "[PLACEHOLDER: AI Automation question 3 — awaiting approved copy]",
           "answer": "[PLACEHOLDER: AI Automation answer 3 — awaiting approved copy]"
         }
-      ]
+      ],
+      "headline": "Your team does work a system should be doing."
+    },
+    "webDevelopment": {
+      "problem": "Most agency websites are a brochure about quality. Ours is the evidence: run this site through Crawlmouse, check the Lighthouse scores, view the source. We build fast, accessible, search-ready sites — and we're comfortable being judged by our own.",
+      "demo": {
+        "body": "[PLACEHOLDER: Web Development demonstration body — awaiting approved copy]",
+        "imageLabel": "[PLACEHOLDER: Web Development demonstration screenshot — awaiting approved copy]"
+      },
+      "steps": [
+        {
+          "label": "Observe",
+          "body": "[PLACEHOLDER: Web Development observe step — awaiting approved copy]"
+        },
+        {
+          "label": "Analyze",
+          "body": "[PLACEHOLDER: Web Development analyze step — awaiting approved copy]"
+        },
+        {
+          "label": "Quantify",
+          "body": "[PLACEHOLDER: Web Development quantify step — awaiting approved copy]"
+        },
+        {
+          "label": "Build",
+          "body": "[PLACEHOLDER: Web Development build step — awaiting approved copy]"
+        }
+      ],
+      "price": {
+        "amount": "[PLACEHOLDER: Web Development price — awaiting approved copy]",
+        "unit": "[PLACEHOLDER: Web Development price unit — awaiting approved copy]",
+        "note": "[PLACEHOLDER: Web Development price note — awaiting approved copy]"
+      },
+      "deliverables": [
+        "[PLACEHOLDER: Web Development deliverable 1 — awaiting approved copy]",
+        "[PLACEHOLDER: Web Development deliverable 2 — awaiting approved copy]",
+        "[PLACEHOLDER: Web Development deliverable 3 — awaiting approved copy]",
+        "[PLACEHOLDER: Web Development deliverable 4 — awaiting approved copy]"
+      ],
+      "measurementIntro": "[PLACEHOLDER: Web Development measurement intro — awaiting approved copy]",
+      "measurement": [
+        {
+          "metric": "[PLACEHOLDER: Web Development metric 1 — awaiting approved copy]",
+          "method": "[PLACEHOLDER: Web Development method 1 — awaiting approved copy]"
+        },
+        {
+          "metric": "[PLACEHOLDER: Web Development metric 2 — awaiting approved copy]",
+          "method": "[PLACEHOLDER: Web Development method 2 — awaiting approved copy]"
+        },
+        {
+          "metric": "[PLACEHOLDER: Web Development metric 3 — awaiting approved copy]",
+          "method": "[PLACEHOLDER: Web Development method 3 — awaiting approved copy]"
+        }
+      ],
+      "faq": [
+        {
+          "question": "[PLACEHOLDER: Web Development question 1 — awaiting approved copy]",
+          "answer": "[PLACEHOLDER: Web Development answer 1 — awaiting approved copy]"
+        },
+        {
+          "question": "[PLACEHOLDER: Web Development question 2 — awaiting approved copy]",
+          "answer": "[PLACEHOLDER: Web Development answer 2 — awaiting approved copy]"
+        },
+        {
+          "question": "[PLACEHOLDER: Web Development question 3 — awaiting approved copy]",
+          "answer": "[PLACEHOLDER: Web Development answer 3 — awaiting approved copy]"
+        }
+      ],
+      "headline": "You're reading our portfolio right now."
+    },
+    "softwareDevelopment": {
+      "problem": "We design and build custom software and AI applications to production standard — specced against your workflow, integrated with your stack, and owned by you when it ships. No per-seat ransom, no black boxes.",
+      "demo": {
+        "body": "[PLACEHOLDER: Software Development demonstration body — awaiting approved copy]",
+        "imageLabel": "[PLACEHOLDER: Software Development demonstration screenshot — awaiting approved copy]"
+      },
+      "steps": [
+        {
+          "label": "Observe",
+          "body": "[PLACEHOLDER: Software Development observe step — awaiting approved copy]"
+        },
+        {
+          "label": "Analyze",
+          "body": "[PLACEHOLDER: Software Development analyze step — awaiting approved copy]"
+        },
+        {
+          "label": "Quantify",
+          "body": "[PLACEHOLDER: Software Development quantify step — awaiting approved copy]"
+        },
+        {
+          "label": "Build",
+          "body": "[PLACEHOLDER: Software Development build step — awaiting approved copy]"
+        }
+      ],
+      "price": {
+        "amount": "[PLACEHOLDER: Software Development price — awaiting approved copy]",
+        "unit": "[PLACEHOLDER: Software Development price unit — awaiting approved copy]",
+        "note": "[PLACEHOLDER: Software Development price note — awaiting approved copy]"
+      },
+      "deliverables": [
+        "[PLACEHOLDER: Software Development deliverable 1 — awaiting approved copy]",
+        "[PLACEHOLDER: Software Development deliverable 2 — awaiting approved copy]",
+        "[PLACEHOLDER: Software Development deliverable 3 — awaiting approved copy]",
+        "[PLACEHOLDER: Software Development deliverable 4 — awaiting approved copy]"
+      ],
+      "measurementIntro": "[PLACEHOLDER: Software Development measurement intro — awaiting approved copy]",
+      "measurement": [
+        {
+          "metric": "[PLACEHOLDER: Software Development metric 1 — awaiting approved copy]",
+          "method": "[PLACEHOLDER: Software Development method 1 — awaiting approved copy]"
+        },
+        {
+          "metric": "[PLACEHOLDER: Software Development metric 2 — awaiting approved copy]",
+          "method": "[PLACEHOLDER: Software Development method 2 — awaiting approved copy]"
+        },
+        {
+          "metric": "[PLACEHOLDER: Software Development metric 3 — awaiting approved copy]",
+          "method": "[PLACEHOLDER: Software Development method 3 — awaiting approved copy]"
+        }
+      ],
+      "faq": [
+        {
+          "question": "[PLACEHOLDER: Software Development question 1 — awaiting approved copy]",
+          "answer": "[PLACEHOLDER: Software Development answer 1 — awaiting approved copy]"
+        },
+        {
+          "question": "[PLACEHOLDER: Software Development question 2 — awaiting approved copy]",
+          "answer": "[PLACEHOLDER: Software Development answer 2 — awaiting approved copy]"
+        },
+        {
+          "question": "[PLACEHOLDER: Software Development question 3 — awaiting approved copy]",
+          "answer": "[PLACEHOLDER: Software Development answer 3 — awaiting approved copy]"
+        }
+      ],
+      "headline": "Off-the-shelf stopped fitting."
     }
   },
   "product": {
     "featuresHeading": "What it does",
-    "audienceHeading": "Who it's for"
+    "audienceHeading": "Why we built it"
   },
   "productPages": {
     "crawlmouse": {
-      "tagline": "[PLACEHOLDER: Crawlmouse one-line description — awaiting approved copy]",
+      "heading": "Paste a URL. Get an honest grade.",
+      "tagline": "Crawlmouse grades how well your website's pages link to each other — the thing that decides whether Google and AI tools like ChatGPT can actually find your content — and shows you exactly what to fix. 250+ audits run across nearly 200 sites.",
       "features": [
         {
-          "title": "[PLACEHOLDER: Crawlmouse feature 1 title — awaiting approved copy]",
-          "body": "[PLACEHOLDER: Crawlmouse feature 1 body — awaiting approved copy]"
+          "title": "A–F internal-linking grade",
+          "body": "Calibrated bands, not vibes. Same site, same answer, every time."
         },
         {
-          "title": "[PLACEHOLDER: Crawlmouse feature 2 title — awaiting approved copy]",
-          "body": "[PLACEHOLDER: Crawlmouse feature 2 body — awaiting approved copy]"
+          "title": "AI-readiness score",
+          "body": "Audits the static HTML that GPTBot, Claude, and Perplexity actually read. If AI crawlers can't see your content, you'll know."
         },
         {
-          "title": "[PLACEHOLDER: Crawlmouse feature 3 title — awaiting approved copy]",
-          "body": "[PLACEHOLDER: Crawlmouse feature 3 body — awaiting approved copy]"
+          "title": "Orphan pages & click depth",
+          "body": "Every page nothing links to, and every page buried too deep to matter."
+        },
+        {
+          "title": "Link graph",
+          "body": "Your site's structure, visualized."
+        },
+        {
+          "title": "Prioritized findings",
+          "body": "Severity and the percentage of pages affected on every issue, so you fix what matters first."
+        },
+        {
+          "title": "Honest limits",
+          "body": "When a site can't be measured properly — too small, blocked, JavaScript-only shell — Crawlmouse says so instead of inventing a grade. A tool that admits what it can't see is a tool you can trust."
         }
       ],
       "audience": [
-        "[PLACEHOLDER: Crawlmouse audience 1 — awaiting approved copy]",
-        "[PLACEHOLDER: Crawlmouse audience 2 — awaiting approved copy]",
-        "[PLACEHOLDER: Crawlmouse audience 3 — awaiting approved copy]"
-      ]
+        "Built for site owners, marketers, and agencies who want the truth about their site structure without a sales call attached."
+      ],
+      "note": ""
     },
     "hafsaSastho": {
-      "tagline": "[PLACEHOLDER: Hafsa Sastho one-line description — awaiting approved copy]",
+      "heading": "Healthcare guidance in the language mothers actually speak.",
+      "tagline": "Hafsa Sastho is an AI-powered maternal and infant health companion built in Bangla, for Bangladesh — vaccine schedules, growth tracking, and everyday guidance for the first years of a child's life. 80 beta testers use it daily.",
       "features": [
         {
-          "title": "[PLACEHOLDER: Hafsa Sastho feature 1 title — awaiting approved copy]",
-          "body": "[PLACEHOLDER: Hafsa Sastho feature 1 body — awaiting approved copy]"
+          "title": "Hafsa Apa",
+          "body": "The AI companion new mothers name first in their feedback. She answers everyday health questions in plain Bangla, day or night, with the patience of an older sister. (“Apa” means elder sister.)"
         },
         {
-          "title": "[PLACEHOLDER: Hafsa Sastho feature 2 title — awaiting approved copy]",
-          "body": "[PLACEHOLDER: Hafsa Sastho feature 2 body — awaiting approved copy]"
+          "title": "Vaccine schedule",
+          "body": "Bangladesh's EPI immunization calendar, tracked per child, with reminders."
         },
         {
-          "title": "[PLACEHOLDER: Hafsa Sastho feature 3 title — awaiting approved copy]",
-          "body": "[PLACEHOLDER: Hafsa Sastho feature 3 body — awaiting approved copy]"
+          "title": "Growth tracking",
+          "body": "WHO growth standards, charted simply."
+        },
+        {
+          "title": "Works offline",
+          "body": "Built for real network conditions, not ideal ones."
         }
       ],
       "audience": [
-        "[PLACEHOLDER: Hafsa Sastho audience 1 — awaiting approved copy]",
-        "[PLACEHOLDER: Hafsa Sastho audience 2 — awaiting approved copy]",
-        "[PLACEHOLDER: Hafsa Sastho audience 3 — awaiting approved copy]"
-      ]
+        "Built because of a real gap — millions of mothers navigate pregnancy and infancy with no accessible guidance in their own language. This is our answer. It's also how we prove we build AI for real users in hard conditions, not just demos."
+      ],
+      "note": "Launching on Google Play September 1, 2026."
     }
   },
   "article": {
@@ -551,9 +650,14 @@
     "body": "[PLACEHOLDER: legal document body — awaiting legal review — awaiting approved copy]"
   },
   "about": {
-    "intro": "[PLACEHOLDER: about page intro — awaiting approved copy]",
+    "intro": "",
     "storyHeading": "Our story",
-    "storyBody": "[PLACEHOLDER: company story — awaiting approved copy]",
+    "storyParagraphs": [
+      "Nahl (نحل) is Arabic for honeybee — small, relentless, and useful far beyond its size.",
+      "Nahl Technologies was started by two immigrants who came to the United States with little more than a plan to learn. Udaay Sikder earned his BS and MS in Computer Science here and has spent his career in the tech industry; Mohieminul Khan earned his PhD in Mechanical Engineering and brings five years of industry experience. One of us builds software; the other builds systems. Together, that's the point.",
+      "We're proudly based in Indiana and we work with businesses everywhere — across the United States and around the world — helping them adopt AI and put it to work. We build with AI in every part of our own operation; it isn't a service we bolted on, it's how the company runs. The products we've shipped, the research we publish, and this website itself are the proof we'd rather show than tell.",
+      "The American dream, as far as we can tell, still works. You just have to build it."
+    ],
     "teamHeading": "Team",
     "team": [
       {
@@ -567,9 +671,10 @@
     ],
     "credentialsHeading": "Credentials",
     "credentials": [
-      "[PLACEHOLDER: credential 1 — awaiting approved copy]",
-      "[PLACEHOLDER: credential 2 — awaiting approved copy]",
-      "[PLACEHOLDER: credential 3 — awaiting approved copy]"
+      "BS & MS Computer Science",
+      "PhD Mechanical Engineering",
+      "CompTIA A+",
+      "Microsoft AZ-900"
     ]
   },
   "contact": {
@@ -598,57 +703,9 @@
     }
   },
   "pricing": {
-    "intro": "[PLACEHOLDER: pricing page intro — awaiting approved copy]",
-    "tiersHeading": "Retainers",
-    "tiers": [
-      {
-        "name": "Tier one",
-        "price": "[PRICE]",
-        "unit": "[PLACEHOLDER: tier 1 unit — awaiting approved copy]",
-        "description": "[PLACEHOLDER: tier 1 description — awaiting approved copy]",
-        "features": [
-          "[PLACEHOLDER: tier 1 feature 1 — awaiting approved copy]",
-          "[PLACEHOLDER: tier 1 feature 2 — awaiting approved copy]",
-          "[PLACEHOLDER: tier 1 feature 3 — awaiting approved copy]"
-        ]
-      },
-      {
-        "name": "Tier two",
-        "price": "[PRICE]",
-        "unit": "[PLACEHOLDER: tier 2 unit — awaiting approved copy]",
-        "description": "[PLACEHOLDER: tier 2 description — awaiting approved copy]",
-        "features": [
-          "[PLACEHOLDER: tier 2 feature 1 — awaiting approved copy]",
-          "[PLACEHOLDER: tier 2 feature 2 — awaiting approved copy]",
-          "[PLACEHOLDER: tier 2 feature 3 — awaiting approved copy]"
-        ]
-      },
-      {
-        "name": "Tier three",
-        "price": "[PRICE]",
-        "unit": "[PLACEHOLDER: tier 3 unit — awaiting approved copy]",
-        "description": "[PLACEHOLDER: tier 3 description — awaiting approved copy]",
-        "features": [
-          "[PLACEHOLDER: tier 3 feature 1 — awaiting approved copy]",
-          "[PLACEHOLDER: tier 3 feature 2 — awaiting approved copy]",
-          "[PLACEHOLDER: tier 3 feature 3 — awaiting approved copy]"
-        ]
-      }
-    ],
-    "projectsHeading": "Project work",
-    "projects": [
-      {
-        "name": "[PLACEHOLDER: project service 1 — awaiting approved copy]",
-        "price": "[PRICE]"
-      },
-      {
-        "name": "[PLACEHOLDER: project service 2 — awaiting approved copy]",
-        "price": "[PRICE]"
-      },
-      {
-        "name": "[PLACEHOLDER: project service 3 — awaiting approved copy]",
-        "price": "[PRICE]"
-      }
-    ]
+    "intro": "",
+    "servicesHeading": "What we do",
+    "ctaHeading": "Straight answers on pricing.",
+    "ctaBody": "Every engagement is scoped to your situation — tell us the problem and we'll give you a number, fast. No discovery-call maze."
   }
 }

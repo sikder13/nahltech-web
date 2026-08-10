@@ -12,7 +12,10 @@ export async function generateMetadata({
   const { locale } = await params;
   const t = await requireDictionary(locale);
 
-  return { title: t.pages.hafsaSastho.title };
+  return {
+    title: { absolute: t.pages.hafsaSastho.metaTitle },
+    description: t.pages.hafsaSastho.description,
+  };
 }
 
 export default async function Page({
@@ -26,7 +29,7 @@ export default async function Page({
   return (
     <ProductTemplate
       t={t}
-      name={t.pages.hafsaSastho.title}
+      name={t.productPages.hafsaSastho.heading}
       status={t.productStatus.closedBeta}
       liveUrl={productLinks.hafsaSastho}
       content={t.productPages.hafsaSastho}
