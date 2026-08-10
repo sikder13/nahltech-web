@@ -123,5 +123,36 @@
   },
   "ctaSlim": {
     "body": "[PLACEHOLDER: inline CTA line — awaiting approved copy]"
+  },
+  "hub": {
+    "emptyLabel": "[PLACEHOLDER: empty-hub message — nothing published here yet]"
+  },
+  "hubPages": {
+    "services": {
+      "intro": "[PLACEHOLDER: services hub intro — awaiting approved copy]"
+    },
+    "products": {
+      "intro": "[PLACEHOLDER: products hub intro — awaiting approved copy]"
+    },
+    "research": {
+      "intro": "[PLACEHOLDER: research hub intro — awaiting approved copy]"
+    },
+    "blog": {
+      "intro": "[PLACEHOLDER: blog hub intro — awaiting approved copy]"
+    }
+  },
+  "serviceSummaries": {
+    "aiSearchVisibility": "[PLACEHOLDER: AI Search Visibility summary — awaiting approved copy]",
+    "localSeo": "[PLACEHOLDER: Local SEO summary — awaiting approved copy]",
+    "webDevelopment": "[PLACEHOLDER: Web Development summary — awaiting approved copy]",
+    "aiAutomation": "[PLACEHOLDER: AI Automation summary — awaiting approved copy]"
+  },
+  "productSummaries": {
+    "crawlmouse": "[PLACEHOLDER: Crawlmouse summary — awaiting approved copy]",
+    "hafsaSastho": "[PLACEHOLDER: Hafsa Sastho summary — awaiting approved copy]"
+  },
+  "productStatus": {
+    "live": "Live",
+    "closedBeta": "Closed beta"
   }
 }
