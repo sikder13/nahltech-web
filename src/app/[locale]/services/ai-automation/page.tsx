@@ -1,3 +1,4 @@
+import { DemoCalculation } from "@/components/blocks/demos";
 import { ServiceTemplate } from "@/components/templates/ServiceTemplate";
 import { requireDictionary } from "@/lib/i18n/require-dictionary";
 
@@ -22,5 +23,20 @@ export default async function Page({
   const { locale } = await params;
   const t = await requireDictionary(locale);
 
-  return <ServiceTemplate t={t} content={t.servicePages.aiAutomation} />;
+  return (
+    <ServiceTemplate
+      t={t}
+      content={t.servicePages.aiAutomation}
+      demo={
+        <DemoCalculation
+          heading={t.servicePages.aiAutomation.demo.heading}
+          lead={t.servicePages.aiAutomation.demo.lead}
+          rows={t.servicePages.aiAutomation.demo.rows}
+          total={t.servicePages.aiAutomation.demo.total}
+          note={t.servicePages.aiAutomation.demo.note}
+          closing={t.servicePages.aiAutomation.demo.closing}
+        />
+      }
+    />
+  );
 }

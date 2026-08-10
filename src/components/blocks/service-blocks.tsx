@@ -1,5 +1,4 @@
 import { ButtonLink } from "@/components/ui/ButtonLink";
-import { ImageSlot } from "@/components/ui/Card";
 import { FadeIn } from "@/components/ui/FadeIn";
 import { Icon } from "@/components/ui/Icon";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -22,40 +21,6 @@ export function ProblemStatement({
         <SectionHeading>{heading}</SectionHeading>
         <p className="mt-md max-w-prose text-lg text-text-muted">{body}</p>
       </FadeIn>
-    </section>
-  );
-}
-
-/**
- * Shows the work rather than describing it. The illustration slot is optional
- * — several demonstrations are pure prose (a worked calculation, an
- * instruction to go and check something), and an empty grey panel beside them
- * would add nothing.
- */
-export function DemoBlock({
-  heading,
-  body,
-  imageLabel,
-}: {
-  heading: string;
-  body: string;
-  imageLabel?: string;
-}) {
-  return (
-    <section className="bg-surface">
-      <div className={shell}>
-        <FadeIn>
-          <SectionHeading>{heading}</SectionHeading>
-          {imageLabel ? (
-            <div className="mt-lg grid items-center gap-lg md:grid-cols-2">
-              <p className="text-text-muted">{body}</p>
-              <ImageSlot label={imageLabel} />
-            </div>
-          ) : (
-            <p className="mt-lg max-w-prose text-lg text-text-muted">{body}</p>
-          )}
-        </FadeIn>
-      </div>
     </section>
   );
 }

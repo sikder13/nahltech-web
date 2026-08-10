@@ -242,8 +242,23 @@
     "aiConsultancy": {
       "problem": "Every consultancy will tell you AI changes everything. Almost none will tell you, in numbers, what it's worth in YOUR operation — before you commit to building anything. We do the analysis first: your processes, your data, your costs. Then we show you where AI pays, what it costs to capture, and how we'd measure success. If the numbers don't work, we tell you that too.",
       "demo": {
+        "kind": "case",
         "heading": "What an audit actually finds.",
-        "body": "A worked example: a contract beverage manufacturer runs 70–80% of its volume through one robotic line. Schedulers hand-price every short run; quoting takes days. Our model — built from their public statements and industry benchmarks, then corrected live with their real numbers — showed an RFQ-and-scheduling engine returning its cost in under nine months even at the most conservative baseline. That's the shape of every audit: your operation, your numbers, a sensitivity table that includes the case where we tell you not to build."
+        "rows": [
+          {
+            "label": "the situation",
+            "body": "A contract beverage manufacturer runs 70–80% of its volume through one robotic line. Schedulers hand-price every short run, and quoting takes days."
+          },
+          {
+            "label": "the model",
+            "body": "Built from their public statements and industry benchmarks, then corrected live with their real numbers."
+          },
+          {
+            "label": "the finding",
+            "body": "An RFQ-and-scheduling engine returns its cost in under nine months, even at the most conservative baseline."
+          }
+        ],
+        "closing": "Every audit works the same way: your operation, your numbers, a sensitivity table that includes the case where we tell you not to build."
       },
       "steps": [
         {
@@ -267,7 +282,7 @@
         "startingAt": "",
         "amount": "$2,500",
         "unit": "fully credited",
-        "note": "Every dollar credits toward your first build or retainer within 90 days — so if we work together, the audit was free."
+        "note": "Every dollar credits toward your first build or retainer within 90 days. If we work together, the audit was free."
       },
       "deliverables": [
         "Written opportunity map",
@@ -282,7 +297,7 @@
       "faq": [
         {
           "question": "What if the numbers say AI isn't worth it for us?",
-          "answer": "Then the audit says that, in writing. You'll have spent $2,500 to avoid spending $50,000 — we think that's a good trade, and you keep the analysis."
+          "answer": "Then the audit says that, in writing. You'll have spent $2,500 to avoid spending $50,000. We think that's a good trade, and you keep the analysis."
         },
         {
           "question": "Do you only work with manufacturers?",
@@ -298,8 +313,15 @@
     "aiSearchVisibility": {
       "problem": "Nearly half of consumers now ask AI assistants for recommendations, and most businesses never appear in the answers. The work that fixes it is measurable: we test the exact prompts your customers use, show you where you stand, do the technical and content work both Google and AI engines reward, and re-test on a schedule you can verify yourself.",
       "demo": {
+        "kind": "instruction",
         "heading": "Try it right now.",
-        "body": "Open ChatGPT and ask for the best option in your category and city. If you're not in the answer, that's the problem — and it took you thirty seconds to verify it. Nearly half of consumers now ask AI tools for local recommendations. Being excellent on Google no longer means you exist where a growing share of your customers actually ask."
+        "chip": "30 seconds",
+        "steps": [
+          "Open ChatGPT.",
+          "Ask for the best option in your category and city.",
+          "If you're not in the answer, that's the problem."
+        ],
+        "closing": "Nearly half of consumers now ask AI tools for local recommendations. Being excellent on Google no longer means you exist where a growing share of your customers actually ask."
       },
       "steps": [
         {
@@ -316,7 +338,7 @@
         },
         {
           "label": "Re-measure",
-          "body": "Same prompts, every month, in your report. Run them yourself any time; we can't fake this and wouldn't try."
+          "body": "Same prompts, every month, in your report. Run them yourself any time."
         }
       ],
       "price": {
@@ -334,16 +356,16 @@
       ],
       "measurement": {
         "heading": "You hold the yardstick.",
-        "body": "The prompt set is fixed on day one and never changes without your sign-off. Outputs vary run to run, so we measure three runs per prompt and report the rate, not a cherry-picked win. No proprietary “visibility score” — just: were you named, where, and cited from what."
+        "body": "The prompt set is fixed on day one and never changes without your sign-off. Outputs vary run to run, so we measure three runs per prompt and report the rate across all three. There is no proprietary “visibility score”. The report states whether you were named, where, and what you were cited from."
       },
       "faq": [
         {
           "question": "Can you guarantee I'll show up in ChatGPT?",
-          "answer": "No, and nobody honestly can — the systems are non-deterministic. What we guarantee is the measurement: you'll know exactly where you stand, before and after, verifiably."
+          "answer": "No, and nobody honestly can. The systems are non-deterministic. What we guarantee is the measurement: you'll know exactly where you stand, before and after, verifiably."
         },
         {
           "question": "Is this different from SEO?",
-          "answer": "It's SEO plus the AI rail, worked as one program — most of the foundational work overlaps, which is why we don't sell them separately."
+          "answer": "It's SEO plus the AI rail, worked as one program. Most of the foundational work overlaps, which is why we don't sell them separately."
         },
         {
           "question": "How fast do results show?",
@@ -353,10 +375,31 @@
       "headline": "When someone asks ChatGPT for the best option in your market — are you the answer?"
     },
     "aiAutomation": {
-      "problem": "Quoting, intake, scheduling, data entry, reporting — every business has hours of repeatable work buried in its week. We find it, price what it's costing you, and build automation that fits the systems you already run — including the legacy ones nobody wants to touch.",
+      "problem": "Quoting, intake, scheduling, data entry, reporting — every business has hours of repeatable work buried in its week. We find it, price what it's costing you, and build automation that fits the systems you already run, including the legacy ones nobody wants to touch.",
       "demo": {
+        "kind": "calculation",
         "heading": "The math on one workflow.",
-        "body": "Take quoting. If two people spend a combined 15 hours a week assembling quotes, that's roughly 750 hours a year. At $35 loaded cost, $26,000 — before counting the deals lost to slow turnaround. An automation that cuts that by 60% pays for a typical build inside a year, and we put those numbers in front of you before you commit, not after."
+        "lead": "Take quoting.",
+        "rows": [
+          {
+            "label": "Two people assembling quotes",
+            "value": "15 hrs / week"
+          },
+          {
+            "label": "Annualised",
+            "value": "750 hrs"
+          },
+          {
+            "label": "Loaded cost",
+            "value": "$35 / hr"
+          }
+        ],
+        "total": {
+          "label": "Cost of one workflow, per year",
+          "value": "$26,000"
+        },
+        "note": "Before counting the deals lost to slow turnaround.",
+        "closing": "An automation that cuts that by 60% pays for a typical build inside a year. We put those numbers in front of you before you commit, not after."
       },
       "steps": [
         {
@@ -391,12 +434,12 @@
       ],
       "measurement": {
         "heading": "Hours are countable.",
-        "body": "Every automation ships with its own counter: runs completed, hours displaced, exceptions flagged. The ROI claim from the proposal becomes a dashboard you can check any morning."
+        "body": "Every automation ships with its own counter: runs completed, hours saved, exceptions flagged. The ROI claim from the proposal becomes a dashboard you can check any morning."
       },
       "faq": [
         {
           "question": "Our systems are old. Is that a problem?",
-          "answer": "Usually not — legacy integration is normal work for us, and the audit flags anything genuinely incompatible before you spend a dollar."
+          "answer": "Usually not. Legacy integration is normal work for us, and the audit flags anything genuinely incompatible before you spend a dollar."
         },
         {
           "question": "What if the automation breaks?",
@@ -412,8 +455,27 @@
     "webDevelopment": {
       "problem": "Most agency websites are a brochure about quality. Ours is the evidence: run this site through Crawlmouse, check the Lighthouse scores, view the source. We build fast, accessible, search-ready sites — and we're comfortable being judged by our own.",
       "demo": {
+        "kind": "checklist",
         "heading": "Inspect this site.",
-        "body": "Run nahltech.com through Crawlmouse. Check the Lighthouse scores. View source. Tab through it with a keyboard. This site is our standing work sample — built the way we build for clients: fast, accessible, measured, and ready for both kinds of search."
+        "items": [
+          {
+            "label": "Run nahltech.com through Crawlmouse",
+            "href": "https://crawlmouse.com"
+          },
+          {
+            "label": "Check the Lighthouse scores",
+            "href": ""
+          },
+          {
+            "label": "View source",
+            "href": ""
+          },
+          {
+            "label": "Tab through it with a keyboard",
+            "href": ""
+          }
+        ],
+        "closing": "This site is our standing work sample, built the way we build for clients: fast, accessible, measured, and ready for both kinds of search."
       },
       "steps": [
         {
@@ -448,12 +510,12 @@
       ],
       "measurement": {
         "heading": "Judged by the same tools we sell.",
-        "body": "Your site ships with the same scorecard ours carries — and if our own site ever scores badly on our own tool, you should fire us."
+        "body": "Your site ships with the same scorecard ours carries. If our own site ever scores badly on our own tool, you should fire us."
       },
       "faq": [
         {
           "question": "WordPress or custom?",
-          "answer": "Whatever the requirements justify — we'll recommend the cheapest thing that genuinely meets them, and put the reasoning in the scope."
+          "answer": "Whatever the requirements justify. We'll recommend the cheapest thing that genuinely meets them, and put the reasoning in the scope."
         },
         {
           "question": "Do you do redesigns or only new builds?",
@@ -469,8 +531,9 @@
     "softwareDevelopment": {
       "problem": "We design and build custom software and AI applications to production standard — specced against your workflow, integrated with your stack, and owned by you when it ships. No per-seat ransom, no black boxes.",
       "demo": {
+        "kind": "prose",
         "heading": "Built to production standard, sized to your operation.",
-        "body": "The systems we build for clients are the same class of software we ship for ourselves — a live SaaS product and a health app in daily use. Same standards: typed code, tests, CI, monitoring, security review. The difference is yours is specced against your workflow, and you own it."
+        "body": "The systems we build for clients are the same class of software we ship for ourselves: a live SaaS product and a health app in daily use. Same standards: typed code, tests, CI, monitoring, security review. The difference is yours is specced against your workflow, and you own it."
       },
       "steps": [
         {
@@ -505,12 +568,12 @@
       ],
       "measurement": {
         "heading": "Acceptance criteria, in writing, before we build.",
-        "body": "The scope document defines what “done” means measurably. You check the criteria, not our word."
+        "body": "The scope document defines what “done” means measurably. You check the criteria yourself."
       },
       "faq": [
         {
           "question": "Why won't you quote without an audit?",
-          "answer": "Because a number without analysis is a guess, and guesses become change orders. The audit makes the quote fixed and real — and it's credited."
+          "answer": "Because a number without analysis is a guess, and guesses become change orders. The audit makes the quote fixed and real, and it's credited."
         },
         {
           "question": "What stack do you use?",
@@ -606,7 +669,7 @@
     "storyParagraphs": [
       "Nahl (نحل) is Arabic for honeybee — small, relentless, and useful far beyond its size.",
       "Nahl Technologies was started by two immigrants who came to the United States with little more than a plan to learn. Udaay Sikder earned his BS and MS in Computer Science here and has spent his career in the tech industry; Mohieminul Khan earned his PhD in Mechanical Engineering and brings five years of industry experience. One of us builds software; the other builds systems. Together, that's the point.",
-      "We're proudly based in Indiana and we work with businesses everywhere — across the United States and around the world — helping them adopt AI and put it to work. We build with AI in every part of our own operation; it isn't a service we bolted on, it's how the company runs. The products we've shipped, the research we publish, and this website itself are the proof we'd rather show than tell.",
+      "We're proudly based in Indiana and we work with businesses everywhere, across the United States and around the world, helping them adopt AI and put it to work. We build with AI in every part of our own operation; that is how the company runs. The products we've shipped, the research we publish, and this website itself are the proof we'd rather show than tell.",
       "The American dream, as far as we can tell, still works. You just have to build it."
     ],
     "teamHeading": "Team",
@@ -659,7 +722,7 @@
     "founding": {
       "spotsOpen": "7",
       "heading": "Founding clients — 7 of 10 spots open.",
-      "body": "We're taking ten founding clients at the rates below, in exchange for permission to publish the work as a case study. When the ten are gone, prices rise. That's not a countdown gimmick — the next rate card is already written."
+      "body": "We're taking ten founding clients at the rates below, in exchange for permission to publish the work as a case study. When the ten are gone, prices rise. That's not a countdown gimmick. The next rate card is already written."
     },
     "tiers": [
       {
@@ -675,7 +738,7 @@
         "name": "AI Opportunity Audit",
         "price": "$2,500",
         "unit": "fully credited",
-        "description": "Two to three weeks: process and data review, a quantified opportunity map, an ROI model stress-tested against your real numbers, and a fixed-price build proposal. Every dollar credits toward your first build or retainer within 90 days — so if we work together, the audit was free.",
+        "description": "Two to three weeks: process and data review, a quantified opportunity map, an ROI model stress-tested against your real numbers, and a fixed-price build proposal. Every dollar credits toward your first build or retainer within 90 days. If we work together, the audit was free.",
         "footnote": "Enterprise firms charge $20,000–$50,000 for this phase. We think that's the wrong way around.",
         "ctaLabel": "Start with the audit",
         "featured": true

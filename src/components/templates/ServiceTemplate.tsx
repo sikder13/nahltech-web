@@ -3,7 +3,6 @@ import { FaqBlock } from "@/components/blocks/FaqBlock";
 import { PageHeader } from "@/components/blocks/PageHeader";
 import {
   DeliverablesList,
-  DemoBlock,
   MeasurementBlock,
   MethodSteps,
   PriceCard,
@@ -12,8 +11,18 @@ import {
 import { contactDetails, routes } from "@/lib/routes";
 
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
+import type { ReactNode } from "react";
 
-export type ServiceContent = Dictionary["servicePages"]["aiSearchVisibility"];
+/**
+ * The demonstration arrives as a slot rather than through `content`: each
+ * service demonstrates itself in a different shape, so the five demo objects
+ * have five different types. Omitting `demo` leaves one content type for
+ * everything the five pages genuinely share.
+ */
+export type ServiceContent = Omit<
+  Dictionary["servicePages"]["aiSearchVisibility"],
+  "demo"
+>;
 
 /**
  * T2 — service page.
@@ -26,9 +35,11 @@ export type ServiceContent = Dictionary["servicePages"]["aiSearchVisibility"];
 export function ServiceTemplate({
   t,
   content,
+  demo,
 }: {
   t: Dictionary;
   content: ServiceContent;
+  demo: ReactNode;
 }) {
   return (
     <>
@@ -39,7 +50,7 @@ export function ServiceTemplate({
         body={content.problem}
       />
 
-      <DemoBlock heading={content.demo.heading} body={content.demo.body} />
+      {demo}
 
       <MethodSteps heading={t.service.methodHeading} steps={content.steps} />
 

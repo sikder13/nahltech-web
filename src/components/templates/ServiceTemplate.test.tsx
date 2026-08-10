@@ -3,14 +3,28 @@ import { describe, expect, it } from "vitest";
 
 import { ServiceTemplate } from "./ServiceTemplate";
 
+import { DemoCasePanel } from "@/components/blocks/demos";
+
 import en from "@/lib/i18n/dictionaries/en.json";
 import { routes } from "@/lib/routes";
 
 const content = en.servicePages.aiConsultancy;
+const demoContent = content.demo;
+
+/** The demonstration is a slot, so tests supply the same one the page does. */
+const demo = (
+  <DemoCasePanel
+    heading={demoContent.heading}
+    rows={demoContent.rows}
+    closing={demoContent.closing}
+  />
+);
 
 describe("ServiceTemplate", () => {
   it("renders the anatomy in order: problem, demo, method, price, deliverables, measurement, faq, cta", () => {
-    const { container } = render(<ServiceTemplate t={en} content={content} />);
+    const { container } = render(
+      <ServiceTemplate t={en} content={content} demo={demo} />,
+    );
 
     const h2s = Array.from(container.querySelectorAll("h2")).map(
       (node) => node.textContent,
@@ -20,7 +34,7 @@ describe("ServiceTemplate", () => {
       en.service.problemHeading,
       // Demonstration and measurement headings are written per service, so
       // they come from the page content rather than the shared labels.
-      content.demo.heading,
+      demoContent.heading,
       en.service.methodHeading,
       en.service.priceHeading,
       en.service.deliverablesHeading,
@@ -31,7 +45,7 @@ describe("ServiceTemplate", () => {
   });
 
   it("publishes the price rather than hiding it behind an enquiry", () => {
-    render(<ServiceTemplate t={en} content={content} />);
+    render(<ServiceTemplate t={en} content={content} demo={demo} />);
 
     expect(screen.getByText(content.price.amount)).toBeInTheDocument();
     expect(screen.getByText(content.price.unit)).toBeInTheDocument();
@@ -39,7 +53,7 @@ describe("ServiceTemplate", () => {
   });
 
   it("states how the work will be measured", () => {
-    render(<ServiceTemplate t={en} content={content} />);
+    render(<ServiceTemplate t={en} content={content} demo={demo} />);
 
     expect(
       screen.getByRole("heading", { name: content.measurement.heading }),
@@ -48,7 +62,7 @@ describe("ServiceTemplate", () => {
   });
 
   it("renders every method step and deliverable", () => {
-    render(<ServiceTemplate t={en} content={content} />);
+    render(<ServiceTemplate t={en} content={content} demo={demo} />);
 
     for (const step of content.steps) {
       expect(
@@ -61,7 +75,7 @@ describe("ServiceTemplate", () => {
   });
 
   it("renders each FAQ as a collapsed disclosure", () => {
-    render(<ServiceTemplate t={en} content={content} />);
+    render(<ServiceTemplate t={en} content={content} demo={demo} />);
 
     for (const entry of content.faq) {
       const trigger = screen.getByRole("button", {
@@ -74,7 +88,7 @@ describe("ServiceTemplate", () => {
   });
 
   it("closes with a CTA pointing at contact", () => {
-    render(<ServiceTemplate t={en} content={content} />);
+    render(<ServiceTemplate t={en} content={content} demo={demo} />);
 
     const ctas = screen.getAllByRole("link", { name: en.cta.bookCall });
     expect(ctas.length).toBeGreaterThan(0);
