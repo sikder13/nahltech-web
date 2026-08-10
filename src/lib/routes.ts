@@ -50,3 +50,14 @@ export const contactDetails = {
 } as const;
 
 export const siteUrl = "https://nahltech.com";
+
+/**
+ * Public URLs for our own products. `null` means there is nothing to link to
+ * yet, and the "Try it live" button is omitted rather than pointed at a guess
+ * — hard rule 7, every href resolves.
+ */
+export const productLinks = {
+  crawlmouse: "https://crawlmouse.com",
+  // Closed beta: no public URL.
+  hafsaSastho: null,
+} as const;

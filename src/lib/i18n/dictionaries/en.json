@@ -489,5 +489,55 @@
         }
       ]
     }
+  },
+  "product": {
+    "featuresHeading": "What it does",
+    "audienceHeading": "Who it's for"
+  },
+  "productPages": {
+    "crawlmouse": {
+      "tagline": "[PLACEHOLDER: Crawlmouse one-line description — awaiting approved copy]",
+      "features": [
+        {
+          "title": "[PLACEHOLDER: Crawlmouse feature 1 title — awaiting approved copy]",
+          "body": "[PLACEHOLDER: Crawlmouse feature 1 body — awaiting approved copy]"
+        },
+        {
+          "title": "[PLACEHOLDER: Crawlmouse feature 2 title — awaiting approved copy]",
+          "body": "[PLACEHOLDER: Crawlmouse feature 2 body — awaiting approved copy]"
+        },
+        {
+          "title": "[PLACEHOLDER: Crawlmouse feature 3 title — awaiting approved copy]",
+          "body": "[PLACEHOLDER: Crawlmouse feature 3 body — awaiting approved copy]"
+        }
+      ],
+      "audience": [
+        "[PLACEHOLDER: Crawlmouse audience 1 — awaiting approved copy]",
+        "[PLACEHOLDER: Crawlmouse audience 2 — awaiting approved copy]",
+        "[PLACEHOLDER: Crawlmouse audience 3 — awaiting approved copy]"
+      ]
+    },
+    "hafsaSastho": {
+      "tagline": "[PLACEHOLDER: Hafsa Sastho one-line description — awaiting approved copy]",
+      "features": [
+        {
+          "title": "[PLACEHOLDER: Hafsa Sastho feature 1 title — awaiting approved copy]",
+          "body": "[PLACEHOLDER: Hafsa Sastho feature 1 body — awaiting approved copy]"
+        },
+        {
+          "title": "[PLACEHOLDER: Hafsa Sastho feature 2 title — awaiting approved copy]",
+          "body": "[PLACEHOLDER: Hafsa Sastho feature 2 body — awaiting approved copy]"
+        },
+        {
+          "title": "[PLACEHOLDER: Hafsa Sastho feature 3 title — awaiting approved copy]",
+          "body": "[PLACEHOLDER: Hafsa Sastho feature 3 body — awaiting approved copy]"
+        }
+      ],
+      "audience": [
+        "[PLACEHOLDER: Hafsa Sastho audience 1 — awaiting approved copy]",
+        "[PLACEHOLDER: Hafsa Sastho audience 2 — awaiting approved copy]",
+        "[PLACEHOLDER: Hafsa Sastho audience 3 — awaiting approved copy]"
+      ]
+    }
   }
 }
