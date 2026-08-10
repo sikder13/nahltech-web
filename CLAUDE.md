@@ -53,3 +53,8 @@ verifiable option and note the decision in the PR description.
     NEVER invent product facts, statistics, client claims, or pricing.
     Real copy is provided by the founder after explicit approval —
     if copy for a section hasn't been provided, it stays a placeholder.
+14. Never squash commits. Never rebase-squash, never use --squash on merge,
+    never amend a pushed commit. Every logical commit reaches origin as its
+    own commit so it gets its own Vercel deployment and can be reviewed and
+    reverted independently. Push after each session; do not batch multiple
+    sessions into one push.
