@@ -4,12 +4,18 @@ import { Icon } from "@/components/ui/Icon";
 export type WayPanel = { label: string; body: string };
 
 /**
- * The core positioning visual: the two routes a customer now takes to find
- * a business — typing a query into a search engine, or asking an assistant.
+ * The core positioning visual: the two routes a customer now takes to find a
+ * business — typing a query into a search engine, or asking an assistant.
  *
- * Rendered as a definition list rather than two loose divs so the pairing is
- * conveyed structurally and not only by the side-by-side layout, which
- * collapses to stacked on small screens.
+ * Built as a diptych rather than two matching cards, because the whole point
+ * is that the two experiences are not alike. The left panel is a ranked list
+ * introduced by a monospace query; the right is one synthesised answer set in
+ * the display serif on the tinted ground, with no ranking at all. The form
+ * makes the argument before the copy does, and a single full-height seam
+ * divides them.
+ *
+ * It stays a definition list underneath, so the pairing survives when the
+ * panels stack on small screens and the visual contrast is gone.
  */
 export function TwoWaysBlock({
   heading,
@@ -20,11 +26,6 @@ export function TwoWaysBlock({
   google: WayPanel;
   ai: WayPanel;
 }) {
-  const panels = [
-    { icon: "search" as const, ...google },
-    { icon: "sparkle" as const, ...ai },
-  ];
-
   return (
     <section
       aria-labelledby="two-ways-heading"
@@ -39,19 +40,55 @@ export function TwoWaysBlock({
         </h2>
         <span className="mt-xs heading-rule" aria-hidden="true" />
 
-        <dl className="mt-lg grid gap-md md:grid-cols-2">
-          {panels.map((panel) => (
+        <dl className="mt-lg grid overflow-hidden rounded-lg border border-divider md:grid-cols-2">
+          {/* Left: the ranked-list world. */}
+          <div className="border-b border-divider bg-bg p-lg md:border-e md:border-b-0">
+            <dt className="flex items-center gap-2xs caption">
+              <Icon name="search" className="size-4" />
+              {google.label}
+            </dt>
+
+            <p className="mt-md font-mono text-sm text-text-muted">
+              <span aria-hidden="true">&gt; </span>
+              [query]
+            </p>
+
+            <ol className="mt-md space-y-2xs" aria-hidden="true">
+              {[0, 1, 2].map((rank) => (
+                <li key={rank} className="flex items-center gap-2xs">
+                  <span className="font-mono text-xs text-text-muted">
+                    {rank + 1}
+                  </span>
+                  <span className="h-px flex-1 bg-divider" />
+                </li>
+              ))}
+            </ol>
+
+            <dd className="mt-md text-sm text-text-muted">{google.body}</dd>
+          </div>
+
+          {/* Right: the single-answer world. */}
+          <div className="bg-surface p-lg">
+            <dt className="flex items-center gap-2xs font-display text-lg text-text">
+              <Icon name="sparkle" className="size-4" />
+              {ai.label}
+            </dt>
+
+            <p className="mt-md font-display text-lg text-text-muted italic">
+              “[prompt]”
+            </p>
+
             <div
-              key={panel.label}
-              className="rounded-lg border border-divider bg-surface p-lg"
+              aria-hidden="true"
+              className="mt-md space-y-2xs border-s-2 border-accent ps-sm"
             >
-              <dt className="flex items-center gap-2xs text-lg font-semibold text-text">
-                <Icon name={panel.icon} className="size-5" />
-                {panel.label}
-              </dt>
-              <dd className="mt-sm text-text-muted">{panel.body}</dd>
+              <span className="block h-px w-full bg-divider" />
+              <span className="block h-px w-11/12 bg-divider" />
+              <span className="block h-px w-4/5 bg-divider" />
             </div>
-          ))}
+
+            <dd className="mt-md text-sm text-text-muted">{ai.body}</dd>
+          </div>
         </dl>
       </FadeIn>
     </section>
