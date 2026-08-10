@@ -24,7 +24,10 @@
   "cta": {
     "bookCall": "Book a call",
     "callLabel": "Call (317) 507-4303",
-    "phoneDisplay": "(317) 507-4303"
+    "phoneDisplay": "(317) 507-4303",
+    "visibilityCheck": "Get a free visibility check",
+    "tryItLive": "Try it live",
+    "orCall": "or call"
   },
   "services": {
     "aiSearchVisibility": "AI Search Visibility",
@@ -54,23 +57,57 @@
     "dpa": "Data Processing Addendum"
   },
   "pages": {
-    "home": { "title": "Nahl Technologies" },
-    "services": { "title": "Services" },
-    "aiSearchVisibility": { "title": "AI Search Visibility" },
-    "localSeo": { "title": "Local SEO" },
-    "webDevelopment": { "title": "Web Development" },
-    "aiAutomation": { "title": "AI Automation" },
-    "products": { "title": "Products" },
-    "crawlmouse": { "title": "Crawlmouse" },
-    "hafsaSastho": { "title": "Hafsa Sastho" },
-    "pricing": { "title": "Pricing" },
-    "research": { "title": "Research" },
-    "blog": { "title": "Blog" },
-    "about": { "title": "About" },
-    "contact": { "title": "Contact" },
-    "privacy": { "title": "Privacy Policy" },
-    "terms": { "title": "Terms of Service" },
-    "dpa": { "title": "Data Processing Addendum" }
+    "home": {
+      "title": "Nahl Technologies"
+    },
+    "services": {
+      "title": "Services"
+    },
+    "aiSearchVisibility": {
+      "title": "AI Search Visibility"
+    },
+    "localSeo": {
+      "title": "Local SEO"
+    },
+    "webDevelopment": {
+      "title": "Web Development"
+    },
+    "aiAutomation": {
+      "title": "AI Automation"
+    },
+    "products": {
+      "title": "Products"
+    },
+    "crawlmouse": {
+      "title": "Crawlmouse"
+    },
+    "hafsaSastho": {
+      "title": "Hafsa Sastho"
+    },
+    "pricing": {
+      "title": "Pricing"
+    },
+    "research": {
+      "title": "Research"
+    },
+    "blog": {
+      "title": "Blog"
+    },
+    "about": {
+      "title": "About"
+    },
+    "contact": {
+      "title": "Contact"
+    },
+    "privacy": {
+      "title": "Privacy Policy"
+    },
+    "terms": {
+      "title": "Terms of Service"
+    },
+    "dpa": {
+      "title": "Data Processing Addendum"
+    }
   },
   "notFound": {
     "title": "Page not found",
@@ -79,5 +116,12 @@
   },
   "common": {
     "contentPlaceholder": "[PLACEHOLDER: page content — awaiting approved copy]"
+  },
+  "ctaBlock": {
+    "heading": "[PLACEHOLDER: closing CTA heading — awaiting approved copy]",
+    "body": "[PLACEHOLDER: closing CTA supporting line — awaiting approved copy]"
+  },
+  "ctaSlim": {
+    "body": "[PLACEHOLDER: inline CTA line — awaiting approved copy]"
   }
 }
