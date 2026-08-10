@@ -38,7 +38,7 @@ export function BeeMark({
           ry="3.2"
           transform="rotate(-28 12 10)"
           fill="currentColor"
-          opacity="0.16"
+          opacity="0.32"
         />
       </g>
       <g className="bee-wing bee-wing-right">
@@ -49,7 +49,7 @@ export function BeeMark({
           ry="3.2"
           transform="rotate(28 20.5 10)"
           fill="currentColor"
-          opacity="0.16"
+          opacity="0.32"
         />
       </g>
 
