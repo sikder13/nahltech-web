@@ -77,6 +77,14 @@ export default async function LocaleLayout({
       className={inter.variable}
       suppressHydrationWarning
     >
+      <head>
+        {/* Framer Motion server-renders `opacity: 0` on entrance-animated
+            sections. Without scripting they would never animate in, so the
+            page would look empty. This restores them for no-JS visitors. */}
+        <noscript>
+          <style>{`[data-fade]{opacity:1!important;transform:none!important}`}</style>
+        </noscript>
+      </head>
       <body className="flex min-h-dvh flex-col">
         <MotionProvider>
           <a
