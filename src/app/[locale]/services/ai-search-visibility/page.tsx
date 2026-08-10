@@ -1,4 +1,4 @@
-import { PageStub } from "@/components/blocks/PageStub";
+import { ServiceTemplate } from "@/components/templates/ServiceTemplate";
 import { requireDictionary } from "@/lib/i18n/require-dictionary";
 
 import type { Metadata } from "next";
@@ -23,9 +23,10 @@ export default async function Page({
   const t = await requireDictionary(locale);
 
   return (
-    <PageStub
+    <ServiceTemplate
+      t={t}
       title={t.pages.aiSearchVisibility.title}
-      placeholder={t.common.contentPlaceholder}
+      content={t.servicePages.aiSearchVisibility}
     />
   );
 }

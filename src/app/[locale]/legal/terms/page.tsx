@@ -1,4 +1,4 @@
-import { PageStub } from "@/components/blocks/PageStub";
+import { LegalTemplate } from "@/components/templates/LegalTemplate";
 import { requireDictionary } from "@/lib/i18n/require-dictionary";
 
 import type { Metadata } from "next";
@@ -23,9 +23,12 @@ export default async function Page({
   const t = await requireDictionary(locale);
 
   return (
-    <PageStub
+    <LegalTemplate
       title={t.pages.terms.title}
-      placeholder={t.common.contentPlaceholder}
-    />
+      lastUpdatedLabel={t.legalPage.lastUpdatedLabel}
+      lastUpdated={t.legalPage.lastUpdated}
+    >
+      <p>{t.legalPage.body}</p>
+    </LegalTemplate>
   );
 }

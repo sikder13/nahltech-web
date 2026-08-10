@@ -1,5 +1,7 @@
-import { PageStub } from "@/components/blocks/PageStub";
+import { CardGrid, ServiceCard } from "@/components/blocks/cards";
+import { HubTemplate } from "@/components/templates/HubTemplate";
 import { requireDictionary } from "@/lib/i18n/require-dictionary";
+import { routes } from "@/lib/routes";
 
 import type { Metadata } from "next";
 
@@ -23,9 +25,37 @@ export default async function Page({
   const t = await requireDictionary(locale);
 
   return (
-    <PageStub
+    <HubTemplate
       title={t.pages.services.title}
-      placeholder={t.common.contentPlaceholder}
-    />
+      intro={t.hubPages.services.intro}
+      emptyLabel={t.hub.emptyLabel}
+    >
+      <CardGrid columns={4}>
+        <ServiceCard
+          title={t.services.aiSearchVisibility}
+          description={t.serviceSummaries.aiSearchVisibility}
+          href={routes.aiSearchVisibility}
+          icon="sparkle"
+        />
+        <ServiceCard
+          title={t.services.localSeo}
+          description={t.serviceSummaries.localSeo}
+          href={routes.localSeo}
+          icon="pin"
+        />
+        <ServiceCard
+          title={t.services.webDevelopment}
+          description={t.serviceSummaries.webDevelopment}
+          href={routes.webDevelopment}
+          icon="build"
+        />
+        <ServiceCard
+          title={t.services.aiAutomation}
+          description={t.serviceSummaries.aiAutomation}
+          href={routes.aiAutomation}
+          icon="method"
+        />
+      </CardGrid>
+    </HubTemplate>
   );
 }

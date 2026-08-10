@@ -1,4 +1,4 @@
-import { PageStub } from "@/components/blocks/PageStub";
+import { HubTemplate } from "@/components/templates/HubTemplate";
 import { requireDictionary } from "@/lib/i18n/require-dictionary";
 
 import type { Metadata } from "next";
@@ -23,9 +23,10 @@ export default async function Page({
   const t = await requireDictionary(locale);
 
   return (
-    <PageStub
+    <HubTemplate
       title={t.pages.research.title}
-      placeholder={t.common.contentPlaceholder}
+      intro={t.hubPages.research.intro}
+      emptyLabel={t.hub.emptyLabel}
     />
   );
 }

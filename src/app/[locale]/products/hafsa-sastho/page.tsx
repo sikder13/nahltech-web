@@ -1,5 +1,6 @@
-import { PageStub } from "@/components/blocks/PageStub";
+import { ProductTemplate } from "@/components/templates/ProductTemplate";
 import { requireDictionary } from "@/lib/i18n/require-dictionary";
+import { productLinks } from "@/lib/routes";
 
 import type { Metadata } from "next";
 
@@ -23,9 +24,12 @@ export default async function Page({
   const t = await requireDictionary(locale);
 
   return (
-    <PageStub
-      title={t.pages.hafsaSastho.title}
-      placeholder={t.common.contentPlaceholder}
+    <ProductTemplate
+      t={t}
+      name={t.pages.hafsaSastho.title}
+      status={t.productStatus.closedBeta}
+      liveUrl={productLinks.hafsaSastho}
+      content={t.productPages.hafsaSastho}
     />
   );
 }

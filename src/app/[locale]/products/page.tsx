@@ -1,5 +1,7 @@
-import { PageStub } from "@/components/blocks/PageStub";
+import { CardGrid, ProductCard } from "@/components/blocks/cards";
+import { HubTemplate } from "@/components/templates/HubTemplate";
 import { requireDictionary } from "@/lib/i18n/require-dictionary";
+import { routes } from "@/lib/routes";
 
 import type { Metadata } from "next";
 
@@ -23,9 +25,25 @@ export default async function Page({
   const t = await requireDictionary(locale);
 
   return (
-    <PageStub
+    <HubTemplate
       title={t.pages.products.title}
-      placeholder={t.common.contentPlaceholder}
-    />
+      intro={t.hubPages.products.intro}
+      emptyLabel={t.hub.emptyLabel}
+    >
+      <CardGrid columns={2}>
+        <ProductCard
+          name={t.products.crawlmouse}
+          description={t.productSummaries.crawlmouse}
+          href={routes.crawlmouse}
+          status={t.productStatus.live}
+        />
+        <ProductCard
+          name={t.products.hafsaSastho}
+          description={t.productSummaries.hafsaSastho}
+          href={routes.hafsaSastho}
+          status={t.productStatus.closedBeta}
+        />
+      </CardGrid>
+    </HubTemplate>
   );
 }

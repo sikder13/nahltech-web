@@ -1,4 +1,4 @@
-import { PageStub } from "@/components/blocks/PageStub";
+import { ContactTemplate } from "@/components/templates/UtilityTemplates";
 import { requireDictionary } from "@/lib/i18n/require-dictionary";
 
 import type { Metadata } from "next";
@@ -22,10 +22,5 @@ export default async function Page({
   const { locale } = await params;
   const t = await requireDictionary(locale);
 
-  return (
-    <PageStub
-      title={t.pages.contact.title}
-      placeholder={t.common.contentPlaceholder}
-    />
-  );
+  return <ContactTemplate t={t} />;
 }
