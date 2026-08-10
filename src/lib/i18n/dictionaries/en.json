@@ -549,5 +549,106 @@
     "lastUpdatedLabel": "Last updated",
     "lastUpdated": "[PLACEHOLDER: effective date — awaiting legal review]",
     "body": "[PLACEHOLDER: legal document body — awaiting legal review — awaiting approved copy]"
+  },
+  "about": {
+    "intro": "[PLACEHOLDER: about page intro — awaiting approved copy]",
+    "storyHeading": "Our story",
+    "storyBody": "[PLACEHOLDER: company story — awaiting approved copy]",
+    "teamHeading": "Team",
+    "team": [
+      {
+        "name": "Udaay Sikder",
+        "role": "Founder & CEO"
+      },
+      {
+        "name": "Mohieminul Islam Khan",
+        "role": "Co-Founder & Director"
+      }
+    ],
+    "credentialsHeading": "Credentials",
+    "credentials": [
+      "[PLACEHOLDER: credential 1 — awaiting approved copy]",
+      "[PLACEHOLDER: credential 2 — awaiting approved copy]",
+      "[PLACEHOLDER: credential 3 — awaiting approved copy]"
+    ]
+  },
+  "contact": {
+    "intro": "[PLACEHOLDER: contact page intro — awaiting approved copy]",
+    "channelsHeading": "Reach us",
+    "phoneLabel": "Phone",
+    "emailLabel": "Email",
+    "addressLabel": "Office",
+    "formHeading": "Send a message",
+    "formIntro": "[PLACEHOLDER: contact form intro — awaiting approved copy]"
+  },
+  "leadForm": {
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "company": "Company",
+    "message": "Message",
+    "submit": "Send message",
+    "successTitle": "Thanks — we have your details",
+    "successBody": "[PLACEHOLDER: lead form success body — awaiting approved copy]",
+    "errors": {
+      "nameRequired": "Enter your name.",
+      "emailRequired": "Enter your email address.",
+      "emailInvalid": "Enter a valid email address, like name@example.com.",
+      "tooLong": "That is longer than we can accept."
+    }
+  },
+  "pricing": {
+    "intro": "[PLACEHOLDER: pricing page intro — awaiting approved copy]",
+    "tiersHeading": "Retainers",
+    "tiers": [
+      {
+        "name": "Tier one",
+        "price": "[PRICE]",
+        "unit": "[PLACEHOLDER: tier 1 unit — awaiting approved copy]",
+        "description": "[PLACEHOLDER: tier 1 description — awaiting approved copy]",
+        "features": [
+          "[PLACEHOLDER: tier 1 feature 1 — awaiting approved copy]",
+          "[PLACEHOLDER: tier 1 feature 2 — awaiting approved copy]",
+          "[PLACEHOLDER: tier 1 feature 3 — awaiting approved copy]"
+        ]
+      },
+      {
+        "name": "Tier two",
+        "price": "[PRICE]",
+        "unit": "[PLACEHOLDER: tier 2 unit — awaiting approved copy]",
+        "description": "[PLACEHOLDER: tier 2 description — awaiting approved copy]",
+        "features": [
+          "[PLACEHOLDER: tier 2 feature 1 — awaiting approved copy]",
+          "[PLACEHOLDER: tier 2 feature 2 — awaiting approved copy]",
+          "[PLACEHOLDER: tier 2 feature 3 — awaiting approved copy]"
+        ]
+      },
+      {
+        "name": "Tier three",
+        "price": "[PRICE]",
+        "unit": "[PLACEHOLDER: tier 3 unit — awaiting approved copy]",
+        "description": "[PLACEHOLDER: tier 3 description — awaiting approved copy]",
+        "features": [
+          "[PLACEHOLDER: tier 3 feature 1 — awaiting approved copy]",
+          "[PLACEHOLDER: tier 3 feature 2 — awaiting approved copy]",
+          "[PLACEHOLDER: tier 3 feature 3 — awaiting approved copy]"
+        ]
+      }
+    ],
+    "projectsHeading": "Project work",
+    "projects": [
+      {
+        "name": "[PLACEHOLDER: project service 1 — awaiting approved copy]",
+        "price": "[PRICE]"
+      },
+      {
+        "name": "[PLACEHOLDER: project service 2 — awaiting approved copy]",
+        "price": "[PRICE]"
+      },
+      {
+        "name": "[PLACEHOLDER: project service 3 — awaiting approved copy]",
+        "price": "[PRICE]"
+      }
+    ]
   }
 }
