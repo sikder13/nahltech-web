@@ -144,3 +144,6 @@ vite.config.ts.timestamp-*
 
 # OS
 .DS_Store
+
+# Local screenshot review output — never committed
+review/
