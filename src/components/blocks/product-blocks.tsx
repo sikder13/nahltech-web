@@ -51,7 +51,7 @@ export function FeatureGrid({
   features: readonly Feature[];
 }) {
   return (
-    <section className="border-y border-divider bg-surface">
+    <section className="bg-surface">
       <div className={shell}>
         <FadeIn>
           <SectionHeading>{heading}</SectionHeading>

@@ -42,7 +42,7 @@ export function TeamGrid({
   members: readonly TeamMember[];
 }) {
   return (
-    <section className="border-y border-divider bg-surface">
+    <section className="bg-surface">
       <div className={shell}>
         <FadeIn>
           <SectionHeading>{heading}</SectionHeading>

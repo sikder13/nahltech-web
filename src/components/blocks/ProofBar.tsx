@@ -28,10 +28,7 @@ export function ProofBar({
   items: readonly ProofItem[];
 }) {
   return (
-    <section
-      aria-labelledby="proof-heading"
-      className="border-y border-divider bg-surface"
-    >
+    <section aria-labelledby="proof-heading" className="bg-surface">
       <div className="mx-auto max-w-(--container-page) px-sm py-xl">
         <FadeIn>
           <h2 id="proof-heading" className="text-sm font-semibold text-text">

@@ -23,7 +23,7 @@ export function CtaBlock({
   orCallLabel: string;
 }) {
   return (
-    <section className="border-t border-divider bg-surface">
+    <section className="bg-surface">
       <div className="mx-auto max-w-(--container-page) px-sm py-2xl">
         <FadeIn>
           <h2 className="max-w-prose text-section text-balance text-text">
