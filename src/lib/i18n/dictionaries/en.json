@@ -154,5 +154,62 @@
   "productStatus": {
     "live": "Live",
     "closedBeta": "Closed beta"
+  },
+  "home": {
+    "hero": {
+      "headline": "[PLACEHOLDER: home hero headline — awaiting approved copy]",
+      "subline": "[PLACEHOLDER: home hero subline — awaiting approved copy]"
+    },
+    "proof": {
+      "heading": "[PLACEHOLDER: proof bar heading — awaiting approved copy]",
+      "items": {
+        "product": "[PLACEHOLDER: proof: live product line — awaiting approved copy]",
+        "app": "[PLACEHOLDER: proof: shipped app line — awaiting approved copy]",
+        "research": "[PLACEHOLDER: proof: original research line — awaiting approved copy]",
+        "method": "[PLACEHOLDER: proof: open methodology line — awaiting approved copy]"
+      }
+    },
+    "twoWays": {
+      "heading": "[PLACEHOLDER: two-ways section heading — awaiting approved copy]",
+      "google": {
+        "label": "Searching on Google",
+        "body": "[PLACEHOLDER: google-search side body — awaiting approved copy]"
+      },
+      "ai": {
+        "label": "Asking AI",
+        "body": "[PLACEHOLDER: ai-assistant side body — awaiting approved copy]"
+      }
+    },
+    "services": {
+      "heading": "[PLACEHOLDER: services grid heading — awaiting approved copy]"
+    },
+    "method": {
+      "heading": "[PLACEHOLDER: method strip heading — awaiting approved copy]",
+      "steps": {
+        "observe": {
+          "label": "Observe",
+          "body": "[PLACEHOLDER: observe step body — awaiting approved copy]"
+        },
+        "analyze": {
+          "label": "Analyze",
+          "body": "[PLACEHOLDER: analyze step body — awaiting approved copy]"
+        },
+        "quantify": {
+          "label": "Quantify",
+          "body": "[PLACEHOLDER: quantify step body — awaiting approved copy]"
+        },
+        "build": {
+          "label": "Build",
+          "body": "[PLACEHOLDER: build step body — awaiting approved copy]"
+        }
+      }
+    },
+    "featuredResearch": {
+      "heading": "[PLACEHOLDER: featured research heading — awaiting approved copy]",
+      "title": "[PLACEHOLDER: featured research title — awaiting approved copy]",
+      "excerpt": "[PLACEHOLDER: featured research excerpt — awaiting approved copy]",
+      "imageLabel": "[PLACEHOLDER: featured research image — awaiting approved copy]",
+      "cta": "Read the research"
+    }
   }
 }
