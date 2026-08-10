@@ -5,90 +5,111 @@ import { PricingTable } from "./utility-blocks";
 
 const tiers = [
   {
-    name: "Tier one",
-    price: "[PRICE]",
-    unit: "per month",
-    description: "[PLACEHOLDER: description one]",
-    features: ["[PLACEHOLDER: feature a]", "[PLACEHOLDER: feature b]"],
+    name: "Free AI Opportunity Scan",
+    price: "$0",
+    unit: "",
+    description: "A 30-minute call and a written brief.",
+    footnote: "For operating businesses.",
+    ctaLabel: "Book your scan",
+    featured: false,
   },
   {
-    name: "Tier two",
-    price: "[PRICE]",
-    unit: "per month",
-    description: "[PLACEHOLDER: description two]",
-    features: ["[PLACEHOLDER: feature c]"],
+    name: "AI Opportunity Audit",
+    price: "$2,500",
+    unit: "fully credited",
+    description: "Two to three weeks of analysis.",
+    footnote: "Enterprise firms charge more.",
+    ctaLabel: "Start with the audit",
+    featured: true,
   },
   {
-    name: "Tier three",
-    price: "[PRICE]",
-    unit: "per month",
-    description: "[PLACEHOLDER: description three]",
-    features: ["[PLACEHOLDER: feature d]"],
+    name: "Search Visibility",
+    price: "from $2,500/mo",
+    unit: "",
+    description: "Google and AI search as one program.",
+    footnote: "",
+    ctaLabel: "Get your free visibility check",
+    featured: false,
   },
 ];
 
 const projects = [
-  { name: "[PLACEHOLDER: project one]", price: "[PRICE]" },
-  { name: "[PLACEHOLDER: project two]", price: "[PRICE]" },
+  {
+    name: "AI Automation build",
+    price: "from $7,500",
+    note: "fixed-price after audit",
+  },
+  {
+    name: "Care & maintenance",
+    price: "from $1,200/mo",
+    note: "updates and monitoring",
+  },
 ];
 
 function renderTable() {
   return render(
     <PricingTable
-      tiersHeading="Retainers"
       tiers={tiers}
-      projectsHeading="Project work"
+      projectsHeading="Builds and retainers"
       projects={projects}
-      ctaLabel="Book a call"
+      featuredLabel="Most chosen"
       ctaHref="/contact"
     />,
   );
 }
 
 describe("PricingTable", () => {
-  it("renders every offer from the fixture", () => {
+  it("renders every offer from the fixture with its published price", () => {
     renderTable();
 
     for (const tier of tiers) {
-      const heading = screen.getByRole("heading", {
-        level: 3,
-        name: tier.name,
-      });
-      expect(heading).toBeInTheDocument();
+      expect(
+        screen.getByRole("heading", { level: 3, name: tier.name }),
+      ).toBeInTheDocument();
+      expect(screen.getByText(tier.price)).toBeInTheDocument();
       expect(screen.getByText(tier.description)).toBeInTheDocument();
-      for (const feature of tier.features) {
-        expect(screen.getByText(feature)).toBeInTheDocument();
-      }
     }
-
-    // One [PRICE] per tier plus one per project row.
-    expect(screen.getAllByText("[PRICE]")).toHaveLength(
-      tiers.length + projects.length,
-    );
   });
 
-  it("renders the project services list beneath the tiers", () => {
+  it("gives each tier its own call to action", () => {
     renderTable();
 
-    const projectsSection = screen
-      .getByRole("heading", { level: 2, name: "Project work" })
+    for (const tier of tiers) {
+      expect(screen.getByRole("link", { name: tier.ctaLabel })).toHaveAttribute(
+        "href",
+        "/contact",
+      );
+    }
+  });
+
+  it("marks the featured tier with a label, not colour alone", () => {
+    renderTable();
+
+    // WCAG 1.4.1: the distinction must survive without colour perception.
+    const labels = screen.getAllByText("Most chosen");
+    expect(labels).toHaveLength(1);
+  });
+
+  it("omits an empty footnote rather than rendering a blank rule", () => {
+    renderTable();
+
+    expect(screen.getByText(tiers[0].footnote)).toBeInTheDocument();
+    expect(screen.getByText(tiers[1].footnote)).toBeInTheDocument();
+  });
+
+  it("lists the build-and-retainer rows with prices and notes", () => {
+    renderTable();
+
+    const section = screen
+      .getByRole("heading", { level: 2, name: "Builds and retainers" })
       .closest("section");
-    expect(projectsSection).not.toBeNull();
+    expect(section).not.toBeNull();
 
     for (const project of projects) {
-      expect(
-        within(projectsSection as HTMLElement).getByText(project.name),
-      ).toBeInTheDocument();
-    }
-  });
-
-  it("gives every tier a CTA pointing at the same destination", () => {
-    renderTable();
-
-    const ctas = screen.getAllByRole("link", { name: "Book a call" });
-    expect(ctas).toHaveLength(tiers.length);
-    for (const cta of ctas) {
-      expect(cta).toHaveAttribute("href", "/contact");
+      const scope = within(section as HTMLElement);
+      expect(scope.getByText(project.name)).toBeInTheDocument();
+      expect(scope.getByText(project.price)).toBeInTheDocument();
+      expect(scope.getByText(project.note)).toBeInTheDocument();
     }
   });
 });

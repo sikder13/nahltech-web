@@ -1,8 +1,7 @@
 {
   "site": {
     "name": "Nahl Technologies",
-    "legalName": "Nahl Technologies Inc.",
-    "description": "[PLACEHOLDER: site meta description — awaiting approved copy]"
+    "legalName": "Nahl Technologies Inc."
   },
   "a11y": {
     "skipToContent": "Skip to content",
@@ -92,7 +91,9 @@
       "description": "A Bengali-language AI health companion for new mothers — vaccine schedules, growth tracking, and Hafsa Apa, an AI guide that speaks her language. Coming to Google Play September 2026."
     },
     "pricing": {
-      "title": "Pricing"
+      "title": "Pricing",
+      "metaTitle": "Pricing — AI Consulting, Automation & Search Visibility | Nahl Technologies",
+      "description": "Published pricing, no maze. Free AI opportunity scan, $2,500 fully-credited audit, retainers from $1,200/month. Founding-client rates for our first ten."
     },
     "research": {
       "title": "Research"
@@ -231,79 +232,65 @@
   },
   "service": {
     "problemHeading": "The problem",
-    "demoHeading": "What it looks like",
     "methodHeading": "How we do it",
     "priceHeading": "Price",
     "deliverablesHeading": "What you get",
-    "measurementHeading": "How we measure",
     "faqHeading": "Questions",
-    "startingAt": "Starting at",
-    "metricLabel": "Metric",
-    "methodLabel": "Method"
+    "startingAt": "Starting at"
   },
   "servicePages": {
     "aiConsultancy": {
       "problem": "Every consultancy will tell you AI changes everything. Almost none will tell you, in numbers, what it's worth in YOUR operation — before you commit to building anything. We do the analysis first: your processes, your data, your costs. Then we show you where AI pays, what it costs to capture, and how we'd measure success. If the numbers don't work, we tell you that too.",
       "demo": {
-        "body": "[PLACEHOLDER: AI Consultancy demonstration body — awaiting approved copy]",
-        "imageLabel": "[PLACEHOLDER: AI Consultancy demonstration screenshot — awaiting approved copy]"
+        "heading": "What an audit actually finds.",
+        "body": "A worked example: a contract beverage manufacturer runs 70–80% of its volume through one robotic line. Schedulers hand-price every short run; quoting takes days. Our model — built from their public statements and industry benchmarks, then corrected live with their real numbers — showed an RFQ-and-scheduling engine returning its cost in under nine months even at the most conservative baseline. That's the shape of every audit: your operation, your numbers, a sensitivity table that includes the case where we tell you not to build."
       },
       "steps": [
         {
           "label": "Observe",
-          "body": "[PLACEHOLDER: AI Consultancy observe step — awaiting approved copy]"
+          "body": "Two weeks inside your processes, systems, and data flows."
         },
         {
           "label": "Analyze",
-          "body": "[PLACEHOLDER: AI Consultancy analyze step — awaiting approved copy]"
+          "body": "The opportunity map: what AI can genuinely do here, ranked."
         },
         {
           "label": "Quantify",
-          "body": "[PLACEHOLDER: AI Consultancy quantify step — awaiting approved copy]"
+          "body": "The ROI model, benchmark defaults replaced by your actuals."
         },
         {
           "label": "Build",
-          "body": "[PLACEHOLDER: AI Consultancy build step — awaiting approved copy]"
+          "body": "A fixed-price proposal. Take it, phase it, or walk with the analysis."
         }
       ],
       "price": {
-        "amount": "[PLACEHOLDER: AI Consultancy price — awaiting approved copy]",
-        "unit": "[PLACEHOLDER: AI Consultancy price unit — awaiting approved copy]",
-        "note": "[PLACEHOLDER: AI Consultancy price note — awaiting approved copy]"
+        "startingAt": "",
+        "amount": "$2,500",
+        "unit": "fully credited",
+        "note": "Every dollar credits toward your first build or retainer within 90 days — so if we work together, the audit was free."
       },
       "deliverables": [
-        "[PLACEHOLDER: AI Consultancy deliverable 1 — awaiting approved copy]",
-        "[PLACEHOLDER: AI Consultancy deliverable 2 — awaiting approved copy]",
-        "[PLACEHOLDER: AI Consultancy deliverable 3 — awaiting approved copy]",
-        "[PLACEHOLDER: AI Consultancy deliverable 4 — awaiting approved copy]"
+        "Written opportunity map",
+        "ROI model with sensitivity table",
+        "Fixed-price build proposal",
+        "Everything is yours to keep either way."
       ],
-      "measurementIntro": "[PLACEHOLDER: AI Consultancy measurement intro — awaiting approved copy]",
-      "measurement": [
-        {
-          "metric": "[PLACEHOLDER: AI Consultancy metric 1 — awaiting approved copy]",
-          "method": "[PLACEHOLDER: AI Consultancy method 1 — awaiting approved copy]"
-        },
-        {
-          "metric": "[PLACEHOLDER: AI Consultancy metric 2 — awaiting approved copy]",
-          "method": "[PLACEHOLDER: AI Consultancy method 2 — awaiting approved copy]"
-        },
-        {
-          "metric": "[PLACEHOLDER: AI Consultancy metric 3 — awaiting approved copy]",
-          "method": "[PLACEHOLDER: AI Consultancy method 3 — awaiting approved copy]"
-        }
-      ],
+      "measurement": {
+        "heading": "The model shows its work.",
+        "body": "Every number in your audit is labeled: audited public fact, industry benchmark, or engineering model — with the source. We present the formula, not just the total, and we plug in your actual figures live."
+      },
       "faq": [
         {
-          "question": "[PLACEHOLDER: AI Consultancy question 1 — awaiting approved copy]",
-          "answer": "[PLACEHOLDER: AI Consultancy answer 1 — awaiting approved copy]"
+          "question": "What if the numbers say AI isn't worth it for us?",
+          "answer": "Then the audit says that, in writing. You'll have spent $2,500 to avoid spending $50,000 — we think that's a good trade, and you keep the analysis."
         },
         {
-          "question": "[PLACEHOLDER: AI Consultancy question 2 — awaiting approved copy]",
-          "answer": "[PLACEHOLDER: AI Consultancy answer 2 — awaiting approved copy]"
+          "question": "Do you only work with manufacturers?",
+          "answer": "No — any business with repeatable processes and real data. The method is the same; the opportunities differ."
         },
         {
-          "question": "[PLACEHOLDER: AI Consultancy question 3 — awaiting approved copy]",
-          "answer": "[PLACEHOLDER: AI Consultancy answer 3 — awaiting approved copy]"
+          "question": "We're not in Indiana. Does that matter?",
+          "answer": "No. We're based in Indianapolis and work with businesses worldwide. Everything here is priced and delivered the same way globally."
         }
       ],
       "headline": "Most AI advice starts with the technology. Ours starts with your P&L."
@@ -311,65 +298,56 @@
     "aiSearchVisibility": {
       "problem": "Nearly half of consumers now ask AI assistants for recommendations, and most businesses never appear in the answers. The work that fixes it is measurable: we test the exact prompts your customers use, show you where you stand, do the technical and content work both Google and AI engines reward, and re-test on a schedule you can verify yourself.",
       "demo": {
-        "body": "[PLACEHOLDER: AI Search Visibility demonstration body — awaiting approved copy]",
-        "imageLabel": "[PLACEHOLDER: AI Search Visibility demonstration screenshot — awaiting approved copy]"
+        "heading": "Try it right now.",
+        "body": "Open ChatGPT and ask for the best option in your category and city. If you're not in the answer, that's the problem — and it took you thirty seconds to verify it. Nearly half of consumers now ask AI tools for local recommendations. Being excellent on Google no longer means you exist where a growing share of your customers actually ask."
       },
       "steps": [
         {
-          "label": "Observe",
-          "body": "[PLACEHOLDER: AI Search Visibility observe step — awaiting approved copy]"
+          "label": "Baseline",
+          "body": "We run a fixed set of twenty prompts your buyers would use, three times each across ChatGPT, Gemini, and Perplexity, and record exactly where you stand. You get the prompt set on day one."
         },
         {
-          "label": "Analyze",
-          "body": "[PLACEHOLDER: AI Search Visibility analyze step — awaiting approved copy]"
+          "label": "Foundation",
+          "body": "The technical and entity work both rails reward: structured data, crawlability (graded by our own tool), citations, reviews, consistency everywhere your business is named."
         },
         {
-          "label": "Quantify",
-          "body": "[PLACEHOLDER: AI Search Visibility quantify step — awaiting approved copy]"
+          "label": "Content",
+          "body": "Pages and answers built for how engines actually retrieve, validated against real search volume before anything is written."
         },
         {
-          "label": "Build",
-          "body": "[PLACEHOLDER: AI Search Visibility build step — awaiting approved copy]"
+          "label": "Re-measure",
+          "body": "Same prompts, every month, in your report. Run them yourself any time; we can't fake this and wouldn't try."
         }
       ],
       "price": {
-        "amount": "[PLACEHOLDER: AI Search Visibility price — awaiting approved copy]",
-        "unit": "[PLACEHOLDER: AI Search Visibility price unit — awaiting approved copy]",
-        "note": "[PLACEHOLDER: AI Search Visibility price note — awaiting approved copy]"
+        "startingAt": "from",
+        "amount": "$2,500",
+        "unit": "per month",
+        "note": "Google and AI search, worked as one program. Measured monthly against a fixed prompt set you can run yourself."
       },
       "deliverables": [
-        "[PLACEHOLDER: AI Search Visibility deliverable 1 — awaiting approved copy]",
-        "[PLACEHOLDER: AI Search Visibility deliverable 2 — awaiting approved copy]",
-        "[PLACEHOLDER: AI Search Visibility deliverable 3 — awaiting approved copy]",
-        "[PLACEHOLDER: AI Search Visibility deliverable 4 — awaiting approved copy]"
+        "Baseline visibility report",
+        "The frozen prompt set",
+        "Monthly measured report",
+        "Crawlmouse technical grades",
+        "All work itemized."
       ],
-      "measurementIntro": "[PLACEHOLDER: AI Search Visibility measurement intro — awaiting approved copy]",
-      "measurement": [
-        {
-          "metric": "[PLACEHOLDER: AI Search Visibility metric 1 — awaiting approved copy]",
-          "method": "[PLACEHOLDER: AI Search Visibility method 1 — awaiting approved copy]"
-        },
-        {
-          "metric": "[PLACEHOLDER: AI Search Visibility metric 2 — awaiting approved copy]",
-          "method": "[PLACEHOLDER: AI Search Visibility method 2 — awaiting approved copy]"
-        },
-        {
-          "metric": "[PLACEHOLDER: AI Search Visibility metric 3 — awaiting approved copy]",
-          "method": "[PLACEHOLDER: AI Search Visibility method 3 — awaiting approved copy]"
-        }
-      ],
+      "measurement": {
+        "heading": "You hold the yardstick.",
+        "body": "The prompt set is fixed on day one and never changes without your sign-off. Outputs vary run to run, so we measure three runs per prompt and report the rate, not a cherry-picked win. No proprietary “visibility score” — just: were you named, where, and cited from what."
+      },
       "faq": [
         {
-          "question": "[PLACEHOLDER: AI Search Visibility question 1 — awaiting approved copy]",
-          "answer": "[PLACEHOLDER: AI Search Visibility answer 1 — awaiting approved copy]"
+          "question": "Can you guarantee I'll show up in ChatGPT?",
+          "answer": "No, and nobody honestly can — the systems are non-deterministic. What we guarantee is the measurement: you'll know exactly where you stand, before and after, verifiably."
         },
         {
-          "question": "[PLACEHOLDER: AI Search Visibility question 2 — awaiting approved copy]",
-          "answer": "[PLACEHOLDER: AI Search Visibility answer 2 — awaiting approved copy]"
+          "question": "Is this different from SEO?",
+          "answer": "It's SEO plus the AI rail, worked as one program — most of the foundational work overlaps, which is why we don't sell them separately."
         },
         {
-          "question": "[PLACEHOLDER: AI Search Visibility question 3 — awaiting approved copy]",
-          "answer": "[PLACEHOLDER: AI Search Visibility answer 3 — awaiting approved copy]"
+          "question": "How fast do results show?",
+          "answer": "Technical fixes register in weeks; content and citation work compounds over 60–90 days and keeps compounding."
         }
       ],
       "headline": "When someone asks ChatGPT for the best option in your market — are you the answer?"
@@ -377,65 +355,56 @@
     "aiAutomation": {
       "problem": "Quoting, intake, scheduling, data entry, reporting — every business has hours of repeatable work buried in its week. We find it, price what it's costing you, and build automation that fits the systems you already run — including the legacy ones nobody wants to touch.",
       "demo": {
-        "body": "[PLACEHOLDER: AI Automation demonstration body — awaiting approved copy]",
-        "imageLabel": "[PLACEHOLDER: AI Automation demonstration screenshot — awaiting approved copy]"
+        "heading": "The math on one workflow.",
+        "body": "Take quoting. If two people spend a combined 15 hours a week assembling quotes, that's roughly 750 hours a year. At $35 loaded cost, $26,000 — before counting the deals lost to slow turnaround. An automation that cuts that by 60% pays for a typical build inside a year, and we put those numbers in front of you before you commit, not after."
       },
       "steps": [
         {
-          "label": "Observe",
-          "body": "[PLACEHOLDER: AI Automation observe step — awaiting approved copy]"
+          "label": "Find it",
+          "body": "The audit locates the hours: intake, quoting, scheduling, data entry, reporting."
         },
         {
-          "label": "Analyze",
-          "body": "[PLACEHOLDER: AI Automation analyze step — awaiting approved copy]"
+          "label": "Price it",
+          "body": "What the manual version costs you annually, sourced and sensitivity-tested."
         },
         {
-          "label": "Quantify",
-          "body": "[PLACEHOLDER: AI Automation quantify step — awaiting approved copy]"
+          "label": "Build it",
+          "body": "Integrated with the systems you already run, including the legacy ones. Fixed price."
         },
         {
-          "label": "Build",
-          "body": "[PLACEHOLDER: AI Automation build step — awaiting approved copy]"
+          "label": "Run it",
+          "body": "We operate and maintain it (from $1,800/mo), or hand it over fully documented. Your choice."
         }
       ],
       "price": {
-        "amount": "[PLACEHOLDER: AI Automation price — awaiting approved copy]",
-        "unit": "[PLACEHOLDER: AI Automation price unit — awaiting approved copy]",
-        "note": "[PLACEHOLDER: AI Automation price note — awaiting approved copy]"
+        "startingAt": "from",
+        "amount": "$7,500",
+        "unit": "fixed price",
+        "note": "Typical $10,000–$18,000, fixed-price after audit."
       },
       "deliverables": [
-        "[PLACEHOLDER: AI Automation deliverable 1 — awaiting approved copy]",
-        "[PLACEHOLDER: AI Automation deliverable 2 — awaiting approved copy]",
-        "[PLACEHOLDER: AI Automation deliverable 3 — awaiting approved copy]",
-        "[PLACEHOLDER: AI Automation deliverable 4 — awaiting approved copy]"
+        "Working automation in production",
+        "Integration with your stack",
+        "Documentation",
+        "Training",
+        "Optional operation retainer."
       ],
-      "measurementIntro": "[PLACEHOLDER: AI Automation measurement intro — awaiting approved copy]",
-      "measurement": [
-        {
-          "metric": "[PLACEHOLDER: AI Automation metric 1 — awaiting approved copy]",
-          "method": "[PLACEHOLDER: AI Automation method 1 — awaiting approved copy]"
-        },
-        {
-          "metric": "[PLACEHOLDER: AI Automation metric 2 — awaiting approved copy]",
-          "method": "[PLACEHOLDER: AI Automation method 2 — awaiting approved copy]"
-        },
-        {
-          "metric": "[PLACEHOLDER: AI Automation metric 3 — awaiting approved copy]",
-          "method": "[PLACEHOLDER: AI Automation method 3 — awaiting approved copy]"
-        }
-      ],
+      "measurement": {
+        "heading": "Hours are countable.",
+        "body": "Every automation ships with its own counter: runs completed, hours displaced, exceptions flagged. The ROI claim from the proposal becomes a dashboard you can check any morning."
+      },
       "faq": [
         {
-          "question": "[PLACEHOLDER: AI Automation question 1 — awaiting approved copy]",
-          "answer": "[PLACEHOLDER: AI Automation answer 1 — awaiting approved copy]"
+          "question": "Our systems are old. Is that a problem?",
+          "answer": "Usually not — legacy integration is normal work for us, and the audit flags anything genuinely incompatible before you spend a dollar."
         },
         {
-          "question": "[PLACEHOLDER: AI Automation question 2 — awaiting approved copy]",
-          "answer": "[PLACEHOLDER: AI Automation answer 2 — awaiting approved copy]"
+          "question": "What if the automation breaks?",
+          "answer": "Everything we build fails safe (work queues, alerts — never silent loss) and the operation retainer includes monitoring and fixes."
         },
         {
-          "question": "[PLACEHOLDER: AI Automation question 3 — awaiting approved copy]",
-          "answer": "[PLACEHOLDER: AI Automation answer 3 — awaiting approved copy]"
+          "question": "Do we own it?",
+          "answer": "Yes. Code, credentials, documentation — yours."
         }
       ],
       "headline": "Your team does work a system should be doing."
@@ -443,65 +412,56 @@
     "webDevelopment": {
       "problem": "Most agency websites are a brochure about quality. Ours is the evidence: run this site through Crawlmouse, check the Lighthouse scores, view the source. We build fast, accessible, search-ready sites — and we're comfortable being judged by our own.",
       "demo": {
-        "body": "[PLACEHOLDER: Web Development demonstration body — awaiting approved copy]",
-        "imageLabel": "[PLACEHOLDER: Web Development demonstration screenshot — awaiting approved copy]"
+        "heading": "Inspect this site.",
+        "body": "Run nahltech.com through Crawlmouse. Check the Lighthouse scores. View source. Tab through it with a keyboard. This site is our standing work sample — built the way we build for clients: fast, accessible, measured, and ready for both kinds of search."
       },
       "steps": [
         {
-          "label": "Observe",
-          "body": "[PLACEHOLDER: Web Development observe step — awaiting approved copy]"
-        },
-        {
-          "label": "Analyze",
-          "body": "[PLACEHOLDER: Web Development analyze step — awaiting approved copy]"
-        },
-        {
-          "label": "Quantify",
-          "body": "[PLACEHOLDER: Web Development quantify step — awaiting approved copy]"
+          "label": "Scope",
+          "body": "Pages, integrations, content plan, and target metrics agreed in writing before a line is written."
         },
         {
           "label": "Build",
-          "body": "[PLACEHOLDER: Web Development build step — awaiting approved copy]"
+          "body": "Modern stack, performance budgets enforced in CI, accessibility as a requirement, not a pass."
+        },
+        {
+          "label": "Verify",
+          "body": "Lighthouse, Crawlmouse, and rich-results checks, with the reports handed to you."
+        },
+        {
+          "label": "Launch",
+          "body": "Redirects preserved, analytics wired, search consoles verified."
         }
       ],
       "price": {
-        "amount": "[PLACEHOLDER: Web Development price — awaiting approved copy]",
-        "unit": "[PLACEHOLDER: Web Development price unit — awaiting approved copy]",
-        "note": "[PLACEHOLDER: Web Development price note — awaiting approved copy]"
+        "startingAt": "from",
+        "amount": "$6,000",
+        "unit": "fixed price",
+        "note": "Typical $8,000–$14,000; you're reading our sample."
       },
       "deliverables": [
-        "[PLACEHOLDER: Web Development deliverable 1 — awaiting approved copy]",
-        "[PLACEHOLDER: Web Development deliverable 2 — awaiting approved copy]",
-        "[PLACEHOLDER: Web Development deliverable 3 — awaiting approved copy]",
-        "[PLACEHOLDER: Web Development deliverable 4 — awaiting approved copy]"
+        "The site and its repository",
+        "Performance and audit reports",
+        "Analytics and search console setup",
+        "Documentation",
+        "Optional care plan (from $1,200/mo)."
       ],
-      "measurementIntro": "[PLACEHOLDER: Web Development measurement intro — awaiting approved copy]",
-      "measurement": [
-        {
-          "metric": "[PLACEHOLDER: Web Development metric 1 — awaiting approved copy]",
-          "method": "[PLACEHOLDER: Web Development method 1 — awaiting approved copy]"
-        },
-        {
-          "metric": "[PLACEHOLDER: Web Development metric 2 — awaiting approved copy]",
-          "method": "[PLACEHOLDER: Web Development method 2 — awaiting approved copy]"
-        },
-        {
-          "metric": "[PLACEHOLDER: Web Development metric 3 — awaiting approved copy]",
-          "method": "[PLACEHOLDER: Web Development method 3 — awaiting approved copy]"
-        }
-      ],
+      "measurement": {
+        "heading": "Judged by the same tools we sell.",
+        "body": "Your site ships with the same scorecard ours carries — and if our own site ever scores badly on our own tool, you should fire us."
+      },
       "faq": [
         {
-          "question": "[PLACEHOLDER: Web Development question 1 — awaiting approved copy]",
-          "answer": "[PLACEHOLDER: Web Development answer 1 — awaiting approved copy]"
+          "question": "WordPress or custom?",
+          "answer": "Whatever the requirements justify — we'll recommend the cheapest thing that genuinely meets them, and put the reasoning in the scope."
         },
         {
-          "question": "[PLACEHOLDER: Web Development question 2 — awaiting approved copy]",
-          "answer": "[PLACEHOLDER: Web Development answer 2 — awaiting approved copy]"
+          "question": "Do you do redesigns or only new builds?",
+          "answer": "Both. Redesigns start with an audit of what's working so we don't throw away rankings you already earned."
         },
         {
-          "question": "[PLACEHOLDER: Web Development question 3 — awaiting approved copy]",
-          "answer": "[PLACEHOLDER: Web Development answer 3 — awaiting approved copy]"
+          "question": "Who owns the site?",
+          "answer": "You do — code, content, accounts, everything."
         }
       ],
       "headline": "You're reading our portfolio right now."
@@ -509,65 +469,56 @@
     "softwareDevelopment": {
       "problem": "We design and build custom software and AI applications to production standard — specced against your workflow, integrated with your stack, and owned by you when it ships. No per-seat ransom, no black boxes.",
       "demo": {
-        "body": "[PLACEHOLDER: Software Development demonstration body — awaiting approved copy]",
-        "imageLabel": "[PLACEHOLDER: Software Development demonstration screenshot — awaiting approved copy]"
+        "heading": "Built to production standard, sized to your operation.",
+        "body": "The systems we build for clients are the same class of software we ship for ourselves — a live SaaS product and a health app in daily use. Same standards: typed code, tests, CI, monitoring, security review. The difference is yours is specced against your workflow, and you own it."
       },
       "steps": [
         {
-          "label": "Observe",
-          "body": "[PLACEHOLDER: Software Development observe step — awaiting approved copy]"
+          "label": "Audit first",
+          "body": "Custom software is quoted only after the audit, because the spec IS the audit's output."
         },
         {
-          "label": "Analyze",
-          "body": "[PLACEHOLDER: Software Development analyze step — awaiting approved copy]"
-        },
-        {
-          "label": "Quantify",
-          "body": "[PLACEHOLDER: Software Development quantify step — awaiting approved copy]"
+          "label": "Spec",
+          "body": "A written scope with acceptance criteria you can hold us to."
         },
         {
           "label": "Build",
-          "body": "[PLACEHOLDER: Software Development build step — awaiting approved copy]"
+          "body": "Fixed price, staged delivery, working software at every stage."
+        },
+        {
+          "label": "Own",
+          "body": "Handover with code, docs, and training, or we run it for you."
         }
       ],
       "price": {
-        "amount": "[PLACEHOLDER: Software Development price — awaiting approved copy]",
-        "unit": "[PLACEHOLDER: Software Development price unit — awaiting approved copy]",
-        "note": "[PLACEHOLDER: Software Development price note — awaiting approved copy]"
+        "startingAt": "typically",
+        "amount": "$15,000–$45,000",
+        "unit": "quoted after audit",
+        "note": "A focused operational system — a scheduler, portal, or monitoring module. Multi-system programs are phased."
       },
       "deliverables": [
-        "[PLACEHOLDER: Software Development deliverable 1 — awaiting approved copy]",
-        "[PLACEHOLDER: Software Development deliverable 2 — awaiting approved copy]",
-        "[PLACEHOLDER: Software Development deliverable 3 — awaiting approved copy]",
-        "[PLACEHOLDER: Software Development deliverable 4 — awaiting approved copy]"
+        "Production software",
+        "Source and infrastructure",
+        "Documentation",
+        "Acceptance test results",
+        "Handover or operation."
       ],
-      "measurementIntro": "[PLACEHOLDER: Software Development measurement intro — awaiting approved copy]",
-      "measurement": [
-        {
-          "metric": "[PLACEHOLDER: Software Development metric 1 — awaiting approved copy]",
-          "method": "[PLACEHOLDER: Software Development method 1 — awaiting approved copy]"
-        },
-        {
-          "metric": "[PLACEHOLDER: Software Development metric 2 — awaiting approved copy]",
-          "method": "[PLACEHOLDER: Software Development method 2 — awaiting approved copy]"
-        },
-        {
-          "metric": "[PLACEHOLDER: Software Development metric 3 — awaiting approved copy]",
-          "method": "[PLACEHOLDER: Software Development method 3 — awaiting approved copy]"
-        }
-      ],
+      "measurement": {
+        "heading": "Acceptance criteria, in writing, before we build.",
+        "body": "The scope document defines what “done” means measurably. You check the criteria, not our word."
+      },
       "faq": [
         {
-          "question": "[PLACEHOLDER: Software Development question 1 — awaiting approved copy]",
-          "answer": "[PLACEHOLDER: Software Development answer 1 — awaiting approved copy]"
+          "question": "Why won't you quote without an audit?",
+          "answer": "Because a number without analysis is a guess, and guesses become change orders. The audit makes the quote fixed and real — and it's credited."
         },
         {
-          "question": "[PLACEHOLDER: Software Development question 2 — awaiting approved copy]",
-          "answer": "[PLACEHOLDER: Software Development answer 2 — awaiting approved copy]"
+          "question": "What stack do you use?",
+          "answer": "Chosen per project, biased toward boring, maintainable, and hireable-for. The spec states it and why."
         },
         {
-          "question": "[PLACEHOLDER: Software Development question 3 — awaiting approved copy]",
-          "answer": "[PLACEHOLDER: Software Development answer 3 — awaiting approved copy]"
+          "question": "What does \"typically $15,000–$45,000\" cover?",
+          "answer": "A focused operational system — a scheduler, portal, or monitoring module. Multi-system programs are phased so each stage pays for itself."
         }
       ],
       "headline": "Off-the-shelf stopped fitting."
@@ -703,9 +654,81 @@
     }
   },
   "pricing": {
-    "intro": "",
-    "servicesHeading": "What we do",
-    "ctaHeading": "Straight answers on pricing.",
-    "ctaBody": "Every engagement is scoped to your situation — tell us the problem and we'll give you a number, fast. No discovery-call maze."
+    "headline": "Straight answers on pricing.",
+    "intro": "Every number below is real and published on purpose. Engagements are scoped to your situation, so builds show starting points — but you will never hear \"it depends\" without a number attached.",
+    "founding": {
+      "spotsOpen": "7",
+      "heading": "Founding clients — 7 of 10 spots open.",
+      "body": "We're taking ten founding clients at the rates below, in exchange for permission to publish the work as a case study. When the ten are gone, prices rise. That's not a countdown gimmick — the next rate card is already written."
+    },
+    "tiers": [
+      {
+        "name": "Free AI Opportunity Scan",
+        "price": "$0",
+        "unit": "",
+        "description": "A 30-minute call and a written brief on the three biggest AI opportunities we see in your business. If there's nothing worth building, we say so.",
+        "footnote": "For operating businesses with a decision-maker on the call.",
+        "ctaLabel": "Book your scan",
+        "featured": false
+      },
+      {
+        "name": "AI Opportunity Audit",
+        "price": "$2,500",
+        "unit": "fully credited",
+        "description": "Two to three weeks: process and data review, a quantified opportunity map, an ROI model stress-tested against your real numbers, and a fixed-price build proposal. Every dollar credits toward your first build or retainer within 90 days — so if we work together, the audit was free.",
+        "footnote": "Enterprise firms charge $20,000–$50,000 for this phase. We think that's the wrong way around.",
+        "ctaLabel": "Start with the audit",
+        "featured": true
+      },
+      {
+        "name": "Search Visibility",
+        "price": "from $2,500/mo",
+        "unit": "",
+        "description": "Google and AI search, worked as one program. Measured monthly against a fixed prompt set you can run yourself, plus our own audit tool. Most agencies now charge $900+/month extra for AI visibility. It isn't our add-on. It's the product.",
+        "footnote": "",
+        "ctaLabel": "Get your free visibility check",
+        "featured": false
+      }
+    ],
+    "projectsHeading": "Builds and retainers",
+    "projects": [
+      {
+        "name": "AI Automation build",
+        "price": "from $7,500",
+        "note": "typical $10,000–$18,000, fixed-price after audit"
+      },
+      {
+        "name": "Web Development",
+        "price": "from $6,000",
+        "note": "typical $8,000–$14,000; you're reading our sample"
+      },
+      {
+        "name": "Software Development",
+        "price": "custom",
+        "note": "typically $15,000–$45,000, quoted only after an audit"
+      },
+      {
+        "name": "AI / SaaS operation retainer",
+        "price": "from $1,800/mo",
+        "note": "we run what we built for you"
+      },
+      {
+        "name": "Care & maintenance",
+        "price": "from $1,200/mo",
+        "note": "updates, monitoring, support"
+      }
+    ],
+    "discounts": {
+      "heading": "Priced for the people we want to work with.",
+      "items": [
+        "Veteran-owned businesses — 25% off",
+        "Senior-owned businesses — 25% off",
+        "New businesses (under 2 years) in Greater Indianapolis — 25% off",
+        "Nonprofits & community organizations — 30% off, always"
+      ],
+      "community": "Indiana houses of worship and community orgs: we build one free project every quarter. Ask about the next open slot.",
+      "footnote": "One discount per engagement; we'll apply whichever is largest."
+    },
+    "featuredLabel": "Most chosen"
   }
 }

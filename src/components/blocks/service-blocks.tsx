@@ -26,7 +26,12 @@ export function ProblemStatement({
   );
 }
 
-/** Shows the work rather than describing it. Holds a screenshot or diagram. */
+/**
+ * Shows the work rather than describing it. The illustration slot is optional
+ * — several demonstrations are pure prose (a worked calculation, an
+ * instruction to go and check something), and an empty grey panel beside them
+ * would add nothing.
+ */
 export function DemoBlock({
   heading,
   body,
@@ -34,17 +39,21 @@ export function DemoBlock({
 }: {
   heading: string;
   body: string;
-  imageLabel: string;
+  imageLabel?: string;
 }) {
   return (
     <section className="bg-surface">
       <div className={shell}>
         <FadeIn>
           <SectionHeading>{heading}</SectionHeading>
-          <div className="mt-lg grid items-center gap-lg md:grid-cols-2">
-            <p className="text-text-muted">{body}</p>
-            <ImageSlot label={imageLabel} />
-          </div>
+          {imageLabel ? (
+            <div className="mt-lg grid items-center gap-lg md:grid-cols-2">
+              <p className="text-text-muted">{body}</p>
+              <ImageSlot label={imageLabel} />
+            </div>
+          ) : (
+            <p className="mt-lg max-w-prose text-lg text-text-muted">{body}</p>
+          )}
         </FadeIn>
       </div>
     </section>
@@ -158,63 +167,29 @@ export function DeliverablesList({
   );
 }
 
-export type Measurement = { metric: string; method: string };
-
 /**
- * The open lab notebook: every metric paired with the method used to obtain
- * it. This is the verifiability differentiator, so it is deliberately styled
- * like a record rather than a marketing panel — monospace, ruled rows, no
- * emphasis colour. A claim with no stated method has no place in this table.
+ * The open lab notebook.
+ *
+ * Set as a record rather than a marketing panel: monospace, ruled top and
+ * bottom, tabular figures. This is the verifiability differentiator, so it
+ * reads like something written down rather than something claimed. No metric
+ * table yet — per-client measurements are not ours to publish.
  */
 export function MeasurementBlock({
   heading,
-  intro,
-  metricLabel,
-  methodLabel,
-  rows,
+  body,
 }: {
   heading: string;
-  intro: string;
-  metricLabel: string;
-  methodLabel: string;
-  rows: readonly Measurement[];
+  body: string;
 }) {
   return (
     <section className={shell}>
       <FadeIn>
         <SectionHeading>{heading}</SectionHeading>
-        <p className="mt-md max-w-prose text-text-muted">{intro}</p>
-
-        <div className="mt-lg overflow-x-auto border-y border-text">
-          <table className="w-full border-collapse text-start font-mono text-sm tabular-nums">
-            <caption className="sr-only">{heading}</caption>
-            <thead>
-              <tr className="border-b border-divider">
-                <th scope="col" className="px-sm py-2xs text-start caption">
-                  {metricLabel}
-                </th>
-                <th scope="col" className="px-sm py-2xs text-start caption">
-                  {methodLabel}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((row) => (
-                <tr
-                  key={row.metric}
-                  className="border-b border-divider last:border-b-0"
-                >
-                  <th
-                    scope="row"
-                    className="px-sm py-2xs text-start font-normal text-text"
-                  >
-                    {row.metric}
-                  </th>
-                  <td className="px-sm py-2xs text-text-muted">{row.method}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="mt-lg max-w-prose border-y border-text py-md">
+          <p className="font-mono text-sm leading-relaxed text-text tabular-nums">
+            {body}
+          </p>
         </div>
       </FadeIn>
     </section>

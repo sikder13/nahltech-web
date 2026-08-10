@@ -1,3 +1,4 @@
+import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Card } from "@/components/ui/Card";
 import { FadeIn } from "@/components/ui/FadeIn";
 import { Icon } from "@/components/ui/Icon";
@@ -157,98 +158,160 @@ export type PricingTier = {
   price: string;
   unit: string;
   description: string;
-  features: readonly string[];
+  footnote: string;
+  ctaLabel: string;
+  featured: boolean;
 };
 
-export type ProjectService = { name: string; price: string };
+export type ProjectService = { name: string; price: string; note: string };
 
 /**
- * Three highlighted offers plus a plain list of project work.
+ * Founding-client band.
  *
- * Deliberately not a feature-comparison matrix: the offers differ in scope,
- * not in how many checkmarks they have, and a matrix invites the reader to
- * shop on row count.
+ * The count is a plain dictionary value that a human edits. Deliberately not
+ * a live counter and deliberately not a timer: the copy says it is not a
+ * countdown gimmick, so the implementation must not make it one.
+ */
+export function FoundingBanner({
+  heading,
+  body,
+}: {
+  heading: string;
+  body: string;
+}) {
+  return (
+    <section className="border-y-2 border-accent bg-surface">
+      <div className="mx-auto max-w-(--container-page) px-sm py-lg">
+        <FadeIn>
+          <h2 className="text-xl font-semibold text-text">{heading}</h2>
+          <p className="mt-2xs max-w-prose text-sm text-text-muted">{body}</p>
+        </FadeIn>
+      </div>
+    </section>
+  );
+}
+
+/**
+ * Three offers plus the build-and-retainer list.
+ *
+ * Not a feature-comparison matrix: the offers differ in scope, not in how
+ * many checkmarks they carry, and a matrix invites shopping on row count.
+ * The featured card is marked by a border and a label, never by colour
+ * alone.
  */
 export function PricingTable({
-  tiersHeading,
   tiers,
   projectsHeading,
   projects,
-  ctaLabel,
+  featuredLabel,
   ctaHref,
 }: {
-  tiersHeading: string;
   tiers: readonly PricingTier[];
   projectsHeading: string;
   projects: readonly ProjectService[];
-  ctaLabel: string;
+  featuredLabel: string;
   ctaHref: string;
 }) {
   return (
     <>
       <section className={shell}>
-        <FadeIn>
-          <SectionHeading>{tiersHeading}</SectionHeading>
-          <ul className="mt-lg grid gap-md lg:grid-cols-3">
-            {tiers.map((tier) => (
-              <li key={tier.name}>
-                <Card className="flex h-full flex-col">
+        <ul className="grid gap-md lg:grid-cols-3">
+          {tiers.map((tier, index) => (
+            <li key={tier.name}>
+              <FadeIn delay={index * 0.06} className="h-full">
+                <div
+                  className={`flex h-full flex-col rounded-lg p-lg ${
+                    tier.featured
+                      ? "border-2 border-text bg-bg"
+                      : "border border-divider bg-surface"
+                  }`}
+                >
+                  {tier.featured ? (
+                    <p className="mb-2xs caption">{featuredLabel}</p>
+                  ) : null}
                   <h3 className="text-lg font-semibold text-text">
                     {tier.name}
                   </h3>
-                  <p className="mt-2xs flex items-baseline gap-2xs">
-                    <span className="text-3xl font-bold tracking-tight text-text">
+                  <p className="mt-2xs flex flex-wrap items-baseline gap-2xs">
+                    <span className="text-3xl font-bold tracking-tight text-text tabular-nums">
                       {tier.price}
                     </span>
-                    <span className="text-sm text-text-muted">{tier.unit}</span>
+                    {tier.unit ? (
+                      <span className="text-sm text-text-muted">
+                        {tier.unit}
+                      </span>
+                    ) : null}
                   </p>
-                  <p className="mt-sm text-sm text-text-muted">
+                  <p className="mt-sm flex-1 text-sm text-text-muted">
                     {tier.description}
                   </p>
-                  <ul className="mt-md flex-1 space-y-2xs">
-                    {tier.features.map((feature) => (
-                      <li
-                        key={feature}
-                        className="flex gap-2xs text-sm text-text"
-                      >
-                        <Icon name="check" className="mt-px size-4 shrink-0" />
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                  <a
-                    href={ctaHref}
-                    className="mt-md inline-flex items-center justify-center rounded-md bg-cta px-sm py-2xs text-sm font-semibold text-on-cta hover:bg-cta-hover"
-                  >
-                    {ctaLabel}
-                  </a>
-                </Card>
-              </li>
-            ))}
-          </ul>
-        </FadeIn>
+                  {tier.footnote ? (
+                    <p className="mt-sm border-t border-divider pt-sm text-xs text-text-muted">
+                      {tier.footnote}
+                    </p>
+                  ) : null}
+                  <ButtonLink href={ctaHref} className="mt-md">
+                    {tier.ctaLabel}
+                  </ButtonLink>
+                </div>
+              </FadeIn>
+            </li>
+          ))}
+        </ul>
       </section>
 
-      <section className="border-t border-divider">
-        <div className={shell}>
-          <FadeIn>
-            <SectionHeading>{projectsHeading}</SectionHeading>
-            <dl className="mt-lg max-w-(--container-measure) divide-y divide-divider border-y border-divider">
-              {projects.map((project) => (
-                <div
-                  key={project.name}
-                  className="flex items-baseline justify-between gap-sm py-sm"
-                >
-                  <dt className="text-text">{project.name}</dt>
-                  <dd className="font-mono text-sm text-text-muted">
+      <section className={shell}>
+        <FadeIn>
+          <SectionHeading>{projectsHeading}</SectionHeading>
+          <dl className="mt-lg max-w-(--container-measure) divide-y divide-divider border-y border-divider">
+            {projects.map((project) => (
+              <div key={project.name} className="py-sm">
+                <div className="flex flex-wrap items-baseline justify-between gap-2xs">
+                  <dt className="font-medium text-text">{project.name}</dt>
+                  <dd className="font-mono text-sm text-text tabular-nums">
                     {project.price}
                   </dd>
                 </div>
-              ))}
-            </dl>
-          </FadeIn>
-        </div>
+                <p className="mt-3xs text-sm text-text-muted">{project.note}</p>
+              </div>
+            ))}
+          </dl>
+        </FadeIn>
       </section>
     </>
+  );
+}
+
+export function DiscountsBlock({
+  heading,
+  items,
+  community,
+  footnote,
+}: {
+  heading: string;
+  items: readonly string[];
+  community: string;
+  footnote: string;
+}) {
+  return (
+    <section className="bg-surface">
+      <div className={shell}>
+        <FadeIn>
+          <SectionHeading>{heading}</SectionHeading>
+          <ul className="mt-lg max-w-prose space-y-2xs">
+            {items.map((item) => (
+              <li key={item} className="flex gap-2xs text-text">
+                <Icon name="check" className="mt-1 size-4 shrink-0" />
+                {item}
+              </li>
+            ))}
+          </ul>
+          <p className="mt-md max-w-prose border-s-4 border-accent ps-md text-text">
+            {community}
+          </p>
+          <p className="mt-md text-xs text-text-muted">{footnote}</p>
+        </FadeIn>
+      </div>
+    </section>
   );
 }

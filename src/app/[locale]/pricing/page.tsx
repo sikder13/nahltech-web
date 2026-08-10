@@ -11,7 +11,10 @@ export async function generateMetadata({
   const { locale } = await params;
   const t = await requireDictionary(locale);
 
-  return { title: t.pages.pricing.title };
+  return {
+    title: { absolute: t.pages.pricing.metaTitle },
+    description: t.pages.pricing.description,
+  };
 }
 
 export default async function Page({

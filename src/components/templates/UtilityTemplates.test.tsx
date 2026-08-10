@@ -58,16 +58,42 @@ describe("ContactTemplate", () => {
 });
 
 describe("PricingTemplate", () => {
-  it("lists the five services and publishes no figure", () => {
+  it("publishes the founding-client terms without a live counter", () => {
     render(<PricingTemplate t={en} />);
 
-    for (const label of Object.values(en.services)) {
-      expect(screen.getByRole("link", { name: label })).toBeInTheDocument();
-    }
-    // Prices are unpublished: no placeholder token may reach the page.
-    expect(screen.queryByText("[PRICE]")).not.toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { name: en.pricing.ctaHeading }),
+      screen.getByRole("heading", { name: en.pricing.founding.heading }),
+    ).toBeInTheDocument();
+    // The count is a static dictionary value, edited by hand.
+    expect(en.pricing.founding.heading).toContain(
+      `${en.pricing.founding.spotsOpen} of 10`,
+    );
+  });
+
+  it("renders all three tiers and the build list with real prices", () => {
+    render(<PricingTemplate t={en} />);
+
+    for (const tier of en.pricing.tiers) {
+      expect(
+        screen.getByRole("heading", { level: 3, name: tier.name }),
+      ).toBeInTheDocument();
+      expect(screen.getByText(tier.price)).toBeInTheDocument();
+    }
+    for (const project of en.pricing.projects) {
+      expect(screen.getByText(project.name)).toBeInTheDocument();
+    }
+    // No gated token may survive on a page that now publishes numbers.
+    expect(screen.queryByText("[PRICE]")).not.toBeInTheDocument();
+  });
+
+  it("lists every discount band", () => {
+    render(<PricingTemplate t={en} />);
+
+    for (const item of en.pricing.discounts.items) {
+      expect(screen.getByText(item)).toBeInTheDocument();
+    }
+    expect(
+      screen.getByText(en.pricing.discounts.community),
     ).toBeInTheDocument();
   });
 });

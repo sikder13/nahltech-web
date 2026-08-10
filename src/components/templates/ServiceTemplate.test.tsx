@@ -1,4 +1,4 @@
-import { render, screen, within } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
 import { ServiceTemplate } from "./ServiceTemplate";
@@ -18,36 +18,58 @@ describe("ServiceTemplate", () => {
 
     expect(h2s).toEqual([
       en.service.problemHeading,
-      en.service.demoHeading,
+      // Demonstration and measurement headings are written per service, so
+      // they come from the page content rather than the shared labels.
+      content.demo.heading,
       en.service.methodHeading,
       en.service.priceHeading,
       en.service.deliverablesHeading,
-      en.service.measurementHeading,
+      content.measurement.heading,
       en.service.faqHeading,
       en.ctaBlock.heading,
     ]);
   });
 
-  it("shows the published price rather than hiding it behind an enquiry", () => {
+  it("publishes the price rather than hiding it behind an enquiry", () => {
     render(<ServiceTemplate t={en} content={content} />);
 
     expect(screen.getByText(content.price.amount)).toBeInTheDocument();
-    expect(screen.getByText(en.service.startingAt)).toBeInTheDocument();
+    expect(screen.getByText(content.price.unit)).toBeInTheDocument();
+    expect(content.price.amount).not.toContain("PLACEHOLDER");
   });
 
-  it("pairs every measured metric with the method used to obtain it", () => {
+  it("states how the work will be measured", () => {
     render(<ServiceTemplate t={en} content={content} />);
 
-    const table = screen.getByRole("table", {
-      name: en.service.measurementHeading,
-    });
-    const rows = within(table).getAllByRole("row");
+    expect(
+      screen.getByRole("heading", { name: content.measurement.heading }),
+    ).toBeInTheDocument();
+    expect(screen.getByText(content.measurement.body)).toBeInTheDocument();
+  });
 
-    // One header row plus one row per metric, each with a method beside it.
-    expect(rows).toHaveLength(content.measurement.length + 1);
-    for (const row of content.measurement) {
-      expect(screen.getByText(row.metric)).toBeInTheDocument();
-      expect(screen.getByText(row.method)).toBeInTheDocument();
+  it("renders every method step and deliverable", () => {
+    render(<ServiceTemplate t={en} content={content} />);
+
+    for (const step of content.steps) {
+      expect(
+        screen.getByRole("heading", { level: 3, name: step.label }),
+      ).toBeInTheDocument();
+    }
+    for (const item of content.deliverables) {
+      expect(screen.getByText(item)).toBeInTheDocument();
+    }
+  });
+
+  it("renders each FAQ as a collapsed disclosure", () => {
+    render(<ServiceTemplate t={en} content={content} />);
+
+    for (const entry of content.faq) {
+      const trigger = screen.getByRole("button", {
+        name: new RegExp(
+          entry.question.slice(0, 30).replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
+        ),
+      });
+      expect(trigger).toHaveAttribute("aria-expanded", "false");
     }
   });
 

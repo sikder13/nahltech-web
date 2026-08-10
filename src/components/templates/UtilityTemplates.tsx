@@ -1,15 +1,16 @@
-import Link from "next/link";
-
 import { CtaBlock } from "@/components/blocks/CtaBlock";
 import { PageHeader } from "@/components/blocks/PageHeader";
 import {
   ContactChannels,
   CredentialsRow,
+  DiscountsBlock,
+  FoundingBanner,
+  PricingTable,
   StorySection,
   TeamGrid,
 } from "@/components/blocks/utility-blocks";
 import { LeadForm } from "@/components/conversion/LeadForm";
-import { contactDetails, routes, serviceRouteKeys } from "@/lib/routes";
+import { contactDetails, routes } from "@/lib/routes";
 
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
 
@@ -96,38 +97,38 @@ export function ContactTemplate({ t }: { t: Dictionary }) {
 /**
  * T6 — pricing.
  *
- * Prices are unpublished pending market research, so nothing renders a
- * figure. The page states what we do and invites a scoped number instead of
- * showing empty tiers — PricingTable stays in the codebase for when the
- * numbers are approved.
+ * The whole page is the argument: published numbers, in order of commitment,
+ * with the founding-client terms stated plainly at the top rather than as a
+ * pop-up. Nothing here is a live counter.
  */
 export function PricingTemplate({ t }: { t: Dictionary }) {
   return (
     <>
-      <PageHeader title={t.pages.pricing.title} />
+      <PageHeader title={t.pricing.headline} intro={t.pricing.intro} />
 
-      <section className="mx-auto max-w-(--container-page) px-sm pb-2xl">
-        <h2 className="text-section text-text">{t.pricing.servicesHeading}</h2>
-        <span className="mt-xs heading-rule" aria-hidden="true" />
-        <dl className="mt-lg max-w-(--container-measure) divide-y divide-divider border-y border-divider">
-          {serviceRouteKeys.map((key) => (
-            <div key={key} className="py-md">
-              <dt className="font-semibold text-text">
-                <Link href={routes[key]} className="link-accent">
-                  {t.services[key]}
-                </Link>
-              </dt>
-              <dd className="mt-3xs text-sm text-text-muted">
-                {t.serviceSummaries[key]}
-              </dd>
-            </div>
-          ))}
-        </dl>
-      </section>
+      <FoundingBanner
+        heading={t.pricing.founding.heading}
+        body={t.pricing.founding.body}
+      />
+
+      <PricingTable
+        tiers={t.pricing.tiers}
+        projectsHeading={t.pricing.projectsHeading}
+        projects={t.pricing.projects}
+        featuredLabel={t.pricing.featuredLabel}
+        ctaHref={routes.contact}
+      />
+
+      <DiscountsBlock
+        heading={t.pricing.discounts.heading}
+        items={t.pricing.discounts.items}
+        community={t.pricing.discounts.community}
+        footnote={t.pricing.discounts.footnote}
+      />
 
       <CtaBlock
-        heading={t.pricing.ctaHeading}
-        body={t.pricing.ctaBody}
+        heading={t.ctaBlock.heading}
+        body={t.ctaBlock.body}
         primary={{ label: t.cta.bookCall, href: routes.contact }}
         phone={{ label: t.cta.phoneDisplay, href: contactDetails.phoneHref }}
         orCallLabel={t.cta.orCall}

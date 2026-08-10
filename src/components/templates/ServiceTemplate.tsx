@@ -39,17 +39,13 @@ export function ServiceTemplate({
         body={content.problem}
       />
 
-      <DemoBlock
-        heading={t.service.demoHeading}
-        body={content.demo.body}
-        imageLabel={content.demo.imageLabel}
-      />
+      <DemoBlock heading={content.demo.heading} body={content.demo.body} />
 
       <MethodSteps heading={t.service.methodHeading} steps={content.steps} />
 
       <PriceCard
         heading={t.service.priceHeading}
-        startingAtLabel={t.service.startingAt}
+        startingAtLabel={content.price.startingAt || undefined}
         amount={content.price.amount}
         unit={content.price.unit}
         note={content.price.note}
@@ -62,11 +58,8 @@ export function ServiceTemplate({
       />
 
       <MeasurementBlock
-        heading={t.service.measurementHeading}
-        intro={content.measurementIntro}
-        metricLabel={t.service.metricLabel}
-        methodLabel={t.service.methodLabel}
-        rows={content.measurement}
+        heading={content.measurement.heading}
+        body={content.measurement.body}
       />
 
       <FaqBlock heading={t.service.faqHeading} items={content.faq} />
