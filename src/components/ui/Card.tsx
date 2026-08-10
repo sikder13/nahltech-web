@@ -49,7 +49,7 @@ export function ImageSlot({
     <div
       role="img"
       aria-label={label}
-      className={`flex ${ratio} items-center justify-center rounded-md border border-divider bg-surface ${className}`}
+      className={`flex hex-watermark ${ratio} items-center justify-center rounded-md border border-divider ${className}`}
     >
       <span className="px-sm text-center text-xs text-text-muted">{label}</span>
     </div>

@@ -51,7 +51,7 @@ export function TeamGrid({
               <li key={member.name} className="flex items-center gap-sm">
                 <span
                   aria-hidden="true"
-                  className="flex size-14 shrink-0 items-center justify-center rounded-full border border-divider bg-bg"
+                  className="flex size-14 shrink-0 items-center justify-center bg-divider hex-clip"
                 >
                   <svg
                     viewBox="0 0 24 24"

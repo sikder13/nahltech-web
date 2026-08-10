@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { FadeIn } from "@/components/ui/FadeIn";
+import { HexFrame } from "@/components/ui/Hex";
 import { Icon, type IconName } from "@/components/ui/Icon";
 
 export type ProofItem = {
@@ -36,10 +37,15 @@ export function ProofBar({
           <h2 id="proof-heading" className="text-sm font-semibold text-text">
             {heading}
           </h2>
-          <ul className="mt-md grid gap-md sm:grid-cols-2 lg:grid-cols-4">
+          <ul className="mt-md grid sm:grid-cols-2 lg:grid-cols-4">
             {items.map((item) => (
-              <li key={`${item.href}-${item.label}`} className="flex gap-2xs">
-                <Icon name={item.icon} className="mt-px size-5 shrink-0" />
+              <li
+                key={`${item.href}-${item.label}`}
+                className="flex gap-sm border-divider py-sm sm:py-0 lg:border-s lg:ps-md lg:first:border-s-0 lg:first:ps-0"
+              >
+                <HexFrame className="mt-px text-text">
+                  <Icon name={item.icon} className="size-4" />
+                </HexFrame>
                 {item.external ? (
                   <a
                     href={item.href}
