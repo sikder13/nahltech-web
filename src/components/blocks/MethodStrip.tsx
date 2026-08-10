@@ -14,8 +14,9 @@ export type MethodStep = {
  * they are earned here and nowhere else, since Observe → Analyze → Quantify →
  * Build is a genuine process rather than an arbitrary list.
  *
- * The numerals sit inside hexagons that alternate vertical offset on lg, so
- * the row reads as comb rather than as four more cards. No icons here: the
+ * The numerals sit inside flat-top hexagons, the orientation that tiles in a
+ * straight horizontal row, so the four cells read as a strip of comb rather
+ * than as four more cards. No icons here: the
  * numeral and the cell already do the work, and adding a glyph would collapse
  * this back into the icon-title-text pattern used everywhere else.
  */
@@ -43,13 +44,11 @@ export function MethodStrip({
 
         <ol className="mt-lg grid gap-lg sm:grid-cols-2 lg:grid-cols-4">
           {steps.map((step, index) => (
-            <li
-              key={step.label}
-              className={index % 2 === 1 ? "lg:mt-xl" : undefined}
-            >
+            <li key={step.label}>
               <FadeIn delay={index * 0.06}>
                 <span className="relative flex size-12 items-center justify-center">
                   <HexOutline
+                    orientation="flat"
                     className="absolute inset-0 size-full text-border"
                     strokeWidth={1}
                   />
