@@ -62,7 +62,10 @@ export async function generateMetadata({
       default: t.site.name,
       template: `%s | ${t.site.name}`,
     },
-    description: t.site.description,
+    // No site-wide description fallback on purpose. A page either has an
+    // approved description or emits none — shipping a [PLACEHOLDER] string
+    // into <meta name="description"> would put it in search results, which
+    // is strictly worse than letting the engine generate a snippet.
   };
 }
 
