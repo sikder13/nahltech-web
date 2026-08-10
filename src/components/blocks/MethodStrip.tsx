@@ -1,18 +1,23 @@
 import { FadeIn } from "@/components/ui/FadeIn";
-import { Icon, type IconName } from "@/components/ui/Icon";
+import { HexOutline } from "@/components/ui/Hex";
 
 export type MethodStep = {
-  icon: IconName;
   label: string;
   body: string;
 };
 
 /**
- * The diagnosis-first method, as four ordered steps.
+ * The diagnosis-first method, as four honeycomb cells.
  *
  * An ordered list, because the sequence is the point: measure before
- * building. The step numbers come from the list itself rather than being
- * baked into the copy, so reordering is a data change.
+ * building. This is the one place on the site that carries step numerals —
+ * they are earned here and nowhere else, since Observe → Analyze → Quantify →
+ * Build is a genuine process rather than an arbitrary list.
+ *
+ * The numerals sit inside hexagons that alternate vertical offset on lg, so
+ * the row reads as comb rather than as four more cards. No icons here: the
+ * numeral and the cell already do the work, and adding a glyph would collapse
+ * this back into the icon-title-text pattern used everywhere else.
  */
 export function MethodStrip({
   heading,
@@ -24,11 +29,7 @@ export function MethodStrip({
   id?: string;
 }) {
   return (
-    <section
-      id={id}
-      aria-labelledby="method-heading"
-      className="border-y border-divider bg-surface"
-    >
+    <section id={id} aria-labelledby="method-heading" className="bg-surface">
       <div className="mx-auto max-w-(--container-page) px-sm py-2xl">
         <FadeIn>
           <h2
@@ -38,24 +39,33 @@ export function MethodStrip({
             {heading}
           </h2>
           <span className="mt-xs heading-rule" aria-hidden="true" />
+        </FadeIn>
 
-          <ol className="mt-lg grid gap-md sm:grid-cols-2 lg:grid-cols-4">
-            {steps.map((step, index) => (
-              <li key={step.label} className="relative">
-                <div className="flex items-center gap-2xs">
-                  <span className="flex size-7 shrink-0 items-center justify-center rounded-full border border-border text-xs font-semibold text-text">
+        <ol className="mt-lg grid gap-lg sm:grid-cols-2 lg:grid-cols-4">
+          {steps.map((step, index) => (
+            <li
+              key={step.label}
+              className={index % 2 === 1 ? "lg:mt-xl" : undefined}
+            >
+              <FadeIn delay={index * 0.06}>
+                <span className="relative flex size-12 items-center justify-center">
+                  <HexOutline
+                    className="absolute inset-0 size-full text-border"
+                    strokeWidth={1}
+                  />
+                  <span className="relative font-mono text-sm font-semibold text-text tabular-nums">
                     {index + 1}
                   </span>
-                  <Icon name={step.icon} className="size-5 text-text-muted" />
-                </div>
+                </span>
+
                 <h3 className="mt-sm text-base font-semibold text-text">
                   {step.label}
                 </h3>
                 <p className="mt-2xs text-sm text-text-muted">{step.body}</p>
-              </li>
-            ))}
-          </ol>
-        </FadeIn>
+              </FadeIn>
+            </li>
+          ))}
+        </ol>
       </div>
     </section>
   );

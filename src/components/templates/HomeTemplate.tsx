@@ -95,10 +95,10 @@ export function HomeTemplate({ t }: { t: Dictionary }) {
       <MethodStrip
         heading={t.home.method.heading}
         steps={[
-          { icon: "observe", ...t.home.method.steps.observe },
-          { icon: "analyze", ...t.home.method.steps.analyze },
-          { icon: "quantify", ...t.home.method.steps.quantify },
-          { icon: "build", ...t.home.method.steps.build },
+          t.home.method.steps.observe,
+          t.home.method.steps.analyze,
+          t.home.method.steps.quantify,
+          t.home.method.steps.build,
         ]}
       />
 
