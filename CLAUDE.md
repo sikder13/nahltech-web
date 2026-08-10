@@ -61,3 +61,7 @@ verifiable option and note the decision in the PR description.
     own commit so it gets its own Vercel deployment and can be reviewed and
     reverted independently. Push after each session; do not batch multiple
     sessions into one push.
+15. Banned words in site copy: empower, leverage, unlock, transform,
+    harness, cutting-edge, innovative, world-class, and "solutions" as a
+    standalone noun. If copy arrives containing them, flag it rather than
+    shipping it.
