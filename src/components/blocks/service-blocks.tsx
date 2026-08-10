@@ -37,7 +37,7 @@ export function DemoBlock({
   imageLabel: string;
 }) {
   return (
-    <section className="border-y border-divider bg-surface">
+    <section className="bg-surface">
       <div className={shell}>
         <FadeIn>
           <SectionHeading>{heading}</SectionHeading>
@@ -140,7 +140,7 @@ export function DeliverablesList({
   items: readonly string[];
 }) {
   return (
-    <section className="border-y border-divider bg-surface">
+    <section className="bg-surface">
       <div className={shell}>
         <FadeIn>
           <SectionHeading>{heading}</SectionHeading>
@@ -185,22 +185,25 @@ export function MeasurementBlock({
         <SectionHeading>{heading}</SectionHeading>
         <p className="mt-md max-w-prose text-text-muted">{intro}</p>
 
-        <div className="mt-lg overflow-x-auto rounded-lg border border-divider">
-          <table className="w-full border-collapse text-start font-mono text-sm">
+        <div className="mt-lg overflow-x-auto border-y border-text">
+          <table className="w-full border-collapse text-start font-mono text-sm tabular-nums">
             <caption className="sr-only">{heading}</caption>
             <thead>
-              <tr className="border-b border-divider bg-surface">
-                <th scope="col" className="px-sm py-2xs text-start text-text">
+              <tr className="border-b border-divider">
+                <th scope="col" className="px-sm py-2xs text-start caption">
                   {metricLabel}
                 </th>
-                <th scope="col" className="px-sm py-2xs text-start text-text">
+                <th scope="col" className="px-sm py-2xs text-start caption">
                   {methodLabel}
                 </th>
               </tr>
             </thead>
             <tbody>
               {rows.map((row) => (
-                <tr key={row.metric} className="border-b border-divider">
+                <tr
+                  key={row.metric}
+                  className="border-b border-divider last:border-b-0"
+                >
                   <th
                     scope="row"
                     className="px-sm py-2xs text-start font-normal text-text"
