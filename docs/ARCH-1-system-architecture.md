@@ -114,6 +114,10 @@ nahltech-web/
 │   │   ├── blocks/      # section-level: Hero, ProofBar, PricingTable,
 │   │   │                # FaqBlock, StatBlock, CtaBlock…
 │   │   ├── seo/JsonLd.tsx            # schema.org injector
+│   │   ├── templates/   # the six page templates: Home, Service,
+│   │   │                # Product, Article, Hub, Legal — each a fixed
+│   │   │                # composition of blocks, so the four service
+│   │   │                # pages share one anatomy
 │   │   └── ui/          # primitives: Button, Card, Input…
 │   ├── lib/
 │   │   ├── supabase/    (client.ts, server.ts, types.ts)
