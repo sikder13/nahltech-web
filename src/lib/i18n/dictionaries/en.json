@@ -539,5 +539,15 @@
         "[PLACEHOLDER: Hafsa Sastho audience 3 — awaiting approved copy]"
       ]
     }
+  },
+  "article": {
+    "byLabel": "By",
+    "tocHeading": "On this page",
+    "relatedHeading": "Related reading"
+  },
+  "legalPage": {
+    "lastUpdatedLabel": "Last updated",
+    "lastUpdated": "[PLACEHOLDER: effective date — awaiting legal review]",
+    "body": "[PLACEHOLDER: legal document body — awaiting legal review — awaiting approved copy]"
   }
 }
