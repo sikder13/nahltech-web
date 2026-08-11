@@ -26,7 +26,7 @@ async function fillValid(user: ReturnType<typeof userEvent.setup>) {
 describe("LeadForm (shell)", () => {
   it("shows a field error for an invalid email and does not submit", async () => {
     const user = userEvent.setup();
-    render(<LeadForm t={en} />);
+    render(<LeadForm labels={en.leadForm} />);
 
     await user.type(screen.getByLabelText(/Name/), "Test Person");
     await user.type(screen.getByLabelText(/Email/), "not-an-email");
@@ -44,7 +44,7 @@ describe("LeadForm (shell)", () => {
 
   it("requires a name", async () => {
     const user = userEvent.setup();
-    render(<LeadForm t={en} />);
+    render(<LeadForm labels={en.leadForm} />);
 
     await user.type(screen.getByLabelText(/Email/), "person@example.com");
     await user.click(screen.getByRole("button", { name: en.leadForm.submit }));
@@ -56,7 +56,7 @@ describe("LeadForm (shell)", () => {
 
   it("shows the success state on a valid submit", async () => {
     const user = userEvent.setup();
-    render(<LeadForm t={en} />);
+    render(<LeadForm labels={en.leadForm} />);
 
     await fillValid(user);
     await user.click(screen.getByRole("button", { name: en.leadForm.submit }));
@@ -70,7 +70,7 @@ describe("LeadForm (shell)", () => {
 
   it("makes no network request — /api/lead does not exist until Phase 4", async () => {
     const user = userEvent.setup();
-    render(<LeadForm t={en} />);
+    render(<LeadForm labels={en.leadForm} />);
 
     await fillValid(user);
     await user.click(screen.getByRole("button", { name: en.leadForm.submit }));
@@ -81,7 +81,7 @@ describe("LeadForm (shell)", () => {
 
   it("treats phone, company and message as optional", async () => {
     const user = userEvent.setup();
-    render(<LeadForm t={en} />);
+    render(<LeadForm labels={en.leadForm} />);
 
     // Only the two required fields are filled.
     await fillValid(user);

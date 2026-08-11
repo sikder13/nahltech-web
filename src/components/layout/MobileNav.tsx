@@ -5,11 +5,18 @@ import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 
 import { ButtonLink } from "@/components/ui/ButtonLink";
-import { contactDetails, routes, serviceRouteKeys } from "@/lib/routes";
-
-import type { Dictionary } from "@/lib/i18n/get-dictionary";
 
 const FOCUSABLE = "a[href], button:not([disabled])";
+
+export type MobileNavLabels = {
+  openMenu: string;
+  closeMenu: string;
+  primaryNavigation: string;
+  phoneDisplay: string;
+  bookCall: string;
+};
+
+export type MobileNavLink = { href: string; label: string };
 
 /**
  * Mobile navigation panel.
@@ -17,8 +24,23 @@ const FOCUSABLE = "a[href], button:not([disabled])";
  * While open it traps Tab within the panel, restores focus to the trigger on
  * close, closes on Escape, and closes on navigation. Rendered below the `md`
  * breakpoint only.
+ *
+ * Takes only the strings and links it renders, never the whole dictionary.
+ * Props of a client component are serialised into every page's flight
+ * payload, so handing this the full `t` object shipped the entire dictionary
+ * — including copy for pages the visitor is not on — inside the HTML.
  */
-export function MobileNav({ t }: { t: Dictionary }) {
+export function MobileNav({
+  labels,
+  links,
+  phoneHref,
+  contactHref,
+}: {
+  labels: MobileNavLabels;
+  links: readonly MobileNavLink[];
+  phoneHref: string;
+  contactHref: string;
+}) {
   const [open, setOpen] = useState(false);
   const panelId = useId();
   const panelRef = useRef<HTMLDivElement>(null);
@@ -81,20 +103,6 @@ export function MobileNav({ t }: { t: Dictionary }) {
     };
   }, [open, close]);
 
-  const links = [
-    { href: routes.services, label: t.nav.services },
-    ...serviceRouteKeys.map((key) => ({
-      href: routes[key],
-      label: t.services[key],
-    })),
-    { href: routes.products, label: t.nav.products },
-    { href: routes.crawlmouse, label: t.products.crawlmouse },
-    { href: routes.hafsaSastho, label: t.products.hafsaSastho },
-    { href: routes.pricing, label: t.nav.pricing },
-    { href: routes.research, label: t.nav.research },
-    { href: routes.about, label: t.nav.about },
-  ];
-
   return (
     <div className="md:hidden">
       <button
@@ -102,7 +110,7 @@ export function MobileNav({ t }: { t: Dictionary }) {
         type="button"
         aria-expanded={open}
         aria-controls={panelId}
-        aria-label={open ? t.a11y.closeMenu : t.a11y.openMenu}
+        aria-label={open ? labels.closeMenu : labels.openMenu}
         onClick={() => setOpen((value) => !value)}
         className="p-2xs text-text hover:text-cta-hover"
       >
@@ -131,7 +139,7 @@ export function MobileNav({ t }: { t: Dictionary }) {
         hidden={!open}
         className="fixed inset-x-0 top-16 bottom-0 z-40 overflow-y-auto border-t border-divider bg-bg px-sm py-md"
       >
-        <nav aria-label={t.a11y.primaryNavigation}>
+        <nav aria-label={labels.primaryNavigation}>
           <ul className="flex flex-col gap-2xs">
             {links.map((link) => (
               <li key={link.href}>
@@ -148,12 +156,12 @@ export function MobileNav({ t }: { t: Dictionary }) {
 
         <div className="mt-md flex flex-col gap-2xs border-t border-divider pt-md">
           <a
-            href={contactDetails.phoneHref}
+            href={phoneHref}
             className="py-2xs text-base text-text-muted link-accent hover:text-text"
           >
-            {t.cta.phoneDisplay}
+            {labels.phoneDisplay}
           </a>
-          <ButtonLink href={routes.contact}>{t.cta.bookCall}</ButtonLink>
+          <ButtonLink href={contactHref}>{labels.bookCall}</ButtonLink>
         </div>
       </div>
     </div>

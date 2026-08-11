@@ -7,6 +7,8 @@ import { createLeadSchema } from "@/lib/lead-schema";
 
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
 
+export type LeadFormLabels = Dictionary["leadForm"];
+
 type FieldName = "name" | "email" | "phone" | "company" | "message";
 
 /**
@@ -22,11 +24,11 @@ type FieldName = "name" | "email" | "phone" | "company" | "message";
  * failure: log, fire the fallback email, still show the user success). Until
  * then this makes no network request of any kind.
  */
-export function LeadForm({ t }: { t: Dictionary }) {
+export function LeadForm({ labels }: { labels: LeadFormLabels }) {
   const [errors, setErrors] = useState<Partial<Record<FieldName, string>>>({});
   const [submitted, setSubmitted] = useState(false);
 
-  const schema = createLeadSchema(t.leadForm.errors);
+  const schema = createLeadSchema(labels.errors);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -60,18 +62,16 @@ export function LeadForm({ t }: { t: Dictionary }) {
         className="rounded-lg border border-border bg-surface p-lg"
       >
         <h3 className="text-lg font-semibold text-text">
-          {t.leadForm.successTitle}
+          {labels.successTitle}
         </h3>
-        <p className="mt-2xs text-sm text-text-muted">
-          {t.leadForm.successBody}
-        </p>
+        <p className="mt-2xs text-sm text-text-muted">{labels.successBody}</p>
       </div>
     );
   }
 
   return (
     <form onSubmit={handleSubmit} noValidate className="space-y-md">
-      <Field id="name" label={t.leadForm.name} error={errors.name} required>
+      <Field id="name" label={labels.name} error={errors.name} required>
         <input
           id="name"
           name="name"
@@ -83,7 +83,7 @@ export function LeadForm({ t }: { t: Dictionary }) {
         />
       </Field>
 
-      <Field id="email" label={t.leadForm.email} error={errors.email} required>
+      <Field id="email" label={labels.email} error={errors.email} required>
         <input
           id="email"
           name="email"
@@ -95,7 +95,7 @@ export function LeadForm({ t }: { t: Dictionary }) {
         />
       </Field>
 
-      <Field id="phone" label={t.leadForm.phone} error={errors.phone}>
+      <Field id="phone" label={labels.phone} error={errors.phone}>
         <input
           id="phone"
           name="phone"
@@ -107,7 +107,7 @@ export function LeadForm({ t }: { t: Dictionary }) {
         />
       </Field>
 
-      <Field id="company" label={t.leadForm.company} error={errors.company}>
+      <Field id="company" label={labels.company} error={errors.company}>
         <input
           id="company"
           name="company"
@@ -119,7 +119,7 @@ export function LeadForm({ t }: { t: Dictionary }) {
         />
       </Field>
 
-      <Field id="message" label={t.leadForm.message} error={errors.message}>
+      <Field id="message" label={labels.message} error={errors.message}>
         <textarea
           id="message"
           name="message"
@@ -134,7 +134,7 @@ export function LeadForm({ t }: { t: Dictionary }) {
         type="submit"
         className="inline-flex items-center justify-center rounded-md bg-cta px-sm py-2xs text-sm font-semibold text-on-cta transition-colors hover:bg-cta-hover motion-reduce:transition-none"
       >
-        {t.leadForm.submit}
+        {labels.submit}
       </button>
     </form>
   );

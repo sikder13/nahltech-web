@@ -84,7 +84,30 @@ export function Header({ t }: { t: Dictionary }) {
           <ButtonLink href={routes.contact}>{t.cta.bookCall}</ButtonLink>
         </div>
 
-        <MobileNav t={t} />
+        <MobileNav
+          labels={{
+            openMenu: t.a11y.openMenu,
+            closeMenu: t.a11y.closeMenu,
+            primaryNavigation: t.a11y.primaryNavigation,
+            phoneDisplay: t.cta.phoneDisplay,
+            bookCall: t.cta.bookCall,
+          }}
+          links={[
+            { href: routes.services, label: t.nav.services },
+            ...serviceRouteKeys.map((key) => ({
+              href: routes[key],
+              label: t.services[key],
+            })),
+            { href: routes.products, label: t.nav.products },
+            { href: routes.crawlmouse, label: t.products.crawlmouse },
+            { href: routes.hafsaSastho, label: t.products.hafsaSastho },
+            { href: routes.pricing, label: t.nav.pricing },
+            { href: routes.research, label: t.nav.research },
+            { href: routes.about, label: t.nav.about },
+          ]}
+          phoneHref={contactDetails.phoneHref}
+          contactHref={routes.contact}
+        />
       </div>
     </header>
   );

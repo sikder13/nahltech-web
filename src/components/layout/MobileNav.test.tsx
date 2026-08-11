@@ -5,6 +5,21 @@ import { describe, expect, it, vi } from "vitest";
 import { MobileNav } from "./MobileNav";
 
 import en from "@/lib/i18n/dictionaries/en.json";
+import { routes } from "@/lib/routes";
+
+const labels = {
+  openMenu: en.a11y.openMenu,
+  closeMenu: en.a11y.closeMenu,
+  primaryNavigation: en.a11y.primaryNavigation,
+  phoneDisplay: en.cta.phoneDisplay,
+  bookCall: en.cta.bookCall,
+};
+
+const links = [
+  { href: routes.services, label: en.nav.services },
+  { href: routes.aiConsultancy, label: en.services.aiConsultancy },
+  { href: routes.about, label: en.nav.about },
+];
 
 vi.mock("next/navigation", () => ({
   usePathname: () => "/",
@@ -26,7 +41,14 @@ function getPanel() {
 
 describe("MobileNav", () => {
   it("is closed on first render", () => {
-    render(<MobileNav t={en} />);
+    render(
+      <MobileNav
+        labels={labels}
+        links={links}
+        phoneHref="tel:+13175074303"
+        contactHref={routes.contact}
+      />,
+    );
 
     const trigger = screen.getByRole("button", { name: en.a11y.openMenu });
     expect(trigger).toHaveAttribute("aria-expanded", "false");
@@ -35,7 +57,14 @@ describe("MobileNav", () => {
 
   it("closes on Escape and returns focus to the trigger", async () => {
     const user = userEvent.setup();
-    render(<MobileNav t={en} />);
+    render(
+      <MobileNav
+        labels={labels}
+        links={links}
+        phoneHref="tel:+13175074303"
+        contactHref={routes.contact}
+      />,
+    );
 
     const trigger = screen.getByRole("button", { name: en.a11y.openMenu });
     await user.click(trigger);
@@ -55,7 +84,14 @@ describe("MobileNav", () => {
 
   it("traps focus inside the panel while open", async () => {
     const user = userEvent.setup();
-    render(<MobileNav t={en} />);
+    render(
+      <MobileNav
+        labels={labels}
+        links={links}
+        phoneHref="tel:+13175074303"
+        contactHref={routes.contact}
+      />,
+    );
 
     await user.click(screen.getByRole("button", { name: en.a11y.openMenu }));
 
