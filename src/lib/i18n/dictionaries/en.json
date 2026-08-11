@@ -131,31 +131,28 @@
     "body": "That page does not exist or has moved.",
     "homeCta": "Go to the homepage"
   },
-  "common": {
-    "contentPlaceholder": "[PLACEHOLDER: page content — awaiting approved copy]"
-  },
   "ctaBlock": {
     "heading": "Fifteen minutes. Bring your website or your workflow problem.",
     "body": "You'll leave with something useful either way."
   },
   "ctaSlim": {
-    "body": "[PLACEHOLDER: inline CTA line — awaiting approved copy]"
+    "body": "Fifteen minutes, no pitch. Bring the problem, leave with a next step."
   },
   "hub": {
-    "emptyLabel": "[PLACEHOLDER: empty-hub message — nothing published here yet]"
+    "emptyLabel": "Nothing published here yet. First pieces are in the works."
   },
   "hubPages": {
     "services": {
-      "intro": "[PLACEHOLDER: services hub intro — awaiting approved copy]"
+      "intro": "Everything we do starts the same way: find where AI pays in your business, prove it with numbers, then build. Five services, one method."
     },
     "products": {
-      "intro": "[PLACEHOLDER: products hub intro — awaiting approved copy]"
+      "intro": "We ship our own products. They're the fastest way to judge how we build."
     },
     "research": {
-      "intro": "[PLACEHOLDER: research hub intro — awaiting approved copy]"
+      "intro": "Original data and open methods. When we publish a number, we show where it came from."
     },
     "blog": {
-      "intro": "[PLACEHOLDER: blog hub intro — awaiting approved copy]"
+      "intro": "Notes from the work — practical, sourced, and written by the people doing it."
     }
   },
   "serviceSummaries": {
@@ -221,13 +218,6 @@
           "body": "We ship it — automation, integration, or custom software — and measure the result against the numbers we promised."
         }
       }
-    },
-    "featuredResearch": {
-      "heading": "[PLACEHOLDER: featured research heading — awaiting approved copy]",
-      "title": "[PLACEHOLDER: featured research title — awaiting approved copy]",
-      "excerpt": "[PLACEHOLDER: featured research excerpt — awaiting approved copy]",
-      "imageLabel": "[PLACEHOLDER: featured research image — awaiting approved copy]",
-      "cta": "Read the research"
     }
   },
   "service": {
@@ -251,11 +241,11 @@
           },
           {
             "label": "the model",
-            "body": "Built from their public statements and industry benchmarks, then corrected live with their real numbers."
+            "body": "Our model was built from their public statements and industry benchmarks, then corrected live with their real numbers."
           },
           {
             "label": "the finding",
-            "body": "An RFQ-and-scheduling engine returns its cost in under nine months, even at the most conservative baseline."
+            "body": "Even at the most conservative baseline, it showed an RFQ-and-scheduling engine returning its cost in under nine months."
           }
         ],
         "closing": "Every audit works the same way: your operation, your numbers, a sensitivity table that includes the case where we tell you not to build."
@@ -356,7 +346,7 @@
       ],
       "measurement": {
         "heading": "You hold the yardstick.",
-        "body": "The prompt set is fixed on day one and never changes without your sign-off. Outputs vary run to run, so we measure three runs per prompt and report the rate across all three. There is no proprietary “visibility score”. The report states whether you were named, where, and what you were cited from."
+        "body": "The prompt set is fixed on day one and never changes without your sign-off. Outputs vary run to run, so we measure three runs per prompt and report the rate across all three. There is no proprietary “visibility score”. The report states whether you were named, where, and what you were cited from. We can't fake this and wouldn't try."
       },
       "faq": [
         {
@@ -692,13 +682,13 @@
     ]
   },
   "contact": {
-    "intro": "[PLACEHOLDER: contact page intro — awaiting approved copy]",
+    "intro": "Call, book, or write. A real person answers.",
     "channelsHeading": "Reach us",
     "phoneLabel": "Phone",
     "emailLabel": "Email",
     "addressLabel": "Office",
     "formHeading": "Send a message",
-    "formIntro": "[PLACEHOLDER: contact form intro — awaiting approved copy]"
+    "formIntro": "Five fields. We reply within one business day, usually much sooner."
   },
   "leadForm": {
     "name": "Name",
@@ -708,7 +698,7 @@
     "message": "Message",
     "submit": "Send message",
     "successTitle": "Thanks — we have your details",
-    "successBody": "[PLACEHOLDER: lead form success body — awaiting approved copy]",
+    "successBody": "Got it. We'll be in touch shortly. If it's urgent, call us or book a slot now.",
     "errors": {
       "nameRequired": "Enter your name.",
       "emailRequired": "Enter your email address.",

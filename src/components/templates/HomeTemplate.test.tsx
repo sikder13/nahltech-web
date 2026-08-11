@@ -20,8 +20,9 @@ describe("HomeTemplate", () => {
     expect(headings[2]).toBe(en.home.twoWays.heading);
     expect(headings[3]).toBe(en.home.services.heading);
     expect(headings[4]).toBe(en.home.method.heading);
-    expect(headings[5]).toBe(en.home.featuredResearch.heading);
-    expect(headings[6]).toBe(en.ctaBlock.heading);
+    // Featured research is parked until /research has content.
+    expect(headings[5]).toBe(en.ctaBlock.heading);
+    expect(headings).toHaveLength(6);
   });
 
   it("points both hero CTAs at real destinations", () => {

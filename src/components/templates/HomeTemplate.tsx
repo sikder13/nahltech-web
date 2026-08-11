@@ -1,5 +1,4 @@
 import { CtaBlock } from "@/components/blocks/CtaBlock";
-import { FeaturedResearch } from "@/components/blocks/FeaturedResearch";
 import { Hero } from "@/components/blocks/Hero";
 import { MethodStrip } from "@/components/blocks/MethodStrip";
 import { ProofBar } from "@/components/blocks/ProofBar";
@@ -83,14 +82,9 @@ export function HomeTemplate({ t }: { t: Dictionary }) {
         ]}
       />
 
-      <FeaturedResearch
-        heading={t.home.featuredResearch.heading}
-        title={t.home.featuredResearch.title}
-        excerpt={t.home.featuredResearch.excerpt}
-        imageLabel={t.home.featuredResearch.imageLabel}
-        cta={t.home.featuredResearch.cta}
-        href={routes.research}
-      />
+      {/* FeaturedResearch is parked, not deleted. It points at /research,
+          which has nothing published yet, so the section would be a card
+          advertising an empty page. It returns with the first piece. */}
 
       <CtaBlock
         heading={t.ctaBlock.heading}
