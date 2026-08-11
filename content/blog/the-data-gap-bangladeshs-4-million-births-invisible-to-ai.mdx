@@ -1,0 +1,90 @@
+---
+title: "Maternal Health Data in Bangladesh: Why 4 Million Births Are Invisible to AI"
+description: "Bangladesh records more than four million births a year, yet maternal health data from those births is nearly absent from AI training sets. What that costs."
+date: "2026-03-17"
+author: "Udaay Sikder"
+cluster: "field-notes"
+targetKeyword: "maternal health data Bangladesh"
+serviceLinks: ["/services/software-development"]
+draft: false
+---
+
+There is a number that frames everything we do at Nahl Technologies.
+
+According to the Bangladesh Bureau of Statistics, approximately 3.7 million babies were born in Bangladesh in 2022. The World Bank projects this figure will remain above four million annually through the remainder of this decade. These births represent one of the largest concentrations of early childhood development in the world, in one of the most densely populated nations on earth.
+
+Now consider a different number. The proportion of AI health tools, maternal care applications, or clinical decision-support systems built specifically for Bengali-speaking mothers in Bangladesh is, for practical purposes, zero. Not low. Not insufficient. Essentially zero.
+
+That gap is the reason [Hafsa Sastho](/products/hafsa-sastho) exists.
+
+## Why AI Systems Do Not Know About This
+
+Artificial intelligence systems learn from data. The data that exists in structured, accessible, machine-readable form reflects the priorities of the institutions and industries that created it. For health AI specifically, that means the overwhelming majority of training data originates from wealthy, English-speaking countries with well-funded health informatics infrastructure.
+
+Bangladesh, a country of 170 million people and the eighth most populous nation on earth, is nearly absent from the datasets that shape modern health AI. This is not because the health experiences of Bangladeshi people are medically less significant. It is because the [systems that would capture and structure that data](/services/software-development) were never built there.
+
+The consequence is compounding. Less available data means fewer products get built for that population. Fewer products means less data is generated. Communities do not simply fall behind; they get locked out of a cycle of improvement that continuously raises the standard for everyone else.
+
+> "The global burden of maternal mental health problems is largely concentrated in low- and middle-income countries, where between 15.6% and 19.8% of women in the postnatal period suffer from depression." — World Health Organization, _Mental Health Atlas_, 2022
+
+## What the Absence Looks Like for an Actual Person
+
+Consider a first-time mother in Narayanganj, or in a rural district of Sylhet, or in a mid-sized city like Rajshahi. She has given birth. Her baby is healthy. She is experiencing the physical recovery that follows childbirth, navigating breastfeeding for the first time, and managing a range of emotions that may be unfamiliar and frightening.
+
+She has questions. Her mother and mother-in-law have experience, but their advice is grounded in tradition rather than clinical evidence. The local health worker, if she visits at all, is primarily focused on the infant's weight and immunization status. The nearest clinic may require significant travel and a wait that a new mother is not positioned to endure.
+
+What she does not have access to is a knowledgeable, reliable source of health information available at two in the morning, when the baby will not stop crying and she does not know whether this is normal. She does not have an easy way to verify whether her infant's growth is tracking appropriately against WHO standards. She does not have a clear, accessible reference for Bangladesh's fourteen-vaccine EPI schedule, including what each vaccine protects against and what side effects are expected.
+
+These tools exist in abundance for mothers in the United States, Western Europe, and parts of East Asia. In Bengali, for Bangladeshi mothers, they do not.
+
+## The Scale of the Maternal Mental Health Crisis
+
+The mental health dimension of this gap deserves particular attention.
+
+[Postpartum depression affects approximately 10 to 15 percent of new mothers globally](/blog/postpartum-depression-without-a-word-for-it), according to the World Health Organization. In Bangladesh, published research consistently documents substantially higher rates. A landmark study by Gausia et al. (2007), conducted across multiple districts in Bangladesh and published in the _British Journal of Psychiatry_, found postpartum depression rates of approximately 22 percent using validated screening instruments. A subsequent population-based study by Nasreen et al. (2011), published in _BMC Pregnancy and Childbirth_, documented rates of 18 percent in rural communities, with rates significantly higher among women experiencing poverty, intimate partner stress, or lack of social support.
+
+These figures represent a genuine public health challenge at scale. In a country with four million annual births, even the lower end of the documented prevalence range implies that 700,000 or more women experience clinically significant postpartum depression every year. The majority of them receive no diagnosis and no treatment.
+
+The barriers are structural and deeply interconnected. Mental health services are scarce relative to need. Stigma around psychological distress remains significant in many communities. The clinical tools that exist for screening, most notably the Edinburgh Postnatal Depression Scale (Cox, Holden, and Sagovsky, 1987), have been validated in Bengali (Gausia et al., 2007), but a validated instrument is only useful if it reaches the women who need it.
+
+## The Language Gap Is Not a Translation Problem
+
+[Bengali is the seventh most spoken language in the world by native speakers](/blog/building-ai-in-bengali-the-language-challenge-nobody-talks-about), with approximately 230 million speakers globally. It is not a minor or obscure language.
+
+It is, however, profoundly underrepresented in the data that shapes modern AI systems. Research examining the composition of Common Crawl, one of the largest web text datasets used to train large language models, consistently shows Bengali accounting for a fraction of one percent of available training content, despite representing roughly three percent of the world's population.
+
+The consequence is not merely that AI systems lack vocabulary in Bengali. It is that they lack the contextual and cultural knowledge necessary to be genuinely useful for Bengali-speaking users. The relationship between a Bangladeshi mother and her mother-in-law during the postpartum period is medically and socially significant; it shapes everything from breastfeeding decisions to mental health outcomes. This context does not exist in training data built primarily from English-language content, and it cannot be recovered through translation.
+
+Building AI that actually works for Bengali-speaking mothers requires more than linguistic coverage. It requires the kind of contextual depth that only comes from designing with that community specifically in mind.
+
+## What Hafsa Sastho Is Attempting
+
+Hafsa Sastho is our effort to address one specific part of this gap. It is not a comprehensive solution to maternal health in Bangladesh. It is a start.
+
+The application tracks infant health metrics, vaccine schedules aligned with Bangladesh's national EPI programme, WHO growth standards, and maternal wellbeing including postpartum mood. The AI companion at its center, Hafsa Apa, is designed to communicate in natural, warm Bengali; to apply the Edinburgh Postnatal Depression Scale as a gentle, conversational check-in rather than a clinical form; and to recognize when a user's responses suggest a need for professional care and prompt accordingly.
+
+We are explicit about what the application is not. It is not a medical device. It is not a replacement for clinical care. It is a companion that aims to fill the gaps that exist between clinic visits, and to be present in the moments when no other support is available.
+
+## The Larger Argument
+
+The maternal health gap in Bangladesh is one instance of a much broader pattern. Across dozens of countries and hundreds of languages, communities that represent hundreds of millions of people are underserved by AI health tools, not because the problems are less important or the populations less deserving, but because the incentive structures of the technology industry have not yet directed serious resources toward them.
+
+We believe this will change. The question is whether it changes through deliberate effort by teams who understand these communities from the inside, or whether it changes slowly and imperfectly through the gradual extension of tools designed for other contexts.
+
+We are trying to be part of the former.
+
+---
+
+**References**
+
+Cox, J.L., Holden, J.M., and Sagovsky, R. (1987). Detection of postnatal depression: Development of the 10-item Edinburgh Postnatal Depression Scale. _British Journal of Psychiatry_, 150, 782–786.
+
+Gausia, Q., Fisher, C., Ali, M., and Oosthuizen, J. (2007). Validation of the Bangla version of the Edinburgh Postnatal Depression Scale for a Bangladeshi sample. _Journal of Reproductive and Infant Psychology_, 25(4), 308–315.
+
+Nasreen, H.E., Kabir, Z.N., Forsell, Y., and Edhborg, M. (2010). Prevalence and associated factors of depressive and anxiety symptoms during pregnancy: A population based study in rural Bangladesh. _BMC Women's Health_, 10(1), 1–8.
+
+World Health Organization. (2022). _Mental Health Atlas 2022_. World Health Organization, Geneva.
+
+World Bank Group. (2024). _Bangladesh Overview: Development news, research, data_. World Bank Open Data.
+
+Bangladesh Bureau of Statistics. (2023). _Statistical Yearbook of Bangladesh_. Bangladesh Bureau of Statistics, Dhaka.

@@ -1,0 +1,98 @@
+---
+title: "AI for Low-Resource Languages: The Bengali Gap Nobody in Silicon Valley Talks About"
+description: "Bengali has 234 million native speakers and a fraction of a percent of AI training data. What building for low-resource languages actually requires."
+date: "2026-03-21"
+author: "Udaay Sikder"
+cluster: "field-notes"
+targetKeyword: "AI for low-resource languages"
+serviceLinks: ["/services/software-development"]
+draft: false
+---
+
+If you look at how the major AI laboratories describe their models, you will find a recurring phrase: _multilingual_. GPT-4 is multilingual. Gemini is multilingual. Claude is multilingual. The language coverage tables in technical reports list dozens, sometimes over a hundred languages.
+
+What those tables do not always show clearly is the depth of that coverage, and how dramatically it varies by language. There is a difference between a model that has been trained on billions of tokens of text in a language and one that has seen that language a handful of times in a massive dataset where it competes with text from languages that are orders of magnitude better represented.
+
+Bengali falls into the latter category. This has significant consequences for the 234 million people who speak it as their first language, and the AI industry has not adequately confronted it.
+
+## The Scale of the Representation Gap
+
+To understand the gap, it helps to start with the data. Modern large language models are trained on massive corpora of text scraped from the web, digitized books, and structured databases. The composition of these datasets reflects the composition of the internet, which reflects, in turn, the historical distribution of digital infrastructure investment, internet access, and content creation capacity across the world.
+
+Bengali accounts for approximately 3.1 percent of the global population by native speakers, according to Ethnologue (Eberhard, Simons, and Fennig, 2023). The text available in Bengali on the web, however, represents a tiny fraction of what is available in English, and the situation is only marginally better relative to several other South and Southeast Asian languages.
+
+A landmark study by Joshi, Santy, Budhiraja, Bali, and Choudhury (2020), published at ACL 2020, classified the world's languages into six tiers based on their NLP resource availability. Bengali was placed in what the authors called the "Underdogs" tier, characterized by moderate NLP resource availability but severely disproportionate relative to speaker count. The paper documents clearly that the relationship between how many people speak a language and how well AI systems can work in that language is weak at best.
+
+The XLM-RoBERTa model (Conneau et al., 2020), one of the most capable open multilingual models and trained on 2.5 terabytes of filtered Common Crawl data across 100 languages, offers a useful reference point. The training data composition tables in the paper show Bengali receiving a small fraction of total training tokens compared to English, which dominates the corpus at approximately 89 percent of the data. The model performs substantially better on high-resource languages, as benchmarks across multiple tasks consistently confirm.
+
+> "There is a high positive correlation between the amount of available data for a language and the quality of the NLP tools built for it. Languages with fewer digital resources are systematically disadvantaged." — Joshi et al., _Proceedings of ACL 2020_
+
+## Why Translation Alone Cannot Close the Gap
+
+A reasonable instinct, when confronted with this problem, is to suggest that translation solves it. If English-language health content is well-represented in training data and high-quality AI health tools exist in English, why not translate them?
+
+The limitations of this reasoning become apparent when you examine what gets lost in translation, and what never existed in English to begin with.
+
+## The Tokenization Problem
+
+Modern large language models process text by breaking it into tokens. For English, this process is efficient: common words are typically single tokens, and sentences decompose predictably. Bengali, which is written in a script derived from the Brahmi tradition and uses a complex system of conjunct consonants called _yuktakkhar_, tokenizes poorly in models whose tokenizers were designed primarily around Latin-script languages. Words that combine multiple character forms into single visual units fragment into multiple tokens, increasing computational cost and degrading comprehension. The Bengali word for breastfeeding, _স্তন্যপান_, involves multiple conjunct forms and requires a tokenizer with genuine knowledge of Bengali script structure to handle correctly.
+
+The practical consequence is that Bengali text, when fed to a tokenizer optimized for Latin-script languages, produces higher token counts for equivalent semantic content. A sentence that takes ten tokens in English may take significantly more in Bengali through the same tokenizer. This reduces effective context window utilization and can degrade model performance on Bengali-language tasks even when the model has been exposed to Bengali data.
+
+## The Cultural Context Problem
+
+Beyond tokenization, there is a deeper challenge: the cultural and social knowledge embedded in Bengali-language health interactions does not exist in English-language training data and cannot be recovered through translation.
+
+Consider what a community health worker in rural Bangladesh actually knows about a [postpartum mother's situation](/blog/postpartum-depression-without-a-word-for-it) that a clinician trained entirely on English-language medical literature would not. She knows that the mother's mother-in-law will likely be the primary decision-maker in the household for the first several weeks after birth. She knows the specific dietary restrictions that many Bangladeshi families observe in the postpartum period. She knows that expressing psychological distress directly is culturally difficult and that indirect language is more likely to be used. She knows that the mother's breastfeeding decisions will be influenced by social and familial pressures that have nothing to do with the clinical evidence on breastfeeding outcomes.
+
+This knowledge is not written down anywhere that training data collection pipelines would find it. It lives in practice, in community, in the expertise of health workers who have spent years in these contexts. Building an AI companion that is genuinely useful for Bangladeshi mothers requires encoding this knowledge deliberately.
+
+## Exposure Is Not Comprehension
+
+The paper "How Multilingual is Multilingual BERT?" by Pires, Schlinger, and Garrette (2019), published at ACL 2019, examined the cross-lingual transfer capabilities of mBERT across a wide range of languages. The finding that is most relevant here is that multilingual models perform significantly worse on lower-resource languages than on high-resource ones, even when the model has technically been exposed to the lower-resource language during training. Exposure is not comprehension. Coverage in a training dataset is not the same as competent performance in that language.
+
+The implication for health AI is significant. A model that handles English medical queries with high accuracy may handle Bengali medical queries with substantially less accuracy, not because the developers intended this, but because the training data distribution produces this outcome by default.
+
+## The Bengali NLP Research Community's Response
+
+It is important to note that researchers, many of them Bangladeshi, have been working on these problems for years.
+
+The BNLP toolkit (Islam et al., 2021), an open-source library covering Bengali tokenization, part-of-speech tagging, named entity recognition, and word embeddings, represents a significant contribution to the Bengali NLP infrastructure. The Bengali NLP research community, working primarily from institutions in Bangladesh, India, and the Bangladeshi diaspora, has produced corpora, benchmarks, and models that meaningfully advance the state of Bengali language AI.
+
+These contributions are real and valuable. They have not, however, been absorbed at scale into the flagship models that most AI products are built on top of. The gap between what the research community has produced and what the large AI labs have incorporated into production systems remains substantial.
+
+## What This Means for a Health AI in Bengali
+
+When we set out to build Hafsa Apa, the AI companion within [Hafsa Sastho](/products/hafsa-sastho), we had to grapple with each of these challenges directly.
+
+Our approach was not to build a Bengali-specific large language model from scratch; that would require resources well beyond what an early-stage company can deploy. Instead, we focused on what we could control: [the system design](/services/software-development), the cultural and clinical knowledge encoded into the model's context, the response style calibration, and the extensive testing with actual Bengali-speaking users.
+
+The system prompt that governs Hafsa Apa's responses encodes not just clinical health knowledge but cultural knowledge: the social dynamics of postpartum care in Bangladeshi households, the specific vaccine schedule followed by the Bangladesh government's Expanded Programme on Immunization, the WHO growth standards calibrated for the South Asian context, the Edinburgh Postnatal Depression Scale adapted for culturally appropriate conversational delivery, and the linguistic register that Bangladeshi mothers have told us feels trustworthy and warm rather than clinical and distant.
+
+This is not a perfect solution. The tokenization challenges are real and ongoing. The cultural knowledge we have encoded reflects our research and consultation, but it does not capture every regional and community variation across a country as diverse as Bangladesh. We are committed to continuous improvement through user feedback and expanded clinical consultation.
+
+## The Broader Implication
+
+The issues we have encountered building Hafsa Sastho are not specific to Bengali or to maternal health. They represent a pattern that will recur whenever AI products are built for [populations that were not well-represented in the training data](/blog/the-data-gap-bangladeshs-4-million-births-invisible-to-ai) of the underlying models.
+
+The work of Bender, Gebru, McMillan-Major, and Shmitchell (2021), published at the ACM FAccT conference, documented this pattern with significant rigor: large language models encode the biases and gaps of their training data, and the people most affected by those gaps are typically the people least visible in the training data to begin with. The paper argues, compellingly, that the framing of "multilingual" AI can obscure rather than illuminate the actual distribution of capability and quality across languages.
+
+Addressing this requires more than better translation pipelines. It requires AI developers to make explicit choices about which populations they are designing for, to invest in data collection and community consultation with those populations, and to be honest about the performance gaps that exist in their current systems.
+
+At Nahl Technologies, we have chosen to build for a population that the major AI laboratories have not yet adequately served. We do this not because we believe we can single-handedly close the gap in Bengali NLP research, but because we believe that someone has to start building in this direction, and we are positioned to do it.
+
+---
+
+**References**
+
+Bender, E.M., Gebru, T., McMillan-Major, A., and Shmitchell, S. (2021). On the Dangers of Stochastic Parrots: Can Language Models Be Too Big? _Proceedings of the 2021 ACM Conference on Fairness, Accountability, and Transparency (FAccT '21)_. doi:10.1145/3442188.3445922
+
+Conneau, A., Khandelwal, K., Goyal, N., Chaudhary, V., Wenzek, G., Guzmán, F., Grave, E., Ott, M., Zettlemoyer, L., and Stoyanov, V. (2020). Unsupervised Cross-lingual Representation Learning at Scale. _Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics (ACL 2020)_, 8440–8451. https://aclanthology.org/2020.acl-main.747
+
+Eberhard, D.M., Simons, G.F., and Fennig, C.D. (Eds.). (2023). _Ethnologue: Languages of the World_ (26th ed.). SIL International. https://www.ethnologue.com
+
+Islam, M.S., Jubair, F., and Islam, A. (2021). BNLP: Natural Language Processing Toolkit for Bengali Language. _arXiv preprint_, arXiv:2101.00204. https://arxiv.org/abs/2101.00204
+
+Joshi, P., Santy, S., Budhiraja, A., Bali, K., and Choudhury, M. (2020). The State and Fate of Linguistic Diversity and Inclusion in the NLP World. _Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics (ACL 2020)_, 6282–6293. https://aclanthology.org/2020.acl-main.560
+
+Pires, T., Schlinger, E., and Garrette, D. (2019). How Multilingual is Multilingual BERT? _Proceedings of the 57th Annual Meeting of the Association for Computational Linguistics (ACL 2019)_, 4996–5001. https://aclanthology.org/P19-1493
