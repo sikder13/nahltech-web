@@ -1,3 +1,4 @@
+import { getPublishedPosts } from "@/lib/blog";
 import { allRoutePaths, routes, siteUrl } from "@/lib/routes";
 
 import type { MetadataRoute } from "next";
@@ -10,14 +11,28 @@ import type { MetadataRoute } from "next";
  *
  * Entries come from the same route registry the header and footer use, so a
  * page cannot exist without being listed, or be listed without existing.
+ * Blog posts come from the same loader the pages render from, for the same
+ * reason.
  */
 export default function sitemap(): MetadataRoute.Sitemap {
-  const lastModified = new Date();
+  const generatedAt = new Date();
 
-  return allRoutePaths.map((path) => ({
+  const pages: MetadataRoute.Sitemap = allRoutePaths.map((path) => ({
     url: new URL(path, siteUrl).toString(),
-    lastModified,
+    lastModified: generatedAt,
     changeFrequency: path === routes.home ? "weekly" : "monthly",
     priority: path === routes.home ? 1 : 0.7,
   }));
+
+  // Posts carry their own date: a post's lastmod is when it was published,
+  // not when the site last deployed. Claiming otherwise tells a crawler every
+  // post changed on every build.
+  const posts: MetadataRoute.Sitemap = getPublishedPosts().map((post) => ({
+    url: new URL(`${routes.blog}/${post.slug}`, siteUrl).toString(),
+    lastModified: new Date(`${post.date}T00:00:00Z`),
+    changeFrequency: "yearly",
+    priority: 0.6,
+  }));
+
+  return [...pages, ...posts];
 }
