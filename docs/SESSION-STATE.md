@@ -2,21 +2,22 @@
 
 Handoff snapshot. Update at the end of every session.
 
-**Last updated:** 11 August 2026 · HEAD `cd05602` · 73 commits · 102 tests passing
+**Last updated:** 11 August 2026 · HEAD `d5926da` · 82 commits · 129 tests passing
 
 ## 1. Status
 
-Phases 1–4 complete: foundation, six page templates, design distinctiveness
-pass, five-service restructure, all approved copy, pricing page with real
-published numbers, and the backend — three API routes, lead alerting and the
-chat widget.
+Phases 1–4 complete, plus the Phase 3 carry-over: foundation, six page
+templates, design distinctiveness pass, five-service restructure, all approved
+copy, pricing with real published numbers, the backend — three API routes,
+lead alerting and the chat widget — and now the MDX blog pipeline with the
+five migrated posts, and the legal pages.
 
 - Live: **https://nahltech-web.vercel.app**
 - No custom domain attached. Deliberate — cutover is Phase 5.
 - CI green on `main` (lint · typecheck · test · build, Node 22).
 - Vercel builds on Node 24.x; CI and `.nvmrc` pin 22. Legal under
   `engines: >=22`, but the runtimes differ.
-- Placeholders remaining in `en.json`: **2**, both legal.
+- Placeholders remaining in `en.json`: **0**. Every string is approved copy.
 - Booking is live: `routes.bookingUrl` →
   `https://cal.com/udaay-nahltech/intro-call-15-min`. Plain links only, no
   Cal.com embed — an embed would add third-party script to every page and
@@ -93,6 +94,27 @@ chat widget.
   chat launcher ~1.8 kB, newsletter form ~1.2 kB. The lazy panel chunk is
   3,647 bytes gzipped and is **not** in first load.
 
+**Content (CC-7)**
+- MDX pipeline in `src/lib/blog.ts`: zod frontmatter plus build-time link
+  gates. `field-notes` requires a target keyword, one service or product link
+  and two sibling links; `brand` and `archive` are exempt. Dead-link checking
+  applies to every cluster. Failures name the file.
+- next-mdx-remote (RSC) over a hand-rolled remark pipeline — one dependency,
+  maintained, no client JS, and real MDX semantics if a post ever needs a
+  component.
+- Five legacy posts migrated under their original slugs, so no redirect is
+  needed. Three are `field-notes` with directional keywords (unvalidated until
+  Keyword Planner data lands); two are `brand`.
+- Prose editing was bounded and is logged line by line in
+  `docs/blog-migration-diff.md`, built from a mechanical diff. Four edits
+  across five posts; two posts unchanged. Four items are flagged there for
+  founder review and deliberately not changed — see §5.
+- `/blog/feed.xml` is RSS 2.0 and lives outside `[locale]`, next to sitemap.ts:
+  the middleware matcher skips dotted paths, so a feed inside `[locale]` would
+  be unreachable. Sitemap entries carry the frontmatter date as lastmod, not
+  the build time.
+- No article JSON-LD yet. schema.org is Phase 5's, via `lib/schema-org.ts`.
+
 ## 3. Infra facts
 
 **Supabase** — project `nahltech-web`, ref `posdwhozfmlofsvqfohn`,
@@ -138,7 +160,17 @@ org `yhkazuzdlcaqgealmjjp`, us-east-1 (N. Virginia), Postgres 17.6.
 
 ## 5. Outstanding — founder side
 
-- Legal page copy (privacy, terms, DPA). Only remaining placeholders.
+- **Counsel review of the legal pages.** The published copy is a pragmatic
+  startup baseline drafted in-house, not attorney-reviewed. Shipped on the
+  explicit understanding that it is revised on review.
+- **Four content questions flagged in `docs/blog-migration-diff.md`**: three
+  citation mismatches in the data-gap post where in-text attribution disagrees
+  with its own reference list, a Bengali speaker count that differs between two
+  posts, launch language that was accurate on its date and now reads stale, and
+  named competitor products in a founder essay. Each would mean altering a
+  claim, so none was changed.
+- **Blog target keywords are directional.** The three `field-notes` keywords
+  were assigned without Keyword Planner data and are marked unvalidated.
 - Team photos for `/about` (currently neutral glyphs; no stock photography).
 - Logo asset (header uses a typeset wordmark + bee mark).
 - Hafsa Sastho Play Store URL — expected 1 Sept 2026. `productLinks.hafsaSastho`
