@@ -66,6 +66,7 @@
 | Rate limiting | **Upstash Redis** (free tier) | Protects /api/chat and /api/lead |
 | Booking | **Cal.com** (free tier, embedded) | Instant booking = primary CTA |
 | Hosting | **Vercel** | Existing account, preview deploys |
+| Post-response work | **`@vercel/functions`** (`waitUntil`) | Added in Phase 4. A serverless function can be frozen the moment it responds, so an un-awaited lead alert is not guaranteed to send — a silently dropped alert is the exact failure hard rule 6 exists to prevent. Guarded import; off Vercel the work is awaited instead (`lib/after-response.ts`) |
 | CI | **GitHub Actions** | lint + typecheck + build on every PR |
 | Analytics | **GA4 + GSC + Bing Webmaster + Vercel Analytics** | All free |
 
