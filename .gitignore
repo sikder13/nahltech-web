@@ -151,3 +151,6 @@ review/
 # Visual review artefacts. Screenshots are raw images, which hard rule 2
 # keeps out of the repo; they exist so a change can be looked at, not stored.
 review/
+
+# Playwright MCP scratch output (page snapshots taken during review).
+.playwright-mcp/
