@@ -716,6 +716,20 @@
     "button": "Subscribe",
     "success": "Done. You'll hear from us when there's something worth reading."
   },
+  "chat": {
+    "launcherLabel": "Open chat",
+    "closeLabel": "Close chat",
+    "title": "Ask us anything",
+    "placeholder": "Type your message",
+    "send": "Send",
+    "conversationLabel": "Conversation",
+    "youLabel": "You",
+    "assistantLabel": "Nahl assistant",
+    "fallback": "Having trouble right now — call us or use the contact form.",
+    "consentPrompt": "Want someone to follow up on this?",
+    "consentButton": "Save my details & have them reach out",
+    "consentSuccess": "Saved. Someone will be in touch."
+  },
   "pricing": {
     "headline": "Straight answers on pricing.",
     "intro": "Every number below is real and published on purpose. Engagements are scoped to your situation, so builds show starting points — but you will never hear \"it depends\" without a number attached.",
