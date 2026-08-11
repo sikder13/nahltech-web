@@ -2,13 +2,14 @@
 
 Handoff snapshot. Update at the end of every session.
 
-**Last updated:** 11 August 2026 · HEAD `4f36cfb` · 63 commits · 52 tests passing
+**Last updated:** 11 August 2026 · HEAD `cd05602` · 73 commits · 102 tests passing
 
 ## 1. Status
 
-Phases 1–3 complete: foundation, six page templates, design distinctiveness
+Phases 1–4 complete: foundation, six page templates, design distinctiveness
 pass, five-service restructure, all approved copy, pricing page with real
-published numbers.
+published numbers, and the backend — three API routes, lead alerting and the
+chat widget.
 
 - Live: **https://nahltech-web.vercel.app**
 - No custom domain attached. Deliberate — cutover is Phase 5.
@@ -16,6 +17,10 @@ published numbers.
 - Vercel builds on Node 24.x; CI and `.nvmrc` pin 22. Legal under
   `engines: >=22`, but the runtimes differ.
 - Placeholders remaining in `en.json`: **2**, both legal.
+- Booking is live: `routes.bookingUrl` →
+  `https://cal.com/udaay-nahltech/intro-call-15-min`. Plain links only, no
+  Cal.com embed — an embed would add third-party script to every page and
+  need a CSP change.
 
 ## 2. Done this arc
 
@@ -61,6 +66,33 @@ published numbers.
   Currently zero occurrences.
 - Em-dash policy: max one per paragraph; clause-joining dashes become periods.
 
+**Backend (Phase 4)**
+- Three routes, all `runtime: "nodejs"` + `force-dynamic`: `/api/lead`,
+  `/api/subscribe`, `/api/chat`. Every one is rate-limited and re-validates
+  server-side before touching anything external.
+- `/api/lead` answers 200 even when the insert fails. `createLead` emails the
+  enquiry first, so the lead survives and the visitor is not shown an error
+  (hard rule 6). The success payload carries an `id` only when a row exists.
+- The honeypot (`website_url`) is checked against the raw body *before*
+  validation, so a trapped submission is indistinguishable from a successful
+  one whatever else it contained.
+- `/api/chat` proxies `claude-haiku-4-5-20251001`, max_tokens 400, streaming.
+  10/min and 100/day, both must pass. History capped at 20 turns / 2000 chars
+  per turn / 20,000 chars total, trimmed oldest-first. `role: "system"` from a
+  client is refused, not stripped. Provider errors stream the dictionary
+  fallback line as a normal 200.
+- The chat system prompt is composed from the dictionary (`lib/chat-prompt.ts`),
+  so the published price card stays the single source of truth and the
+  assistant cannot quote a withdrawn number.
+- Background work goes through `lib/after-response.ts` — `waitUntil` on Vercel,
+  awaited elsewhere. Without it a serverless freeze can drop a lead alert.
+- Chat widget is lazy: the launcher ships in the page bundle, the panel and the
+  Supabase browser client arrive on first open. Consent capture is explicit —
+  the detector only reveals the form, never fills or submits it.
+- First-load JS on `/` grew 148,460 → 151,479 bytes gzipped (+2.95 kB):
+  chat launcher ~1.8 kB, newsletter form ~1.2 kB. The lazy panel chunk is
+  3,647 bytes gzipped and is **not** in first load.
+
 ## 3. Infra facts
 
 **Supabase** — project `nahltech-web`, ref `posdwhozfmlofsvqfohn`,
@@ -89,25 +121,17 @@ org `yhkazuzdlcaqgealmjjp`, us-east-1 (N. Virginia), Postgres 17.6.
 
 **Vercel** — project `nahltech-web`, team `nahl-technologies-projects`.
 
-- Env vars set: the Supabase trio (`NEXT_PUBLIC_SUPABASE_URL`,
-  `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`).
-- **Not yet set:** `ANTHROPIC_API_KEY`, `RESEND_API_KEY`,
-  `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`. Phase 4 needs these.
+- All seven env vars are set and exercised in production: the Supabase trio,
+  `ANTHROPIC_API_KEY`, `RESEND_API_KEY` and the Upstash pair. Verified by a
+  live lead insert through the deployed `/api/lead`.
+- Resend still reports `The nahltech.com domain is not verified`, so alert
+  emails record `status='failed'` in `notification_log`. Expected, not an
+  incident: the lead is stored either way and the route never surfaces it.
+  Verifying the domain is the only step needed to turn alerts on.
 - SSO protection on all deployments except custom domains, so per-deployment
   URLs 302; the `nahltech-web.vercel.app` alias is public.
 
 ## 4. Next
-
-**Phase 4 — backend** (ARCH-1 §4 and §10):
-
-- `/api/lead` — Upstash rate limit 10/min, zod re-validation server-side
-  (reuse `src/lib/lead-schema.ts`), service-role insert, lead-loss fallback
-  per hard rule 6. `LeadForm` has a `PHASE-4 TODO` marking the stub.
-- `/api/chat` — rate limit 10/min + 100/day, message ≤1000 chars, history
-  ≤20 turns, roles user|assistant only, server-side system prompt, streaming.
-- `/api/subscribe` — service-role insert, no anon grant.
-- `notify-new-lead` Edge Function — Resend + SMS, writes `notification_log`.
-- Chat widget, lazy-loaded on first interaction.
 
 **Phase 5 — SEO and launch:** schema.org via `lib/schema-org.ts`, hreflang
 (en only), redirect map, Lighthouse gate, Crawlmouse gate, domain cutover.
@@ -138,6 +162,17 @@ org `yhkazuzdlcaqgealmjjp`, us-east-1 (N. Virginia), Postgres 17.6.
   utility ending in sm/md/lg/xl/2xl/3xl — use `max-w-prose` or a
   `max-w-(--container-*)` token. `src/styles/tokens.test.ts` enforces this.
 - `localhost` resolves unreliably in some sandboxes; `127.0.0.1` works.
+- **`next start -H 127.0.0.1` breaks the locale rewrite.** Next then treats
+  the middleware's rewrite target as a different origin, converts it to a
+  redirect, and every page 308s to itself. Start it with no `-H` flag.
+- **Node 22 is required, not preferred.** jsdom 30's undici needs a Node 22
+  internal; on Node 20 every vitest worker dies at startup and the suite
+  reports "no tests" rather than a version error. `.npmrc` sets
+  `engine-strict=true` so this now fails at install.
+- **Middleware runs on `/api/*`.** It returns early for them, but anything
+  added to the locale logic must keep that early return — without it the
+  rewrite sends API calls to `/en/api/*`, which does not exist, and all three
+  routes answer 500.
 
 ## 7. Process rules
 
