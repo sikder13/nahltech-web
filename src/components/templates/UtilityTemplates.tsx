@@ -85,7 +85,10 @@ export function ContactTemplate({ t }: { t: Dictionary }) {
               {t.contact.formIntro}
             </p>
             <div className="mt-md">
-              <LeadForm labels={t.leadForm} />
+              <LeadForm
+                labels={t.leadForm}
+                cta={{ callLabel: t.cta.callLabel, bookCall: t.cta.bookCall }}
+              />
             </div>
           </section>
         </div>

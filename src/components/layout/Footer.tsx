@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { NewsletterForm } from "@/components/conversion/NewsletterForm";
 import { contactDetails, routes, serviceRouteKeys } from "@/lib/routes";
 
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
@@ -68,7 +69,22 @@ export function Footer({ t }: { t: Dictionary }) {
           </div>
         </nav>
 
-        <div className="mt-xl flex flex-col gap-sm border-t border-divider pt-md md:flex-row md:items-end md:justify-between">
+        <div className="mt-xl border-t border-divider pt-md">
+          <NewsletterForm
+            labels={{
+              ...t.newsletter,
+              // Reuses the contact form's already-approved field label and
+              // error copy rather than introducing a second wording for the
+              // same thing.
+              emailLabel: t.leadForm.email,
+              emailInvalid: t.leadForm.errors.emailInvalid,
+              rateLimited: t.leadForm.rateLimited,
+              networkError: t.leadForm.networkError,
+            }}
+          />
+        </div>
+
+        <div className="mt-lg flex flex-col gap-sm border-t border-divider pt-md md:flex-row md:items-end md:justify-between">
           <address className="text-sm text-text-muted not-italic">
             <span className="block font-semibold text-text">
               {t.footer.addressHeading}

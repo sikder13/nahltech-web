@@ -75,3 +75,13 @@ export const productLinks = {
   // Closed beta: no public URL.
   hafsaSastho: null,
 } as const;
+
+/**
+ * Instant booking, once there is somewhere to book.
+ *
+ * `null` until the Cal.com link exists. Everywhere that would offer booking
+ * falls back to the phone number instead of pointing at a guess, on the same
+ * null-guard pattern as `productLinks` (hard rule 7). Filling this in is the
+ * only change needed to turn those CTAs on.
+ */
+export const bookingUrl: string | null = null;

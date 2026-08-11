@@ -704,7 +704,17 @@
       "emailRequired": "Enter your email address.",
       "emailInvalid": "Enter a valid email address, like name@example.com.",
       "tooLong": "That is longer than we can accept."
-    }
+    },
+    "sending": "Sending…",
+    "rateLimited": "That is a lot of messages in a short time. Wait a moment, then try again.",
+    "networkError": "That did not send. Check your connection and try again, or call us."
+  },
+  "newsletter": {
+    "heading": "One useful email, occasionally.",
+    "sublabel": "New research, tools, and honest notes on AI for business. No filler.",
+    "placeholder": "you@company.com",
+    "button": "Subscribe",
+    "success": "Done. You'll hear from us when there's something worth reading."
   },
   "pricing": {
     "headline": "Straight answers on pricing.",
