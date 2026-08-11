@@ -63,11 +63,18 @@ published numbers.
 
 ## 3. Infra facts
 
-**Supabase** — project `nahltech-web`, ref `gakoxloiwlgrhmzvelwt`,
-org `yhkazuzdlcaqgealmjjp`, us-west-2, Postgres 17.6.
+**Supabase** — project `nahltech-web`, ref `posdwhozfmlofsvqfohn`,
+org `yhkazuzdlcaqgealmjjp`, us-east-1 (N. Virginia), Postgres 17.6.
 
+- **Region migration, 11 Aug 2026.** The database moved from us-west-2
+  (Oregon) to us-east-1. The old Oregon project, ref `gakoxloiwlgrhmzvelwt`,
+  was **deleted** — that ref is dead and survives only in git history.
+  Anything still pointing at it will fail to resolve, not silently read
+  stale data.
 - Migrations `0001_initial_schema.sql` and `0002_service_enum.sql` are
-  committed **and applied to the live database**. Verified 11 Aug 2026.
+  committed **and applied to the live database** — re-applied to the new
+  project from scratch and verified 11 Aug 2026. The target was confirmed
+  empty (0 public tables) before the first write.
 - `service_interest` has **8** values: ai_search_visibility, local_seo,
   web_development, ai_automation, unsure, other, ai_consultancy,
   software_development. (`local_seo` retained — Postgres cannot drop an enum
