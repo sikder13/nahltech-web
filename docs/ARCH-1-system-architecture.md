@@ -321,6 +321,12 @@ Every line above is a lesson from the old site's audit: hardcoded keys, an anon 
 **Performance budget (CI-checked via Lighthouse):**
 LCP < 2.0s · CLS < 0.05 · INP < 200ms · Lighthouse SEO + A11y + Best-Practices = 100, Performance ≥ 95 mobile · fonts self-hosted · images AVIF/WebP via next/image · JS on marketing pages < 120KB gz (chat widget lazy-loads on first interaction).
 
+**First-load JS, measured 11 Aug 2026 at the end of Phase 4:** `/` ships **151.5 KB gzipped**. The chat panel is not in that figure — it lazy-loads on first interaction as a separate 3.6 KB gzipped chunk, which is the target above working as intended.
+
+That number is **over the 120 KB gz target, and was already over before Phase 4**. The same measurement against the Phase 3 tip (`e64bdac`) is 148.5 KB. Phase 4 added 3.0 KB of it: chat launcher 1.8 KB, newsletter form 1.2 KB, everything else 16 bytes. Recording 151.5 KB here as the measured baseline for Phase 5's performance pass to work against — not as a raised ceiling. The 120 KB target stands and is currently unmet by ~31 KB.
+
+Method, so the next measurement is comparable: sum the `.js` entries from `build-manifest.rootMainFiles` plus `app-build-manifest.pages` for `/layout`, `/[locale]/layout` and `/[locale]/page`, gzip each at level 9. CSS is excluded.
+
 **Launch gate:** site scores well on Crawlmouse. We sell this; our own grade is the first proof any prospect checks.
 
 ---
