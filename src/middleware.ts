@@ -5,6 +5,29 @@ import { defaultLocale, isLocale } from "@/lib/i18n/config";
 const isProduction = process.env.NODE_ENV === "production";
 
 /**
+ * Origin of the Supabase project, for `connect-src`.
+ *
+ * The chat widget inserts conversation and message rows straight from the
+ * browser with the anon key, which is a cross-origin request to
+ * `https://<ref>.supabase.co`. Without this the CSP blocks every one of them
+ * and chat logging silently stops working. /api/chat itself is same-origin
+ * and needs no entry.
+ *
+ * Parsed rather than interpolated so a malformed env var cannot inject extra
+ * directives, and so an unset one (CI builds have no Supabase credentials)
+ * degrades to omitting the origin rather than emitting `undefined`.
+ */
+function supabaseOrigin(): string[] {
+  const raw = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  if (!raw) return [];
+  try {
+    return [new URL(raw).origin];
+  } catch {
+    return [];
+  }
+}
+
+/**
  * Content Security Policy.
  *
  * Deliberately nonce-free. A nonce has to be minted per request, which opts
@@ -34,6 +57,8 @@ function contentSecurityPolicy(): string {
       "'self'",
       "https://va.vercel-scripts.com",
       "https://vitals.vercel-insights.com",
+      // Anon chat logging posts directly to the Supabase REST endpoint.
+      ...supabaseOrigin(),
       // Dev server hot reload runs over a websocket.
       ...(isProduction ? [] : ["ws:"]),
     ],

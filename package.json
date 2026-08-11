@@ -18,10 +18,16 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.116.0",
+    "@supabase/supabase-js": "^2.112.3",
+    "@upstash/ratelimit": "^2.0.8",
+    "@upstash/redis": "^1.38.2",
+    "@vercel/functions": "^3.9.2",
     "framer-motion": "^12.23.12",
     "next": "15.5.23",
     "react": "19.1.0",
     "react-dom": "19.1.0",
+    "resend": "^6.19.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {
