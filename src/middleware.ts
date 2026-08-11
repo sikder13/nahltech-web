@@ -105,6 +105,17 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const firstSegment = pathname.split("/")[1] ?? "";
 
+  /**
+   * API routes are not localized.
+   *
+   * They stay in the matcher so their responses still carry the security
+   * headers, but they must never be rewritten under a locale segment: there
+   * is no /en/api/* route, so the rewrite turns every API call into a 500.
+   */
+  if (firstSegment === "api") {
+    return withSecurityHeaders(NextResponse.next());
+  }
+
   // English ships unprefixed, so /en/* is not a canonical URL. Redirect it
   // rather than serving the same page at two addresses.
   if (firstSegment === defaultLocale) {
