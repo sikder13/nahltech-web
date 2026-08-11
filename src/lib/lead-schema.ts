@@ -101,6 +101,13 @@ export const leadServerSchema = z.object({
   locale: optionalServerText(10),
 
   /**
+   * Set only by the chat widget's consent form. Not a column on `leads`: the
+   * route uses it to stamp `lead_id` onto the conversation row, so a lead can
+   * be read back alongside the transcript it came out of.
+   */
+  conversation_id: z.uuid().optional().or(z.literal("")),
+
+  /**
    * Honeypot. NOT the `website` column on the `leads` table — the names are
    * deliberately similar but this value is never persisted anywhere. A real
    * visitor cannot see or tab to the field, so any non-empty value means a

@@ -1,6 +1,7 @@
 import { Fraunces, Inter } from "next/font/google";
 import { notFound } from "next/navigation";
 
+import { ChatWidget } from "@/components/conversion/ChatWidget";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { MotionProvider } from "@/components/layout/MotionProvider";
@@ -112,6 +113,43 @@ export default async function LocaleLayout({
             {children}
           </main>
           <Footer t={t} />
+          {/* Only the strings it renders cross the RSC boundary, so the
+              payload does not carry the whole dictionary to the client. */}
+          <ChatWidget
+            labels={{
+              launcherLabel: t.chat.launcherLabel,
+              closeLabel: t.chat.closeLabel,
+              title: t.chat.title,
+              placeholder: t.chat.placeholder,
+              send: t.chat.send,
+              conversationLabel: t.chat.conversationLabel,
+              youLabel: t.chat.youLabel,
+              assistantLabel: t.chat.assistantLabel,
+              fallback: t.chat.fallback,
+              consentPrompt: t.chat.consentPrompt,
+              consentButton: t.chat.consentButton,
+              consentSuccess: t.chat.consentSuccess,
+              rateLimited: t.leadForm.rateLimited,
+              networkError: t.leadForm.networkError,
+              callLabel: t.cta.callLabel,
+              bookCall: t.cta.bookCall,
+            }}
+            consentLabels={{
+              name: t.leadForm.name,
+              email: t.leadForm.email,
+              phone: t.leadForm.phone,
+              message: t.leadForm.message,
+              submit: t.chat.consentButton,
+              sending: t.leadForm.sending,
+              rateLimited: t.leadForm.rateLimited,
+              networkError: t.leadForm.networkError,
+              errors: {
+                nameRequired: t.leadForm.errors.nameRequired,
+                emailRequired: t.leadForm.errors.emailRequired,
+                emailInvalid: t.leadForm.errors.emailInvalid,
+              },
+            }}
+          />
         </MotionProvider>
       </body>
     </html>

@@ -94,6 +94,17 @@ export async function POST(request: Request) {
       if (error) {
         console.error("[lead] lead_events insert failed", error.code);
       }
+
+      // Link the transcript this lead came out of, when it came from chat.
+      if (input.conversation_id) {
+        const { error: linkError } = await supabaseAdmin
+          .from("chat_conversations")
+          .update({ lead_id: result.id })
+          .eq("id", input.conversation_id);
+        if (linkError) {
+          console.error("[lead] conversation link failed", linkError.code);
+        }
+      }
     })(),
   );
 

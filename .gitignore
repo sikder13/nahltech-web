@@ -147,3 +147,7 @@ vite.config.ts.timestamp-*
 
 # Local screenshot review output — never committed
 review/
+
+# Visual review artefacts. Screenshots are raw images, which hard rule 2
+# keeps out of the repo; they exist so a change can be looked at, not stored.
+review/
