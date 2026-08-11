@@ -4,7 +4,7 @@ import { describe, expect, it, vi } from "vitest";
 import { Header } from "./Header";
 
 import en from "@/lib/i18n/dictionaries/en.json";
-import { contactDetails, routes } from "@/lib/routes";
+import { bookingCta, contactDetails } from "@/lib/routes";
 
 vi.mock("next/navigation", () => ({
   usePathname: () => "/",
@@ -53,11 +53,15 @@ describe("Header", () => {
     expect(contactDetails.phoneHref).toBe("tel:+13175074303");
   });
 
-  it("renders the Book a call CTA pointing at a real route", () => {
+  it("sends the Book a call CTA to booking, hardened as an external link", () => {
     render(<Header t={en} />);
 
     const [cta] = screen.getAllByRole("link", { name: en.cta.bookCall });
-    expect(cta).toHaveAttribute("href", routes.contact);
+    expect(cta).toHaveAttribute("href", bookingCta.href);
+    // Off-site, so it opens in a new tab with the opener detached — the same
+    // treatment the Crawlmouse links get.
+    expect(cta).toHaveAttribute("target", "_blank");
+    expect(cta).toHaveAttribute("rel", "noopener noreferrer");
   });
 
   it("marks dropdown triggers as collapsed until opened", () => {

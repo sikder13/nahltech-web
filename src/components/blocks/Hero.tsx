@@ -44,8 +44,14 @@ export function Hero({
           <p className="mt-md max-w-prose text-lg text-text-muted">{subline}</p>
 
           <div className="mt-lg flex flex-wrap gap-sm">
-            <ButtonLink href={primary.href}>{primary.label}</ButtonLink>
-            <ButtonLink href={secondary.href} variant="secondary">
+            <ButtonLink href={primary.href} external={primary.external}>
+              {primary.label}
+            </ButtonLink>
+            <ButtonLink
+              href={secondary.href}
+              variant="secondary"
+              external={secondary.external}
+            >
               {secondary.label}
             </ButtonLink>
           </div>

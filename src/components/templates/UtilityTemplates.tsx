@@ -10,7 +10,7 @@ import {
   TeamGrid,
 } from "@/components/blocks/utility-blocks";
 import { LeadForm } from "@/components/conversion/LeadForm";
-import { contactDetails, routes } from "@/lib/routes";
+import { bookingCta, contactDetails, routes } from "@/lib/routes";
 
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
 
@@ -31,7 +31,11 @@ export function AboutTemplate({ t }: { t: Dictionary }) {
       <CtaBlock
         heading={t.ctaBlock.heading}
         body={t.ctaBlock.body}
-        primary={{ label: t.cta.bookCall, href: routes.contact }}
+        primary={{
+          label: t.cta.bookCall,
+          href: bookingCta.href,
+          external: bookingCta.external,
+        }}
         phone={{ label: t.cta.phoneDisplay, href: contactDetails.phoneHref }}
         orCallLabel={t.cta.orCall}
       />
@@ -132,7 +136,11 @@ export function PricingTemplate({ t }: { t: Dictionary }) {
       <CtaBlock
         heading={t.ctaBlock.heading}
         body={t.ctaBlock.body}
-        primary={{ label: t.cta.bookCall, href: routes.contact }}
+        primary={{
+          label: t.cta.bookCall,
+          href: bookingCta.href,
+          external: bookingCta.external,
+        }}
         phone={{ label: t.cta.phoneDisplay, href: contactDetails.phoneHref }}
         orCallLabel={t.cta.orCall}
       />

@@ -98,11 +98,14 @@ export function LeadForm({
         </h3>
         <p className="mt-2xs text-sm text-text-muted">{labels.successBody}</p>
         <div className="mt-md flex flex-wrap gap-xs">
-          {/* Booking is offered only once there is somewhere to book; until
-              then the phone number is the immediate channel (hard rule 7). */}
+          {/* Booking leads, phone follows. The guard stays because the type
+              admits null: if the booking page is ever retired, this degrades
+              to the phone number rather than a dead anchor (hard rule 7). */}
           {bookingUrl ? (
             <a
               href={bookingUrl}
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center justify-center rounded-md bg-cta px-sm py-2xs text-sm font-semibold text-on-cta transition-colors hover:bg-cta-hover motion-reduce:transition-none"
             >
               {cta.bookCall}

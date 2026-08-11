@@ -8,7 +8,7 @@ import {
   PriceCard,
   ProblemStatement,
 } from "@/components/blocks/service-blocks";
-import { contactDetails, routes } from "@/lib/routes";
+import { bookingCta, contactDetails } from "@/lib/routes";
 
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
 import type { ReactNode } from "react";
@@ -60,7 +60,11 @@ export function ServiceTemplate({
         amount={content.price.amount}
         unit={content.price.unit}
         note={content.price.note}
-        action={{ label: t.cta.bookCall, href: routes.contact }}
+        action={{
+          label: t.cta.bookCall,
+          href: bookingCta.href,
+          external: bookingCta.external,
+        }}
       />
 
       <DeliverablesList
@@ -78,7 +82,11 @@ export function ServiceTemplate({
       <CtaBlock
         heading={t.ctaBlock.heading}
         body={t.ctaBlock.body}
-        primary={{ label: t.cta.bookCall, href: routes.contact }}
+        primary={{
+          label: t.cta.bookCall,
+          href: bookingCta.href,
+          external: bookingCta.external,
+        }}
         phone={{ label: t.cta.phoneDisplay, href: contactDetails.phoneHref }}
         orCallLabel={t.cta.orCall}
       />

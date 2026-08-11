@@ -5,6 +5,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { LeadForm } from "./LeadForm";
 
 import en from "@/lib/i18n/dictionaries/en.json";
+import { bookingUrl } from "@/lib/routes";
 
 const cta = { callLabel: en.cta.callLabel, bookCall: en.cta.bookCall };
 
@@ -89,7 +90,7 @@ describe("LeadForm", () => {
     expect(payload).toHaveProperty("referrer");
   });
 
-  it("offers the phone number in the success state while booking has no URL", async () => {
+  it("offers booking first and the phone number alongside it on success", async () => {
     const user = userEvent.setup();
     renderForm();
 
@@ -98,13 +99,16 @@ describe("LeadForm", () => {
 
     const success = await screen.findByRole("status");
     expect(success).toHaveTextContent(en.leadForm.successTitle);
+
+    const book = screen.getByRole("link", { name: en.cta.bookCall });
+    expect(book).toHaveAttribute("href", bookingUrl!);
+    expect(book).toHaveAttribute("target", "_blank");
+    expect(book).toHaveAttribute("rel", "noopener noreferrer");
+
+    // Phone stays as the second option rather than being replaced.
     expect(
       screen.getByRole("link", { name: en.cta.callLabel }),
     ).toHaveAttribute("href", "tel:+13175074303");
-    // bookingUrl is null, so no dead booking link is rendered (hard rule 7).
-    expect(
-      screen.queryByRole("link", { name: en.cta.bookCall }),
-    ).not.toBeInTheDocument();
   });
 
   it("still shows success when the insert failed behind a 200", async () => {

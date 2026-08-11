@@ -5,7 +5,7 @@ import { describe, expect, it, vi } from "vitest";
 import { MobileNav } from "./MobileNav";
 
 import en from "@/lib/i18n/dictionaries/en.json";
-import { routes } from "@/lib/routes";
+import { bookingCta, routes } from "@/lib/routes";
 
 const labels = {
   openMenu: en.a11y.openMenu,
@@ -46,7 +46,7 @@ describe("MobileNav", () => {
         labels={labels}
         links={links}
         phoneHref="tel:+13175074303"
-        contactHref={routes.contact}
+        booking={bookingCta}
       />,
     );
 
@@ -62,7 +62,7 @@ describe("MobileNav", () => {
         labels={labels}
         links={links}
         phoneHref="tel:+13175074303"
-        contactHref={routes.contact}
+        booking={bookingCta}
       />,
     );
 
@@ -89,7 +89,7 @@ describe("MobileNav", () => {
         labels={labels}
         links={links}
         phoneHref="tel:+13175074303"
-        contactHref={routes.contact}
+        booking={bookingCta}
       />,
     );
 

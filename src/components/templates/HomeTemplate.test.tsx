@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { HomeTemplate } from "./HomeTemplate";
 
 import en from "@/lib/i18n/dictionaries/en.json";
-import { routes } from "@/lib/routes";
+import { bookingCta, routes } from "@/lib/routes";
 
 describe("HomeTemplate", () => {
   it("renders the fixed section order", () => {
@@ -30,7 +30,7 @@ describe("HomeTemplate", () => {
 
     expect(
       screen.getAllByRole("link", { name: en.cta.bookCall })[0],
-    ).toHaveAttribute("href", routes.contact);
+    ).toHaveAttribute("href", bookingCta.href);
     expect(
       screen.getByRole("link", { name: en.cta.visibilityCheck }),
     ).toHaveAttribute("href", `${routes.contact}#lead-form`);

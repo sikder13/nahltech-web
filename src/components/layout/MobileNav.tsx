@@ -34,12 +34,12 @@ export function MobileNav({
   labels,
   links,
   phoneHref,
-  contactHref,
+  booking,
 }: {
   labels: MobileNavLabels;
   links: readonly MobileNavLink[];
   phoneHref: string;
-  contactHref: string;
+  booking: { href: string; external: boolean };
 }) {
   const [open, setOpen] = useState(false);
   const panelId = useId();
@@ -161,7 +161,9 @@ export function MobileNav({
           >
             {labels.phoneDisplay}
           </a>
-          <ButtonLink href={contactHref}>{labels.bookCall}</ButtonLink>
+          <ButtonLink href={booking.href} external={booking.external}>
+            {labels.bookCall}
+          </ButtonLink>
         </div>
       </div>
     </div>

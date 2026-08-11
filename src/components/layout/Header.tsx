@@ -4,7 +4,12 @@ import { MobileNav } from "@/components/layout/MobileNav";
 import { NavDropdown } from "@/components/layout/NavDropdown";
 import { BeeMark } from "@/components/ui/BeeMark";
 import { ButtonLink } from "@/components/ui/ButtonLink";
-import { contactDetails, routes, serviceRouteKeys } from "@/lib/routes";
+import {
+  bookingCta,
+  contactDetails,
+  routes,
+  serviceRouteKeys,
+} from "@/lib/routes";
 
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
 
@@ -81,7 +86,9 @@ export function Header({ t }: { t: Dictionary }) {
           >
             {t.cta.phoneDisplay}
           </a>
-          <ButtonLink href={routes.contact}>{t.cta.bookCall}</ButtonLink>
+          <ButtonLink href={bookingCta.href} external={bookingCta.external}>
+            {t.cta.bookCall}
+          </ButtonLink>
         </div>
 
         <MobileNav
@@ -106,7 +113,7 @@ export function Header({ t }: { t: Dictionary }) {
             { href: routes.about, label: t.nav.about },
           ]}
           phoneHref={contactDetails.phoneHref}
-          contactHref={routes.contact}
+          booking={bookingCta}
         />
       </div>
     </header>

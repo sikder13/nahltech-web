@@ -2,7 +2,7 @@ import { PhoneLink } from "@/components/conversion/PhoneLink";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { FadeIn } from "@/components/ui/FadeIn";
 
-export type CtaAction = { label: string; href: string };
+export type CtaAction = { label: string; href: string; external?: boolean };
 
 /**
  * Closing conversion section. Shared by the home, service and product
@@ -33,7 +33,9 @@ export function CtaBlock({
           <p className="mt-md max-w-prose text-text-muted">{body}</p>
 
           <div className="mt-lg flex flex-wrap items-center gap-md">
-            <ButtonLink href={primary.href}>{primary.label}</ButtonLink>
+            <ButtonLink href={primary.href} external={primary.external}>
+              {primary.label}
+            </ButtonLink>
             <span className="flex items-center gap-2xs text-sm text-text-muted">
               {orCallLabel}
               <PhoneLink label={phone.label} href={phone.href} />

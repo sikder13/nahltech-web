@@ -4,7 +4,7 @@ import {
   FeatureGrid,
   ProductHero,
 } from "@/components/blocks/product-blocks";
-import { contactDetails, routes } from "@/lib/routes";
+import { bookingCta, contactDetails } from "@/lib/routes";
 
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
 
@@ -47,7 +47,11 @@ export function ProductTemplate({
       <CtaBlock
         heading={t.ctaBlock.heading}
         body={t.ctaBlock.body}
-        primary={{ label: t.cta.bookCall, href: routes.contact }}
+        primary={{
+          label: t.cta.bookCall,
+          href: bookingCta.href,
+          external: bookingCta.external,
+        }}
         phone={{ label: t.cta.phoneDisplay, href: contactDetails.phoneHref }}
         orCallLabel={t.cta.orCall}
       />

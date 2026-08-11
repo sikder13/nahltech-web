@@ -11,7 +11,11 @@ export function CtaSlim({ body, action }: { body: string; action: CtaAction }) {
   return (
     <aside className="mt-xl flex flex-col gap-sm rounded-lg border-s-4 border-accent bg-surface p-md sm:flex-row sm:items-center sm:justify-between">
       <p className="text-sm text-text">{body}</p>
-      <ButtonLink href={action.href} className="shrink-0">
+      <ButtonLink
+        href={action.href}
+        external={action.external}
+        className="shrink-0"
+      >
         {action.label}
       </ButtonLink>
     </aside>

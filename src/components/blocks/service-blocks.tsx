@@ -97,7 +97,11 @@ export function PriceCard({
             <span className="text-sm text-text-muted">{unit}</span>
           </p>
           <p className="mt-sm text-sm text-text-muted">{note}</p>
-          <ButtonLink href={action.href} className="mt-md">
+          <ButtonLink
+            href={action.href}
+            external={action.external}
+            className="mt-md"
+          >
             {action.label}
           </ButtonLink>
         </div>

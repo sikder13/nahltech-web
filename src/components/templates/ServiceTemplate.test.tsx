@@ -6,7 +6,7 @@ import { ServiceTemplate } from "./ServiceTemplate";
 import { DemoCasePanel } from "@/components/blocks/demos";
 
 import en from "@/lib/i18n/dictionaries/en.json";
-import { routes } from "@/lib/routes";
+import { bookingCta } from "@/lib/routes";
 
 const content = en.servicePages.aiConsultancy;
 const demoContent = content.demo;
@@ -87,13 +87,14 @@ describe("ServiceTemplate", () => {
     }
   });
 
-  it("closes with a CTA pointing at contact", () => {
+  it("closes with a CTA pointing at booking", () => {
     render(<ServiceTemplate t={en} content={content} demo={demo} />);
 
     const ctas = screen.getAllByRole("link", { name: en.cta.bookCall });
     expect(ctas.length).toBeGreaterThan(0);
     for (const cta of ctas) {
-      expect(cta).toHaveAttribute("href", routes.contact);
+      expect(cta).toHaveAttribute("href", bookingCta.href);
+      expect(cta).toHaveAttribute("rel", "noopener noreferrer");
     }
   });
 });

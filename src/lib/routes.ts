@@ -77,11 +77,23 @@ export const productLinks = {
 } as const;
 
 /**
- * Instant booking, once there is somewhere to book.
+ * Instant booking.
  *
- * `null` until the Cal.com link exists. Everywhere that would offer booking
- * falls back to the phone number instead of pointing at a guess, on the same
- * null-guard pattern as `productLinks` (hard rule 7). Filling this in is the
- * only change needed to turn those CTAs on.
+ * Typed as nullable on purpose. The site has to keep working if the booking
+ * page is ever retired, and the guards that behaviour depends on only stay
+ * honest if the type admits null (hard rule 7, same shape as `productLinks`).
  */
-export const bookingUrl: string | null = null;
+export const bookingUrl: string | null =
+  "https://cal.com/udaay-nahltech/intro-call-15-min";
+
+/**
+ * Where every "Book a call" control points.
+ *
+ * One resolved target rather than a null check at each of the eight call
+ * sites: booking when we have it, the contact page when we do not. Off-site
+ * links get the external treatment — new tab plus rel hardening — matching
+ * how the Crawlmouse links are handled.
+ */
+export const bookingCta: { href: string; external: boolean } = bookingUrl
+  ? { href: bookingUrl, external: true }
+  : { href: routes.contact, external: false };

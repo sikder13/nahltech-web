@@ -4,7 +4,12 @@ import { MethodStrip } from "@/components/blocks/MethodStrip";
 import { ProofBar } from "@/components/blocks/ProofBar";
 import { ServicesGrid } from "@/components/blocks/ServicesGrid";
 import { TwoWaysBlock } from "@/components/blocks/TwoWaysBlock";
-import { contactDetails, routes, serviceRouteKeys } from "@/lib/routes";
+import {
+  bookingCta,
+  contactDetails,
+  routes,
+  serviceRouteKeys,
+} from "@/lib/routes";
 import { serviceIcons } from "@/lib/service-icons";
 
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
@@ -22,7 +27,11 @@ export function HomeTemplate({ t }: { t: Dictionary }) {
       <Hero
         headline={t.home.hero.headline}
         subline={t.home.hero.subline}
-        primary={{ label: t.cta.bookCall, href: routes.contact }}
+        primary={{
+          label: t.cta.bookCall,
+          href: bookingCta.href,
+          external: bookingCta.external,
+        }}
         secondary={{
           label: t.cta.visibilityCheck,
           href: `${routes.contact}#lead-form`,
@@ -89,7 +98,11 @@ export function HomeTemplate({ t }: { t: Dictionary }) {
       <CtaBlock
         heading={t.ctaBlock.heading}
         body={t.ctaBlock.body}
-        primary={{ label: t.cta.bookCall, href: routes.contact }}
+        primary={{
+          label: t.cta.bookCall,
+          href: bookingCta.href,
+          external: bookingCta.external,
+        }}
         phone={{
           label: t.cta.phoneDisplay,
           href: contactDetails.phoneHref,
