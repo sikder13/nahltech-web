@@ -53,10 +53,24 @@ export type Dictionary = typeof enDictionary;
  *   newsletter.heading · newsletter.sublabel · newsletter.placeholder
  *   newsletter.button  · newsletter.success
  *
+ *   legalPage.privacy.* · legalPage.terms.* · legalPage.dpa.*
+ *   legalPage.lastUpdated
+ *
+ * The legal copy is a pragmatic startup baseline drafted in-house and is
+ * NOT attorney-reviewed. Counsel review is tracked as a founder-side task in
+ * docs/SESSION-STATE.md §5; the intent is to ship now and revise on review.
+ *
+ * `pages.terms.title`, `pages.dpa.title`, `legal.terms` and `legal.dpa` were
+ * renamed to match the titles on that approved copy — "Terms of Use" and
+ * "Data Processing", replacing "Terms of Service" and "Data Processing
+ * Addendum".
+ *
  * ── Not yet written ───────────────────────────────────────────────────────
  *
- * 2 `[PLACEHOLDER: …]` strings remain, both on legal pages. They stay
- * placeholders until the founder provides the text.
+ * 0 `[PLACEHOLDER: …]` strings remain. Every string in en.json is approved
+ * copy. Blog post titles and meta descriptions live in the frontmatter of
+ * content/blog/*.mdx rather than here; their provenance is recorded in
+ * docs/blog-migration-diff.md.
  */
 
 const loaders: Record<LiveLocale, () => Promise<Dictionary>> = {

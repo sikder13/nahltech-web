@@ -1,3 +1,4 @@
+import { LegalSections } from "@/components/blocks/LegalSections";
 import { LegalTemplate } from "@/components/templates/LegalTemplate";
 import { requireDictionary } from "@/lib/i18n/require-dictionary";
 
@@ -28,7 +29,8 @@ export default async function Page({
       lastUpdatedLabel={t.legalPage.lastUpdatedLabel}
       lastUpdated={t.legalPage.lastUpdated}
     >
-      <p>{t.legalPage.body}</p>
+      <p>{t.legalPage.terms.intro}</p>
+      <LegalSections sections={t.legalPage.terms.sections} />
     </LegalTemplate>
   );
 }

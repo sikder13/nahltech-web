@@ -53,8 +53,8 @@
   },
   "legal": {
     "privacy": "Privacy Policy",
-    "terms": "Terms of Service",
-    "dpa": "Data Processing Addendum"
+    "terms": "Terms of Use",
+    "dpa": "Data Processing"
   },
   "pages": {
     "home": {
@@ -112,10 +112,10 @@
       "title": "Privacy Policy"
     },
     "terms": {
-      "title": "Terms of Service"
+      "title": "Terms of Use"
     },
     "dpa": {
-      "title": "Data Processing Addendum"
+      "title": "Data Processing"
     },
     "aiConsultancy": {
       "title": "AI Consultancy",
@@ -650,8 +650,114 @@
   },
   "legalPage": {
     "lastUpdatedLabel": "Last updated",
-    "lastUpdated": "[PLACEHOLDER: effective date — awaiting legal review]",
-    "body": "[PLACEHOLDER: legal document body — awaiting legal review — awaiting approved copy]"
+    "lastUpdated": "August 11, 2026",
+    "privacy": {
+      "intro": "We keep this short because our data practices are short.",
+      "sections": [
+        {
+          "heading": "WHO WE ARE",
+          "paragraphs": [
+            "Nahl Technologies Inc., 6902 Challenge Ln, Indianapolis, IN 46250, USA. Contact: info@nahltech.com."
+          ]
+        },
+        {
+          "heading": "WHAT WE COLLECT, AND WHY",
+          "paragraphs": [],
+          "bullets": [
+            "Contact and lead forms: name, email, phone, company, and what you write to us — so we can respond. Stored in our database (Supabase, hosted in the United States).",
+            "Newsletter: your email address, so we can send you what you signed up for. Unsubscribe links are in every email.",
+            "Chat widget: the messages you send, and technical context (page, language, browser type). Conversations are processed by Anthropic's Claude API to generate responses and stored so we can improve how we help visitors. The chat never submits your contact details anywhere — if you want us to reach out, you press the button that says so.",
+            "Booking: if you book a call, scheduling runs on Cal.com under their privacy terms.",
+            "Basic analytics: aggregate page statistics to understand what's useful. We don't sell data, run ads, or build advertising profiles."
+          ]
+        },
+        {
+          "heading": "WHAT WE DON'T DO",
+          "paragraphs": [
+            "We do not sell or rent your information. We do not share it except with the processors named above (Supabase, Anthropic, Resend for email delivery, Cal.com, Vercel for hosting), each bound by their own data protection terms, and except where the law requires."
+          ]
+        },
+        {
+          "heading": "RETENTION",
+          "paragraphs": [
+            "Lead and contact records are kept while there's a business reason to keep them. Ask us to delete yours and we will, unless we're legally required to retain it."
+          ]
+        },
+        {
+          "heading": "YOUR RIGHTS",
+          "paragraphs": [
+            "Email info@nahltech.com to access, correct, or delete your data. If you're in a jurisdiction with statutory privacy rights (GDPR, UK GDPR, PIPEDA, state laws), those rights apply and the same address handles them."
+          ]
+        },
+        {
+          "heading": "CHILDREN",
+          "paragraphs": [
+            "This site is for businesses. We don't knowingly collect data from anyone under 16."
+          ]
+        },
+        {
+          "heading": "CHANGES",
+          "paragraphs": [
+            "We'll update this page when practices change; the date above is the version marker."
+          ]
+        }
+      ]
+    },
+    "terms": {
+      "intro": "These terms cover use of nahltech.com. Client engagements are governed by their own written agreements, not this page.",
+      "sections": [
+        {
+          "heading": "THE SITE",
+          "paragraphs": [
+            "Content here is provided for general information. It isn't professional advice for your specific situation, and figures we cite (benchmarks, industry statistics) are sourced at time of writing but can go stale."
+          ]
+        },
+        {
+          "heading": "TOOLS AND CHAT",
+          "paragraphs": [
+            "The chat assistant is an AI. It's helpful, it's usually right about our services, and it doesn't bind us to anything — proposals, prices, and commitments only count when a human puts them in writing. Don't paste confidential information into the chat."
+          ]
+        },
+        {
+          "heading": "YOUR CONDUCT",
+          "paragraphs": [
+            "Don't abuse the site: no scraping at volume, no attacks, no attempting to access data that isn't yours, no using our forms to send spam."
+          ]
+        },
+        {
+          "heading": "INTELLECTUAL PROPERTY",
+          "paragraphs": [
+            "Site content, design, and our marks belong to Nahl Technologies Inc. Our published research may be cited with attribution and a link."
+          ]
+        },
+        {
+          "heading": "NO WARRANTY, LIMITED LIABILITY",
+          "paragraphs": [
+            "The site is provided as-is. To the extent the law allows, we're not liable for damages arising from use of the site itself. (Client work carries the warranties in its own contract — this clause is about the website.)"
+          ]
+        },
+        {
+          "heading": "GOVERNING LAW",
+          "paragraphs": ["Indiana, USA."]
+        },
+        {
+          "heading": "CONTACT",
+          "paragraphs": ["info@nahltech.com."]
+        }
+      ]
+    },
+    "dpa": {
+      "intro": "Short page, deliberate:",
+      "paragraphs": [
+        "When we process personal data on behalf of clients — in automations, software, or analytics work — we do it under a written Data Processing Agreement scoped to the engagement: what data, what purpose, what safeguards, which subprocessors, and what happens at termination.",
+        "We maintain a standard DPA aligned with GDPR Article 28 requirements and adapt it per engagement and jurisdiction. Request the current version at info@nahltech.com — it's part of every proposal that involves personal data."
+      ],
+      "privacyReference": {
+        "before": "Our own website's data practices are described in the ",
+        "linkLabel": "Privacy Policy",
+        "after": "."
+      }
+    }
   },
   "about": {
     "intro": "",
