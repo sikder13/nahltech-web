@@ -7,7 +7,9 @@ import remarkGfm from "remark-gfm";
 import { getPostBySlug, getPublishedPosts, getRelatedPosts } from "@/lib/blog";
 import { requireDictionary } from "@/lib/i18n/require-dictionary";
 import { formatPostDate } from "@/lib/format-date";
+import { articleSchema, faqSchema } from "@/lib/schema-org";
 
+import { JsonLd } from "@/components/seo/JsonLd";
 import { ArticleTemplate } from "@/components/templates/ArticleTemplate";
 
 import type { Metadata } from "next";
@@ -79,27 +81,35 @@ export default async function Page({
     imageLabel: item.title,
   }));
 
+  const faq = faqSchema(post);
+
   return (
-    <ArticleTemplate
-      t={t}
-      title={post.title}
-      author={post.author}
-      date={formatPostDate(post.date)}
-      dateTime={post.date}
-      headings={post.headings}
-      related={related}
-    >
-      <MDXRemote
-        source={post.body}
-        components={mdxComponents}
-        options={{
-          mdxOptions: {
-            remarkPlugins: [remarkGfm],
-            // Emits the same ids the table of contents links to.
-            rehypePlugins: [rehypeSlug],
-          },
-        }}
-      />
-    </ArticleTemplate>
+    <>
+      <JsonLd data={articleSchema(post)} />
+      {/* Derived from the FAQ section's own h3s and prose, so the markup and
+          the visible text cannot drift apart. */}
+      {faq ? <JsonLd data={faq} /> : null}
+      <ArticleTemplate
+        t={t}
+        title={post.title}
+        author={post.author}
+        date={formatPostDate(post.date)}
+        dateTime={post.date}
+        headings={post.headings}
+        related={related}
+      >
+        <MDXRemote
+          source={post.body}
+          components={mdxComponents}
+          options={{
+            mdxOptions: {
+              remarkPlugins: [remarkGfm],
+              // Emits the same ids the table of contents links to.
+              rehypePlugins: [rehypeSlug],
+            },
+          }}
+        />
+      </ArticleTemplate>
+    </>
   );
 }

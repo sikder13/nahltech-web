@@ -9,13 +9,34 @@ import { getPublishedPosts, getRelatedPosts, type Post } from "./blog";
  * byline fix or a product link fails the run rather than the review.
  */
 
+/**
+ * The five posts brought over from the old repo. Scoped deliberately: these
+ * assertions are the migration's acceptance criteria, and posts written since
+ * are not bound by them — a new post has no obligation to link to Hafsa
+ * Sastho unless it has an honest reason to.
+ */
+const MIGRATED = [
+  "building-ai-in-bengali-the-language-challenge-nobody-talks-about",
+  "postpartum-depression-without-a-word-for-it",
+  "the-data-gap-bangladeshs-4-million-births-invisible-to-ai",
+  "two-immigrants-one-mission-why-we-are-building-for-home",
+  "why-we-named-our-company-after-the-honeybee",
+];
+
 describe("the migrated collection", () => {
-  const posts = getPublishedPosts();
+  const posts = getPublishedPosts().filter((post) =>
+    MIGRATED.includes(post.slug),
+  );
 
   it("loads all five posts, newest first", () => {
     expect(posts).toHaveLength(5);
     const dates = posts.map((post) => post.date);
     expect([...dates].sort().reverse()).toEqual(dates);
+  });
+
+  it("is still the whole published collection minus later posts", () => {
+    const all = getPublishedPosts().map((post) => post.slug);
+    expect(all).toEqual(expect.arrayContaining(MIGRATED));
   });
 
   it("credits Udaay Sikder on every post", () => {

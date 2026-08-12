@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { validatePost } from "./blog";
+import { extractFaq, validatePost } from "./blog";
 
 const SIBLINGS = new Set(["sibling-one", "sibling-two", "post"]);
 
@@ -82,10 +82,10 @@ describe("validatePost — link gates", () => {
     ).toThrow(/requires a targetKeyword/);
   });
 
-  it("fails a non-exempt post with no service or product link", () => {
+  it("fails a non-exempt post with no service, product or pricing link", () => {
     const body = `Prose linking [one](/blog/sibling-one) and [two](/blog/sibling-two).`;
     expect(() => validatePost("post.mdx", build({}, body), SIBLINGS)).toThrow(
-      /at least one link to a \/services\/\* or \/products\/\* page/,
+      /at least one link to a \/services\/\*, \/products\/\* or \/pricing page/,
     );
   });
 
@@ -157,5 +157,121 @@ describe("validatePost — headings", () => {
       { id: "first-heading", text: "First Heading" },
       { id: "second-with-punctuation", text: "Second: With Punctuation!" },
     ]);
+  });
+});
+
+describe("validatePost — sibling gate threshold", () => {
+  const soloBody = `Prose citing [pricing](/pricing) and nothing else.`;
+
+  it("waives the sibling requirement below the cluster threshold", () => {
+    // First post in a cluster has no siblings to link to. Requiring two would
+    // either block it or force a link to an unrelated cluster.
+    for (const size of [1, 2]) {
+      const post = validatePost(
+        "post.mdx",
+        build({ cluster: "decision" }, soloBody),
+        SIBLINGS,
+        size,
+      );
+      expect(post.cluster, `cluster size ${size}`).toBe("decision");
+    }
+  });
+
+  it("enforces the sibling requirement once the cluster reaches three", () => {
+    expect(() =>
+      validatePost(
+        "post.mdx",
+        build({ cluster: "decision" }, soloBody),
+        SIBLINGS,
+        3,
+      ),
+    ).toThrow(/at least two links to sibling posts; found 0/);
+  });
+
+  it("still requires an offer link below the threshold", () => {
+    // The waiver covers sibling links only. A post that sells nothing and
+    // links nowhere is still an orphan.
+    expect(() =>
+      validatePost(
+        "post.mdx",
+        build({ cluster: "decision" }, "Prose alone."),
+        SIBLINGS,
+        1,
+      ),
+    ).toThrow(/at least one link to a/);
+  });
+
+  it("enforces the sibling gate when the caller does not supply a size", () => {
+    // Defaulting to the strict behaviour: an uninformed caller should not get
+    // a silent waiver.
+    expect(() =>
+      validatePost("post.mdx", build({}, `[pricing](/pricing)`), SIBLINGS),
+    ).toThrow(/at least two links to sibling posts/);
+  });
+
+  it("accepts /pricing as an offer link", () => {
+    const body = `[pricing](/pricing) [one](/blog/sibling-one) [two](/blog/sibling-two)`;
+    expect(validatePost("post.mdx", build({}, body), SIBLINGS).slug).toBe(
+      "post",
+    );
+  });
+});
+
+describe("frontmatter dates", () => {
+  it("accepts an unquoted YAML date, which parses as a Date not a string", () => {
+    const raw = `---
+title: "T"
+description: "D"
+date: 2026-08-12
+author: "Udaay Sikder"
+cluster: "brand"
+targetKeyword: null
+serviceLinks: []
+draft: false
+---
+Body.`;
+    expect(validatePost("post.mdx", raw, SIBLINGS).date).toBe("2026-08-12");
+  });
+});
+
+describe("extractFaq", () => {
+  const body = `## Intro
+
+Not a question.
+
+## Frequently asked questions
+
+### First question?
+
+First answer with **bold** and a [link](/pricing).
+
+### Second question?
+
+Second answer.
+
+---
+
+*Trailing note that is not an answer.*`;
+
+  it("pairs each h3 with the prose beneath it", () => {
+    expect(extractFaq(body)).toEqual([
+      {
+        question: "First question?",
+        answer: "First answer with bold and a link.",
+      },
+      { question: "Second question?", answer: "Second answer." },
+    ]);
+  });
+
+  it("stops at the thematic break, so trailing prose is not an answer", () => {
+    expect(
+      extractFaq(body)
+        .map((e) => e.answer)
+        .join(" "),
+    ).not.toContain("Trailing note");
+  });
+
+  it("returns nothing when the post has no FAQ section", () => {
+    expect(extractFaq("## Something else\n\nProse.")).toEqual([]);
   });
 });
