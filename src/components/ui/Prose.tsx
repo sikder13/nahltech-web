@@ -32,6 +32,14 @@ export function Prose({
         "[&_blockquote]:mt-md [&_blockquote]:border-s-4 [&_blockquote]:border-accent",
         "[&_blockquote]:ps-md [&_blockquote]:text-text-muted [&_blockquote]:italic",
         "[&_a]:link-accent [&_a]:underline [&_a]:decoration-accent [&_a]:decoration-2",
+        // Tables. The min-width is the point: without it a four-column
+        // comparison crushes to ~75px per column on a phone, which fits the
+        // viewport but cannot be read. It scrolls inside its own container
+        // instead — see the `table` mapping in the post route.
+        "[&_table]:w-full [&_table]:min-w-[36rem] [&_table]:border-collapse [&_table]:text-sm",
+        "[&_th]:border-b [&_th]:border-border [&_th]:py-2xs [&_th]:pe-sm",
+        "[&_th]:text-start [&_th]:align-bottom [&_th]:font-semibold",
+        "[&_td]:border-b [&_td]:border-divider [&_td]:py-2xs [&_td]:pe-sm [&_td]:align-top",
         "[&_code]:rounded-sm [&_code]:bg-surface [&_code]:px-3xs [&_code]:font-mono [&_code]:text-sm",
         className,
       ]

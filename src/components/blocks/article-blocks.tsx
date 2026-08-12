@@ -117,7 +117,11 @@ export function ArticleLayout({
   return (
     <div className="mx-auto max-w-(--container-page) px-sm pb-2xl">
       <div className="grid gap-xl lg:grid-cols-[minmax(0,1fr)_16rem]">
-        <div>{children}</div>
+        {/* min-w-0 lets the column shrink below its content. Without it a
+            grid item is sized by its widest child, so a horizontally
+            scrolling table stretches the column and the whole page scrolls
+            sideways instead of the table scrolling inside its own box. */}
+        <div className="min-w-0">{children}</div>
         {aside ? (
           <aside className="lg:sticky lg:top-24 lg:self-start">{aside}</aside>
         ) : null}

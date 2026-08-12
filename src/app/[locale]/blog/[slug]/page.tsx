@@ -13,7 +13,7 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { ArticleTemplate } from "@/components/templates/ArticleTemplate";
 
 import type { Metadata } from "next";
-import type { AnchorHTMLAttributes } from "react";
+import type { AnchorHTMLAttributes, TableHTMLAttributes } from "react";
 
 /**
  * Blog post route.
@@ -28,14 +28,26 @@ export function generateStaticParams() {
   return getPublishedPosts().map((post) => ({ slug: post.slug }));
 }
 
-/** Internal hrefs go through next/link; everything else is a plain anchor. */
 const mdxComponents = {
+  /** Internal hrefs go through next/link; everything else is a plain anchor. */
   a: ({ href = "", ...rest }: AnchorHTMLAttributes<HTMLAnchorElement>) =>
     href.startsWith("/") ? (
       <Link href={href} {...rest} />
     ) : (
       <a href={href} target="_blank" rel="noopener noreferrer" {...rest} />
     ),
+
+  /**
+   * Wide tables scroll inside their own container rather than compressing to
+   * the viewport. `tabIndex` is what makes that reachable without a mouse: a
+   * scrollable region that only responds to swipe or drag is unusable from a
+   * keyboard (WCAG 2.1.1).
+   */
+  table: (props: TableHTMLAttributes<HTMLTableElement>) => (
+    <div className="mt-md overflow-x-auto" tabIndex={0}>
+      <table {...props} />
+    </div>
+  ),
 };
 
 export async function generateMetadata({
