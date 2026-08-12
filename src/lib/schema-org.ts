@@ -31,8 +31,16 @@ export function articleSchema(post: Post): JsonLdObject {
     "@type": "Article",
     headline: post.title,
     description: post.description,
-    datePublished: post.date,
-    author: { "@type": "Person", name: post.author },
+    // Full ISO 8601 with an explicit offset. A bare `YYYY-MM-DD` is a valid
+    // schema.org Date, but Google's Rich Results Test reports it as an invalid
+    // datetime missing a timezone, and a date with no offset is genuinely
+    // ambiguous about which day it names.
+    datePublished: `${post.date}T00:00:00+00:00`,
+    author: {
+      "@type": "Person",
+      name: post.author,
+      url: new URL(routes.about, siteUrl).toString(),
+    },
     publisher: organization,
     mainEntityOfPage: { "@type": "WebPage", "@id": url },
     url,
