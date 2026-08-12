@@ -1,7 +1,7 @@
 # SESSION-STATE
 
 Handoff snapshot; update at the end of every session. **Last updated:**
-12 August 2026 · HEAD `7fc9997` · 91 commits · 150 tests passing
+12 August 2026 · HEAD `7440f59` · 94 commits · 150 tests passing
 
 ## 1. Status
 
@@ -39,11 +39,34 @@ intact below. Every edit is logged in `docs/blog-migration-diff.md`.
 | `seo-cost-indianapolis` [P1] | Udaay Sikder | Shipped |
 | `website-cost-indiana-small-business` [P2] | Samia Zaman | Shipped |
 | `ai-chatbot-vs-receptionist` [P3] | Udaay Sikder | Shipped |
-| `ai-opportunity-audit-worked-example` [P4] | Samia Zaman | **Pending relay** |
+| `ai-opportunity-audit-worked-example` [P4] | Samia Zaman | Shipped |
+| `indianapolis-business-chatgpt-visibility` [P5] | Samia Zaman | Committed, **unpushed** |
 
-P4 landed on disk after the last commit and is **untracked** — not verified,
-committed or shipped. It carries sibling links to P1 and P3 so it clears the
-gate itself, but the other three do not link back to it yet.
+P5 was written by the previous session, which crashed before verifying or
+committing it. This session ran the full gate set against it: build, lint,
+typecheck, 150 tests, banned words, em-dash density, link resolution,
+Article + FAQPage schema and a 390px render. All pass. It is committed at
+`7440f59` and **not yet pushed**, so it is not live.
+
+**P5 has no founder P-label on record.** P1–P4 were each assigned one before
+being written; the crashed session left no note of an assignment for this
+topic. Confirm before pushing, since pushing publishes it under Samia's
+byline.
+
+**Sibling backfill debt.** Each post carries its own two sibling links, so
+every post clears the gate independently, but the cluster is not densely
+linked: nothing links to P4 or P5 yet. Backfilling is deferred work, not a
+gate failure.
+
+**Citation check on P5.** Four statistics were verified against sources this
+session. BrightLocal 6% → 45%, SOCi 1.2%, and the Vercel crawler finding all
+hold. One did not: the claim that SOCi found ChatGPT's picks skewed toward
+big chains and heavily reviewed brands is unsupported by the source, and the
+SOCi study is itself of 2,751 multi-location brands. It was replaced with the
+study's real scope plus its restaurant finding. The home-services numbers now
+match the cited source exactly (80% earn some citation, 15% take the top
+recommendation). Treat any statistic written by a session as unverified until
+checked against the source.
 
 - **Sibling-link gate.** A `field-notes` or `decision` post needs one offer link
   (`/services/*`, `/products/*`, `/pricing`) plus two sibling links. The sibling
@@ -93,10 +116,14 @@ seven env vars set and exercised in production.
 
 ## 4. Next
 
-**(a) Pending blog relay.** Ship order is P1 → P3 → P2 → P4; the first three are
-live, so the outstanding one is **P4** (`ai-opportunity-audit-worked-example`),
-on disk and untracked. Usual treatment: verify it parses, FAQ schema,
-offer/sibling/dead-link checks, banned-word grep, 390px table check, screenshots.
+**(a) Pending blog relay.** P1–P4 are live. **P5**
+(`indianapolis-business-chatgpt-visibility`) is verified and committed at
+`7440f59` but unpushed, pending the founder's confirmation that the topic was
+assigned. Pushing it is the whole remaining step; it needs no further work.
+
+Usual treatment for a new post: verify it parses, FAQ schema,
+offer/sibling/dead-link checks, banned-word grep, 390px table check,
+screenshots — plus check every statistic against its source.
 
 **(b) CC-8 — SEO and launch.**
 
@@ -152,7 +179,10 @@ offer/sibling/dead-link checks, banned-word grep, 390px table check, screenshots
 - **Node 22 is required, not preferred.** jsdom 30's undici needs a Node 22
   internal; on Node 20 every vitest worker dies at startup and the suite
   reports "no tests" rather than a version error. `.npmrc` sets
-  `engine-strict=true` so this now fails at install.
+  `engine-strict=true` so this now fails at install. **A fresh shell here
+  starts on Node 20**, so run `nvm use` (picks up `.nvmrc` → 22.23.1) before
+  the suite. Hitting this looks exactly like a broken test suite: the run
+  exits 0 and reports "no tests" with 24 errors. It is not a real failure.
 - **Middleware runs on `/api/*`.** It returns early for them, but anything
   added to the locale logic must keep that early return — without it the
   rewrite sends API calls to `/en/api/*`, which does not exist, and all three
