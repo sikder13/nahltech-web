@@ -1,181 +1,133 @@
 # SESSION-STATE
 
-Handoff snapshot. Update at the end of every session.
-
-**Last updated:** 11 August 2026 · HEAD `d5926da` · 82 commits · 129 tests passing
+Handoff snapshot; update at the end of every session. **Last updated:**
+12 August 2026 · HEAD `7fc9997` · 91 commits · 150 tests passing
 
 ## 1. Status
 
-Phases 1–4 complete, plus the Phase 3 carry-over: foundation, six page
-templates, design distinctiveness pass, five-service restructure, all approved
-copy, pricing with real published numbers, the backend — three API routes,
-lead alerting and the chat widget — and now the MDX blog pipeline with the
-five migrated posts, and the legal pages.
+Phases 1–4 complete, blog production underway. Foundation, six page templates,
+the design pass, five service pages, all approved copy, published pricing, the
+backend (three API routes, lead alerting, chat widget), the MDX blog pipeline
+and the legal pages are shipped.
 
-- Live: **https://nahltech-web.vercel.app**
-- No custom domain attached. Deliberate — cutover is Phase 5.
+- Live: **https://nahltech-web.vercel.app**. No custom domain yet — cutover is CC-8.
 - CI green on `main` (lint · typecheck · test · build, Node 22).
-- Vercel builds on Node 24.x; CI and `.nvmrc` pin 22. Legal under
-  `engines: >=22`, but the runtimes differ.
-- Placeholders remaining in `en.json`: **0**. Every string is approved copy.
-- Booking is live: `routes.bookingUrl` →
-  `https://cal.com/udaay-nahltech/intro-call-15-min`. Plain links only, no
-  Cal.com embed — an embed would add third-party script to every page and
-  need a CSP change.
+- Placeholders in `en.json`: **0**. Every string is approved copy.
+- Booking live: `routes.bookingUrl` → `https://cal.com/udaay-nahltech/intro-call-15-min`.
+  Plain external links only; no Cal.com embed.
 
-## 2. Done this arc
+**Design invariants.** Gold (`#F5C842`) decorates only — never a fill or text
+colour. Hexagon motif in exactly six places, bee mark in two (header, 404).
+Fraunces h1/h2, Inter body. Motion inside `MotionConfig reducedMotion="user"`.
 
-**Design system**
-- Light theme tokens: bg `#FFFFFF`, surface `#F5F5F5`, text `#111111`,
-  muted `#555555`, divider `#E5E5E5`, border `#767676`, accent `#F5C842`.
-- Gold is decoration only. Built CSS contains zero `color: var(--color-accent)`
-  declarations — heading rules, blockquote borders, hexagon strokes and link
-  underlines only.
-- Fraunces (400/600, latin, 35 KB preloaded) for h1/h2; Inter for body/UI;
-  system mono for figures and queries; Inter-tracked-muted as caption voice.
-- Hexagon motif in exactly six places: hero cluster, proof-bar icon frames,
-  method comb cells, team avatars, image-slot watermark, favicon/OG monogram.
-- Bee mark twice: header (wing-flap on hover, CSS only) and the 404.
-- Micro-interactions: card lift, gold underline slide on the primary CTA,
-  60ms grid stagger. All inside `MotionConfig reducedMotion="user"`.
+## 2. Blog state
 
-**Structure and content**
-- Five services, canonical order in `serviceRouteKeys` (`src/lib/routes.ts`):
-  AI Consultancy · AI Search Visibility & SEO · AI Automation ·
-  Web Development · Software Development.
-- `/services/local-seo` → 308 → `/services/ai-search-visibility`
-  (`next.config.ts`).
-- Pricing published: audit **$2,500 fully credited**; retainers **$2,500/mo**
-  search visibility, **$1,800/mo** operation, **$1,200/mo** care; builds from
-  **$7,500** automation, **$6,000** web; software **$15,000–$45,000** after
-  audit. Free scan **$0**.
-- Founding banner reads "7 of 10 spots open". The `7` is
-  `pricing.founding.spotsOpen` — **hand-edited, no live counter by design**.
-- Demonstration blocks vary per service: annotated case rail, instruction card
-  with time chip, worked calculation (tabular-nums), verifiable checklist,
-  prose. Passed to `ServiceTemplate` as a slot.
-- Featured research section parked (component kept, not rendered) until
-  `/research` has content.
+Pipeline: `content/blog/*.mdx` → `src/lib/blog.ts` (zod frontmatter plus
+build-time gates) → `next-mdx-remote/rsc`. Rules and their reasoning live in
+`docs/blog-content-conventions.md`.
 
-**Engineering**
-- RSC payload narrowed: `MobileNav` and `LeadForm` take only the strings they
-  render. Served HTML dropped ~28–33 KB per page.
-- `src/styles/tokens.test.ts` fails the run if a width utility resolves to the
-  spacing scale. See §6.
-- Banned words (CLAUDE.md rule 15): empower, leverage, unlock, transform,
-  harness, cutting-edge, innovative, world-class, "solutions" as a noun.
-  Currently zero occurrences.
-- Em-dash policy: max one per paragraph; clause-joining dashes become periods.
+**Legacy posts (5, migrated and revised).** Three in `field-notes`, two in
+`brand`; `archive` exists in the schema but holds no posts. Citations in the
+data-gap post were corrected against the verified reference set; the honeybee
+post carries an italic editor's note dating it to March 2026, original prose
+intact below. Every edit is logged in `docs/blog-migration-diff.md`.
 
-**Backend (Phase 4)**
-- Three routes, all `runtime: "nodejs"` + `force-dynamic`: `/api/lead`,
-  `/api/subscribe`, `/api/chat`. Every one is rate-limited and re-validates
-  server-side before touching anything external.
-- `/api/lead` answers 200 even when the insert fails. `createLead` emails the
-  enquiry first, so the lead survives and the visitor is not shown an error
-  (hard rule 6). The success payload carries an `id` only when a row exists.
-- The honeypot (`website_url`) is checked against the raw body *before*
-  validation, so a trapped submission is indistinguishable from a successful
-  one whatever else it contained.
-- `/api/chat` proxies `claude-haiku-4-5-20251001`, max_tokens 400, streaming.
-  10/min and 100/day, both must pass. History capped at 20 turns / 2000 chars
-  per turn / 20,000 chars total, trimmed oldest-first. `role: "system"` from a
-  client is refused, not stripped. Provider errors stream the dictionary
-  fallback line as a normal 200.
-- The chat system prompt is composed from the dictionary (`lib/chat-prompt.ts`),
-  so the published price card stays the single source of truth and the
-  assistant cannot quote a withdrawn number.
-- Background work goes through `lib/after-response.ts` — `waitUntil` on Vercel,
-  awaited elsewhere. Without it a serverless freeze can drop a lead alert.
-- Chat widget is lazy: the launcher ships in the page bundle, the panel and the
-  Supabase browser client arrive on first open. Consent capture is explicit —
-  the detector only reveals the form, never fills or submits it.
-- First-load JS on `/` grew 148,460 → 151,479 bytes gzipped (+2.95 kB):
-  chat launcher ~1.8 kB, newsletter form ~1.2 kB. The lazy panel chunk is
-  3,647 bytes gzipped and is **not** in first load.
+**Cluster `decision`** — the founder's P-labels in brackets:
 
-**Content (CC-7)**
-- MDX pipeline in `src/lib/blog.ts`: zod frontmatter plus build-time link
-  gates. `field-notes` requires a target keyword, one service or product link
-  and two sibling links; `brand` and `archive` are exempt. Dead-link checking
-  applies to every cluster. Failures name the file.
-- next-mdx-remote (RSC) over a hand-rolled remark pipeline — one dependency,
-  maintained, no client JS, and real MDX semantics if a post ever needs a
-  component.
-- Five legacy posts migrated under their original slugs, so no redirect is
-  needed. Three are `field-notes` with directional keywords (unvalidated until
-  Keyword Planner data lands); two are `brand`.
-- Prose editing was bounded and is logged line by line in
-  `docs/blog-migration-diff.md`, built from a mechanical diff. Four edits
-  across five posts; two posts unchanged. Four items are flagged there for
-  founder review and deliberately not changed — see §5.
-- `/blog/feed.xml` is RSS 2.0 and lives outside `[locale]`, next to sitemap.ts:
-  the middleware matcher skips dotted paths, so a feed inside `[locale]` would
-  be unreachable. Sitemap entries carry the frontmatter date as lastmod, not
-  the build time.
-- No article JSON-LD yet. schema.org is Phase 5's, via `lib/schema-org.ts`.
+| Slug | Author | Status |
+| --- | --- | --- |
+| `seo-cost-indianapolis` [P1] | Udaay Sikder | Shipped |
+| `website-cost-indiana-small-business` [P2] | Samia Zaman | Shipped |
+| `ai-chatbot-vs-receptionist` [P3] | Udaay Sikder | Shipped |
+| `ai-opportunity-audit-worked-example` [P4] | Samia Zaman | **Pending relay** |
+
+P4 landed on disk after the last commit and is **untracked** — not verified,
+committed or shipped. It carries sibling links to P1 and P3 so it clears the
+gate itself, but the other three do not link back to it yet.
+
+- **Sibling-link gate.** A `field-notes` or `decision` post needs one offer link
+  (`/services/*`, `/products/*`, `/pricing`) plus two sibling links. The sibling
+  half applies only once a cluster holds three or more published posts; below
+  that it is waived and the build prints a `NOTICE` naming each waived post so
+  the links get backfilled later. `brand` and `archive` are exempt from both;
+  dead-link checking applies everywhere. `decision` crossed three posts this
+  session, so the gate is live there and the build emits **zero NOTICEs**.
+- **Crawlmouse links.** One to two per post, varied anchor text, never the same
+  anchor twice, none where there is no honest angle — absence is the correct
+  outcome, not a gap. P2 has an approved three-link exception specific to that
+  post; the documented cap is unchanged.
+- **Authors.** `src/lib/authors.ts` is the registry and the loader rejects any
+  byline not in it. Udaay Sikder (P1, P3, legacy): "Founder & CEO", `/about` URL.
+  Samia Zaman (P2, P4 onward): "Social Media & Growth Manager", `worksFor` Nahl
+  Technologies Inc., `sameAs` her LinkedIn — no `/about` URL, deliberately.
+- **Structured data.** Article on every post; FAQPage parsed from the post's own
+  FAQ section so the markup cannot drift from the visible text. Rich Results Test
+  reports Article only — it has not evaluated FAQPage for sites like ours since
+  the 2023 restriction, which is expected, not a failure. The one non-critical
+  flag left everywhere is `Missing field "image"`, cleared by CC-8's OG work.
 
 ## 3. Infra facts
 
 **Supabase** — project `nahltech-web`, ref `posdwhozfmlofsvqfohn`,
 org `yhkazuzdlcaqgealmjjp`, us-east-1 (N. Virginia), Postgres 17.6.
 
-- **Region migration, 11 Aug 2026.** The database moved from us-west-2
-  (Oregon) to us-east-1. The old Oregon project, ref `gakoxloiwlgrhmzvelwt`,
-  was **deleted** — that ref is dead and survives only in git history.
-  Anything still pointing at it will fail to resolve, not silently read
-  stale data.
-- Migrations `0001_initial_schema.sql` and `0002_service_enum.sql` are
-  committed **and applied to the live database** — re-applied to the new
-  project from scratch and verified 11 Aug 2026. The target was confirmed
-  empty (0 public tables) before the first write.
-- `service_interest` has **8** values: ai_search_visibility, local_seo,
-  web_development, ai_automation, unsure, other, ai_consultancy,
-  software_development. (`local_seo` retained — Postgres cannot drop an enum
-  value without recreating the type.)
-- `lead_source` 8 values · `lead_status` 7 values.
-- RLS enabled on all 7 tables. Verified live:
-  - `anon` SELECT: **false on every table**.
-  - `anon` INSERT: true on `chat_conversations` and `chat_messages` only.
-  - 2 policies total, both INSERT, both on the chat tables.
-- No anon SELECT means `INSERT ... RETURNING` is unavailable to the browser —
-  the chat client must generate its own UUIDs.
+- Migrations `0001` and `0002` committed and applied. RLS on all 7 tables. No
+  test data left: every probe row from this session was deleted.
+- `anon` SELECT is false on every table; `anon` INSERT is true on
+  `chat_conversations` and `chat_messages` only. Since anon cannot SELECT,
+  `INSERT … RETURNING` is unavailable to the browser — the chat client makes
+  its own UUIDs.
 
-**Vercel** — project `nahltech-web`, team `nahl-technologies-projects`.
+**Vercel** — project `nahltech-web`, team `nahl-technologies-projects`. All
+seven env vars set and exercised in production.
 
-- All seven env vars are set and exercised in production: the Supabase trio,
-  `ANTHROPIC_API_KEY`, `RESEND_API_KEY` and the Upstash pair. Verified by a
-  live lead insert through the deployed `/api/lead`.
-- Resend still reports `The nahltech.com domain is not verified`, so alert
-  emails record `status='failed'` in `notification_log`. Expected, not an
-  incident: the lead is stored either way and the route never surfaces it.
-  Verifying the domain is the only step needed to turn alerts on.
+- **Resend sending domain is verified.** Confirmed 12 Aug 2026 by a probe lead
+  through the deployed `/api/lead`: `notification_log` recorded `status='sent'`,
+  no error. It was unverified and logging `failed` earlier in this session, so
+  any note older than 12 Aug describing failed alerts is stale.
+- The `RESEND_API_KEY` in `.env.local` is send-restricted: it sends mail but
+  returns 401 on the domains endpoint, so domain status cannot be queried with
+  it. Check by sending and reading `notification_log`.
 - SSO protection on all deployments except custom domains, so per-deployment
   URLs 302; the `nahltech-web.vercel.app` alias is public.
 
 ## 4. Next
 
-**Phase 5 — SEO and launch:** schema.org via `lib/schema-org.ts`, hreflang
-(en only), redirect map, Lighthouse gate, Crawlmouse gate, domain cutover.
+**(a) Pending blog relay.** Ship order is P1 → P3 → P2 → P4; the first three are
+live, so the outstanding one is **P4** (`ai-opportunity-audit-worked-example`),
+on disk and untracked. Usual treatment: verify it parses, FAQ schema,
+offer/sibling/dead-link checks, banned-word grep, 390px table check, screenshots.
+
+**(b) CC-8 — SEO and launch.**
+
+- schema.org completion: BreadcrumbList, Organization, WebSite, LocalBusiness
+  (NAP matching GBP exactly), Service + Offer, OfferCatalog. `lib/schema-org.ts`
+  has Article, FAQPage and Person only.
+- GA4 and Google Search Console wiring, plus Bing Webmaster.
+- Performance pass. First-load JS on `/` is **151.5 kB gzipped** against the
+  120 kB target — roughly **31 kB to find**. The measurement method is in
+  ARCH-1 §7 so the next number is comparable.
+- Lighthouse gate (SEO/A11y/Best-Practices 100, Perf ≥95 mobile) + a Crawlmouse
+  pass on our own site.
+- Per-post OG images via the file convention; also clears the Rich Results flag.
+- **DNS cutover.** Registrar/DNS is the Northwest panel. `@` and `www` are
+  currently split between old Vercel records and Northwest hosting IPs —
+  **both must move**. Plan it as one change, not two.
 
 ## 5. Outstanding — founder side
 
-- **Counsel review of the legal pages.** The published copy is a pragmatic
-  startup baseline drafted in-house, not attorney-reviewed. Shipped on the
-  explicit understanding that it is revised on review.
-- **Four content questions flagged in `docs/blog-migration-diff.md`**: three
-  citation mismatches in the data-gap post where in-text attribution disagrees
-  with its own reference list, a Bengali speaker count that differs between two
-  posts, launch language that was accurate on its date and now reads stale, and
-  named competitor products in a founder essay. Each would mean altering a
-  claim, so none was changed.
-- **Blog target keywords are directional.** The three `field-notes` keywords
-  were assigned without Keyword Planner data and are marked unvalidated.
-- Team photos for `/about` (currently neutral glyphs; no stock photography).
-- Logo asset (header uses a typeset wordmark + bee mark).
+- **End-to-end alert proof.** The path works — the 12 Aug probe lead logged
+  `status='sent'` — but that means Resend accepted it, not that it landed.
+  Worth confirming the mail reaches the inbox.
+- **Counsel review of the legal pages.** An in-house startup baseline, shipped
+  on the explicit understanding that it is revised on review.
+- **Keyword Planner hour.** The `field-notes` and `decision` target keywords
+  were assigned without Planner data and are marked unvalidated.
+- Team photos for `/about` (neutral glyphs today; no stock photography), a logo
+  asset (header uses a typeset wordmark + bee mark), and Samia Zaman added to
+  the page — until then her author entry deliberately has no `/about` URL.
 - Hafsa Sastho Play Store URL — expected 1 Sept 2026. `productLinks.hafsaSastho`
   is `null`, so the "Try it live" button is omitted rather than broken.
-- Keyword Planner data for the content plan.
 
 ## 6. Known quirks
 
@@ -205,6 +157,11 @@ org `yhkazuzdlcaqgealmjjp`, us-east-1 (N. Virginia), Postgres 17.6.
   added to the locale logic must keep that early return — without it the
   rewrite sends API calls to `/en/api/*`, which does not exist, and all three
   routes answer 500.
+- **`.mdx` is not covered by lint-staged**, whose globs are `*.{ts,tsx}` and
+  `*.{js,mjs,json,css,md}`. Post files keep whatever emphasis markers were
+  typed, so match on exact text when editing them programmatically.
+- **Pasted-attachment replies to the strategist arrive empty.** The founder
+  exports `.odt` instead.
 
 ## 7. Process rules
 
