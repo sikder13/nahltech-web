@@ -147,10 +147,67 @@ brand-voiced.
 
 ---
 
+## Founder rulings, 11 August 2026
+
+The four items below were raised at migration and ruled on afterwards. Two
+were fixed; the edits are recorded here as a second pass, distinct from the
+migration edits above.
+
+### 2. Bengali speaker count — FIXED
+
+Harmonised to "about 240 million" across both posts. Published estimates run
+237–242 million total speakers, so a rounded figure is defensible where an
+exact one would be false precision.
+
+- `building-ai-in-bengali-…` frontmatter `description`
+  - Before: "Bengali has **234 million native speakers** and a fraction of a percent of AI training data."
+  - After: "Bengali has **about 240 million speakers** and a fraction of a percent of AI training data."
+- `building-ai-in-bengali-…` body
+  - Before: "This has significant consequences for the **234 million people who speak it as their first language**, and the AI industry has not adequately confronted it."
+  - After: "This has significant consequences for **about 240 million people who speak it**, and the AI industry has not adequately confronted it."
+  - The qualifier "as their first language" was dropped because the new figure
+    counts total speakers, not native speakers. Keeping it would have
+    relabelled one statistic as another.
+- `the-data-gap-…` body
+  - Before: "with **approximately 230 million** speakers globally."
+  - After: "with **about 240 million** speakers globally."
+
+Untouched nearby: "Bengali accounts for approximately 3.1 percent of the
+global population by native speakers, according to Ethnologue" — a different
+statistic with its own citation.
+
+### 3. Stale launch language — FIXED, by note rather than edit
+
+An italic editor's note now opens the honeybee post, directly beneath the
+byline. The original prose below it, including "We are pre-launch" and
+"Launching April 2026", is unchanged: the post is a time capsule, and the note
+makes that explicit instead of leaving it to read as an error.
+
+- Added: "_Written March 2026, before launch. Hafsa Sastho enters public
+  release on Google Play September 1, 2026._"
+
+### 1. Data-gap citations — ON HOLD
+
+Corrections arrive from the strategy side. Not to be touched until they do.
+The three mismatches are described below and remain live.
+
+### 4. Named competitors — NO CHANGE, by design
+
+A signed founder essay may name and compare other companies' products; an
+automated surface answering as the company may not. The asymmetry is
+deliberate, and the chat assistant's system prompt now says so explicitly: it
+must not quote, summarise or repeat a competitor comparison from anything we
+have published, even when asked about a post by name. It points at the post
+instead.
+
+---
+
 ## Flagged for founder review — not changed
 
 These were found during the pass and deliberately left alone, because fixing
-any of them would mean altering a claim or inventing a fact.
+any of them would mean altering a claim or inventing a fact. Item 1 is on
+hold pending strategy-side corrections; items 2 and 3 have since been ruled
+on and fixed, and item 4 resolved as no-change — see the rulings above.
 
 1. **Three citation mismatches in the data-gap post**, where the in-text
    attribution disagrees with that post's own reference list:
