@@ -358,14 +358,19 @@ Each checked item is a *sentence we get to say to a prospect.* That is what "wor
 
 ---
 
-# 10. BUILD PHASES → PROMPT MAP
+# 10. BUILD SESSIONS
 
-| Phase | Scope | Prompts | Model / effort |
-|---|---|---|---|
-| **1. Foundation** | scaffold, tooling, CI, i18n routing, tokens, shell | CC-1 | Opus 5 / high |
-| **2. Templates** | 6 templates + ui/blocks components | CC-2, CC-3 | Opus 5 / high |
-| **3. Pages** | all routes, copy in, blog migration, redirects | CC-4, CC-5 | Opus 5 / high |
-| **4. Backend** | Supabase wiring, /api/*, alerting, chat widget | CC-6, CC-7 | Opus 5 / **xhigh** |
-| **5. SEO + launch** | schema, sitemaps, perf pass, Crawlmouse gate, cutover | CC-8 | Opus 5 / high |
+**CC numbers are session labels, not phase math.** They are assigned in the order sessions actually happen. Do not derive one from the other, and do not infer a session's number from the phase it worked on — several sessions spanned more than one phase, and the numbers are not contiguous.
 
-Each prompt ends with acceptance criteria Claude Code must verify before you accept the work — the verification loop. Copy for Phase 3 comes from the page content specs (A5+), which I produce while you run Phases 1–2.
+This table is a record of what was built, kept current as sessions land. It replaces the planned phase→prompt map, which drifted from the first session onward and was still being used to derive labels long after it stopped being true.
+
+| Session | Scope | Status |
+|---|---|---|
+| **CC-1** | Foundation: scaffold, tooling, CI, i18n routing, tokens, shell | Shipped |
+| **CC-2 / CC-2.5** | Six page templates, ui and blocks components, design distinctiveness pass | Shipped |
+| **CC-3 / CC-4 / CC-4.x** | All routes, approved page copy, five-service restructure, pricing with published numbers | Shipped |
+| **CC-5** | Backend: Supabase wiring, `/api/lead`, `/api/subscribe`, `/api/chat`, lead alerting, chat widget | Shipped |
+| **CC-7** | MDX blog pipeline, migration of the five legacy posts, legal pages | Shipped |
+| _next_ | SEO and launch: schema.org, sitemaps, perf pass, Crawlmouse gate, domain cutover | Not started |
+
+Each session ends with acceptance criteria Claude Code verifies before the work is accepted — the verification loop.

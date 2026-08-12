@@ -21,7 +21,7 @@ export type Dictionary = typeof enDictionary;
  *
  * Everything not listed below is founder-supplied and predates this block.
  *
- * ── CC-6-authored, approved 11 August 2026 ────────────────────────────────
+ * ── CC-5-authored, approved 11 August 2026 ────────────────────────────────
  *
  * Interface microcopy only. None of it states a product fact, a number, a
  * client claim or a price; each string names a state the interface can be in.
