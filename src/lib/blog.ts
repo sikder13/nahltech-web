@@ -7,6 +7,7 @@ import GithubSlugger from "github-slugger";
 import matter from "gray-matter";
 import { z } from "zod";
 
+import { authorNames, getAuthor } from "@/lib/authors";
 import { allRoutePaths } from "@/lib/routes";
 
 /**
@@ -215,6 +216,18 @@ export function validatePost(
   }
 
   const frontmatter = result.data;
+
+  // A byline is a person, not free text. Checking it against the registry
+  // means a misspelling fails the build rather than shipping as a credit to
+  // someone who does not exist — and guarantees every author has the Person
+  // schema details that go with them.
+  if (!getAuthor(frontmatter.author)) {
+    throw new BlogContentError(
+      file,
+      `unknown author "${frontmatter.author}". Add them to lib/authors.ts. Known: ${authorNames.join(", ")}`,
+    );
+  }
+
   const body = parsed.content;
   const links = internalLinks(body);
 

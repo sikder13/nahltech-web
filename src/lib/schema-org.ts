@@ -1,3 +1,4 @@
+import { getAuthor } from "@/lib/authors";
 import { routes, siteUrl } from "@/lib/routes";
 
 import type { Post } from "@/lib/blog";
@@ -23,6 +24,31 @@ const organization = {
   url: siteUrl,
 } as const;
 
+/**
+ * Person for a byline, built from the author registry.
+ *
+ * Every optional field is omitted when we have not been given it, rather than
+ * filled with a plausible default. An empty `jobTitle` says nothing; a guessed
+ * one says something false.
+ */
+export function personSchema(name: string): JsonLdObject {
+  const author = getAuthor(name);
+  if (!author) return { "@type": "Person", name };
+
+  return {
+    "@type": "Person",
+    name: author.name,
+    ...(author.jobTitle ? { jobTitle: author.jobTitle } : {}),
+    ...(author.url ? { url: new URL(author.url, siteUrl).toString() } : {}),
+    ...(author.sameAs ? { sameAs: author.sameAs } : {}),
+    worksFor: {
+      "@type": "Organization",
+      name: "Nahl Technologies Inc.",
+      url: siteUrl,
+    },
+  };
+}
+
 export function articleSchema(post: Post): JsonLdObject {
   const url = new URL(`${routes.blog}/${post.slug}`, siteUrl).toString();
 
@@ -36,11 +62,7 @@ export function articleSchema(post: Post): JsonLdObject {
     // datetime missing a timezone, and a date with no offset is genuinely
     // ambiguous about which day it names.
     datePublished: `${post.date}T00:00:00+00:00`,
-    author: {
-      "@type": "Person",
-      name: post.author,
-      url: new URL(routes.about, siteUrl).toString(),
-    },
+    author: personSchema(post.author),
     publisher: organization,
     mainEntityOfPage: { "@type": "WebPage", "@id": url },
     url,

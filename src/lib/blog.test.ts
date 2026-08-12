@@ -48,6 +48,22 @@ describe("validatePost — frontmatter", () => {
     ).toThrow(/date.*YYYY-MM-DD/);
   });
 
+  it("rejects a byline that is not in the author registry", () => {
+    // The migration shipped with "Udaay Sikker" in one file. A free-text
+    // byline cannot catch that; a registry can.
+    expect(() =>
+      validatePost("broken.mdx", build({ author: "Udaay Sikker" }), SIBLINGS),
+    ).toThrow(/unknown author "Udaay Sikker"/);
+  });
+
+  it("accepts every author in the registry", () => {
+    for (const name of ["Udaay Sikder", "Samia Zaman"]) {
+      expect(
+        validatePost("post.mdx", build({ author: name }), SIBLINGS).author,
+      ).toBe(name);
+    }
+  });
+
   it("rejects a cluster outside the known set", () => {
     expect(() =>
       validatePost("broken.mdx", build({ cluster: "musings" }), SIBLINGS),
