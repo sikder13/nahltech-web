@@ -28,6 +28,7 @@ export function ArticleTemplate({
   dateTime,
   headings,
   related,
+  banner,
   children,
 }: {
   t: Dictionary;
@@ -37,11 +38,16 @@ export function ArticleTemplate({
   dateTime: string;
   headings: readonly Heading[];
   related: readonly RelatedArticle[];
+  /** Rendered above the h1. Used for the sample-engagement disclosure. */
+  banner?: ReactNode;
   children: ReactNode;
 }) {
   return (
     <>
       <div className="mx-auto max-w-(--container-page) px-sm pt-2xl pb-lg">
+        {/* Above the h1 on purpose. A disclosure a reader meets after the
+            first number has already failed at its job. */}
+        {banner ? <div className="mb-lg max-w-prose">{banner}</div> : null}
         <h1 className="max-w-prose text-section text-balance text-text">
           {title}
         </h1>
