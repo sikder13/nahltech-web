@@ -5,9 +5,11 @@ import { ChatWidget } from "@/components/conversion/ChatWidget";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { MotionProvider } from "@/components/layout/MotionProvider";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { getDirection, isLiveLocale, liveLocales } from "@/lib/i18n/config";
 import { requireDictionary } from "@/lib/i18n/require-dictionary";
 import { siteUrl } from "@/lib/routes";
+import { organizationSchema, webSiteSchema } from "@/lib/schema-org";
 
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
@@ -99,6 +101,10 @@ export default async function LocaleLayout({
         <noscript>
           <style>{`[data-fade]{opacity:1!important;transform:none!important}`}</style>
         </noscript>
+        {/* Site-wide identity. Every other node on the site references these
+            two by @id rather than restating the company. */}
+        <JsonLd data={organizationSchema(t)} />
+        <JsonLd data={webSiteSchema(t)} />
       </head>
       <body className="flex min-h-dvh flex-col">
         <MotionProvider>

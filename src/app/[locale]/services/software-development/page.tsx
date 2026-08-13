@@ -1,6 +1,10 @@
 import { DemoProse } from "@/components/blocks/demos";
 import { ServiceTemplate } from "@/components/templates/ServiceTemplate";
 import { requireDictionary } from "@/lib/i18n/require-dictionary";
+import { routes } from "@/lib/routes";
+import { breadcrumbSchema, serviceSchema } from "@/lib/schema-org";
+
+import { JsonLd } from "@/components/seo/JsonLd";
 
 import type { Metadata } from "next";
 
@@ -23,16 +27,22 @@ export default async function Page({
   const { locale } = await params;
   const t = await requireDictionary(locale);
 
+  const breadcrumb = breadcrumbSchema(t, routes.softwareDevelopment);
+
   return (
-    <ServiceTemplate
-      t={t}
-      content={t.servicePages.softwareDevelopment}
-      demo={
-        <DemoProse
-          heading={t.servicePages.softwareDevelopment.demo.heading}
-          body={t.servicePages.softwareDevelopment.demo.body}
-        />
-      }
-    />
+    <>
+      <JsonLd data={serviceSchema(t, "softwareDevelopment")} />
+      {breadcrumb ? <JsonLd data={breadcrumb} /> : null}
+      <ServiceTemplate
+        t={t}
+        content={t.servicePages.softwareDevelopment}
+        demo={
+          <DemoProse
+            heading={t.servicePages.softwareDevelopment.demo.heading}
+            body={t.servicePages.softwareDevelopment.demo.body}
+          />
+        }
+      />
+    </>
   );
 }

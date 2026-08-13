@@ -1,5 +1,8 @@
 import { ContactTemplate } from "@/components/templates/UtilityTemplates";
 import { requireDictionary } from "@/lib/i18n/require-dictionary";
+import { localBusinessSchema } from "@/lib/schema-org";
+
+import { JsonLd } from "@/components/seo/JsonLd";
 
 import type { Metadata } from "next";
 
@@ -22,5 +25,10 @@ export default async function Page({
   const { locale } = await params;
   const t = await requireDictionary(locale);
 
-  return <ContactTemplate t={t} />;
+  return (
+    <>
+      <JsonLd data={localBusinessSchema(t)} />
+      <ContactTemplate t={t} />
+    </>
+  );
 }

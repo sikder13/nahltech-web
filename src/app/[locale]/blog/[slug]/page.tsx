@@ -7,7 +7,8 @@ import remarkGfm from "remark-gfm";
 import { getPostBySlug, getPublishedPosts, getRelatedPosts } from "@/lib/blog";
 import { requireDictionary } from "@/lib/i18n/require-dictionary";
 import { formatPostDate } from "@/lib/format-date";
-import { articleSchema, faqSchema } from "@/lib/schema-org";
+import { articleSchema, breadcrumbSchema, faqSchema } from "@/lib/schema-org";
+import { routes } from "@/lib/routes";
 
 import { JsonLd } from "@/components/seo/JsonLd";
 import { ArticleTemplate } from "@/components/templates/ArticleTemplate";
@@ -94,6 +95,12 @@ export default async function Page({
   }));
 
   const faq = faqSchema(post);
+  // The post's own title names the last crumb — it is not in the dictionary.
+  const breadcrumb = breadcrumbSchema(
+    t,
+    `${routes.blog}/${post.slug}`,
+    post.title,
+  );
 
   return (
     <>
@@ -101,6 +108,7 @@ export default async function Page({
       {/* Derived from the FAQ section's own h3s and prose, so the markup and
           the visible text cannot drift apart. */}
       {faq ? <JsonLd data={faq} /> : null}
+      {breadcrumb ? <JsonLd data={breadcrumb} /> : null}
       <ArticleTemplate
         t={t}
         title={post.title}

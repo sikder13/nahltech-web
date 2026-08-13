@@ -1,5 +1,8 @@
 import { PricingTemplate } from "@/components/templates/UtilityTemplates";
 import { requireDictionary } from "@/lib/i18n/require-dictionary";
+import { offerCatalogSchema } from "@/lib/schema-org";
+
+import { JsonLd } from "@/components/seo/JsonLd";
 
 import type { Metadata } from "next";
 
@@ -25,5 +28,10 @@ export default async function Page({
   const { locale } = await params;
   const t = await requireDictionary(locale);
 
-  return <PricingTemplate t={t} />;
+  return (
+    <>
+      <JsonLd data={offerCatalogSchema(t)} />
+      <PricingTemplate t={t} />
+    </>
+  );
 }
