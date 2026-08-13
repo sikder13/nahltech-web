@@ -14,6 +14,8 @@
     "test": "vitest",
     "test:run": "vitest run",
     "measure:js": "node scripts/measure-first-load.mjs",
+    "build:logo": "node scripts/build-logo.mjs",
+    "crawl:check": "node scripts/crawl-check.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "prepare": "husky"

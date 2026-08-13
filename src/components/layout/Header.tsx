@@ -2,7 +2,6 @@ import Link from "next/link";
 
 import { MobileNav } from "@/components/layout/MobileNav";
 import { NavDropdown } from "@/components/layout/NavDropdown";
-import { BeeMark } from "@/components/ui/BeeMark";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import {
   bookingCta,
@@ -36,7 +35,27 @@ export function Header({ t }: { t: Dictionary }) {
           aria-label={t.a11y.homeLink}
           className="group flex items-center gap-2xs text-base font-semibold tracking-tight text-text"
         >
-          <BeeMark className="size-6 text-text" />
+          {/* The official mark. The lockup's wordmark is deliberately not
+              used — the company name is live text on the next line, and
+              setting it twice would ship a name that cannot reflow or be
+              read. Height-constrained so the hexagon keeps its own ratio.
+
+              A plain <img> rather than next/image: this is a fixed 24px mark
+              on every page, already optimised to 5 kB at build time, and
+              next/image's client runtime costs ~5 kB gz of JavaScript site-
+              wide to do work that is already done. Width and height are set,
+              so it reserves its own space and contributes nothing to CLS. */}
+          {/* eslint-disable-next-line @next/next/no-img-element -- measured:
+              next/image added 5.0 kB gz to every page and put first-load over
+              the ARCH-1 §7 ceiling, to optimise an already-optimised 5 kB
+              fixed-size mark. */}
+          <img
+            src="/images/logo-hex.webp"
+            alt={t.site.name}
+            width={179}
+            height={192}
+            className="h-6 w-auto"
+          />
           {t.site.name}
         </Link>
 

@@ -3,8 +3,12 @@
  *
  * "Nahl" (نحل) is Arabic for honeybee — the company is named after one, which
  * makes the bee the single piece of visual territory no competitor can take.
- * It appears exactly twice on the site: here beside the wordmark, and once
- * more, larger, on the 404.
+ *
+ * It appears exactly once on the site: on the 404, large, as the bee that got
+ * lost. The header carried a second one until the official hex logo arrived on
+ * 13 Aug 2026; the mark is the logo now, and the bee is the joke reserved for
+ * the one page that can afford one. That scarcity is the point — this is the
+ * intended final state, not something to "restore".
  *
  * The wings flap on hover: two paths alternating scaleY on an 80ms beat,
  * carried over in concept from the old site but rebuilt as plain CSS. No

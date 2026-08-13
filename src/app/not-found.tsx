@@ -54,7 +54,16 @@ export default async function NotFound() {
               aria-label={t.a11y.homeLink}
               className="group flex items-center gap-2xs text-base font-semibold tracking-tight text-text"
             >
-              <BeeMark className="size-6 text-text" />
+              {/* Plain <img> for the same reason as the real header — see
+                  the note in Header.tsx. */}
+              {/* eslint-disable-next-line @next/next/no-img-element -- see Header.tsx */}
+              <img
+                src="/images/logo-hex.webp"
+                alt={t.site.name}
+                width={179}
+                height={192}
+                className="h-6 w-auto"
+              />
               {t.site.name}
             </Link>
           </div>
@@ -62,7 +71,8 @@ export default async function NotFound() {
 
         <main className="mx-auto w-full max-w-(--container-page) flex-1 px-sm py-3xl">
           {/* The bee, lost. The one page where a moment of charm costs
-              nothing — and the second and final appearance of the mark. */}
+              nothing — and now the only place the bee appears at all, since
+              the header carries the official hex mark. */}
           <BeeMark className="size-16 text-text" />
           <p className="mt-md caption">404</p>
           <h1 className="mt-2xs text-display text-text">{t.notFound.title}</h1>
