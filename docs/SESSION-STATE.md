@@ -20,7 +20,9 @@ GA4, the performance pass and the launch gates are all shipped.
   Plain external links only; no Cal.com embed.
 
 **Design invariants.** Gold (`#F5C842`) decorates only — never a fill or text
-colour. Hexagon motif in exactly six places, bee mark in two (header, 404).
+colour. Hexagon motif in exactly six places. **Bee mark in one place only —
+the 404.** The header carried a second until the official hex logo landed on
+13 Aug 2026; that is the intended final state, not a regression to undo.
 Fraunces h1/h2, Inter body. Motion inside `MotionConfig reducedMotion="user"`,
 now nested in `LazyMotion … strict` — use `m.*`, never `motion.*`, or it throws.
 
@@ -213,9 +215,11 @@ nowhere else.
   on the explicit understanding that it is revised on review.
 - **Keyword Planner hour.** The `field-notes` and `decision` target keywords
   were assigned without Planner data and are marked unvalidated.
-- Team photos for `/about` (neutral glyphs today; no stock photography), a logo
-  asset (header uses a typeset wordmark + bee mark), and Samia Zaman added to
-  the page — until then her author entry deliberately has no `/about` URL.
+- Team photos for `/about` (neutral glyphs today; no stock photography) and
+  Samia Zaman added to the page — until then her author entry deliberately has
+  no `/about` URL. **The logo asset is no longer outstanding:** the official
+  artwork landed 13 Aug 2026 and `npm run build:logo` derives the header mark,
+  favicon and OG mark from it.
 - Hafsa Sastho Play Store URL — expected 1 Sept 2026. `productLinks.hafsaSastho`
   is `null`, so the "Try it live" button is omitted rather than broken.
 
