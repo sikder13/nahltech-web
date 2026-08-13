@@ -1,0 +1,102 @@
+---
+title: "The $118,000 Voicemail: AI After-Hours Intake for an Indianapolis HVAC Company"
+description: "A sample AI engagement for a fictional Indianapolis HVAC contractor: phone-log analysis of a 31% missed-call rate, the labeled ROI model with its negative row, an intake system architecture, and a sub-nine-month payback."
+date: 2026-08-13
+author: "Samia Zaman"
+kind: "sample-engagement"
+targetKeyword: "ai for hvac companies"
+sampleBanner: "Redbud Heating & Air is a fictional Indianapolis company built for this walkthrough. Every operational number comes from published industry benchmarks, labeled where used. This is exactly how we run a real engagement — the only thing invented is the client."
+draft: false
+---
+
+# The $118,000 voicemail: AI after-hours intake for an Indianapolis HVAC company
+
+**Reading time: 10 minutes. What you'll see: a different problem than our [manufacturing engagement](/research/sample-engagement-kestrel-beverage) — not slow quotes, but leads that die at night — and how the same method finds, prices, and fixes it.**
+
+## The company
+
+Redbud Heating & Air is a residential HVAC contractor on the northeast side of Indianapolis — Castleton up through Fishers and Noblesville. Eighteen employees, around $4M revenue, six trucks, a two-person office. Solid Google reviews, steady referral base, busy season chaos.
+
+Their problem isn't finding customers. It's that **customers can't find a human after 6 PM.** An AC dies on a July evening in Fishers; the homeowner calls three companies from the map results. Two go to voicemail. One answers. Guess who gets the $6,000 replacement.
+
+Redbud is the voicemail two-thirds of the time — nights, weekends, and whenever both office staff are on other calls. In home services, that's not a communication problem. It's a revenue leak with a timestamp on every drip.
+
+## Phase 1 — Observe (week 1)
+
+The process map for a service business centers on one artery: **the inbound request.** We pulled the phone system's own logs (every modern system has them; almost nobody reads them) and mapped where requests enter and where they die:
+
+<CallRoutingDiagram />
+
+The logs put a number on the leak: **31% of inbound calls were going unanswered** — concentrated exactly when emergency-repair intent is highest. Industry estimates put the home-services average in the 25–35% range, so Redbud wasn't unusually bad. That's the uncomfortable part: *this is normal.* Normal is the opportunity.
+
+## Phase 2 — Analyze & Quantify (week 2)
+
+Same discipline as every engagement — every input labeled, then the model runs across the assumptions:
+
+| Input | Value | Label |
+|---|---|---|
+| Unanswered inbound calls | 31% of ~5,200/yr ≈ 1,610 calls | **Client-confirmed** from phone logs (industry estimates: 25–35%) |
+| Callers who are new-business inquiries | 40% | **Model assumption** — call mix varies by business; 40% is the mid-range figure the model tests |
+| Would-be bookers lost when unanswered | 50% | **Conservative model** — many call the next company, some call back |
+| Average repair ticket | $450 | **Benchmark** — HomeGuide puts the U.S. average near $350; Angi's typical range is $250–$650 |
+| Replacement-lead value | margin note only | **Model** — deliberately excluded from the headline to stay conservative |
+
+That yields roughly 320 lost bookable jobs a year. At $450 average: **about $145,000 in lost revenue; ~$118,000 of it attributable to the after-hours and busy-line windows an intake system can actually cover.** At 45% gross margin, the recoverable profit pool is ~$53,000/year — *before counting a single replacement sale.*
+
+And the honest grid, negative row included:
+
+| If missed calls are really… | And recovery rate is… | Year-1 net | Verdict |
+|---|---|---|---|
+| 15% (better logs than they thought) | 25% | **−$4,100** | **Don't build — fix hold flow, hire an answering service** |
+| 31% | 25% | +$9,800 | Marginal — phase it |
+| **31%** | **50%** | **+$26,400** | **Build** |
+| 35% | 60% | +$38,900 | Build, obviously |
+
+Year-1 cost in the model: $23,300 ($9,500 build + $1,150/month operation). Payback at the confirmed baseline: **under nine months.** And the first row is the audit doing its real job — if Redbud's logs had shown a 15% miss rate, the written verdict would have been a $95/month answering service, not our system, and we'd have put that in writing.
+
+## Phase 3 — Build (weeks 3–8)
+
+<HvacIntakeArchitecture />
+
+The same two house rules as every build: **AI only where it earns its place** (the conversation is AI; the emergency triage is deterministic rules, because "should we page the on-call tech" is not a question to leave to a model's mood) and **the human stays in the loop** — the office reviews every overnight booking each morning, and the system's job is to make that review take four minutes instead of reconstructing voicemail fragments.
+
+One thing we deliberately did *not* build: outbound anything. No AI sales calls, no automated follow-up sequences. Intake was the leak; intake is the fix. Scope discipline is why the build is $9,500 and not $30,000.
+
+## Phase 4 — Measure (from night one)
+
+- **Answer rate:** target >95% of all inbound, all hours (baseline: 69%)
+- **Booked-by-AI jobs:** counted per week, valued at actual invoice totals — the model's recovery-rate assumption, now a measured number
+- **Emergency escalations:** paged correctly vs. missed — the safety metric, reviewed weekly
+- **Exception rate:** conversations the AI couldn't handle and handed off — the honesty metric
+- **The 90-day question:** is the +$26,400 row coming true? The dashboard answers it; the sensitivity table already says which assumption to check if it isn't.
+
+## What this maps to on our published pricing
+
+| Stage | Price |
+|---|---|
+| Free scan — the first conversation, and the phone-log pull that starts everything | $0 |
+| The audit — the labeled model and the written verdict above | $2,500, fully credited |
+| The build — this scenario | $9,500 (our automation builds start at $7,500; this one sits near the typical band's floor because intake is a focused scope) |
+| Operation — monitoring, model updates, the weekly safety review | from $1,150/month in this scenario (our operation retainers start at $1,800/month for fuller scopes; intake-only runs lighter) |
+
+The exit that costs nothing, same as always: a *don't build* verdict means you keep the analysis and the phone-log findings, and you owe nothing past the audit.
+
+---
+
+## Questions Indianapolis service businesses ask us about this
+
+### Does an AI intake system replace my office staff?
+
+No — it covers the hours and overflow they physically can't, and hands them organized mornings instead of voicemail archaeology. Every business we've modeled keeps its people; the system keeps their nights.
+
+### What does AI answering actually cost for an HVAC company?
+
+Off-the-shelf AI receptionists run roughly $25–$300/month on published vendor pricing and are worth trying first if your only problem is basic message-taking. A system integrated with your scheduler and dispatch rules — the version that books real jobs — is a build: ours start at $7,500, and the audit tells you which category you actually need before you spend either amount.
+
+### We're not in HVAC. Does this apply?
+
+The vertical is scenery. Plumbers, electricians, dental offices, vet clinics, property managers — anywhere inquiries arrive around the clock and a human can't, the same model applies and the same audit prices it for your numbers.
+
+---
+
+*Fictional client, real method. To run it on your actual phone logs: [book the free scan](/contact). Our measurement methodology is published in full [here](/research/how-we-measure), and the companion engagement — a manufacturer's quoting problem — is [here](/research/sample-engagement-kestrel-beverage).*

@@ -1,0 +1,102 @@
+---
+title: "Drowning in Check Calls: AI Document Automation for an Indianapolis Freight Brokerage"
+description: "A sample AI engagement for a fictional Indianapolis freight brokerage: an inbox where 72% of email is mechanical, the labeled automation model with its negative row, a three-part document system, and the capacity case that beats the labor case."
+date: 2026-08-13
+author: "Samia Zaman"
+kind: "sample-engagement"
+targetKeyword: "ai for logistics companies"
+sampleBanner: "Limestone Freight Co. is a fictional Indianapolis company built for this walkthrough. Every operational number comes from published industry benchmarks, labeled where used. This is exactly how we run a real engagement — the only thing invented is the client."
+draft: false
+---
+
+# Drowning in check calls: AI document automation for an Indianapolis freight brokerage
+
+**Reading time: 11 minutes. The third problem family in our engagement series: not slow quotes ([Kestrel](/research/sample-engagement-kestrel-beverage)), not missed calls ([Redbud](/research/sample-engagement-indianapolis-hvac)) — paperwork. The email-shaped work that eats a logistics office alive.**
+
+## The company
+
+Limestone Freight Co. is a freight brokerage on the west side of Indianapolis, near the Plainfield warehouse corridor — 22 employees moving full-truckload and LTL freight through the Crossroads of America, where I-65, I-70, I-69, and I-74 meet. Roughly $9M gross revenue; like every brokerage, the real business lives in the ~15% net margin between what shippers pay and what carriers charge.
+
+Their constraint isn't freight. It's that **every load generates twenty emails**, and humans process all of them: quote requests arriving as free-text emails, rate confirmations, carrier documents (insurance certs, rate cons, BOLs, PODs), and the industry's great time thief — **check calls**, the "where's my truck?" status requests that arrive all day, every day, from every shipper.
+
+Industry estimates put ops-rep time on status communication at a quarter to a third of the day. At Limestone, five ops people were doing knowledge work maybe two hours a day. The rest was inbox.
+
+## Phase 1 — Observe (week 1)
+
+For a brokerage, the process map is an inbox map. We categorized two weeks of the shared ops mailbox — every message, tagged:
+
+<OpsInboxComposition />
+
+**72% of the inbox was mechanical** — reading a document or a question, looking something up in the TMS, and transcribing the answer back out. None of it requires a human decision. All of it was consuming humans.
+
+## Phase 2 — Analyze & Quantify (week 2–3)
+
+Every input labeled, as always:
+
+| Input | Value | Label |
+|---|---|---|
+| Mechanical share of ops inbox | 72% of ~340/day | **Client-confirmed** from the two-week categorization |
+| Ops time consumed by it | ~19 hrs/day across 5 reps | **Client-confirmed** — timed sampling during the audit |
+| Automatable share of the mechanical work | 60% | **Conservative model** — edge cases, angry customers, and unusual documents stay human |
+| Loaded ops cost | $58,000/yr per rep | **Benchmark** — ops/coordinator pay of roughly $45,000–$52,000 base (Salary.com, ZipRecruiter), loaded |
+| Value of freed capacity | measured in loads/rep, not layoffs | **Model** — brokerages grow by covering more loads per rep; nobody in this model loses a job |
+
+The math: 60% of 19 hours is ~11.4 recovered hours a day — roughly **2,850 hours a year, worth about $79,000 in loaded cost.** But the labor number understates it, and the model says so: a brokerage's growth limit is loads-per-rep. Freeing a third of the ops day raises that ceiling without a single new hire — which is why the sensitivity grid models *capacity*, not just cost:
+
+| If mechanical share is really… | And automatable share is… | Year-1 net | Verdict |
+|---|---|---|---|
+| 45% (lighter inbox than sampled) | 40% | **−$6,900** | **Don't build — buy a TMS plugin and move on** |
+| 72% | 40% | +$11,200 | Marginal — automate status-only, defer the rest |
+| **72%** | **60%** | **+$41,300** | **Build** |
+| 72% | 70% + one added load/rep/week | +$78,000+ | The growth case |
+
+Year-1 cost in the model: $37,700 ($16,100 build + $1,800/month operation). Payback at the confirmed baseline: **about eleven months on labor alone; under six if the capacity case holds** — and the dashboard in Phase 4 measures which one is true.
+
+The first row, as always, is the audit earning its fee: a lighter inbox means the honest answer is an off-the-shelf TMS plugin, and the written verdict names which one.
+
+## Phase 3 — Build (weeks 4–12)
+
+<DocumentAutomationArchitecture />
+
+The house rules, third time, same rules: **AI where it earns its place** — reading emails and documents is the strongest legitimate use of these models that exists; **judgment stays human** — no model prices a load or waives an insurance flag; and **low confidence routes to people**, loudly, rather than guessing quietly.
+
+Scope discipline note: we did not touch carrier sourcing, dispatch, or accounting. The inbox was the leak; the inbox is the build. That's why this is a $16,100 system and not a $100,000 "digital transformation."
+
+## Phase 4 — Measure (from week one)
+
+- **Auto-resolved status requests:** count and rate (target: >80% of status emails answered without a human, median reply under 2 minutes vs. the 47-minute baseline)
+- **Quote-intake accuracy:** extraction correctness sampled weekly — the honesty metric on the AI
+- **Docs filed without touch:** rate, plus every insurance flag audited (the compliance metric, zero tolerance)
+- **Loads per rep per week:** the growth number — the one the owner actually cares about, tracked against the pre-build baseline
+- **The 90-day question:** which sensitivity row is coming true, on the dashboard, in the client's own TMS numbers
+
+## What this maps to on our published pricing
+
+| Stage | Price |
+|---|---|
+| Free scan — including the inbox categorization that starts everything | $0 |
+| The audit — the labeled model and written verdict above | $2,500, fully credited |
+| The build — this scenario | $16,100 (our automation builds start at $7,500 and typically land $10,000–$18,000; three integrated subsystems put this near the top of the band) |
+| Operation — monitoring, extraction-accuracy review, model updates | from $1,800/month |
+
+Same exit as always: a *don't build* verdict, in writing, costs you the audit and saves you the build.
+
+---
+
+## Questions logistics operators ask us about this
+
+### Does this work with our TMS?
+
+The pattern integrates with any system that exposes its data — modern TMS platforms do, and even legacy ones usually have a path. Whether *yours* does is precisely what the audit's technical review answers before you commit a dollar to the build.
+
+### Is AI reliable enough for freight documents?
+
+For reading and extracting — yes, demonstrably, and we measure the accuracy weekly and publish it to your dashboard. For decisions — pricing a load, accepting a carrier, waiving a flag — we deliberately don't use it. Extraction is AI work; judgment is your team's.
+
+### We're a warehouse / carrier / dispatcher, not a brokerage. Same idea?
+
+Same idea. Anywhere in Indiana's logistics corridor — or anywhere in the country — that documents and status requests eat operations time, the model applies: categorize the inbox, price the mechanical share, automate the fraction that's safe, measure it.
+
+---
+
+*Fictional client, real method. To run the inbox categorization on your actual operation: [book the free scan](/contact). The measurement methodology is published [here](/research/how-we-measure); the companion engagements cover [a manufacturer's quoting problem](/research/sample-engagement-kestrel-beverage) and [an HVAC company's after-hours leak](/research/sample-engagement-indianapolis-hvac).*

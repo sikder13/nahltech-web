@@ -1,0 +1,93 @@
+---
+title: "From Four-Day Quotes to Four-Minute Quotes: A Sample AI Engagement, End to End"
+description: "A complete AI engagement walkthrough on a fictional beverage manufacturer: the process map, the labeled ROI model, the sensitivity table with the row where the project loses money, the build architecture, and the measured payback."
+date: 2026-08-13
+author: "Udaay Sikder"
+kind: "sample-engagement"
+targetKeyword: null
+sampleBanner: "Kestrel Beverage Co. is a fictional company built for this walkthrough. Every operational number is drawn from published industry benchmarks, cited where used. This is exactly how we run a real engagement — the only thing invented here is the client."
+draft: false
+---
+
+# From four-day quotes to four-minute quotes: an AI engagement, end to end
+
+**Reading time: 12 minutes. What you'll see: how we take a business from "we think AI could help somewhere" to a deployed system with a measured payback — including the analysis that would have told them not to build.**
+
+## The company
+
+Kestrel Beverage Co. is a contract beverage manufacturer: other brands bring them recipes, Kestrel produces and packages the cans. Mid-size for the industry — about 30 employees, $12M revenue, one highly automated canning line, and a deliberately small roster of around ten active brand clients at a time to protect quality.
+
+Their growth problem isn't demand. It's that **every request for quote is priced by hand.** An emerging brand emails asking for 15,000 cans of a new sparkling tea. Someone at Kestrel works out material costs, line time, changeover, liquid loss on a carbonated short run, and packaging — then checks the production schedule for a slot. It takes two to four days per quote. The people doing it are the same people scheduling the line. Some weeks they quote forty jobs to win six.
+
+If you run a business on repeatable operations — a print shop, a machine shop, a caterer, a clinic — you know this shape: **skilled people doing arithmetic a system should do, while the work they're actually paid for waits.**
+
+## Phase 1 — Observe (week 1)
+
+We don't start with AI. We start with a map. Two weeks inside the business produces a process inventory: every recurring workflow, who touches it, how long it takes, what systems it lives in.
+
+<RfqProcessMap />
+
+The map surfaced three candidate workflows. We scored each on two axes: **annual cost of the manual version** and **feasibility of automating it against their existing systems.** Quoting won on both. (The other two — invoice matching and a customer portal — went on the roadmap with their numbers attached, not in the build.)
+
+## Phase 2 — Analyze & Quantify (week 2–3)
+
+Here's the part most proposals skip, and the reason ours don't: **every input gets a label.**
+
+| Input | Value | Label |
+|---|---|---|
+| People touching each RFQ | 2 FTE-equivalent | **Client-confirmed** (in a real engagement; benchmark default shown here) |
+| Loaded cost per FTE | $72,000/yr | **Benchmark** — production planner/scheduler pay starts near $58,000 base at the 25th percentile (ZipRecruiter); $72,000 loaded is the conservative end |
+| Time on quoting & scheduling | 55% reduction achievable | **Industry estimate** — vendor-reported RFQ automation savings cluster around 40–60%; treated here as an assumption to test, not a finding |
+| Capacity unlocked by faster scheduling | 1.0% of revenue | **Conservative model** — faster quote turnaround wins time-sensitive jobs |
+| Gross margin on incremental volume | 30% | **Model assumption** — no public margin benchmark exists for contract packaging; 30% is the figure the sensitivity grid tests |
+
+Then the honest part — the model runs across the assumptions, **including the row where the project loses money:**
+
+| If Kestrel really has… | And capacity gain is… | Year-1 net | Verdict |
+|---|---|---|---|
+| 1 person on quoting | 0.5% | **−$800** | **Don't build at this scale** |
+| 1 person | 1.0% | +$20,200 | Marginal — phase it |
+| **2 people** | **1.0%** | **+$59,800** | **Build** |
+| 2 people | 2.0% | +$101,800 | Build, obviously |
+
+Total year-1 cost in the model: $61,400 ($35,000 build + $2,200/month operation). Payback at the confirmed baseline: **about six months.**
+
+That negative row is why the audit exists. If discovery had shown one part-timer doing quotes in a slow market, the written verdict would have been *don't build* — and the $2,500 audit fee would have been the cheapest $50,000 Kestrel never spent.
+
+## Phase 3 — Build (weeks 4–10)
+
+The system, at architecture level:
+
+<QuotingArchitecture />
+
+Two design decisions worth noticing, because they're how we build everything:
+
+**AI only where AI earns its place.** The intake parser is AI — unstructured emails genuinely need it. The pricing engine is deterministic code — a quote must be *right*, not plausible. Firms that put AI in the arithmetic are optimizing for the demo, not the client.
+
+**The human approves; the system prepares.** Kestrel's quote quality was never the problem — the four days were. The system compresses the four days to minutes and leaves the judgment where it belongs.
+
+## Phase 4 — Measure (from day one of operation)
+
+Every build ships with its own scoreboard, because the ROI claim from Phase 2 becomes a dashboard, not a memory:
+
+- **Quote turnaround:** target under 4 hours from RFQ to approved quote (baseline: 2–4 days)
+- **Hours displaced:** the system counts every quote it drafts; hours saved computes from Kestrel's own baseline timings
+- **Win-rate delta on time-sensitive RFQs:** the capacity-gain assumption from the model, now measured instead of assumed
+- **Exception rate:** how often a human had to fix the parse — the honesty metric on the AI component
+
+Ninety days in, the dashboard answers the only question that matters: *is the model from Phase 2 coming true?* If it isn't, the retainer includes fixing that, and the sensitivity table already told everyone which assumption to check first.
+
+## What this engagement costs, mapped to our published pricing
+
+| Stage | Price |
+|---|---|
+| Opportunity scan (the first conversation) | Free |
+| The audit — Phases 1–2, the labeled model, the written verdict | $2,500, fully credited |
+| The build — Phase 3, fixed price from the audit's scope | This scenario: $35,000 (our automation builds start at $7,500; most land $10,000–$18,000 — Kestrel's is large because of the scheduling integration) |
+| Operation — Phase 4, monitoring, fixes, model updates | From $1,800/month |
+
+And the exit that costs nothing: if Phase 2's verdict is *don't build*, you keep the analysis and owe nothing more than the audit — which just saved you the build.
+
+---
+
+*This is a sample engagement — the client is fictional; the method is not. To run Phases 1–2 on your actual business: [book the free scan](/contact). The audit methodology behind Phase 2 is published in full [here](/research/how-we-measure) — including the parts most firms keep secret.*
