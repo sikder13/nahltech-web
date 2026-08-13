@@ -7,6 +7,7 @@ import {
   type RelatedArticle,
 } from "@/components/blocks/article-blocks";
 import { Prose } from "@/components/ui/Prose";
+import { getAuthorProfileUrl } from "@/lib/authors";
 
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
 import type { ReactNode } from "react";
@@ -50,6 +51,7 @@ export function ArticleTemplate({
           author={author}
           date={date}
           dateTime={dateTime}
+          profileUrl={getAuthorProfileUrl(author)}
         />
       </div>
 

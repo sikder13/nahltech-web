@@ -272,9 +272,11 @@ describe("organizationSchema sameAs", () => {
   });
 
   it("keeps the founder's LinkedIn on his Person node", () => {
-    // The other half of the split: removing it from Organization must not
-    // have removed it from the person it actually describes.
-    expect(personSchema("Udaay Sikder").sameAs).toBeUndefined();
+    // The other half of the split: it is off the company entity and on the
+    // person it actually describes.
+    expect(personSchema("Udaay Sikder").sameAs).toEqual([
+      "https://www.linkedin.com/in/udaay-sikder-74a207132/",
+    ]);
     expect(personSchema("Samia Zaman").sameAs).toEqual([
       "https://www.linkedin.com/in/samiazaman/",
     ]);

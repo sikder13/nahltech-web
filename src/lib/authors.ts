@@ -30,6 +30,10 @@ export const authors = {
     // stay in agreement.
     jobTitle: "Founder & CEO",
     url: "/about",
+    // His personal LinkedIn belongs to him, not to the company: it was
+    // deliberately removed from Organization `sameAs` and lives here, on the
+    // Person node that actually describes him.
+    sameAs: ["https://www.linkedin.com/in/udaay-sikder-74a207132/"],
   },
   "Samia Zaman": {
     name: "Samia Zaman",
@@ -46,4 +50,18 @@ export const authorNames = Object.keys(authors) as AuthorName[];
 
 export function getAuthor(name: string): Author | undefined {
   return (authors as Record<string, Author>)[name];
+}
+
+/**
+ * The LinkedIn profile a byline links to, if we have one.
+ *
+ * Read out of `sameAs` rather than stored twice, so the visible byline link
+ * and the Person schema's `sameAs` cannot disagree about where a person is.
+ * Matched by host instead of by position: a second profile added to `sameAs`
+ * later must not silently become the byline target.
+ */
+export function getAuthorProfileUrl(name: string): string | undefined {
+  return getAuthor(name)?.sameAs?.find((url) =>
+    /(^|\.)linkedin\.com$/.test(new URL(url).hostname),
+  );
 }

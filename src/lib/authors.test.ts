@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { getAuthor } from "./authors";
+import { authorNames, getAuthor, getAuthorProfileUrl } from "./authors";
 import { getPublishedPosts } from "./blog";
 import { personSchema } from "./schema-org";
 
@@ -69,6 +69,18 @@ describe("personSchema", () => {
     });
   });
 
+  it("carries each author's personal LinkedIn on their Person node", () => {
+    // These are personal profiles. They were removed from Organization
+    // `sameAs` on purpose — the company entity gets company profiles — so
+    // this is the only place they should appear.
+    expect(personSchema("Udaay Sikder").sameAs).toEqual([
+      "https://www.linkedin.com/in/udaay-sikder-74a207132/",
+    ]);
+    expect(personSchema("Samia Zaman").sameAs).toEqual([
+      "https://www.linkedin.com/in/samiazaman/",
+    ]);
+  });
+
   it("degrades to a bare Person for an unknown name", () => {
     // Unreachable through the loader, which rejects unknown authors — this is
     // the belt to that braces.
@@ -76,6 +88,33 @@ describe("personSchema", () => {
       "@type": "Person",
       name: "Nobody At All",
     });
+  });
+});
+
+describe("getAuthorProfileUrl", () => {
+  it("gives the byline the same URL the schema publishes", () => {
+    // One source, so the visible link and the markup cannot point at
+    // different places for the same person.
+    for (const name of authorNames) {
+      const profile = getAuthorProfileUrl(name);
+      if (!profile) continue;
+      expect(personSchema(name).sameAs, name).toContain(profile);
+    }
+  });
+
+  it("finds LinkedIn by host, not by position in sameAs", () => {
+    // A second profile added to sameAs later must not become the byline
+    // target just because it was listed first.
+    expect(getAuthorProfileUrl("Udaay Sikder")).toBe(
+      "https://www.linkedin.com/in/udaay-sikder-74a207132/",
+    );
+    expect(getAuthorProfileUrl("Samia Zaman")).toBe(
+      "https://www.linkedin.com/in/samiazaman/",
+    );
+  });
+
+  it("returns nothing for an author we hold no profile for", () => {
+    expect(getAuthorProfileUrl("Nobody At All")).toBeUndefined();
   });
 });
 
