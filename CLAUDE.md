@@ -65,3 +65,8 @@ verifiable option and note the decision in the PR description.
     harness, cutting-edge, innovative, world-class, and "solutions" as a
     standalone noun. If copy arrives containing them, flag it rather than
     shipping it.
+    EXCEPTION: a banned word may appear inside quotation marks when the
+    sentence is rejecting the term — the rule bans the word as our own
+    claim, and quoting the industry's phrase in order to refuse it is the
+    opposite use. Only then. Outside quotation marks, or inside them
+    without the rejection, the rule stands.
