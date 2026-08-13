@@ -8,7 +8,11 @@ import { formatPostDate } from "@/lib/format-date";
 import { requireDictionary } from "@/lib/i18n/require-dictionary";
 import { getPublishedResearch, getResearchBySlug } from "@/lib/research";
 import { routes } from "@/lib/routes";
-import { breadcrumbSchema, researchArticleSchema } from "@/lib/schema-org";
+import {
+  breadcrumbSchema,
+  faqSchema,
+  researchArticleSchema,
+} from "@/lib/schema-org";
 
 import { SampleBanner } from "@/components/blocks/SampleBanner";
 import {
@@ -112,6 +116,11 @@ export default async function Page({
       imageLabel: item.title,
     }));
 
+  // Only the two engagements that actually carry a questions section get
+  // one; the builder returns null otherwise rather than emitting an empty
+  // FAQPage, which Google reads as invalid rather than absent.
+  const faq = faqSchema(article);
+
   const breadcrumb = breadcrumbSchema(
     t,
     `${routes.research}/${article.slug}`,
@@ -124,6 +133,9 @@ export default async function Page({
           the fictional companies and no Review anywhere — see the builder. */}
       <JsonLd data={researchArticleSchema(article)} />
       {breadcrumb ? <JsonLd data={breadcrumb} /> : null}
+      {/* Parsed from the section's own h3s and prose, so the markup and the
+          visible text cannot drift apart. */}
+      {faq ? <JsonLd data={faq} /> : null}
       <ArticleTemplate
         t={t}
         title={article.title}

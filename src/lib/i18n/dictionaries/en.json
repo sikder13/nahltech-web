@@ -474,7 +474,7 @@
         "items": [
           {
             "label": "Run nahltech.com through Crawlmouse",
-            "href": "https://www.crawlmouse.com"
+            "href": "https://crawlmouse.com"
           },
           {
             "label": "Check the Lighthouse scores",

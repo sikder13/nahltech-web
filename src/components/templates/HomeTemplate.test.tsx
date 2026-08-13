@@ -44,7 +44,7 @@ describe("HomeTemplate", () => {
 
     expect(links).toHaveLength(4);
     expect(links.map((a) => a.getAttribute("href"))).toEqual([
-      "https://www.crawlmouse.com",
+      "https://crawlmouse.com",
       routes.hafsaSastho,
       routes.research,
       routes.research,

@@ -10,6 +10,7 @@ import {
 } from "@/lib/routes";
 
 import type { Post } from "@/lib/blog";
+import type { FaqEntry } from "@/lib/mdx";
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
 
 /**
@@ -201,17 +202,24 @@ export function researchArticleSchema(article: {
 }
 
 /**
- * FAQPage, built from the question-and-answer pairs parsed out of the post
- * body. Returns null when the post has no FAQ section, so a page never emits
- * an empty FAQPage — which Google treats as invalid rather than absent.
+ * FAQPage, built from the question-and-answer pairs parsed out of the body.
+ * Returns null when the document has no FAQ section, so a page never emits an
+ * empty FAQPage — which Google treats as invalid rather than absent.
+ *
+ * Takes the parsed entries rather than a whole `Post`, because blog posts and
+ * research artifacts both carry them and the markup is identical either way.
+ * What is *not* identical is where they come from: both are parsed out of the
+ * visible prose, so neither can drift from what the page actually says.
  */
-export function faqSchema(post: Post): JsonLdObject | null {
-  if (post.faq.length === 0) return null;
+export function faqSchema(document: {
+  faq: readonly FaqEntry[];
+}): JsonLdObject | null {
+  if (document.faq.length === 0) return null;
 
   return {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: post.faq.map((entry) => ({
+    mainEntity: document.faq.map((entry) => ({
       "@type": "Question",
       name: entry.question,
       acceptedAnswer: { "@type": "Answer", text: entry.answer },

@@ -71,8 +71,9 @@ export const siteUrl = "https://nahltech.com";
  * — hard rule 7, every href resolves.
  */
 export const productLinks = {
-  // The `www` form is canonical, and is what the blog posts already link to.
-  crawlmouse: "https://www.crawlmouse.com",
+  // The apex is canonical: `www.crawlmouse.com` 308s to this, so linking the
+  // www form spends a redirect hop on every link on the site for nothing.
+  crawlmouse: "https://crawlmouse.com",
   // Closed beta: no public URL.
   hafsaSastho: null,
 } as const;

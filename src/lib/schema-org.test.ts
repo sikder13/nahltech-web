@@ -256,7 +256,7 @@ describe("organizationSchema sameAs", () => {
 
   it("lists exactly the four company profiles", () => {
     expect(sameAs).toEqual([
-      "https://www.crawlmouse.com",
+      "https://crawlmouse.com",
       "https://x.com/nahltech",
       "https://www.linkedin.com/company/nahl-technologies-incorporation-linkedin/",
       "https://www.facebook.com/profile.php?id=61589050512455",
@@ -290,7 +290,7 @@ describe("organizationSchema sameAs", () => {
 
   it("uses the canonical www form for Crawlmouse", () => {
     expect(sameAs).toContain(productLinks.crawlmouse);
-    expect(productLinks.crawlmouse).toBe("https://www.crawlmouse.com");
+    expect(productLinks.crawlmouse).toBe("https://crawlmouse.com");
   });
 });
 
