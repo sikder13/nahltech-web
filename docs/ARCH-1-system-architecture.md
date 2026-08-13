@@ -310,13 +310,27 @@ Every line above is a lesson from the old site's audit: hardcoded keys, an anon 
 | Service pages | Service + Offer (published prices) + FAQPage |
 | Blog/Research | Article + BreadcrumbList + Person (author) |
 | Pricing | OfferCatalog |
-| Products | SoftwareApplication (Crawlmouse) |
+| Products | SoftwareApplication (Crawlmouse and Hafsa Sastho) |
+
+All of the above shipped in Phase 5. Two deliberate absences: `LocalBusiness` carries no `geo` (the authoritative pin is the Google Business Profile's, added post-cutover — a city centroid would sit ten miles from the street address in the same block), and `WebSite` carries no `SearchAction` (the site has no search endpoint to point one at). **No `aggregateRating` is emitted anywhere, on any type, ever** — there is no review corpus to aggregate, and the invariant is enforced by test rather than convention.
 
 **Metadata:** per-page `generateMetadata` · title template `%s | Nahl Technologies` · OG via file convention (`opengraph-image.tsx`) — never a static path (the old site's `/og-image.png` 404s on X today).
 
 **hreflang:** emitted only for locales with live content (en only at launch — ar/bn added when content ships; hreflang pointing at 404 locales is an SEO error).
 
-**Redirects:** full A1 Part 2 map in `next.config.js` — every old URL 301s, both hafsa spellings preserved.
+**Redirects:** seven entries in `next.config.ts`, emitting 308 (permanent, and equivalent to 301 for search engines, which is why the two are not mixed):
+
+| Source | Destination |
+|---|---|
+| `/services/local-seo` | `/services/ai-search-visibility` |
+| `/product` | `/products` |
+| `/product/hafsa-sastho` | `/products/hafsa-sastho` |
+| `/product/hafsa-shastho` | `/products/hafsa-sastho` |
+| `/hafsa-sastho/beta` | `/products/hafsa-sastho` |
+| `/about/team` | `/about` |
+| `/privacy` | `/legal/privacy` |
+
+This replaces an earlier claim that a "full A1 Part 2 map" was already implemented, which was never true — the file held a single redirect until Phase 5. The set above is the old site's known structure, not an exhaustive export: no URL list from the old site exists. `/hafsa-sastho/beta` is corroborated by the old site's own `robots.txt`, which still disallows it. Any further legacy URL is found the way `CUTOVER.md` describes — Search Console's crawl-error report after cutover — and gets a redirect the same day. The "shastho" misspelling is caught here and nowhere else; no rendered surface uses that spelling.
 
 **Performance budget (CI-checked via Lighthouse):**
 LCP < 2.0s · CLS < 0.05 · INP < 200ms · Lighthouse SEO + A11y + Best-Practices = 100, Performance ≥ 95 mobile · fonts self-hosted · images AVIF/WebP via next/image · JS on marketing pages < 120KB gz (chat widget lazy-loads on first interaction).
@@ -325,7 +339,22 @@ LCP < 2.0s · CLS < 0.05 · INP < 200ms · Lighthouse SEO + A11y + Best-Practice
 
 That number is **over the 120 KB gz target, and was already over before Phase 4**. The same measurement against the Phase 3 tip (`e64bdac`) is 148.5 KB. Phase 4 added 3.0 KB of it: chat launcher 1.8 KB, newsletter form 1.2 KB, everything else 16 bytes. Recording 151.5 KB here as the measured baseline for Phase 5's performance pass to work against — not as a raised ceiling. The 120 KB target stands and is currently unmet by ~31 KB.
 
-Method, so the next measurement is comparable: sum the `.js` entries from `build-manifest.rootMainFiles` plus `app-build-manifest.pages` for `/layout`, `/[locale]/layout` and `/[locale]/page`, gzip each at level 9. CSS is excluded.
+Method, so the next measurement is comparable: sum the `.js` entries from `build-manifest.rootMainFiles` plus `app-build-manifest.pages` for `/layout`, `/[locale]/layout` and `/[locale]/page`, gzip each at level 9. CSS is excluded. **This is implemented as `npm run measure:js`** (`scripts/measure-first-load.mjs`) so it is run rather than re-derived.
+
+**Phase 5 measurement, 13 Aug 2026:** `/` ships **143.5 KB gzipped**, down from 153.2 KB at the start of the phase. GA4 added 1.7 KB to the Phase 4 baseline of 151.5 KB; migrating Framer Motion to `LazyMotion` + `m` + `domAnimation` took 9.7 KB back out.
+
+**The 120 KB target is not reachable on this stack, and the remainder is not application code.** Itemised:
+
+| Item | gz | Reducible? |
+|---|---|---|
+| React 19 + React DOM + Next client runtime (`rootMainFiles`) | 100.3 KB | No — this is the framework floor |
+| Framer Motion (`m` + `domAnimation` features) | 27.7 KB | Only by leaving the locked stack |
+| Google Analytics | 4.5 KB | Only by dropping analytics |
+| **Everything we wrote** — layout, header, footer, chat launcher, forms, page | **11.0 KB** | Marginal |
+
+The two locked dependencies alone total **128.0 KB**, which is over the 120 KB target before a single line of our own code. Our own code is 11 KB of a 143.5 KB page — roughly 7%. The remaining levers are: loading `domAnimation` asynchronously (moves ~15 KB out of first load, but `FadeIn` renders `opacity: 0` until features arrive, so it trades directly against LCP, currently 1.5–1.7 s against a 2.0 s budget), or dropping Framer Motion, which the stack lock in `CLAUDE.md` forbids. Neither is worth taking unilaterally.
+
+The honest conclusion is that 120 KB was set before the framework cost was measured. Either the target moves to ~145 KB, or the stack changes; shaving our own 11 KB cannot close a 23 KB gap.
 
 **Launch gate:** site scores well on Crawlmouse. We sell this; our own grade is the first proof any prospect checks.
 
