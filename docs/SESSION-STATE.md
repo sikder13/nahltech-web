@@ -1,7 +1,7 @@
 # SESSION-STATE
 
 Handoff snapshot; update at the end of every session. **Last updated:**
-13 August 2026 · HEAD `e1764cb` · 101 commits · 179 tests passing
+13 August 2026 · HEAD `777a826` · 103 commits · 190 tests passing
 
 ## 1. Status
 
@@ -154,20 +154,18 @@ Usual treatment for a new post: verify it parses, FAQ schema,
 offer/sibling/dead-link checks, banned-word grep, 390px table check,
 screenshots — plus check every statistic against its source.
 
-**(b) The 120 kB JS target needs a founder decision.** First-load on `/` is
-**143.5 kB gz**, and the remainder is not our code:
+**(b) The performance budget was revised and ratified, not overrun.** First-load
+on `/` is **143.7 kB gz** against a **145 kB ceiling** (was 120 kB). The basis
+is in ARCH-1 §7: the locked stack alone is 128.0 kB and everything we wrote is
+11.0 kB. `npm run measure:js` reports against the ceiling and **exits non-zero
+above it**, so this is enforced rather than described. Headroom today: 1.3 kB —
+it will bite.
 
-| Item | gz |
-| --- | --- |
-| React 19 + React DOM + Next client runtime | 100.3 kB |
-| Framer Motion (`m` + `domAnimation`) | 27.7 kB |
-| Google Analytics | 4.5 kB |
-| **Everything we wrote** | **11.0 kB** |
-
-The two locked dependencies alone are 128.0 kB — over target before a line of
-our own code. Our code is ~7% of the page. Shaving it cannot close a 23.5 kB
-gap; either the target moves to ~145 kB or the stack lock changes. Re-measure
-any time with `npm run measure:js`.
+Two other budget lines were revised the same way, each against a measurement:
+Best-Practices to `≥ 96` (100 is unreachable while the CSP uses
+`'unsafe-inline'`, which it needs so pages stay static), and CLS to `≤ 0.05`.
+**`font-display: optional` on Inter was considered and explicitly rejected** —
+do not "fix" the 0.05 later without re-reading ARCH-1 §7.
 
 **(c) Still open from the original CC-8 brief:**
 
@@ -176,13 +174,19 @@ any time with `npm run measure:js`.
   one remaining non-critical warning.
 - **A Crawlmouse pass on our own site.** We sell this; it was in the launch
   gate and has not been run.
-- **CLS is 0.05** against ARCH-1's `< 0.05` budget — marginally over, caused by
-  the Inter web font swapping in and reflowing one section. The fix is
-  `display: "optional"` on Inter, which trades a possible fallback-font render
-  on slow connections. Not taken unilaterally because it is user-facing.
-  Lighthouse Performance still passes at 97–98.
+- **Rich Results Test on the live domain**, post-cutover. CC-8 verified the
+  structured data structurally (renders, parses, per-template expectations,
+  invariants under test) but did not run Google's own tool.
 - **GSC and Bing sitemap submission** happen after cutover — steps are in
   `CUTOVER.md` §6, not this document.
+
+**(d) Social profiles are live** in the footer and in Organization `sameAs`.
+`sameAs` and the footer both read `companyProfiles` in `lib/routes.ts`, so the
+markup cannot claim a profile the site does not link to. It holds **exactly
+four company URLs**; the founder's personal LinkedIn was deliberately removed
+from the company entity and lives on his Person node via the author registry.
+Both halves are under test — if you add a profile, add it to `socialLinks` and
+nowhere else.
 
 ## 5. Outstanding — founder side
 
