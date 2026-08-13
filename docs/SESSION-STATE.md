@@ -1,14 +1,17 @@
 # SESSION-STATE
 
 Handoff snapshot; update at the end of every session. **Last updated:**
-13 August 2026 · HEAD `cdd3258` · 95 commits · 150 tests passing
+13 August 2026 · HEAD `e1764cb` · 101 commits · 179 tests passing
 
 ## 1. Status
 
-Phases 1–4 complete, blog production underway. Foundation, six page templates,
-the design pass, five service pages, all approved copy, published pricing, the
-backend (three API routes, lead alerting, chat widget), the MDX blog pipeline
-and the legal pages are shipped.
+**Phases 1–5 complete. The build is done; the domain cutover is the only
+thing left, and it is the founder's to execute — see `docs/CUTOVER.md`.**
+
+Foundation, six page templates, the design pass, five service pages, all
+approved copy, published pricing, the backend (three API routes, lead alerting,
+chat widget), the MDX blog pipeline, the legal pages, full schema.org coverage,
+GA4, the performance pass and the launch gates are all shipped.
 
 - Live: **https://nahltech-web.vercel.app**. No custom domain yet — cutover is CC-8.
 - CI green on `main` (lint · typecheck · test · build, Node 22).
@@ -18,7 +21,24 @@ and the legal pages are shipped.
 
 **Design invariants.** Gold (`#F5C842`) decorates only — never a fill or text
 colour. Hexagon motif in exactly six places, bee mark in two (header, 404).
-Fraunces h1/h2, Inter body. Motion inside `MotionConfig reducedMotion="user"`.
+Fraunces h1/h2, Inter body. Motion inside `MotionConfig reducedMotion="user"`,
+now nested in `LazyMotion … strict` — use `m.*`, never `motion.*`, or it throws.
+
+**CC-8 (Phase 5) shipped, in five commits:**
+
+- **Schema.org is complete** per ARCH-1 §7. `lib/schema-org.ts` now builds
+  Organization, WebSite, LocalBusiness, BreadcrumbList, Service + Offer,
+  OfferCatalog and SoftwareApplication alongside Article/FAQPage/Person.
+  Prices are parsed from the same dictionary strings the pages render, so a
+  range or "custom" yields no price rather than a guess.
+- **GA4 is live** (`G-KMEM2DS98H`) with six events. Five were verified firing
+  end-to-end in a browser to Google's servers (204s); `chat_lead_saved` is the
+  one verified by code path only — see §5.
+- **First-load JS: 153.2 → 143.5 kB gz.** The 120 kB target is not reachable
+  on this stack; the itemised reason is in ARCH-1 §7 and summarised in §4(b).
+- **Seven redirects** for the old site's structure.
+- **Launch gates all pass against production**, and `docs/CUTOVER.md` is the
+  founder-facing runbook.
 
 ## 2. Blog state
 
@@ -101,8 +121,18 @@ org `yhkazuzdlcaqgealmjjp`, us-east-1 (N. Virginia), Postgres 17.6.
   `INSERT … RETURNING` is unavailable to the browser — the chat client makes
   its own UUIDs.
 
-**Vercel** — project `nahltech-web`, team `nahl-technologies-projects`. All
-seven env vars set and exercised in production.
+**Vercel** — project `nahltech-web` (`prj_Yzkc8C3WgIylyvcGcXhuEAdx8aVu`), team
+`nahl-technologies-projects` (`team_7JoIUGWqgJwobBinsyt2qRKH`). All eight env
+vars set and exercised in production. The project has **no custom domain** yet —
+only the `.vercel.app` aliases. Vercel builds on Node 24.x; `engines` is
+`>=22`, so that is fine.
+
+**GA4** — `NEXT_PUBLIC_GA_MEASUREMENT_ID=G-KMEM2DS98H`, set in all three Vercel
+environments and in `.env.local`. Absent the var, the site ships no analytics
+at all and every `track()` call no-ops. **The CSP must list the Google origins
+or gtag.js is blocked while the dataLayer keeps accepting pushes** — every
+event looks like it fired and GA receives nothing. Covered by two tests in
+`src/middleware.test.ts`; do not "tidy" those origins out.
 
 - **Resend sending domain is verified.** Confirmed 12 Aug 2026 by a probe lead
   through the deployed `/api/lead`: `notification_log` recorded `status='sent'`,
@@ -124,27 +154,57 @@ Usual treatment for a new post: verify it parses, FAQ schema,
 offer/sibling/dead-link checks, banned-word grep, 390px table check,
 screenshots — plus check every statistic against its source.
 
-**(b) CC-8 — SEO and launch.**
+**(b) The 120 kB JS target needs a founder decision.** First-load on `/` is
+**143.5 kB gz**, and the remainder is not our code:
 
-- schema.org completion: BreadcrumbList, Organization, WebSite, LocalBusiness
-  (NAP matching GBP exactly), Service + Offer, OfferCatalog. `lib/schema-org.ts`
-  has Article, FAQPage and Person only.
-- GA4 and Google Search Console wiring, plus Bing Webmaster.
-- Performance pass. First-load JS on `/` is **151.5 kB gzipped** against the
-  120 kB target — roughly **31 kB to find**. The measurement method is in
-  ARCH-1 §7 so the next number is comparable.
-- Lighthouse gate (SEO/A11y/Best-Practices 100, Perf ≥95 mobile) + a Crawlmouse
-  pass on our own site.
-- Per-post OG images via the file convention; also clears the Rich Results flag.
-- **DNS cutover.** Registrar/DNS is the Northwest panel. `@` and `www` are
-  currently split between old Vercel records and Northwest hosting IPs —
-  **both must move**. Plan it as one change, not two.
+| Item | gz |
+| --- | --- |
+| React 19 + React DOM + Next client runtime | 100.3 kB |
+| Framer Motion (`m` + `domAnimation`) | 27.7 kB |
+| Google Analytics | 4.5 kB |
+| **Everything we wrote** | **11.0 kB** |
+
+The two locked dependencies alone are 128.0 kB — over target before a line of
+our own code. Our code is ~7% of the page. Shaving it cannot close a 23.5 kB
+gap; either the target moves to ~145 kB or the stack lock changes. Re-measure
+any time with `npm run measure:js`.
+
+**(c) Still open from the original CC-8 brief:**
+
+- **Per-post OG images** via the file convention. This also clears the
+  `Missing field "image"` flag that Rich Results reports on every post — the
+  one remaining non-critical warning.
+- **A Crawlmouse pass on our own site.** We sell this; it was in the launch
+  gate and has not been run.
+- **CLS is 0.05** against ARCH-1's `< 0.05` budget — marginally over, caused by
+  the Inter web font swapping in and reflowing one section. The fix is
+  `display: "optional"` on Inter, which trades a possible fallback-font render
+  on slow connections. Not taken unilaterally because it is user-facing.
+  Lighthouse Performance still passes at 97–98.
+- **GSC and Bing sitemap submission** happen after cutover — steps are in
+  `CUTOVER.md` §6, not this document.
 
 ## 5. Outstanding — founder side
 
-- **End-to-end alert proof.** The path works — the 12 Aug probe lead logged
-  `status='sent'` — but that means Resend accepted it, not that it landed.
-  Worth confirming the mail reaches the inbox.
+- **THE CUTOVER.** `docs/CUTOVER.md`, start to finish. Read §0 before anything
+  else: `nahltech.com` is already on Vercel, serving the old site from a
+  project that is **not in the `Nahl Technologies' projects` team** — almost
+  certainly a personal account. Vercel will not let `nahltech-web` claim a
+  domain another project holds, so the domain has to be released there *first*.
+  Doing it in the other order means an outage spent hunting for the old
+  project. Also: `www.nahltech.com` is broken over HTTPS today, and a wildcard
+  `*` A record exists.
+- **GBP geo coordinates.** `LocalBusiness` ships without `geo` by decision —
+  the Google Business Profile pin is the authority and a city centroid would
+  sit ten miles from the street address in the same block. Send the exact
+  lat/long after cutover and it takes one line.
+- **`chat_lead_saved` is unverified in a browser.** It fires in
+  `ChatConsentForm` on the same line as `lead_submit(chat_widget)`, which *is*
+  verified, so the code path is shared and sound. Reaching it live needs a real
+  chat conversation that surfaces the consent form; worth doing once by hand.
+- **End-to-end alert proof.** The path works — the 13 Aug CC-8 gate lead logged
+  `status='sent'`, `error=null`, 222 ms after insert — but that means Resend
+  accepted it, not that it landed. Worth confirming the mail reaches the inbox.
 - **Counsel review of the legal pages.** An in-house startup baseline, shipped
   on the explicit understanding that it is revised on review.
 - **Keyword Planner hour.** The `field-notes` and `decision` target keywords
@@ -191,6 +251,22 @@ screenshots — plus check every statistic against its source.
   typed, so match on exact text when editing them programmatically.
 - **Pasted-attachment replies to the strategist arrive empty.** The founder
   exports `.odt` instead.
+- **Full-page screenshots of this site come out half-empty.** `FadeIn` uses
+  `whileInView`, so anything below the fold is still at `opacity: 0` when the
+  screenshot is taken. Scroll the page in steps first, then capture. Same
+  reason an instant `scrollTo(bottom)` leaves sections invisible: an
+  IntersectionObserver never fires for elements the viewport jumped over. This
+  is inherent to `whileInView`, not a bug — a real visitor scrolling normally
+  sees all of them.
+- **`pkill -f "next start"` kills its own shell.** The pattern matches the bash
+  process running the command, so the whole job dies with exit 144 and the
+  build never runs. Use `fuser -k 3000/tcp`.
+- **Python 3.10's urllib does not follow 308.** Any verification script that
+  "follows" a redirect will report the 308 as the final status and look like a
+  failure. Check the destination directly, or use `curl -L`.
+- **Vercel's docs still show `76.76.21.21`** as the apex A record while the
+  live apex sits on `216.198.79.1`. Read the target records off the project's
+  Domains tab at cutover time; do not take them from docs or from memory.
 
 ## 7. Process rules
 
