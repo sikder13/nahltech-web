@@ -1,4 +1,5 @@
 import { getPublishedPosts } from "@/lib/blog";
+import { getPublishedResearch } from "@/lib/research";
 import { allRoutePaths, routes, siteUrl } from "@/lib/routes";
 
 import type { MetadataRoute } from "next";
@@ -34,5 +35,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  return [...pages, ...posts];
+  // Research artifacts rank above posts: they are the long-form documents the
+  // service pages point at, and the ones a prospect is sent to read.
+  const research: MetadataRoute.Sitemap = getPublishedResearch().map(
+    (article) => ({
+      url: new URL(`${routes.research}/${article.slug}`, siteUrl).toString(),
+      lastModified: new Date(`${article.date}T00:00:00Z`),
+      changeFrequency: "yearly",
+      priority: 0.7,
+    }),
+  );
+
+  return [...pages, ...research, ...posts];
 }

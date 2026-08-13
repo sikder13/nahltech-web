@@ -165,6 +165,42 @@ export function articleSchema(post: Post): JsonLdObject {
 }
 
 /**
+ * Article for a research artifact.
+ *
+ * Deliberately the same shape as a blog post's, with one hard constraint that
+ * is the whole reason this is a separate builder: **the three sample
+ * engagements describe fictional companies.** Nothing here may emit an
+ * Organization node for Redbud, Kestrel or Limestone, and nothing may emit
+ * Review or AggregateRating, because either would assert to a search engine
+ * that a real company was really measured — which is exactly the claim the
+ * on-page disclosure banner exists to prevent.
+ *
+ * The only Organization in the graph is ours, as publisher of the document.
+ * That one is true.
+ */
+export function researchArticleSchema(article: {
+  slug: string;
+  title: string;
+  description: string;
+  date: string;
+  author: string;
+}): JsonLdObject {
+  const url = absolute(`${routes.research}/${article.slug}`);
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: article.title,
+    description: article.description,
+    datePublished: `${article.date}T00:00:00+00:00`,
+    author: personSchema(article.author),
+    publisher: organization,
+    mainEntityOfPage: { "@type": "WebPage", "@id": url },
+    url,
+  };
+}
+
+/**
  * FAQPage, built from the question-and-answer pairs parsed out of the post
  * body. Returns null when the post has no FAQ section, so a page never emits
  * an empty FAQPage — which Google treats as invalid rather than absent.

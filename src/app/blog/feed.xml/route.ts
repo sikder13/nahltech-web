@@ -1,4 +1,5 @@
 import { getPublishedPosts } from "@/lib/blog";
+import { getPublishedResearch } from "@/lib/research";
 import { routes, siteUrl } from "@/lib/routes";
 
 import en from "@/lib/i18n/dictionaries/en.json";
@@ -27,28 +28,64 @@ function escapeXml(value: string): string {
     .replace(/'/g, "&apos;");
 }
 
+/**
+ * One entry, from either collection.
+ *
+ * Research artifacts publish into the same feed rather than a second one: a
+ * reader subscribing to "what Nahl publishes" wants the engagement
+ * walkthroughs at least as much as the posts, and two feeds would make them
+ * choose. `category` carries the blog's cluster or the artifact's kind, so a
+ * subscriber can still tell them apart.
+ */
+type FeedEntry = {
+  title: string;
+  description: string;
+  date: string;
+  author: string;
+  category: string;
+  path: string;
+};
+
 export function GET(): Response {
-  const posts = getPublishedPosts();
+  const entries: FeedEntry[] = [
+    ...getPublishedResearch().map((article) => ({
+      title: article.title,
+      description: article.description,
+      date: article.date,
+      author: article.author,
+      category: article.kind,
+      path: `${routes.research}/${article.slug}`,
+    })),
+    ...getPublishedPosts().map((post) => ({
+      title: post.title,
+      description: post.description,
+      date: post.date,
+      author: post.author,
+      category: post.cluster,
+      path: `${routes.blog}/${post.slug}`,
+    })),
+  ].sort((a, b) => b.date.localeCompare(a.date));
+
   const self = new URL("/blog/feed.xml", siteUrl).toString();
   const blogUrl = new URL(routes.blog, siteUrl).toString();
 
-  const items = posts
-    .map((post) => {
-      const url = new URL(`${routes.blog}/${post.slug}`, siteUrl).toString();
+  const items = entries
+    .map((entry) => {
+      const url = new URL(entry.path, siteUrl).toString();
       return `    <item>
-      <title>${escapeXml(post.title)}</title>
+      <title>${escapeXml(entry.title)}</title>
       <link>${escapeXml(url)}</link>
       <guid isPermaLink="true">${escapeXml(url)}</guid>
-      <description>${escapeXml(post.description)}</description>
-      <pubDate>${new Date(`${post.date}T00:00:00Z`).toUTCString()}</pubDate>
-      <author>${escapeXml(post.author)}</author>
-      <category>${escapeXml(post.cluster)}</category>
+      <description>${escapeXml(entry.description)}</description>
+      <pubDate>${new Date(`${entry.date}T00:00:00Z`).toUTCString()}</pubDate>
+      <author>${escapeXml(entry.author)}</author>
+      <category>${escapeXml(entry.category)}</category>
     </item>`;
     })
     .join("\n");
 
-  const lastBuild = posts[0]
-    ? new Date(`${posts[0].date}T00:00:00Z`).toUTCString()
+  const lastBuild = entries[0]
+    ? new Date(`${entries[0].date}T00:00:00Z`).toUTCString()
     : new Date(0).toUTCString();
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
