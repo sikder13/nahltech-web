@@ -131,6 +131,52 @@ export function ProductCard({
   );
 }
 
+/**
+ * Research artifact on the hub.
+ *
+ * Carries a kind badge rather than an image slot: these are documents, and the
+ * useful signal at a glance is what kind of document it is — a walkthrough of
+ * a fictional engagement reads very differently from the published method.
+ * Same badge treatment as ProductCard's status, for the same reason.
+ */
+export function ResearchCard({
+  title,
+  description,
+  href,
+  kindLabel,
+  meta,
+  delay = 0,
+  level,
+}: {
+  title: string;
+  description: string;
+  href: string;
+  kindLabel: string;
+  meta: string;
+  delay?: number;
+  level?: CardHeadingLevel;
+}) {
+  return (
+    <li>
+      <FadeIn delay={delay} className="h-full">
+        <Card interactive className="flex h-full flex-col">
+          <p className="font-mono caption">{kindLabel}</p>
+          <CardTitle
+            level={level}
+            className="mt-2xs text-lg font-semibold text-balance text-text"
+          >
+            <Link href={href} className="link-accent">
+              {title}
+            </Link>
+          </CardTitle>
+          <p className="mt-2xs text-sm text-text-muted">{description}</p>
+          <p className="mt-auto pt-sm text-xs text-text-muted">{meta}</p>
+        </Card>
+      </FadeIn>
+    </li>
+  );
+}
+
 export function ArticleCard({
   title,
   excerpt,

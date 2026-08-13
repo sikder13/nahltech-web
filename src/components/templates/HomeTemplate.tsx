@@ -1,4 +1,5 @@
 import { CtaBlock } from "@/components/blocks/CtaBlock";
+import { FeaturedResearch } from "@/components/blocks/FeaturedResearch";
 import { Hero } from "@/components/blocks/Hero";
 import { MethodStrip } from "@/components/blocks/MethodStrip";
 import { ProofBar } from "@/components/blocks/ProofBar";
@@ -15,6 +16,13 @@ import { serviceIcons } from "@/lib/service-icons";
 
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
 
+/** The one artifact the home page puts weight behind. */
+export type FeaturedArticle = {
+  title: string;
+  description: string;
+  href: string;
+};
+
 /**
  * T1 — home.
  *
@@ -22,7 +30,13 @@ import type { Dictionary } from "@/lib/i18n/get-dictionary";
  * problem, show the services, show the method, show the evidence, then ask
  * for the meeting. Do not reorder.
  */
-export function HomeTemplate({ t }: { t: Dictionary }) {
+export function HomeTemplate({
+  t,
+  featured,
+}: {
+  t: Dictionary;
+  featured?: FeaturedArticle;
+}) {
   return (
     <>
       <Hero
@@ -92,9 +106,21 @@ export function HomeTemplate({ t }: { t: Dictionary }) {
         ]}
       />
 
-      {/* FeaturedResearch is parked, not deleted. It points at /research,
-          which has nothing published yet, so the section would be a card
-          advertising an empty page. It returns with the first piece. */}
+      {/* Back as of the first research publication. The title and excerpt are
+          the artifact's own frontmatter rather than a copy in the dictionary,
+          so the card cannot describe the document differently from the
+          document. Absent when nothing is published — the section would
+          otherwise advertise an empty page, which is why it was parked. */}
+      {featured ? (
+        <FeaturedResearch
+          heading={t.home.featuredResearch.heading}
+          title={featured.title}
+          excerpt={featured.description}
+          imageLabel={featured.title}
+          cta={t.home.featuredResearch.cta}
+          href={featured.href}
+        />
+      ) : null}
 
       <CtaBlock
         heading={t.ctaBlock.heading}

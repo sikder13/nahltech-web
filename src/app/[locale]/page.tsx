@@ -1,4 +1,6 @@
 import { HomeTemplate } from "@/components/templates/HomeTemplate";
+import { getResearchForHub } from "@/lib/research";
+import { routes } from "@/lib/routes";
 import { requireDictionary } from "@/lib/i18n/require-dictionary";
 import { localBusinessSchema } from "@/lib/schema-org";
 
@@ -28,10 +30,25 @@ export default async function Page({
   const { locale } = await params;
   const t = await requireDictionary(locale);
 
+  // The hub's first entry is the methodology — the spine of the section and
+  // the document the engagements all point at.
+  const [featured] = getResearchForHub();
+
   return (
     <>
       <JsonLd data={localBusinessSchema(t)} />
-      <HomeTemplate t={t} />
+      <HomeTemplate
+        t={t}
+        featured={
+          featured
+            ? {
+                title: featured.title,
+                description: featured.description,
+                href: `${routes.research}/${featured.slug}`,
+              }
+            : undefined
+        }
+      />
     </>
   );
 }

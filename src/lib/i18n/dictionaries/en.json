@@ -238,6 +238,10 @@
           "body": "We ship it — automation, integration, or custom software — and measure the result against the numbers we promised."
         }
       }
+    },
+    "featuredResearch": {
+      "heading": "Original data and open methods.",
+      "cta": "Read the method"
     }
   },
   "service": {
@@ -933,5 +937,14 @@
       "footnote": "One discount per engagement; we'll apply whichever is largest."
     },
     "featuredLabel": "Most chosen"
+  },
+  "research": {
+    "kinds": {
+      "sample-engagement": "Sample engagement",
+      "methodology": "Methodology",
+      "data-report": "Data report"
+    },
+    "sampleLabel": "Sample engagement",
+    "sampleLead": "Sample engagement."
   }
 }
