@@ -14,7 +14,10 @@ export async function generateMetadata({
   const { locale } = await params;
   const t = await requireDictionary(locale);
 
-  return { title: t.pages.services.title };
+  return {
+    title: t.pages.services.title,
+    description: t.pages.services.description,
+  };
 }
 
 export default async function Page({
@@ -36,6 +39,7 @@ export default async function Page({
         {serviceRouteKeys.map((key, index) => (
           <ServiceCard
             key={key}
+            level={2}
             title={t.services[key]}
             description={t.serviceSummaries[key]}
             href={routes[key]}

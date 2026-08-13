@@ -14,7 +14,7 @@ export async function generateMetadata({
   const { locale } = await params;
   const t = await requireDictionary(locale);
 
-  return { title: t.pages.blog.title };
+  return { title: t.pages.blog.title, description: t.pages.blog.description };
 }
 
 export default async function Page({
@@ -38,6 +38,7 @@ export default async function Page({
           {posts.map((post, index) => (
             <ArticleCard
               key={post.slug}
+              level={2}
               title={post.title}
               excerpt={post.description}
               href={`/blog/${post.slug}`}

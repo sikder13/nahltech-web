@@ -13,7 +13,10 @@ export async function generateMetadata({
   const { locale } = await params;
   const t = await requireDictionary(locale);
 
-  return { title: t.pages.products.title };
+  return {
+    title: t.pages.products.title,
+    description: t.pages.products.description,
+  };
 }
 
 export default async function Page({
@@ -32,12 +35,14 @@ export default async function Page({
     >
       <CardGrid columns={2}>
         <ProductCard
+          level={2}
           name={t.products.crawlmouse}
           description={t.productSummaries.crawlmouse}
           href={routes.crawlmouse}
           status={t.productStatus.live}
         />
         <ProductCard
+          level={2}
           name={t.products.hafsaSastho}
           description={t.productSummaries.hafsaSastho}
           href={routes.hafsaSastho}
