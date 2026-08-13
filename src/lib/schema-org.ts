@@ -1,5 +1,6 @@
 import { getAuthor } from "@/lib/authors";
 import {
+  companyProfiles,
   contactDetails,
   productLinks,
   routes,
@@ -199,6 +200,13 @@ function postalAddress(): JsonLdObject {
  *
  * `sameAs` lists profiles that are demonstrably ours. It is an identity claim,
  * not a link farm: anything we cannot prove we control does not belong here.
+ *
+ * It carries company profiles only. The founder's personal LinkedIn is not one
+ * — it is already on his Person node via the author registry, and listing a
+ * personal profile under the company asserts that the individual and the
+ * organisation are the same entity. `companyProfiles` is built from the same
+ * constants the footer renders, so this cannot claim a profile the site does
+ * not link to.
  */
 export function organizationSchema(t: Dictionary): JsonLdObject {
   return {
@@ -214,10 +222,7 @@ export function organizationSchema(t: Dictionary): JsonLdObject {
     email: contactDetails.email,
     telephone: contactDetails.phoneDisplay,
     address: postalAddress(),
-    sameAs: [
-      "https://www.crawlmouse.com",
-      "https://www.linkedin.com/in/udaay-sikder-74a207132/",
-    ],
+    sameAs: companyProfiles,
   };
 }
 

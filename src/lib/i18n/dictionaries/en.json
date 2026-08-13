@@ -49,7 +49,13 @@
     "cityRegionPostal": "Indianapolis, IN 46250",
     "phoneDisplay": "(317) 507-4303",
     "email": "info@nahltech.com",
-    "rights": "All rights reserved."
+    "rights": "All rights reserved.",
+    "socialHeading": "Follow",
+    "social": {
+      "x": "Nahl Technologies on X",
+      "linkedin": "Nahl Technologies on LinkedIn",
+      "facebook": "Nahl Technologies on Facebook"
+    }
   },
   "legal": {
     "privacy": "Privacy Policy",
@@ -450,7 +456,7 @@
         "items": [
           {
             "label": "Run nahltech.com through Crawlmouse",
-            "href": "https://crawlmouse.com"
+            "href": "https://www.crawlmouse.com"
           },
           {
             "label": "Check the Lighthouse scores",

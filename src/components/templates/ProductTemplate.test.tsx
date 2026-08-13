@@ -50,7 +50,7 @@ describe("ProductTemplate", () => {
     const live = screen.getByRole("link", {
       name: new RegExp(en.cta.tryItLive),
     });
-    expect(live).toHaveAttribute("href", "https://crawlmouse.com");
+    expect(live).toHaveAttribute("href", "https://www.crawlmouse.com");
     expect(live).toHaveAttribute("rel", "noopener noreferrer");
   });
 

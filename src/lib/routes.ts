@@ -71,10 +71,47 @@ export const siteUrl = "https://nahltech.com";
  * — hard rule 7, every href resolves.
  */
 export const productLinks = {
-  crawlmouse: "https://crawlmouse.com",
+  // The `www` form is canonical, and is what the blog posts already link to.
+  crawlmouse: "https://www.crawlmouse.com",
   // Closed beta: no public URL.
   hafsaSastho: null,
 } as const;
+
+/**
+ * Company social profiles, in the order the footer renders them.
+ *
+ * These are the company's own accounts. A personal profile — the founder's
+ * LinkedIn — is not one of these: it belongs to the Person entity in the
+ * author registry, not to the company. Mixing the two tells a search engine
+ * the organisation and the individual are the same thing.
+ *
+ * The LinkedIn URL carries no `?viewAsMember=true`: that parameter is an
+ * artefact of viewing your own page while signed in, not part of the public
+ * address.
+ */
+export const socialLinks = [
+  { key: "x", href: "https://x.com/nahltech" },
+  {
+    key: "linkedin",
+    href: "https://www.linkedin.com/company/nahl-technologies-incorporation-linkedin/",
+  },
+  {
+    key: "facebook",
+    href: "https://www.facebook.com/profile.php?id=61589050512455",
+  },
+] as const;
+
+export type SocialKey = (typeof socialLinks)[number]["key"];
+
+/**
+ * Every profile the company controls — the exact `sameAs` set emitted on
+ * Organization. Built from the same constants the footer renders, so the
+ * markup cannot claim a profile the site does not link to, or miss one it does.
+ */
+export const companyProfiles: readonly string[] = [
+  productLinks.crawlmouse,
+  ...socialLinks.map((link) => link.href),
+];
 
 /**
  * Instant booking.

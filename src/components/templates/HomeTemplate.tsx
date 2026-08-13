@@ -7,6 +7,7 @@ import { TwoWaysBlock } from "@/components/blocks/TwoWaysBlock";
 import {
   bookingCta,
   contactDetails,
+  productLinks,
   routes,
   serviceRouteKeys,
 } from "@/lib/routes";
@@ -44,7 +45,7 @@ export function HomeTemplate({ t }: { t: Dictionary }) {
           {
             icon: "product",
             label: t.home.proof.items.product,
-            href: "https://crawlmouse.com",
+            href: productLinks.crawlmouse,
             external: true,
           },
           {

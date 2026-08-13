@@ -8,10 +8,17 @@ import {
   offerCatalogSchema,
   organizationSchema,
   parsePublishedPrice,
+  personSchema,
   serviceSchema,
   webSiteSchema,
 } from "./schema-org";
-import { contactDetails, routes, serviceRouteKeys } from "./routes";
+import {
+  companyProfiles,
+  contactDetails,
+  productLinks,
+  routes,
+  serviceRouteKeys,
+} from "./routes";
 
 import en from "@/lib/i18n/dictionaries/en.json";
 
@@ -241,6 +248,47 @@ describe("offerCatalogSchema", () => {
     const custom = items.find((i) => i.name === "Software Development");
     expect(custom).toBeDefined();
     expect(custom).not.toHaveProperty("price");
+  });
+});
+
+describe("organizationSchema sameAs", () => {
+  const sameAs = organizationSchema(t).sameAs as string[];
+
+  it("lists exactly the four company profiles", () => {
+    expect(sameAs).toEqual([
+      "https://www.crawlmouse.com",
+      "https://x.com/nahltech",
+      "https://www.linkedin.com/company/nahl-technologies-incorporation-linkedin/",
+      "https://www.facebook.com/profile.php?id=61589050512455",
+    ]);
+  });
+
+  it("does not list the founder's personal LinkedIn", () => {
+    // A personal profile under the company entity asserts that the individual
+    // and the organisation are the same thing. His profile belongs on his
+    // Person node, which is where the author registry already puts it.
+    expect(sameAs.join(" ")).not.toContain("udaay-sikder");
+    expect(sameAs.some((url) => url.includes("/in/"))).toBe(false);
+  });
+
+  it("keeps the founder's LinkedIn on his Person node", () => {
+    // The other half of the split: removing it from Organization must not
+    // have removed it from the person it actually describes.
+    expect(personSchema("Udaay Sikder").sameAs).toBeUndefined();
+    expect(personSchema("Samia Zaman").sameAs).toEqual([
+      "https://www.linkedin.com/in/samiazaman/",
+    ]);
+  });
+
+  it("claims only profiles the footer actually links to", () => {
+    // Both read `companyProfiles`, so a profile cannot be asserted in markup
+    // without being a real, visible link on every page.
+    expect(sameAs).toEqual([...companyProfiles]);
+  });
+
+  it("uses the canonical www form for Crawlmouse", () => {
+    expect(sameAs).toContain(productLinks.crawlmouse);
+    expect(productLinks.crawlmouse).toBe("https://www.crawlmouse.com");
   });
 });
 

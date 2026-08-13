@@ -1,7 +1,13 @@
 import Link from "next/link";
 
 import { NewsletterForm } from "@/components/conversion/NewsletterForm";
-import { contactDetails, routes, serviceRouteKeys } from "@/lib/routes";
+import { BrandIcon } from "@/components/ui/BrandIcon";
+import {
+  contactDetails,
+  routes,
+  serviceRouteKeys,
+  socialLinks,
+} from "@/lib/routes";
 
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
 
@@ -85,25 +91,55 @@ export function Footer({ t }: { t: Dictionary }) {
         </div>
 
         <div className="mt-lg flex flex-col gap-sm border-t border-divider pt-md md:flex-row md:items-end md:justify-between">
-          <address className="text-sm text-text-muted not-italic">
-            <span className="block font-semibold text-text">
-              {t.footer.addressHeading}
-            </span>
-            <span className="block">{t.footer.street}</span>
-            <span className="block">{t.footer.cityRegionPostal}</span>
-            <a
-              href={contactDetails.phoneHref}
-              className="mt-3xs block w-fit py-3xs link-accent hover:text-text"
+          <div>
+            <address className="text-sm text-text-muted not-italic">
+              <span className="block font-semibold text-text">
+                {t.footer.addressHeading}
+              </span>
+              <span className="block">{t.footer.street}</span>
+              <span className="block">{t.footer.cityRegionPostal}</span>
+              <a
+                href={contactDetails.phoneHref}
+                className="mt-3xs block w-fit py-3xs link-accent hover:text-text"
+              >
+                {t.footer.phoneDisplay}
+              </a>
+              <a
+                href={contactDetails.emailHref}
+                className="block w-fit py-3xs link-accent hover:text-text"
+              >
+                {t.footer.email}
+              </a>
+            </address>
+
+            {/* Sits with the NAP because that is what these are: another way
+                to reach us. Icon-only, so each link's `aria-label` is its
+                whole accessible name — the mark carries no text. The list
+                itself is named too, so a screen reader announces a group
+                rather than three unrelated links.
+
+                Focus rings come from the global `:focus-visible` rule in
+                globals.css; the 40px box gives the target real area at touch
+                size without the icon growing with it. */}
+            <ul
+              aria-label={t.footer.socialHeading}
+              className="mt-xs flex items-center gap-3xs"
             >
-              {t.footer.phoneDisplay}
-            </a>
-            <a
-              href={contactDetails.emailHref}
-              className="block w-fit py-3xs link-accent hover:text-text"
-            >
-              {t.footer.email}
-            </a>
-          </address>
+              {socialLinks.map((link) => (
+                <li key={link.key}>
+                  <a
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={t.footer.social[link.key]}
+                    className="flex size-10 items-center justify-center rounded-md text-text-muted transition-colors hover:bg-bg hover:text-text motion-reduce:transition-none"
+                  >
+                    <BrandIcon name={link.key} />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
 
           <p className="text-sm text-text-muted">
             © {new Date().getFullYear()} {t.site.legalName} {t.footer.rights}
