@@ -5,6 +5,7 @@ import { useState, type FormEvent } from "react";
 import { Honeypot } from "@/components/conversion/Honeypot";
 import { Field, inputClasses } from "@/components/ui/Field";
 import { collectAttribution } from "@/lib/attribution";
+import { track } from "@/lib/analytics";
 
 export type ChatConsentLabels = {
   name: string;
@@ -106,6 +107,8 @@ export function ChatConsentForm({
       }
 
       setStatus("sent");
+      track({ name: "lead_submit", source: "chat_widget" });
+      track({ name: "chat_lead_saved" });
       onSaved?.();
     } catch {
       setStatus("networkError");

@@ -4,6 +4,7 @@ import { useState, type FormEvent } from "react";
 
 import { Honeypot } from "@/components/conversion/Honeypot";
 import { Field, inputClasses } from "@/components/ui/Field";
+import { track } from "@/lib/analytics";
 import { collectAttribution } from "@/lib/attribution";
 import { createLeadSchema } from "@/lib/lead-schema";
 import { bookingUrl, contactDetails } from "@/lib/routes";
@@ -82,6 +83,7 @@ export function LeadForm({
       }
 
       setStatus("sent");
+      track({ name: "lead_submit", source: "contact_form" });
     } catch {
       setStatus("networkError");
     }

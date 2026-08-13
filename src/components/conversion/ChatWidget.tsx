@@ -5,6 +5,7 @@ import { useRef, useState } from "react";
 
 import type { ChatConsentLabels } from "@/components/conversion/ChatConsentForm";
 import type { ChatPanelLabels } from "@/components/conversion/ChatPanel";
+import { track } from "@/lib/analytics";
 
 /**
  * The panel and everything it pulls in — the Supabase browser client, the
@@ -30,6 +31,9 @@ export function ChatWidget({
 
   function toggle() {
     setEverOpened(true);
+    // Opening is the signal; closing is not a second engagement. Reported
+    // here rather than inside the updater, which React may run twice.
+    if (!open) track({ name: "chat_opened" });
     setOpen((current) => !current);
   }
 

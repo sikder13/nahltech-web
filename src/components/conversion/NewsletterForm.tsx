@@ -5,6 +5,7 @@ import { useState, type FormEvent } from "react";
 import { Honeypot } from "@/components/conversion/Honeypot";
 import { inputClasses } from "@/components/ui/Field";
 import { collectAttribution } from "@/lib/attribution";
+import { track } from "@/lib/analytics";
 
 export type NewsletterFormLabels = {
   heading: string;
@@ -71,6 +72,7 @@ export function NewsletterForm({ labels }: { labels: NewsletterFormLabels }) {
       }
 
       setStatus("sent");
+      track({ name: "subscribe" });
     } catch {
       setStatus("error");
     }

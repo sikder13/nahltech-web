@@ -71,6 +71,31 @@ describe("middleware routing", () => {
     vi.unstubAllEnvs();
   });
 
+  it("allows gtag.js to load when analytics is configured", () => {
+    // Without this the script is blocked by default-src and GA reports
+    // nothing, while the dataLayer keeps accepting pushes — so every event
+    // still looks like it fired. Verified against a real browser in CC-8.
+    vi.stubEnv("NEXT_PUBLIC_GA_MEASUREMENT_ID", "G-KMEM2DS98H");
+
+    const csp = middleware(request("/")).headers.get("Content-Security-Policy");
+
+    expect(csp).toMatch(/script-src[^;]*https:\/\/\*\.googletagmanager\.com/);
+    expect(csp).toMatch(/connect-src[^;]*https:\/\/\*\.google-analytics\.com/);
+    expect(csp).toMatch(/img-src[^;]*https:\/\/\*\.google-analytics\.com/);
+    vi.unstubAllEnvs();
+  });
+
+  it("grants analytics nothing when no measurement ID is set", () => {
+    // A preview or local build ships no analytics, so it gets no allowance.
+    vi.stubEnv("NEXT_PUBLIC_GA_MEASUREMENT_ID", "");
+
+    const csp = middleware(request("/")).headers.get("Content-Security-Policy");
+
+    expect(csp).not.toContain("googletagmanager.com");
+    expect(csp).not.toContain("google-analytics.com");
+    vi.unstubAllEnvs();
+  });
+
   it("omits the Supabase origin rather than emitting a broken directive", () => {
     // CI builds have no Supabase credentials. An unset variable must drop the
     // entry, never interpolate `undefined` into the policy.

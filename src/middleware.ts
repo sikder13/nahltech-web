@@ -39,6 +39,19 @@ function supabaseOrigin(): string[] {
  * Everything else is locked down: no framing, no plugins, no arbitrary
  * origins, and `'unsafe-eval'` only in dev, where React Refresh needs it.
  */
+
+/**
+ * Whether to allow the Google Analytics origins.
+ *
+ * Gated on the measurement ID so a build without analytics carries no
+ * allowance for it. Getting this wrong is completely silent: gtag.js is
+ * blocked outright while the dataLayer keeps accepting pushes, so every event
+ * looks like it fired and GA receives nothing.
+ */
+function analyticsEnabled(): boolean {
+  return Boolean(process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID);
+}
+
 function contentSecurityPolicy(): string {
   const directives: Record<string, string[]> = {
     "default-src": ["'self'"],
@@ -46,11 +59,20 @@ function contentSecurityPolicy(): string {
       "'self'",
       "'unsafe-inline'",
       "https://va.vercel-scripts.com",
+      ...(analyticsEnabled() ? ["https://*.googletagmanager.com"] : []),
       ...(isProduction ? [] : ["'unsafe-eval'"]),
     ],
     // Tailwind ships a stylesheet, but Next still inlines critical CSS.
     "style-src": ["'self'", "'unsafe-inline'"],
-    "img-src": ["'self'", "data:", "blob:"],
+    "img-src": [
+      "'self'",
+      "data:",
+      "blob:",
+      // gtag falls back to pixel transport when sendBeacon is unavailable.
+      ...(analyticsEnabled()
+        ? ["https://*.google-analytics.com", "https://*.googletagmanager.com"]
+        : []),
+    ],
     // next/font self-hosts, so no external font origin is needed.
     "font-src": ["'self'"],
     "connect-src": [
@@ -59,6 +81,13 @@ function contentSecurityPolicy(): string {
       "https://vitals.vercel-insights.com",
       // Anon chat logging posts directly to the Supabase REST endpoint.
       ...supabaseOrigin(),
+      ...(analyticsEnabled()
+        ? [
+            "https://*.google-analytics.com",
+            "https://*.analytics.google.com",
+            "https://*.googletagmanager.com",
+          ]
+        : []),
       // Dev server hot reload runs over a websocket.
       ...(isProduction ? [] : ["ws:"]),
     ],
