@@ -69,22 +69,27 @@
       "description": "AI consultancy that ships. We analyze your business, quantify where AI recovers money, and build it — automation, custom software, and AI search visibility. Based in Indiana, working worldwide."
     },
     "services": {
-      "title": "Services"
+      "title": "Services",
+      "description": "Everything we do starts the same way: find where AI pays in your business, prove it with numbers, then build. Five services, one method."
     },
     "aiSearchVisibility": {
       "title": "AI Search Visibility & SEO",
-      "metaTitle": "AI Search Visibility & SEO Services | Nahl Technologies"
+      "metaTitle": "AI Search Visibility & SEO Services | Nahl Technologies",
+      "description": "Get found on Google and recommended by ChatGPT, Gemini, and Perplexity. Measured monthly against a fixed prompt set you can run yourself."
     },
     "webDevelopment": {
       "title": "Web Development",
-      "metaTitle": "Web Development | Nahl Technologies"
+      "metaTitle": "Web Development | Nahl Technologies",
+      "description": "Fast, accessible, search-ready websites. This site is our own work — run it through Crawlmouse. From $6,000, fixed price."
     },
     "aiAutomation": {
       "title": "AI Automation",
-      "metaTitle": "AI Automation for Business Workflows | Nahl Technologies"
+      "metaTitle": "AI Automation for Business Workflows | Nahl Technologies",
+      "description": "Workflows and agents that take real work off your team's plate, integrated with the systems you already run. From $7,500, fixed-price after audit."
     },
     "products": {
-      "title": "Products"
+      "title": "Products",
+      "description": "We ship our own products — a free internal-linking and AI-readiness audit tool, and a Bangla maternal health companion. The fastest way to judge how we build."
     },
     "crawlmouse": {
       "title": "Crawlmouse",
@@ -102,34 +107,43 @@
       "description": "Published pricing, no maze. Free AI opportunity scan, $2,500 fully-credited audit, retainers from $1,200/month. Founding-client rates for our first ten."
     },
     "research": {
-      "title": "Research"
+      "title": "Research",
+      "description": "Original data and open methods from Nahl Technologies. When we publish a number, we show where it came from."
     },
     "blog": {
-      "title": "Blog"
+      "title": "Blog",
+      "description": "Notes from the work: practical, sourced articles on AI adoption, search visibility, and what things actually cost — written by the people doing it."
     },
     "about": {
       "title": "About",
-      "metaTitle": "About Nahl Technologies — AI Consultancy"
+      "metaTitle": "About Nahl Technologies — AI Consultancy",
+      "description": "Nahl is Arabic for honeybee. An Indiana AI consultancy founded by two immigrants — one builds software, the other builds systems — working with businesses worldwide."
     },
     "contact": {
-      "title": "Contact"
+      "title": "Contact",
+      "description": "Call, book, or write — a real person answers. Five fields, and we reply within one business day, usually much sooner."
     },
     "privacy": {
-      "title": "Privacy Policy"
+      "title": "Privacy Policy",
+      "description": "How Nahl Technologies handles your data. We keep this page short because our data practices are short."
     },
     "terms": {
-      "title": "Terms of Use"
+      "title": "Terms of Use",
+      "description": "Terms covering use of nahltech.com. Client engagements are governed by their own written agreements, not this page."
     },
     "dpa": {
-      "title": "Data Processing"
+      "title": "Data Processing",
+      "description": "When we process personal data for clients, it is under a written DPA scoped to the engagement and aligned with GDPR Article 28. Request the current version."
     },
     "aiConsultancy": {
       "title": "AI Consultancy",
-      "metaTitle": "AI Consulting & Implementation | Nahl Technologies"
+      "metaTitle": "AI Consulting & Implementation | Nahl Technologies",
+      "description": "We study your operations and data, find the highest-ROI places for AI, and hand you the numbers before you spend a dollar building."
     },
     "softwareDevelopment": {
       "title": "Software Development",
-      "metaTitle": "Custom Software & AI Application Development | Nahl Technologies"
+      "metaTitle": "Custom Software & AI Application Development | Nahl Technologies",
+      "description": "Custom software and AI applications, built to production standard and owned by you. Quoted after an audit."
     }
   },
   "notFound": {
