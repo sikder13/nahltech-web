@@ -56,6 +56,25 @@ const nextConfig: NextConfig = {
         destination: "/legal/privacy",
         permanent: true,
       },
+      /**
+       * Two brand posts unpublished 13 Aug 2026. They were live URLs, so
+       * they redirect rather than 404 — `draft: true` alone would take them
+       * out of the hub, feed and sitemap while leaving anyone holding the
+       * old link, or any engine still carrying it, at a dead end.
+       *
+       * /about is the honest destination: both were about who we are and why
+       * we started, which is what that page covers.
+       */
+      {
+        source: "/blog/two-immigrants-one-mission-why-we-are-building-for-home",
+        destination: "/about",
+        permanent: true,
+      },
+      {
+        source: "/blog/why-we-named-our-company-after-the-honeybee",
+        destination: "/about",
+        permanent: true,
+      },
     ];
   },
 };

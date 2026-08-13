@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
 
-import { getPublishedPosts, getRelatedPosts, type Post } from "./blog";
+import {
+  getPublishedPosts,
+  getRelatedPosts,
+  loadAllPosts,
+  type Post,
+} from "./blog";
 
 /**
  * Assertions about the actual corpus in content/blog, as opposed to the
@@ -23,20 +28,48 @@ const MIGRATED = [
   "why-we-named-our-company-after-the-honeybee",
 ];
 
+/**
+ * Unpublished 13 Aug 2026 on the founder's instruction. They keep their files
+ * — the prose is not deleted, only withdrawn — and `next.config.ts` redirects
+ * both old URLs to /about, because they were live and someone may still hold
+ * the link.
+ */
+const UNPUBLISHED = [
+  "two-immigrants-one-mission-why-we-are-building-for-home",
+  "why-we-named-our-company-after-the-honeybee",
+];
+
+const STILL_PUBLISHED = MIGRATED.filter((slug) => !UNPUBLISHED.includes(slug));
+
 describe("the migrated collection", () => {
   const posts = getPublishedPosts().filter((post) =>
     MIGRATED.includes(post.slug),
   );
 
-  it("loads all five posts, newest first", () => {
-    expect(posts).toHaveLength(5);
+  it("publishes the three that were not withdrawn, newest first", () => {
+    expect(posts.map((post) => post.slug).sort()).toEqual(
+      [...STILL_PUBLISHED].sort(),
+    );
     const dates = posts.map((post) => post.date);
     expect([...dates].sort().reverse()).toEqual(dates);
   });
 
-  it("is still the whole published collection minus later posts", () => {
+  it("keeps the withdrawn two out of every published surface", () => {
+    // getPublishedPosts is what the hub, the feed and the sitemap all read,
+    // so this one assertion covers all three at once.
     const all = getPublishedPosts().map((post) => post.slug);
-    expect(all).toEqual(expect.arrayContaining(MIGRATED));
+    for (const slug of UNPUBLISHED) {
+      expect(all, `${slug} is still published`).not.toContain(slug);
+    }
+    expect(all).toEqual(expect.arrayContaining(STILL_PUBLISHED));
+  });
+
+  it("keeps the withdrawn files rather than deleting the prose", () => {
+    // Withdrawn, not destroyed: a redirect and draft:true are reversible.
+    const everything = loadAllPosts().map((post) => post.slug);
+    for (const slug of UNPUBLISHED) {
+      expect(everything, slug).toContain(slug);
+    }
   });
 
   it("credits Udaay Sikder on every post", () => {
@@ -53,12 +86,14 @@ describe("the migrated collection", () => {
     }
   });
 
-  it("splits the collection three field-notes to two brand", () => {
+  it("leaves three field-notes published and no brand posts", () => {
+    // Both brand posts were the ones withdrawn, so the published remainder of
+    // the migration is field-notes only.
     const byCluster = posts.reduce<Record<string, number>>((acc, post) => {
       acc[post.cluster] = (acc[post.cluster] ?? 0) + 1;
       return acc;
     }, {});
-    expect(byCluster).toEqual({ "field-notes": 3, brand: 2 });
+    expect(byCluster).toEqual({ "field-notes": 3 });
   });
 
   it("gives every field-notes post a keyword and a service link", () => {
