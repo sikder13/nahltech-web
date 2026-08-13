@@ -1,7 +1,7 @@
 # SESSION-STATE
 
 Handoff snapshot; update at the end of every session. **Last updated:**
-12 August 2026 · HEAD `7440f59` · 94 commits · 150 tests passing
+13 August 2026 · HEAD `cdd3258` · 95 commits · 150 tests passing
 
 ## 1. Status
 
@@ -40,18 +40,18 @@ intact below. Every edit is logged in `docs/blog-migration-diff.md`.
 | `website-cost-indiana-small-business` [P2] | Samia Zaman | Shipped |
 | `ai-chatbot-vs-receptionist` [P3] | Udaay Sikder | Shipped |
 | `ai-opportunity-audit-worked-example` [P4] | Samia Zaman | Shipped |
-| `indianapolis-business-chatgpt-visibility` [P5] | Samia Zaman | Committed, **unpushed** |
+| `indianapolis-business-chatgpt-visibility` [P5] | Samia Zaman | Shipped |
 
-P5 was written by the previous session, which crashed before verifying or
-committing it. This session ran the full gate set against it: build, lint,
+P5 was written by a session that crashed before verifying or committing it.
+The following session ran the full gate set against it: build, lint,
 typecheck, 150 tests, banned words, em-dash density, link resolution,
-Article + FAQPage schema and a 390px render. All pass. It is committed at
-`7440f59` and **not yet pushed**, so it is not live.
+Article + FAQPage schema and a 390px render. All pass. It shipped at
+`7440f59` and is live and verified (200, Article + FAQPage, correct byline).
 
 **P5 has no founder P-label on record.** P1–P4 were each assigned one before
 being written; the crashed session left no note of an assignment for this
-topic. Confirm before pushing, since pushing publishes it under Samia's
-byline.
+topic. The founder cleared it to publish on 12 Aug 2026 without one, so the
+post is live — but the assignment gap is recorded here rather than lost.
 
 **Sibling backfill debt.** Each post carries its own two sibling links, so
 every post clears the gate independently, but the cluster is not densely
@@ -116,10 +116,9 @@ seven env vars set and exercised in production.
 
 ## 4. Next
 
-**(a) Pending blog relay.** P1–P4 are live. **P5**
-(`indianapolis-business-chatgpt-visibility`) is verified and committed at
-`7440f59` but unpushed, pending the founder's confirmation that the topic was
-assigned. Pushing it is the whole remaining step; it needs no further work.
+**(a) Blog relay is clear.** P1–P5 are all live; nothing is pending. The only
+blog debt left is the sibling backfill into P4 and P5, which is deferred work
+rather than a gate failure.
 
 Usual treatment for a new post: verify it parses, FAQ schema,
 offer/sibling/dead-link checks, banned-word grep, 390px table check,
