@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 import type { ReactNode } from "react";
 
@@ -28,7 +28,9 @@ export function FadeIn({
   className?: string;
 }) {
   return (
-    <motion.div
+    // `m.div`, not `motion.div`: LazyMotion runs in strict mode, so the full
+    // component would throw rather than silently re-bundle every feature.
+    <m.div
       data-fade=""
       className={className}
       initial={{ opacity: 0, y: 8 }}
@@ -37,6 +39,6 @@ export function FadeIn({
       transition={{ duration: 0.4, delay, ease: "easeOut" }}
     >
       {children}
-    </motion.div>
+    </m.div>
   );
 }
