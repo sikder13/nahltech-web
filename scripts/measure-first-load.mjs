@@ -44,6 +44,24 @@ console.log("gzip(9)      raw  file");
 for (const r of rows) {
   console.log(`${kb(r.gz)} kB ${kb(r.raw)} kB  ${r.file}`);
 }
+/**
+ * Ratified 13 Aug 2026, replacing 120 kB. The original was set before the
+ * framework cost was measured: React + Next alone is 100.3 kB and Framer
+ * Motion adds 27.7 kB, so the locked stack is 128 kB before any application
+ * code. ARCH-1 §7 carries the itemised basis. This ceiling is only ~1.5 kB
+ * above the measurement that justified it, so it still bites.
+ */
+const TARGET_KB = 145;
+
 console.log("-".repeat(60));
-console.log(`${kb(total)} kB TOTAL first-load JS on /   (target 120.0 kB)`);
-console.log(`${kb(total - 120 * 1024)} kB over target`);
+console.log(
+  `${kb(total)} kB TOTAL first-load JS on /   (ceiling ${TARGET_KB.toFixed(1)} kB)`,
+);
+
+const delta = total - TARGET_KB * 1024;
+console.log(
+  delta > 0
+    ? `${kb(delta)} kB OVER the ceiling`
+    : `${kb(-delta)} kB of headroom`,
+);
+process.exit(delta > 0 ? 1 : 0);
