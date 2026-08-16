@@ -328,14 +328,45 @@ export function getPostBySlug(slug: string): Post | undefined {
 }
 
 /**
- * Related reading: same cluster first, then the most recent of the rest.
- * Drafts never surface.
+ * Rotate a list so a different element leads, deterministically.
+ *
+ * Used to spread related-post exposure. Without it, "same cluster, newest
+ * first, take three" hands every post in a cluster the *same* three
+ * neighbours, so the newest few collect a rail link from every sibling page
+ * while the oldest collect none. The distribution is the problem, not the
+ * count: an internal-link audit reads it as anchor concentration on a handful
+ * of URLs, and the posts that most need discovery are the ones getting
+ * nothing.
+ *
+ * Deterministic because the build is static: the same post must produce the
+ * same rail on every build, or the rendered HTML changes without the content
+ * changing.
+ */
+function rotate<T>(items: readonly T[], by: number): T[] {
+  if (items.length === 0) return [];
+  const offset = ((by % items.length) + items.length) % items.length;
+  return [...items.slice(offset), ...items.slice(0, offset)];
+}
+
+/**
+ * Related reading: same cluster first, then the rest. Drafts never surface.
+ *
+ * Both groups are rotated by the post's own position in the collection, which
+ * keeps cluster relevance — a field-notes post still leads with field-notes —
+ * while varying *which* siblings surface, so rail links spread across the
+ * collection instead of pooling on whichever posts happen to be newest.
  */
 export function getRelatedPosts(post: Post, limit = 3): Post[] {
-  const others = getPublishedPosts().filter((item) => item.slug !== post.slug);
+  const published = getPublishedPosts();
+  const index = published.findIndex((item) => item.slug === post.slug);
+  const others = published.filter((item) => item.slug !== post.slug);
   const sameCluster = others.filter((item) => item.cluster === post.cluster);
   const rest = others.filter((item) => item.cluster !== post.cluster);
-  return [...sameCluster, ...rest].slice(0, limit);
+
+  return [...rotate(sameCluster, index), ...rotate(rest, index)].slice(
+    0,
+    limit,
+  );
 }
 
 /** Test seam: clears the memoised collection. */
