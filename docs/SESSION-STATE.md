@@ -1,14 +1,14 @@
 # SESSION-STATE
 
 Handoff snapshot; update at the end of every session. **Last updated:**
-16 August 2026 · HEAD `7a9a5b2` · build complete through the security gate ·
-CC-CHAT-2, the team photos and the final About copy shipped · 290 tests passing
+17 August 2026 · HEAD `514a6aa` · build complete through the security gate ·
+services polish shipped · 321 tests passing
 
 ## 1. Status
 
 **The build is COMPLETE through the security gate.** Live at
-**https://nahltech-web.vercel.app**. HEAD `7a9a5b2` · 139 commits ·
-**290 tests passing** · first-load JS **143.7 kB gz** against a 145 kB ceiling
+**https://nahltech-web.vercel.app**. HEAD `514a6aa` · 143 commits ·
+**321 tests passing** · first-load JS **143.7 kB gz** against a 145 kB ceiling
 (1.3 kB headroom — it will bite).
 
 Everything is shipped: foundation, six page templates, the design pass, five
@@ -45,6 +45,18 @@ written to be read by a client as well as a maintainer.
   RLS cannot restrict columns, so any anon SELECT policy on `leads` would
   expose every column to the anon key that ships in the browser. Read
   `docs/SECURITY.md` before touching one.
+
+**Nav order is Services, Products, Pricing, About, Contact.** Research is
+deliberately not in the header — it comes out on the founder's call, is still
+in the footer's Company column, and is linked from the home page, all five
+service pages and the blog. Presentation only: the sitemap URL set is
+unchanged and `sitemap.test.ts` pins that separation.
+
+**The header's blur lives on its own layer, not on the `<header>`.**
+`backdrop-filter` makes an element the containing block for `position: fixed`
+descendants, which was clipping the mobile menu panel to a 49px sliver on
+every page — measured 49px with the filter, 780px without. Do not fold it back
+onto the header element.
 
 **Design invariants.** Gold (`#F5C842`) decorates only — never a fill or text
 colour. Hexagon motif in exactly six places; the team avatars are one of them,
@@ -154,6 +166,35 @@ again: an explicit 90-word allowance for price answers read as a target and
 pushed replies to 110 words, and naming retainers in order to exclude them made
 the model mention them. The length rule is bounded by shape now, not by a
 second number.
+
+## 3b. Lead capture surfaces
+
+**All five service pages carry an embedded lead form** as of 17 Aug, replacing
+the CtaBlock that used to close them. Same `LeadForm` component in `compact`
+mode — name, email, message — posting `source='service_page'` (added by
+migration **0004**, applied to the live database) with `service_interest` set
+from the page by `src/lib/service-interest.ts`. The map is written out rather
+than derived: a wrong value is rejected by zod and the lead never arrives.
+
+Three lead surfaces now exist: `/contact` (`contact_form`), the five service
+pages (`service_page`), and the chat widget (`chat_widget`).
+
+**The 145 kB budget is breached on those five pages, at 146 kB.** Not absorbed
+quietly — ARCH-1 §7 says to measure and report rather than exceed, so here is
+the measurement. The form costs ~24 kB, of which **client-side zod is 16 kB**:
+
+| Page | Before | After | Without client zod |
+| --- | --- | --- | --- |
+| `/services/*` | 122 kB | **146 kB** | 130 kB |
+| `/contact` | 145 kB | 145 kB | 129 kB |
+
+`/contact` has always sat exactly on the ceiling for the same reason, so the
+number was already load-bearing. The fix is available and measured: LeadForm's
+client-side zod pass is documented in its own comment as "a courtesy" with the
+route as the enforcement point (hard rule 5), so replacing it with a small
+hand-rolled validator would take all six pages well under budget. **That was
+not done — it changes the contact form's validation architecture and was
+outside the brief. Founder decision.**
 
 ## 4. Next, in order
 
