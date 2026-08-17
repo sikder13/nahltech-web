@@ -20,6 +20,8 @@ export const leadSources = [
   "crawlmouse_referral",
   "outreach",
   "other",
+  /** The form embedded at the foot of each service page. See 0004. */
+  "service_page",
 ] as const;
 export type LeadSource = (typeof leadSources)[number];
 
