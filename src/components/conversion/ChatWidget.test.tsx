@@ -4,6 +4,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { ChatWidget } from "./ChatWidget";
 
+import { LEAD_FORM_TOKEN } from "@/lib/chat-format";
 import en from "@/lib/i18n/dictionaries/en.json";
 
 const createConversationMock = vi.fn<() => Promise<string | null>>();
@@ -31,6 +32,8 @@ const labels = {
   consentPrompt: en.chat.consentPrompt,
   consentButton: en.chat.consentButton,
   consentSuccess: en.chat.consentSuccess,
+  captureChip: en.chat.captureChip,
+  captureChipDismiss: en.chat.captureChipDismiss,
   rateLimited: en.leadForm.rateLimited,
   networkError: en.leadForm.networkError,
   callLabel: en.cta.callLabel,
@@ -93,6 +96,27 @@ async function open(user: ReturnType<typeof userEvent.setup>) {
   await user.click(launcher());
   return screen.findByRole("dialog", { name: en.chat.title });
 }
+
+const repliesLogged = () =>
+  logMessageMock.mock.calls.filter(([, role]) => role === "assistant").length;
+
+/** Type `message`, send it, and wait for the reply to finish streaming. */
+async function exchange(
+  user: ReturnType<typeof userEvent.setup>,
+  message: string,
+  reply: string[],
+) {
+  const before = repliesLogged();
+  fetchSpy.mockResolvedValue(streamingResponse(reply));
+  await user.type(screen.getByLabelText(en.chat.placeholder), message);
+  await user.click(screen.getByRole("button", { name: en.chat.send }));
+  // The logged reply is the last thing the send path does, so it is the
+  // signal that the stream drained and state settled.
+  await waitFor(() => expect(repliesLogged()).toBeGreaterThan(before));
+}
+
+const consentSubmit = () =>
+  screen.queryByRole("button", { name: en.chat.consentButton });
 
 describe("ChatWidget", () => {
   it("renders only the launcher until it is opened", () => {
@@ -226,5 +250,204 @@ describe("ChatWidget", () => {
     expect(await screen.findByRole("status")).toHaveTextContent(
       en.chat.consentSuccess,
     );
+  });
+});
+
+describe("ChatWidget: the lead signal token", () => {
+  const REPLY = "Great — drop your details below and the team will reach out.";
+
+  it("opens the form, and shows the token to nobody", async () => {
+    // Defect B: a conversation could qualify completely and never surface a
+    // form. The model now asks for it, and this is that path end to end.
+    const user = userEvent.setup();
+    renderWidget();
+    const dialog = await open(user);
+
+    expect(consentSubmit()).not.toBeInTheDocument();
+    await exchange(user, "yes please, have someone call me", [
+      `${REPLY}\n\n`,
+      LEAD_FORM_TOKEN,
+    ]);
+
+    expect(await screen.findByText(REPLY, { exact: false })).toBeVisible();
+    expect(consentSubmit()).toBeInTheDocument();
+    // Neither the visible panel nor the transcript we keep may carry it.
+    expect(dialog).not.toHaveTextContent("LEAD_FORM");
+    expect(logMessageMock).toHaveBeenCalledWith(
+      CONVERSATION_ID,
+      "assistant",
+      REPLY,
+    );
+  });
+
+  it("puts the cursor in the first field, since the visitor just asked", async () => {
+    const user = userEvent.setup();
+    renderWidget();
+    await open(user);
+
+    await exchange(user, "can someone call me", [
+      `${REPLY}\n${LEAD_FORM_TOKEN}`,
+    ]);
+
+    await waitFor(() => expect(screen.getByLabelText(/Name/)).toHaveFocus());
+  });
+
+  it("posts the conversation id with the lead the token asked for", async () => {
+    const user = userEvent.setup();
+    renderWidget();
+    await open(user);
+    await exchange(user, "please have the team reach out", [
+      `${REPLY}\n${LEAD_FORM_TOKEN}`,
+    ]);
+
+    await user.type(screen.getByLabelText(/Name/), "Ada Lovelace");
+    await user.type(screen.getByLabelText(/Email/), "ada@example.com");
+
+    fetchSpy.mockResolvedValue({ ok: true, status: 200 });
+    await user.click(consentSubmit()!);
+
+    await waitFor(() => {
+      const leadCall = fetchSpy.mock.calls.find(([url]) => url === "/api/lead");
+      expect(leadCall).toBeDefined();
+      const payload = JSON.parse(leadCall![1].body);
+      expect(payload.source).toBe("chat_widget");
+      expect(payload.conversation_id).toBe(CONVERSATION_ID);
+    });
+  });
+
+  it("never replays the token to the model as history", async () => {
+    // If it came back as history the model would read it as its own past
+    // behaviour and repeat it, and the form would reopen every turn.
+    const user = userEvent.setup();
+    renderWidget();
+    await open(user);
+
+    await exchange(user, "have someone call me", [
+      `${REPLY}\n${LEAD_FORM_TOKEN}`,
+    ]);
+    await exchange(user, "thanks", ["Any time."]);
+
+    const lastChat = fetchSpy.mock.calls
+      .filter(([url]) => url === "/api/chat")
+      .at(-1);
+    expect(lastChat![1].body).not.toContain("LEAD_FORM");
+    expect(JSON.parse(lastChat![1].body).history).toContainEqual({
+      role: "assistant",
+      content: REPLY,
+    });
+  });
+});
+
+describe("ChatWidget: markdown that leaked to production", () => {
+  it("renders the text without asterisks or bullet markers", async () => {
+    // Defect A. The prompt forbids markdown; this is the renderer holding the
+    // line when the model emits it anyway.
+    const user = userEvent.setup();
+    renderWidget();
+    const dialog = await open(user);
+
+    await exchange(user, "what do you offer", [
+      "The **audit** is **$2,500**.\n",
+      "- one\n- two",
+    ]);
+
+    expect(dialog).toHaveTextContent("The audit is $2,500.");
+    expect(dialog.textContent).not.toContain("**");
+    expect(dialog.textContent).not.toContain("- one");
+  });
+
+  it("logs what the model actually wrote, asterisks and all", async () => {
+    // The scrub is cosmetic. If it also cleaned the transcript, a prompt
+    // regression would be invisible in the database that exists to catch it.
+    const user = userEvent.setup();
+    renderWidget();
+    await open(user);
+
+    await exchange(user, "what do you offer", ["The **audit** is **$2,500**."]);
+
+    expect(logMessageMock).toHaveBeenCalledWith(
+      CONVERSATION_ID,
+      "assistant",
+      "The **audit** is **$2,500**.",
+    );
+  });
+});
+
+describe("ChatWidget: the standing offer chip", () => {
+  const NEUTRAL = ["Understood."];
+
+  async function sendPlainMessages(
+    user: ReturnType<typeof userEvent.setup>,
+    count: number,
+  ) {
+    for (let i = 0; i < count; i += 1) {
+      await exchange(user, `question number ${"x".repeat(i + 1)}`, NEUTRAL);
+    }
+  }
+
+  it("stays out of the way for the first two messages", async () => {
+    const user = userEvent.setup();
+    renderWidget();
+    await open(user);
+
+    await sendPlainMessages(user, 2);
+
+    expect(
+      screen.queryByRole("button", { name: en.chat.captureChip }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("appears on the third visitor message and opens the form", async () => {
+    const user = userEvent.setup();
+    renderWidget();
+    await open(user);
+
+    await sendPlainMessages(user, 3);
+
+    const chip = await screen.findByRole("button", {
+      name: en.chat.captureChip,
+    });
+    await user.click(chip);
+
+    expect(consentSubmit()).toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: en.chat.captureChip }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("stays dismissed for the rest of the conversation", async () => {
+    const user = userEvent.setup();
+    renderWidget();
+    await open(user);
+    await sendPlainMessages(user, 3);
+
+    await user.click(
+      screen.getByRole("button", { name: en.chat.captureChipDismiss }),
+    );
+    expect(
+      screen.queryByRole("button", { name: en.chat.captureChip }),
+    ).not.toBeInTheDocument();
+
+    // Two more messages, each of which would re-arm a naive counter.
+    await sendPlainMessages(user, 2);
+
+    expect(
+      screen.queryByRole("button", { name: en.chat.captureChip }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("does not appear when the assistant already opened the form", async () => {
+    const user = userEvent.setup();
+    renderWidget();
+    await open(user);
+
+    await exchange(user, "have someone contact me", [
+      `On it.\n${LEAD_FORM_TOKEN}`,
+    ]);
+    await sendPlainMessages(user, 3);
+
+    expect(
+      screen.queryByRole("button", { name: en.chat.captureChip }),
+    ).not.toBeInTheDocument();
   });
 });

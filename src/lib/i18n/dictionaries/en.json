@@ -858,7 +858,9 @@
     "fallback": "Having trouble right now — call us or use the contact form.",
     "consentPrompt": "Want someone to follow up on this?",
     "consentButton": "Save my details & have them reach out",
-    "consentSuccess": "Saved. Someone will be in touch."
+    "consentSuccess": "Saved. Someone will be in touch.",
+    "captureChip": "Prefer we reach out? Leave your details.",
+    "captureChipDismiss": "Hide this"
   },
   "pricing": {
     "headline": "Straight answers on pricing.",

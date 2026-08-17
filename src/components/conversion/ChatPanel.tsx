@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  Fragment,
   useEffect,
   useRef,
   useState,
@@ -13,6 +14,7 @@ import {
   type ChatConsentLabels,
 } from "@/components/conversion/ChatConsentForm";
 import { inputClasses } from "@/components/ui/Field";
+import { extractLeadSignal, renderAssistantText } from "@/lib/chat-format";
 import { createConversation, logMessage } from "@/lib/chat-log";
 import { bookingUrl, contactDetails } from "@/lib/routes";
 
@@ -28,6 +30,8 @@ export type ChatPanelLabels = {
   consentPrompt: string;
   consentButton: string;
   consentSuccess: string;
+  captureChip: string;
+  captureChipDismiss: string;
   rateLimited: string;
   networkError: string;
   callLabel: string;
@@ -36,6 +40,15 @@ export type ChatPanelLabels = {
 
 type Turn = { role: "user" | "assistant"; content: string };
 
+/**
+ * Visitor messages before the standing offer appears.
+ *
+ * The backstop for a conversation the assistant never closes: three turns in,
+ * someone is engaged enough that a quiet, dismissible way to hand over their
+ * details is a service rather than an interruption.
+ */
+const CHIP_AFTER_VISITOR_MESSAGES = 3;
+
 const EMAIL_PATTERN = /[^\s@]+@[^\s@]+\.[^\s@]{2,}/;
 /** Seven or more digits, allowing spaces, dots, dashes and parentheses. */
 const PHONE_PATTERN = /(?:\d[\s().-]?){7,}/;
@@ -43,6 +56,14 @@ const PHONE_PATTERN = /(?:\d[\s().-]?){7,}/;
 /**
  * True when the visitor has put contact details in the conversation, or the
  * assistant has pointed them at the save button.
+ *
+ * The third of three paths to the form, and the weakest. It was the only one
+ * in CC-5, which is how a four-exchange conversation that ended in "want me to
+ * have someone look at this?" reached the end without a form: nobody had typed
+ * an email address, so nothing fired. The model's own `[[LEAD_FORM]]` token is
+ * the first path and the reliable one; the standing chip is the second. This
+ * stays because it costs nothing and catches the visitor who pastes their
+ * number without being asked.
  *
  * Detection only decides whether to *offer* the form. It never fills it in
  * and never submits: consent is the visitor typing their details into the
@@ -74,7 +95,22 @@ export function ChatPanel({
   const [draft, setDraft] = useState("");
   const [busy, setBusy] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
-  const [showConsent, setShowConsent] = useState(false);
+  /**
+   * Index of the turn the form hangs under, or null while there is no form.
+   *
+   * Anchored to a turn rather than pinned to the bottom of the thread, because
+   * the form is the answer to one particular message — "yes, have someone call
+   * me" — and reading it directly under that message is what makes it obvious
+   * what it is for.
+   */
+  const [consentAnchor, setConsentAnchor] = useState<number | null>(null);
+  /**
+   * True when the form was asked for — by the assistant, or by the visitor
+   * tapping the chip — rather than offered by the contact-details heuristic.
+   * Only then does it take focus.
+   */
+  const [consentFocus, setConsentFocus] = useState(false);
+  const [chipDismissed, setChipDismissed] = useState(false);
   const [saved, setSaved] = useState(false);
 
   const conversationId = useRef<string | null>(null);
@@ -121,6 +157,18 @@ export function ChatPanel({
       event.preventDefault();
       first.focus();
     }
+  }
+
+  /**
+   * Reveal the form under turn `anchor`, once.
+   *
+   * All three paths come through here, and the first one to arrive wins: a
+   * form that moved down the thread every time something else noticed the
+   * visitor wanted contact would lose whatever they had already typed into it.
+   */
+  function offerCapture(anchor: number, focus: boolean) {
+    setConsentFocus((current) => current || focus);
+    setConsentAnchor((current) => (current === null ? anchor : current));
   }
 
   async function send(event: FormEvent<HTMLFormElement>) {
@@ -171,17 +219,54 @@ export function ChatPanel({
         });
       }
 
-      void logMessage(conversationId.current, "assistant", reply);
+      // The token is protocol, not conversation. Stripping it here is what
+      // keeps it out of all three places it must never reach: the panel, the
+      // `chat_messages` row, and the history replayed to the model next turn.
+      const { text, requested } = extractLeadSignal(reply);
       setTurns((current) => {
-        if (shouldOfferCapture(current)) setShowConsent(true);
-        return current;
+        const next = [...current];
+        next[next.length - 1] = { role: "assistant", content: text };
+        return next;
       });
+      void logMessage(conversationId.current, "assistant", text);
+
+      const finalTurns: Turn[] = [
+        ...withUser,
+        { role: "assistant", content: text },
+      ];
+      if (requested || shouldOfferCapture(finalTurns)) {
+        offerCapture(withUser.length, requested);
+      }
     } catch {
       setNotice(labels.networkError);
     } finally {
       setBusy(false);
     }
   }
+
+  const visitorMessages = turns.filter((turn) => turn.role === "user").length;
+  /**
+   * The standing offer, shown only when nothing better has happened: no form
+   * yet, no lead saved, and not already waved away once. Dismissal is for the
+   * life of the conversation — a chip that comes back is a nag.
+   */
+  const showChip =
+    consentAnchor === null &&
+    !saved &&
+    !chipDismissed &&
+    visitorMessages >= CHIP_AFTER_VISITOR_MESSAGES;
+
+  const consentBlock = (
+    <div className="space-y-2xs">
+      <p className="text-sm font-medium text-text">{labels.consentPrompt}</p>
+      <ChatConsentForm
+        labels={consentLabels}
+        conversationId={conversationId.current}
+        autoFocus={consentFocus}
+        onSaved={() => setSaved(true)}
+      />
+    </div>
+  );
 
   return (
     <div
@@ -211,12 +296,21 @@ export function ChatPanel({
         className="flex-1 space-y-xs overflow-y-auto px-xs py-xs"
       >
         {turns.map((turn, index) => (
-          <p key={index} className="text-sm text-text">
-            <span className="font-semibold">
-              {turn.role === "user" ? labels.youLabel : labels.assistantLabel}:
-            </span>{" "}
-            {turn.content}
-          </p>
+          <Fragment key={index}>
+            {/* `whitespace-pre-line` is the other half of the plain-text rule:
+                the assistant separates paragraphs with a blank line, and in a
+                text node those collapse to a single space without it. */}
+            <p className="text-sm whitespace-pre-line text-text">
+              <span className="font-semibold">
+                {turn.role === "user" ? labels.youLabel : labels.assistantLabel}
+                :
+              </span>{" "}
+              {turn.role === "assistant"
+                ? renderAssistantText(turn.content)
+                : turn.content}
+            </p>
+            {consentAnchor === index && !saved ? consentBlock : null}
+          </Fragment>
         ))}
 
         {notice ? (
@@ -251,19 +345,30 @@ export function ChatPanel({
               </a>
             )}
           </p>
-        ) : showConsent ? (
-          <div className="space-y-2xs">
-            <p className="text-sm font-medium text-text">
-              {labels.consentPrompt}
-            </p>
-            <ChatConsentForm
-              labels={consentLabels}
-              conversationId={conversationId.current}
-              onSaved={() => setSaved(true)}
-            />
-          </div>
         ) : null}
       </div>
+
+      {showChip ? (
+        /* Quiet by design: a bordered line above the input, not a banner over
+           the conversation. It is the backstop, not the offer. */
+        <div className="flex items-center gap-2xs border-t border-divider px-xs pt-2xs">
+          <button
+            type="button"
+            onClick={() => offerCapture(turns.length - 1, true)}
+            className="flex-1 rounded-md border border-border px-2xs py-3xs text-start text-sm text-text-muted transition-colors hover:text-text motion-reduce:transition-none"
+          >
+            {labels.captureChip}
+          </button>
+          <button
+            type="button"
+            onClick={() => setChipDismissed(true)}
+            aria-label={labels.captureChipDismiss}
+            className="rounded-md px-2xs py-3xs text-sm text-text-muted hover:text-text"
+          >
+            ✕
+          </button>
+        </div>
+      ) : null}
 
       <form
         onSubmit={send}

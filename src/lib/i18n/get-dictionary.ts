@@ -48,6 +48,19 @@ export type Dictionary = typeof enDictionary;
  * They are listed above because they are new keys, not because their text was
  * authored in this session.
  *
+ * ── CC-CHAT-2-authored, approved 16 August 2026 ───────────────────────────
+ *
+ * Interface microcopy on the same terms: a state the panel can be in, no
+ * product fact, number, claim or price between them.
+ *
+ *   chat.captureChip         the quiet standing offer above the input, shown
+ *                            once a conversation has run on without the
+ *                            assistant asking for the form
+ *   chat.captureChipDismiss  accessible name of that chip's dismiss control
+ *
+ * `chat.captureChip` is the founder's own wording, quoted from the CC-CHAT-2
+ * brief.
+ *
  * ── Founder-supplied, verbatim, 11 August 2026 ────────────────────────────
  *
  *   newsletter.heading · newsletter.sublabel · newsletter.placeholder

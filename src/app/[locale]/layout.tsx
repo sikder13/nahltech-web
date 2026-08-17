@@ -141,6 +141,8 @@ export default async function LocaleLayout({
               consentPrompt: t.chat.consentPrompt,
               consentButton: t.chat.consentButton,
               consentSuccess: t.chat.consentSuccess,
+              captureChip: t.chat.captureChip,
+              captureChipDismiss: t.chat.captureChipDismiss,
               rateLimited: t.leadForm.rateLimited,
               networkError: t.leadForm.networkError,
               callLabel: t.cta.callLabel,

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 
 import { Honeypot } from "@/components/conversion/Honeypot";
 import { Field, inputClasses } from "@/components/ui/Field";
@@ -46,13 +46,33 @@ export function ChatConsentForm({
   labels,
   conversationId,
   onSaved,
+  autoFocus = false,
 }: {
   labels: ChatConsentLabels;
   conversationId: string | null;
   onSaved?: () => void;
+  /**
+   * Move focus to the first field when the form appears.
+   *
+   * Set when the assistant summoned the form itself: the visitor has just
+   * asked to be contacted, so the next thing they want to do is type their
+   * name, and a keyboard or screen-reader visitor would otherwise have to go
+   * looking for a form that appeared silently mid-thread. Left off when the
+   * form arrives unrequested, where taking focus would interrupt rather
+   * than help.
+   */
+  autoFocus?: boolean;
 }) {
   const [errors, setErrors] = useState<Partial<Record<FieldName, string>>>({});
   const [status, setStatus] = useState<Status>("idle");
+  const nameRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (autoFocus) nameRef.current?.focus();
+    // Mount only. The form is summoned once per conversation, and re-running
+    // this would pull focus back out of whatever the visitor moved on to.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -126,6 +146,7 @@ export function ChatConsentForm({
       <Field id="chat-name" label={labels.name} error={errors.name} required>
         <input
           id="chat-name"
+          ref={nameRef}
           name="name"
           type="text"
           autoComplete="name"
