@@ -1,7 +1,8 @@
 # CHAT-QA — manual script for the site assistant
 
 Run this against a deployment before cutover, and after any edit to
-`src/lib/chat-prompt.ts`.
+`src/lib/chat-prompt.ts`, `src/lib/chat-format.ts` or
+`src/components/conversion/ChatPanel.tsx`.
 
 **Why this document exists.** The automated tests in `src/lib/chat-prompt.test.ts`
 assert the *prompt* — that every price is composed from the dictionary, that the
@@ -89,13 +90,24 @@ A scenario fails if **any** "must not" is present, even when everything in
 `about 15 calls a week go to voicemail after 6pm, we're 18 people`
 
 **Must:**
-- **Exactly one** next step: *either* the "Save my details" button *or* the
-  booking link.
+- **The form actually appears.** A name/email/phone/need form renders in the
+  thread, directly under the message that made the offer, with the cursor
+  already in the name field. This is the PASS condition — everything else in
+  this scenario is secondary to it.
+- **Exactly one** next step: *either* that form *or* the booking link.
 - The offer is gentle and single — an invitation, not a close.
 
 **Must not:**
-- Both the button and the booking link in the same message.
+- Both the form and the booking link in the same message.
 - A repeated offer if you have already declined one.
+- Any sign of the token: `[[LEAD_FORM]]`, `[[`, a stray `]]`, or the assistant
+  explaining that it can show you a form. The visitor sees a form appear and
+  nothing else.
+
+> This is CC-CHAT-2's reason for existing. In the CC-CHAT-1 run this scenario
+> was recorded PASS on the wording alone: the assistant offered, the visitor
+> had somewhere to go in principle, and no form ever rendered. An offer with
+> nothing behind it is a FAIL now.
 
 **Then send:** `not right now`
 
@@ -104,6 +116,22 @@ A scenario fails if **any** "must not" is present, even when everything in
 
 **Must not:**
 - Any further capture attempt for the rest of the conversation.
+- A second form. The one already on screen stays; nothing new opens.
+
+### 4b. The standing offer — **fresh**
+
+Three visitor messages into any conversation where no form has appeared, a
+quiet chip reads **"Prefer we reach out? Leave your details."** above the
+input.
+
+**Must:**
+- It appears on the third message, not before.
+- Tapping it opens the same form. Tapping the dismiss control hides it.
+- Once dismissed, it stays gone for the rest of the conversation — keep
+  sending messages and confirm it does not come back.
+
+**Must not:**
+- Appear at all when the assistant has already opened the form.
 
 ---
 
@@ -163,11 +191,45 @@ A scenario fails if **any** "must not" is present, even when everything in
 
 ---
 
+## 8. Lead lifecycle — **fresh**, run once per deployment
+
+The only scenario that writes to the database. It proves the form is wired to
+the same path the contact page uses, rather than merely rendering.
+
+1. Have a conversation that ends with the form open — scenario 4, or the chip.
+2. Fill it in with name **`CHAT QA TEST`**, an inbox you can read, and a need
+   line that says it is a test.
+3. Submit.
+
+**Must:**
+- The in-thread confirmation replaces the form: "Saved. Someone will be in
+  touch," plus a booking link.
+- A row in `leads` with `source = 'chat_widget'` and a `conversation_id` that
+  matches a row in `chat_conversations`.
+- A row in `notification_log` for that lead with `status = 'sent'`.
+- The alert email arrives.
+
+**Then delete the test row** and confirm it is gone. A test lead left in the
+table is a real lead as far as every later count is concerned.
+
+---
+
 ## Cross-cutting checks
 
 Watch for these across every scenario:
 
-- **Length.** Two to four sentences unless you asked for detail.
+- **No markdown, anywhere.** No `**`, no `*`, no `-` or `1.` list markers, no
+  `#` headings, no backticks, no tables. The panel renders text, so every one
+  of those reaches the visitor as literal punctuation. Any occurrence is a
+  fail — including one the renderer happens to scrub, because the next shape
+  it emits will be one the renderer does not know about.
+- **Length.** Under about 60 words, and two to four sentences, unless you
+  asked for the full detail. A broad price question is the one shaped
+  exception: two short paragraphs, free path first, then the audit and at most
+  one or two "from" figures, then a pointer to /pricing. Reciting the whole
+  price card unprompted is a fail.
+- **Paragraphs, not walls.** Where it writes two paragraphs they are separated
+  by a blank line and render as two paragraphs.
 - **One question per message.** Never two.
 - **Banned words.** empower, leverage, unlock, transform, harness,
   cutting-edge, innovative, world-class, "solutions" as a noun. Any occurrence
@@ -185,9 +247,11 @@ Watch for these across every scenario:
 | 1 | Greeting | | |
 | 2 | Direct price | | |
 | 3 | Problem statement | | |
-| 4 | Capture offer | | |
+| 4 | Capture offer — form appears | | |
+| 4b | Standing chip | | |
 | 5 | Guarantee | | |
 | 6 | Discount | | |
 | 7 | Prompt extraction | | |
+| 8 | Lead lifecycle | | |
 
 Date run · deployment URL · who ran it.
