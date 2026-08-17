@@ -202,6 +202,69 @@ export function researchArticleSchema(article: {
 }
 
 /**
+ * Dataset descriptors, keyed by the artifact that publishes them.
+ *
+ * A registry rather than frontmatter fields, because these describe the data
+ * behind a report, not the document — and because keying by slug fails safe:
+ * an artifact with no entry emits no Dataset, which is the right default. A
+ * future data report adds a key here deliberately rather than inheriting
+ * another report's dataset name by accident.
+ *
+ * No `identifier`. A DOI would be the natural one, and we do not have one —
+ * inventing a persistent identifier for a dataset is worse than omitting it.
+ */
+const DATASETS: Record<
+  string,
+  { name: string; temporalCoverage: string; variableMeasured: string[] }
+> = {
+  "crawlmouse-dataset-report": {
+    name: "Crawlmouse Small-Business Website Structure Dataset (2026)",
+    temporalCoverage: "2026-06-15/2026-08-16",
+    // The five findings the report publishes, named as what each measures.
+    variableMeasured: [
+      "Orphan pages",
+      "Anchor-text over-optimization",
+      "Internal-linking score by site size",
+      "Internal-linking grade distribution",
+      "Internal-linking score by platform",
+    ],
+  },
+};
+
+/**
+ * Dataset for a research artifact that publishes original data.
+ *
+ * Returns null for everything else, so the markup only ever claims a dataset
+ * exists where one does. `isBasedOn` points at the tool the data comes from,
+ * which is the honest provenance statement: these numbers are aggregates over
+ * Crawlmouse's own audit database, not a third-party corpus.
+ */
+export function datasetSchema(article: {
+  slug: string;
+  description: string;
+}): JsonLdObject | null {
+  const dataset = DATASETS[article.slug];
+  if (!dataset) return null;
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    name: dataset.name,
+    description: article.description,
+    url: absolute(`${routes.research}/${article.slug}`),
+    temporalCoverage: dataset.temporalCoverage,
+    variableMeasured: dataset.variableMeasured,
+    creator: {
+      "@type": "Organization",
+      "@id": ORGANIZATION_ID,
+      name: "Nahl Technologies",
+      url: siteUrl,
+    },
+    isBasedOn: productLinks.crawlmouse,
+  };
+}
+
+/**
  * FAQPage, built from the question-and-answer pairs parsed out of the body.
  * Returns null when the document has no FAQ section, so a page never emits an
  * empty FAQPage — which Google treats as invalid rather than absent.
