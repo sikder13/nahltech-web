@@ -1,14 +1,14 @@
 # SESSION-STATE
 
 Handoff snapshot; update at the end of every session. **Last updated:**
-16 August 2026 · HEAD `e833d5b` · build complete through the security gate ·
-CC-CHAT-2 shipped · 271 tests passing
+16 August 2026 · HEAD `204ae97` · build complete through the security gate ·
+CC-CHAT-2 and the team photos shipped · 282 tests passing
 
 ## 1. Status
 
 **The build is COMPLETE through the security gate.** Live at
-**https://nahltech-web.vercel.app**. HEAD `e833d5b` · 134 commits ·
-**271 tests passing** · first-load JS **143.7 kB gz** against a 145 kB ceiling
+**https://nahltech-web.vercel.app**. HEAD `204ae97` · 137 commits ·
+**282 tests passing** · first-load JS **143.7 kB gz** against a 145 kB ceiling
 (1.3 kB headroom — it will bite).
 
 Everything is shipped: foundation, six page templates, the design pass, five
@@ -47,9 +47,12 @@ written to be read by a client as well as a maintainer.
   `docs/SECURITY.md` before touching one.
 
 **Design invariants.** Gold (`#F5C842`) decorates only — never a fill or text
-colour. Hexagon motif in exactly six places. **Bee mark in one place only —
-the 404.** The header carried a second until the official hex logo landed on
-13 Aug 2026; that is the intended final state, not a regression to undo.
+colour. Hexagon motif in exactly six places; the team avatars are one of them,
+and since 16 Aug they hold real photographs rather than glyphs. **Two faces
+ship on this site, both on `/about`, and nowhere else** — not in schema, not in
+an OG image, not on a GBP asset. **Bee mark in one place only — the 404.** The
+header carried a second until the official hex logo landed on 13 Aug 2026; that
+is the intended final state, not a regression to undo.
 Fraunces h1/h2, Inter body. Motion inside `MotionConfig reducedMotion="user"`,
 now nested in `LazyMotion … strict` — use `m.*`, never `motion.*`, or it throws.
 
@@ -157,10 +160,12 @@ second number.
 
 ## 5. Outstanding — founder side
 
-- **Team photos for `/about`** — deferred until after go-live. Small hex
-  avatars beside the About names when they land. Neutral glyphs today; no stock
-  photography. Samia Zaman is not yet on the page, which is why her author
-  entry deliberately has no `/about` URL.
+- ~~Team photos for `/about`~~ — **landed 16 Aug 2026.** Both founders now
+  carry a 56px hex avatar beside their name, built by `npm run build:team`
+  from originals kept in gitignored `.work/`. The photographs appear on that
+  row and nowhere else, asserted by `team-photos.test.ts`. Samia Zaman is
+  still not on the page, so her author entry still has no `/about` URL and no
+  photo; anyone without a registry entry keeps the neutral glyph.
 - **Keyword Planner hour.** The `field-notes` and `decision` target keywords
   were assigned without Planner data and are marked unvalidated.
 - **Counsel review of the legal pages.** An in-house startup baseline, shipped
