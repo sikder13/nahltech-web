@@ -110,6 +110,24 @@ describe("chat prompt: format", () => {
   it("caps the default length and names the exception", () => {
     expect(formatSection).toMatch(/under about 60 words/i);
     expect(formatSection).toMatch(/only when the visitor explicitly asks/i);
+    // Bounded by shape, not by a second number. An explicit word allowance
+    // for price answers was tried against the live model and read as a
+    // target: replies went from ~80 words to 110.
+    expect(formatSection).toMatch(/bounded by its shape below, not by a word/i);
+  });
+
+  it("holds the one-question rule inside the format section", () => {
+    // It was already a bullet under "How you talk", and measured 3/3 against
+    // the live model before this session. Adding the format section above it
+    // diluted it — trials started announcing "a couple of quick questions"
+    // and sometimes asking two. Restated here, where it outranks.
+    expect(formatSection).toMatch(/At most one question mark in a message/i);
+    expect(formatSection).toMatch(/a couple of quick questions/i);
+    expect(formatSection).toMatch(/delete the sentence it is in/i);
+  });
+
+  it("caps a price answer at two figures", () => {
+    expect(formatSection).toMatch(/Two figures at most, never a third/i);
   });
 
   it("shapes a broad price answer without reciting the whole card", () => {
@@ -226,6 +244,17 @@ describe("chat prompt: conversation strategy", () => {
       /answer it completely in that same message/i,
     );
     expect(CHAT_SYSTEM_PROMPT).toMatch(/never instead of answering/i);
+  });
+
+  it("says what a complete price answer is, so it cannot mean the whole card", () => {
+    // Rule 2's "answer it completely" and the format section's two-figure cap
+    // read as a contradiction, and the live model resolved it by reciting the
+    // card. Resolved where it originates rather than by adding a fourth
+    // prohibition to the format section.
+    expect(CHAT_SYSTEM_PROMPT).toMatch(/Complete does not mean exhaustive/i);
+    expect(CHAT_SYSTEM_PROMPT).toMatch(
+      /Give every number they asked for, and no number they did not/i,
+    );
   });
 
   it("makes build prices fixed-price-after-audit and non-negotiable in chat", () => {
