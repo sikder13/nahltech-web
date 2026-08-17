@@ -154,3 +154,7 @@ review/
 
 # Playwright MCP scratch output (page snapshots taken during review).
 .playwright-mcp/
+
+# Founder-supplied source photographs. Personal images, kept out of the repo
+# by hard rule 2; scripts/build-team-avatars.mjs reads them from here.
+.work/
