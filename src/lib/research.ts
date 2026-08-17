@@ -237,18 +237,26 @@ export function getResearchBySlug(slug: string): ResearchArticle | undefined {
 }
 
 /**
- * Hub order: the methodology first, then the engagements newest-first.
+ * Hub order, by kind rather than by date.
  *
- * The methodology is the spine — every engagement points at it, and it is the
- * document that makes the others checkable — so it leads regardless of date.
+ * Original data leads: a report built from our own production database is the
+ * strongest thing in the section and the one a stranger should meet first. The
+ * methodology follows, because it is the spine every other artifact points at
+ * and the document that makes them checkable. The engagements come last —
+ * they are illustrations of the method, and they describe fictional clients.
+ *
+ * Within a kind, the loader's newest-first-then-slug order carries through.
  */
+const KIND_ORDER: readonly ResearchKind[] = [
+  "data-report",
+  "methodology",
+  "sample-engagement",
+];
+
 export function getResearchForHub(): ResearchArticle[] {
-  const published = getPublishedResearch();
-  const methodology = published.filter(
-    (article) => article.kind === "methodology",
-  );
-  const rest = published.filter((article) => article.kind !== "methodology");
-  return [...methodology, ...rest];
+  return getPublishedResearch()
+    .slice()
+    .sort((a, b) => KIND_ORDER.indexOf(a.kind) - KIND_ORDER.indexOf(b.kind));
 }
 
 /** Test seam: clears the memoised collection. */

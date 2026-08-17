@@ -6,7 +6,7 @@ import {
   getResearchForHub,
   validateResearch,
 } from "./research";
-import { researchArticleSchema } from "./schema-org";
+import { datasetSchema, researchArticleSchema } from "./schema-org";
 
 const ENGAGEMENTS = [
   "sample-engagement-indianapolis-hvac",
@@ -17,18 +17,19 @@ const ENGAGEMENTS = [
 describe("the research collection", () => {
   const articles = getPublishedResearch();
 
-  it("publishes all four artifacts", () => {
+  it("publishes all five artifacts", () => {
     expect(articles.map((a) => a.slug).sort()).toEqual(
-      ["how-we-measure", ...ENGAGEMENTS].sort(),
+      ["crawlmouse-dataset-report", "how-we-measure", ...ENGAGEMENTS].sort(),
     );
   });
 
-  it("puts the methodology first on the hub, then the engagements", () => {
-    // The methodology is the spine: every engagement points at it, and it is
-    // what makes the others checkable. It leads regardless of date.
-    const hub = getResearchForHub();
-    expect(hub[0].slug).toBe("how-we-measure");
-    expect(hub.slice(1).map((a) => a.kind)).toEqual([
+  it("orders the hub by kind: data, then method, then engagements", () => {
+    // Original data leads — it is the strongest thing in the section. The
+    // methodology follows as the spine every other artifact points at, and the
+    // engagements last, since they illustrate the method on fictional clients.
+    expect(getResearchForHub().map((a) => a.kind)).toEqual([
+      "data-report",
+      "methodology",
       "sample-engagement",
       "sample-engagement",
       "sample-engagement",
@@ -40,9 +41,15 @@ describe("the research collection", () => {
     // order is readdir order — which differs between machines.
     expect(
       getResearchForHub()
-        .slice(1)
+        .filter((a) => a.kind === "sample-engagement")
         .map((a) => a.slug),
     ).toEqual(ENGAGEMENTS);
+  });
+
+  it("features the data report on the home page", () => {
+    // The home page takes the hub's first entry, so the ordering above is what
+    // decides what the flagship slot shows.
+    expect(getResearchForHub()[0].slug).toBe("crawlmouse-dataset-report");
   });
 
   it("carries a disclosure banner on exactly the fictional-client artifacts", () => {
@@ -55,6 +62,10 @@ describe("the research collection", () => {
       .sort();
     expect(withBanner).toEqual([...ENGAGEMENTS].sort());
     expect(getResearchBySlug("how-we-measure")?.sampleBanner).toBeUndefined();
+    // The data report is real data, not a walkthrough of an invented client.
+    expect(
+      getResearchBySlug("crawlmouse-dataset-report")?.sampleBanner,
+    ).toBeUndefined();
   });
 
   it("says the client is fictional in every banner", () => {
@@ -72,9 +83,12 @@ describe("the research collection", () => {
   });
 
   it("leaves no h1 in the body, because the template renders the title", () => {
-    // All four files open with an h1 repeating their own title. Rendering both
-    // would ship two h1s per page — the same heading-structure error as a
-    // skipped level, and worse for anyone navigating by heading.
+    // The methodology and the three engagements each open with an h1
+    // repeating their own title; the loader strips it. Rendering both would
+    // ship two h1s per page — the same heading-structure error as a skipped
+    // level, and worse for anyone navigating by heading. The data report
+    // opens with prose and needs no strip, which is why this asserts the
+    // outcome rather than the edit.
     for (const article of articles) {
       expect(article.body, article.slug).not.toMatch(/^#\s+/m);
     }
@@ -160,5 +174,37 @@ describe("research schema", () => {
         `https://nahltech.com/research/${article.slug}`,
       );
     }
+  });
+});
+
+describe("dataset schema", () => {
+  it("is emitted for the data report only", () => {
+    for (const article of getPublishedResearch()) {
+      const dataset = datasetSchema(article);
+      if (article.kind === "data-report") {
+        expect(dataset, article.slug).not.toBeNull();
+      } else {
+        // A Dataset node on a document that publishes no data would claim one
+        // exists. The registry is keyed by slug so this fails safe.
+        expect(dataset, article.slug).toBeNull();
+      }
+    }
+  });
+
+  it("describes the corpus without inventing an identifier", () => {
+    const dataset = datasetSchema(
+      getResearchBySlug("crawlmouse-dataset-report")!,
+    ) as Record<string, unknown>;
+
+    expect(dataset.name).toBe(
+      "Crawlmouse Small-Business Website Structure Dataset (2026)",
+    );
+    expect(dataset.temporalCoverage).toBe("2026-06-15/2026-08-16");
+    expect(dataset.variableMeasured).toHaveLength(5);
+    expect(dataset.isBasedOn).toBe("https://crawlmouse.com");
+    // No DOI exists, so none is published — a fabricated persistent
+    // identifier is worse than an absent one.
+    expect(dataset).not.toHaveProperty("identifier");
+    expect(JSON.stringify(dataset)).not.toContain("aggregateRating");
   });
 });

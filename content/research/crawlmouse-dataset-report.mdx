@@ -1,0 +1,89 @@
+---
+title: "We Audited 187 Small-Business Websites. Half Have Pages Nothing Links To."
+description: "Original data from 187 real small-business websites: 50% have orphan pages, 75% over-optimize anchor text, and the smallest sites have the weakest structure. Small-business website statistics the big SEO studies don't cover — with method and limitations published."
+date: 2026-08-16
+author: "Udaay Sikder"
+kind: "data-report"
+targetKeyword: "small business website statistics"
+draft: false
+---
+
+The big internal-linking studies are impressive — 23 million links here, 2.5 million there — and almost useless to a small business, because they're built from SEO-tool customer bases: content sites, e-commerce catalogs, enterprises with thousands of pages. The web most businesses actually live on — the 20-page plumber, the 60-page clinic, the 150-page manufacturer — is missing from the data.
+
+So we measured it. Our free audit tool, [Crawlmouse](https://crawlmouse.com), has been grading real websites since June. This report aggregates what it found across **187 distinct small-business-scale websites** — and the picture is worse, and more fixable, than the big studies suggest.
+
+<MethodBox>
+
+## Method, before any numbers
+
+**Corpus:** every completed, graded Crawlmouse audit from June 15 to August 16, 2026. We removed our own properties and development URLs, then deduplicated to the most recent audit per domain: **187 distinct external websites.** Median site: **58 pages** — this is the small-business web, measured directly. (We characterize sites by size; we don't verify ownership type.)
+
+**What the tool measures:** internal link structure — every page, every internal link, orphan detection, click depth, anchor-text patterns — plus platform detection and crawl-coverage accounting.
+
+**What this data is not:** a random sample of the internet. These are sites whose owners chose to run an audit — likely people who already suspected a problem. We report that bias instead of hiding it, and 103 of the 187 audits carry the tool's own incomplete-crawl flag (blocked pages, crawl limits), which is disclosed here for the same reason: numbers without their limits are marketing.
+
+Every statistic below is reproducible from aggregate queries against the audit database. No individual site is named or identifiable.
+
+</MethodBox>
+
+## Finding 1 — Half of all sites have pages nothing links to
+
+**50.3% of the 187 sites have at least one orphan page** — a page that exists, may even rank, but that no other page on the site links to. Search engines struggle to find orphans; AI crawlers, which follow links rather than guessing URLs, mostly never see them.
+
+And the intensity is the real story: **on affected sites, the median share of orphaned pages is 20.1%.** Not one forgotten page — one in five. That's service pages, location pages, old-but-ranking blog posts, sitting disconnected from the structure that's supposed to carry them.
+
+For contrast, the widely-cited figure from large-site studies is that roughly a quarter of *pages* lack internal links. Our site-level view of the small web says the problem is not an enterprise disease. It's everywhere, at every size.
+
+## Finding 2 — 3 in 4 sites over-optimize their anchor text
+
+**75.4% of sites (141 of 187) triggered over-optimized-anchor findings** — the same link text repeated again and again pointing at the same page, usually a keyword phrase, usually the legacy of an old SEO playbook. Modern search systems read that pattern as manipulation, and at minimum it wastes the descriptive signal internal links are supposed to carry.
+
+Full disclosure, because it's both honest and useful: **our own website scored a B- on Crawlmouse's internal-linking grade during its build, partly on this exact finding** — our early cross-links repeated identical anchors. We varied them, added a build gate that fails when two inbound links to the same page share anchor text, and published the whole episode. The point isn't that we're above the statistic. It's that the statistic is so easy to join and so mechanical to fix.
+
+## Finding 3 — The smallest sites have the weakest structure
+
+You'd expect a 20-page site to be easy to structure well. The data says otherwise:
+
+| Site size | n | Average score | Reaching A or B |
+|---|---|---|---|
+| ≤ 25 pages | 77 | 66.1 | **36.4%** |
+| 26–100 pages | 40 | **72.0** | **67.5%** |
+| 101–300 pages | 38 | 68.2 | 52.6% |
+| 300+ pages | 32 | 66.9 | 46.9% |
+
+The tiniest sites — the largest group in our corpus — score worst, by a wide margin. The likely reason: very small sites are built once, from a template, and never get a deliberate linking pass; there's no "SEO person" and no process. Mid-size sites (26–100 pages) do best — big enough that someone thought about structure, small enough that it's still manageable by hand.
+
+The practical read for a small business: your structural problems are probably worse than the big company's you're competing with — and fixable in an afternoon, because you have 25 pages, not 25,000.
+
+## Finding 4 — The grade curve: the median website is a C+
+
+| Grade | Share of sites |
+|---|---|
+| A range | 7.0% |
+| B range | 41.2% |
+| C range | 40.6% |
+| D–F | 11.2% |
+
+Median score: **69.6 of 100.** Only one site in fourteen earns an A. Which means the bar for beating your local competitors' site structure is genuinely low — most of the market is a C.
+
+## Finding 5 — WordPress beats custom builds (yes, really)
+
+| Platform | n | Average score | Reaching A or B |
+|---|---|---|---|
+| WordPress | 38 | 69.4 | **57.9%** |
+| Custom builds | 134 | 68.3 | 47.8% |
+| Other platforms (Shopify, Wix, Webflow, Squarespace) | 15 | 61.7 | 26.7% |
+
+The dig at WordPress from custom-build shops — we run a custom stack ourselves — isn't supported by this data. WordPress's conventions (menus, categories, related posts) impose a baseline structure that many custom builds never replicate. A custom site is only as linked as someone deliberately made it. Templates have opinions; blank pages don't.
+
+## Two more numbers worth knowing
+
+**21.9% of sites bury content more than three clicks deep** — despite a corpus median of just 58 pages. Depth is a choice, not a size problem. And **14.4% of sites triggered JavaScript-rendering flags** — pages whose content risks being invisible to the AI crawlers that, per Vercel's published crawler analysis, do not execute JavaScript. (Crawlmouse began scoring full AI-readiness mid-corpus, so that deeper dataset — 41 sites so far — is held for a future edition rather than published at a weak n. When it's big enough, it gets its own report.)
+
+## What to do with this, in one paragraph
+
+Run the free audit on your own site — [crawlmouse.com](https://crawlmouse.com), one minute, no signup. If you're in the orphaned half, connect the disconnected pages; if you're in the 75% with cloned anchors, vary them so each link describes its destination. These are afternoon fixes with compounding returns, and the grade tells you exactly where you stand against the 187 sites above. If you'd rather have it done — with the before/after measured on the same tool — [that's work we do](/services/ai-search-visibility), priced [openly](/pricing).
+
+---
+
+*Numbers computed from aggregate queries over the Crawlmouse production database, August 16, 2026; no individual site is identified. Method questions and challenges welcome — [talk to us](/contact). Our measurement philosophy, including why we publish limitations, is [here](/research/how-we-measure). Researchers and journalists: the aggregate dataset behind every figure is available on request.*
