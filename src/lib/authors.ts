@@ -28,12 +28,21 @@ export const authors = {
     name: "Udaay Sikder",
     // Matches the role published on /about. `authors.test.ts` asserts the two
     // stay in agreement.
-    jobTitle: "Founder & CEO",
+    jobTitle: "Co-Founder & CEO",
     url: "/about",
     // His personal LinkedIn belongs to him, not to the company: it was
     // deliberately removed from Organization `sameAs` and lives here, on the
     // Person node that actually describes him.
     sameAs: ["https://www.linkedin.com/in/udaay-sikder-74a207132/"],
+  },
+  "Mohieminul Khan": {
+    name: "Mohieminul Khan",
+    jobTitle: "Co-Founder & Director",
+    // He is on the about page, so this points at a profile that exists — the
+    // same test Samia's missing `url` passes, answered the other way.
+    url: "/about",
+    // No `sameAs`. We have not been given a profile for him, and a Person node
+    // is exactly the wrong place to guess one.
   },
   "Samia Zaman": {
     name: "Samia Zaman",

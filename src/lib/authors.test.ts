@@ -64,9 +64,34 @@ describe("personSchema", () => {
   it("resolves a registry url against the site origin", () => {
     expect(personSchema("Udaay Sikder")).toMatchObject({
       name: "Udaay Sikder",
-      jobTitle: "Founder & CEO",
+      jobTitle: "Co-Founder & CEO",
       url: "https://nahltech.com/about",
     });
+  });
+
+  it("carries the second co-founder without inventing a profile for him", () => {
+    // He is on /about, so the url is a page that exists. No sameAs was
+    // supplied, and a Person node is the wrong place to guess one.
+    const person = personSchema("Mohieminul Khan");
+
+    expect(person).toMatchObject({
+      "@type": "Person",
+      name: "Mohieminul Khan",
+      jobTitle: "Co-Founder & Director",
+      url: "https://nahltech.com/about",
+    });
+    expect(person).not.toHaveProperty("sameAs");
+  });
+
+  it("keeps both co-founders' titles in step with the about page", () => {
+    // The two titles are a matched pair — "Co-Founder & CEO" and
+    // "Co-Founder & Director". Changing one on the page and not in the
+    // registry is the failure this catches.
+    const published = Object.fromEntries(
+      en.about.team.map((member) => [member.name, member.role]),
+    );
+    expect(published["Udaay Sikder"]).toBe("Co-Founder & CEO");
+    expect(published["Mohieminul Khan"]).toBe("Co-Founder & Director");
   });
 
   it("carries each author's personal LinkedIn on their Person node", () => {
