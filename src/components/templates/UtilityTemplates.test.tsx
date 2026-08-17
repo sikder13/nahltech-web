@@ -18,18 +18,66 @@ describe("AboutTemplate", () => {
       screen.getByRole("heading", { level: 1, name: en.pages.about.title }),
     ).toBeInTheDocument();
     expect(screen.getByText("Udaay Sikder")).toBeInTheDocument();
-    expect(screen.getByText("Founder & CEO")).toBeInTheDocument();
-    expect(screen.getByText("Mohieminul Islam Khan")).toBeInTheDocument();
+    expect(screen.getByText("Co-Founder & CEO")).toBeInTheDocument();
+    expect(screen.getByText("Mohieminul Khan")).toBeInTheDocument();
     expect(screen.getByText("Co-Founder & Director")).toBeInTheDocument();
     expect(
       screen.getByRole("heading", { name: en.about.credentialsHeading }),
     ).toBeInTheDocument();
   });
 
-  it("uses no images for team members", () => {
+  it("names Mohieminul without his middle name", () => {
+    // Explicit founder instruction. The page shipped with "Mohieminul Islam
+    // Khan" until the photographs landed, so this is a corrected fact rather
+    // than a preference.
+    render(<AboutTemplate t={en} />);
+    expect(screen.queryByText(/Mohieminul Islam/)).not.toBeInTheDocument();
+  });
+
+  it("renders each founder's photograph at avatar size, with real alt text", () => {
+    // This assertion used to be its opposite — the page shipped with neutral
+    // glyphs and a test that no image existed, because stock photography is
+    // worse than no photograph. Real photographs replace it; the ban on
+    // inventing a face is what the glyph fallback still carries.
     const { container } = render(<AboutTemplate t={en} />);
-    // Neutral glyphs only — no stock photography, and nothing with a src.
+    const images = [...container.querySelectorAll("img")];
+
+    expect(images).toHaveLength(en.about.team.length);
+
+    for (const [index, member] of en.about.team.entries()) {
+      const image = images[index];
+      expect(image.getAttribute("alt")).toBe(member.photoAlt);
+      // Explicit dimensions reserve the box before the file lands, which is
+      // what keeps a photograph out of the CLS budget.
+      expect(image.getAttribute("width")).toBe("56");
+      expect(image.getAttribute("height")).toBe("56");
+      // Retina without a second request on ordinary screens.
+      expect(image.getAttribute("srcset")).toContain("@2x.webp 2x");
+      expect(image.getAttribute("src")).toMatch(/^\/images\/team\/.+\.webp$/);
+    }
+  });
+
+  it("falls back to the neutral glyph for anyone without a photograph", () => {
+    // The registry is the switch, so a new name on the page does not silently
+    // borrow someone else's portrait.
+    const withoutPhoto = {
+      ...en,
+      about: {
+        ...en.about,
+        team: [
+          {
+            name: "Someone New",
+            role: "Engineer",
+            photoAlt: "Someone New, Engineer of Nahl Technologies",
+          },
+        ],
+      },
+    };
+
+    const { container } = render(<AboutTemplate t={withoutPhoto} />);
+
     expect(container.querySelectorAll("img")).toHaveLength(0);
+    expect(screen.getByText("Someone New")).toBeInTheDocument();
   });
 });
 

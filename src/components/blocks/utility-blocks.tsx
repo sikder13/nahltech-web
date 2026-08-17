@@ -3,6 +3,7 @@ import { FadeIn } from "@/components/ui/FadeIn";
 import { Icon } from "@/components/ui/Icon";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Prose } from "@/components/ui/Prose";
+import { getTeamPhoto } from "@/lib/team-photos";
 
 const shell = "mx-auto max-w-(--container-page) px-sm py-2xl";
 
@@ -27,14 +28,40 @@ export function StorySection({
   );
 }
 
-export type TeamMember = { name: string; role: string };
+export type TeamMember = {
+  name: string;
+  role: string;
+  /** Alt text for the photograph, when this person has one. */
+  photoAlt?: string;
+};
 
 /**
- * Team grid with neutral avatars.
+ * Team row: a small hexagonal portrait, the name, and one line of title.
  *
- * No stock photography: a placeholder face is a small lie about who works
- * here. The glyph is decorative and hidden from assistive tech — the name and
- * role beside it carry everything.
+ * A photograph appears only for someone in `teamPhotos`. Everyone else keeps
+ * the neutral glyph — no stock photography, because a placeholder face is a
+ * small lie about who works here.
+ *
+ * The portraits are deliberately small. They sit beside a name at 56px and
+ * appear nowhere else on the site, which is the founder's requirement and the
+ * reason there is no larger variant to reach for.
+ *
+ * A plain `<img>` rather than `next/image`, and this one is a correction to
+ * ARCH-1 §7 rather than a reading of it: the document named team photography
+ * as the case that would END the logo's exception. Measured on this page, both
+ * ways, it is the case that extends it. `/about` builds at 145 kB with an
+ * `<img>` and 150 kB with `next/image` — over the 145 kB ceiling, to
+ * re-derive assets that are already exactly right.
+ *
+ * The reason it lands that way is that the conditions behind the logo
+ * exception are all present here too: the render size is fixed at 56px, and
+ * `scripts/build-team-avatars.mjs` emits precisely the 1x and 2x files that
+ * size needs. What `next/image` is for — a content image of unknown size that
+ * needs responsive variants — is not what this is. Explicit `width`/`height`
+ * keep it out of the CLS budget and `srcset` covers retina, so nothing the
+ * component would have given us is lost.
+ *
+ * If a larger portrait ever ships, this reasoning expires with it.
  */
 export function TeamGrid({
   heading,
@@ -49,29 +76,50 @@ export function TeamGrid({
         <FadeIn>
           <SectionHeading>{heading}</SectionHeading>
           <ul className="mt-lg grid gap-md sm:grid-cols-2 lg:grid-cols-3">
-            {members.map((member) => (
-              <li key={member.name} className="flex items-center gap-sm">
-                <span
-                  aria-hidden="true"
-                  className="flex size-14 shrink-0 items-center justify-center bg-divider hex-clip"
-                >
-                  <svg
-                    viewBox="0 0 24 24"
-                    className="size-7 text-text-muted"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.4"
-                  >
-                    <circle cx="12" cy="8.5" r="3.5" />
-                    <path d="M4.5 20a7.5 7.5 0 0115 0" />
-                  </svg>
-                </span>
-                <div>
-                  <p className="font-semibold text-text">{member.name}</p>
-                  <p className="text-sm text-text-muted">{member.role}</p>
-                </div>
-              </li>
-            ))}
+            {members.map((member) => {
+              const photo = getTeamPhoto(member.name);
+
+              return (
+                <li key={member.name} className="flex items-center gap-sm">
+                  {photo && member.photoAlt ? (
+                    /* eslint-disable-next-line @next/next/no-img-element --
+                       measured: next/image costs 5 kB gz on this page and puts
+                       it over the budget, to optimise a fixed 56px asset that
+                       is already the right bytes. See the block comment. */
+                    <img
+                      src={photo.src}
+                      srcSet={`${photo.src} 1x, ${photo.src2x} 2x`}
+                      alt={member.photoAlt}
+                      width={56}
+                      height={56}
+                      loading="lazy"
+                      decoding="async"
+                      className="size-14 shrink-0 object-cover hex-clip"
+                    />
+                  ) : (
+                    <span
+                      aria-hidden="true"
+                      className="flex size-14 shrink-0 items-center justify-center bg-divider hex-clip"
+                    >
+                      <svg
+                        viewBox="0 0 24 24"
+                        className="size-7 text-text-muted"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.4"
+                      >
+                        <circle cx="12" cy="8.5" r="3.5" />
+                        <path d="M4.5 20a7.5 7.5 0 0115 0" />
+                      </svg>
+                    </span>
+                  )}
+                  <div>
+                    <p className="font-semibold text-text">{member.name}</p>
+                    <p className="text-sm text-text-muted">{member.role}</p>
+                  </div>
+                </li>
+              );
+            })}
           </ul>
         </FadeIn>
       </div>

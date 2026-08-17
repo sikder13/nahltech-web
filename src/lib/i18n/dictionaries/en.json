@@ -796,11 +796,13 @@
     "team": [
       {
         "name": "Udaay Sikder",
-        "role": "Founder & CEO"
+        "role": "Co-Founder & CEO",
+        "photoAlt": "Udaay Sikder, Co-Founder & CEO of Nahl Technologies"
       },
       {
-        "name": "Mohieminul Islam Khan",
-        "role": "Co-Founder & Director"
+        "name": "Mohieminul Khan",
+        "role": "Co-Founder & Director",
+        "photoAlt": "Mohieminul Khan, Co-Founder & Director of Nahl Technologies"
       }
     ],
     "credentialsHeading": "Credentials",
