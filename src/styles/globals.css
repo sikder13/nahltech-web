@@ -157,6 +157,29 @@
   }
 
   /**
+   * Bengali runs inside English copy — the Hafsa Sastho name on /about, and
+   * the bn locale when its content exists.
+   *
+   * Inter is subsetted to latin, so these glyphs fall back whatever we do.
+   * This names the faces the common platforms already ship rather than
+   * downloading a Bengali webfont for two words, and it applies wherever a
+   * `lang="bn"` lands, so the rule does not need revisiting when the bn
+   * locale launches.
+   */
+  :lang(bn) {
+    font-family:
+      "Noto Sans Bengali", "Nirmala UI", "Kohinoor Bangla", "Bangla MN",
+      "Vrinda", var(--font-sans), sans-serif;
+    /**
+     * Bengali faces carry a smaller apparent size than Inter at the same
+     * font-size, so a name set inline in an English sentence reads as
+     * shrunken. This matches them optically; it is a size correction between
+     * two scripts, not a size change.
+     */
+    font-size: 1.08em;
+  }
+
+  /**
    * h1 and h2 carry the display face everywhere, including MDX output in
    * Phase 3. h3 and below stay in Inter — the serif is for the two ranks
    * that set a page's voice, not for every heading on it.
