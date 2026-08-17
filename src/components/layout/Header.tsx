@@ -145,15 +145,27 @@ export function Header({ t }: { t: Dictionary }) {
             phoneDisplay: t.cta.phoneDisplay,
             bookCall: t.cta.bookCall,
           }}
-          links={[
-            { href: routes.services, label: t.nav.services },
-            ...serviceRouteKeys.map((key) => ({
-              href: routes[key],
-              label: t.services[key],
-            })),
-            { href: routes.products, label: t.nav.products },
-            { href: routes.crawlmouse, label: t.products.crawlmouse },
-            { href: routes.hafsaSastho, label: t.products.hafsaSastho },
+          /* Grouped rather than flat. The desktop dropdowns above put the hub
+             first *inside* the list; on mobile the hub is the parent row
+             itself, so the children here are the leaves only — listing the
+             hub twice would be a duplicate link, not a shortcut. */
+          items={[
+            {
+              href: routes.services,
+              label: t.nav.services,
+              children: serviceRouteKeys.map((key) => ({
+                href: routes[key],
+                label: t.services[key],
+              })),
+            },
+            {
+              href: routes.products,
+              label: t.nav.products,
+              children: [
+                { href: routes.crawlmouse, label: t.products.crawlmouse },
+                { href: routes.hafsaSastho, label: t.products.hafsaSastho },
+              ],
+            },
             { href: routes.pricing, label: t.nav.pricing },
             { href: routes.about, label: t.nav.about },
             { href: routes.contact, label: t.nav.contact },

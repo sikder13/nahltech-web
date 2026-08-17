@@ -19,6 +19,41 @@ export type MobileNavLabels = {
 export type MobileNavLink = { href: string; label: string };
 
 /**
+ * A top-level destination, optionally with the pages it stands over.
+ *
+ * A parent is a real link to its own hub, never a disclosure control: the menu
+ * has twelve destinations and every one of them stays one tap away. The
+ * grouping is visual only — it gives the list a shape the eye can skim
+ * instead of twelve rows at identical weight.
+ */
+export type MobileNavItem = MobileNavLink & {
+  children?: readonly MobileNavLink[];
+};
+
+/**
+ * Marks a row as a hub page rather than a leaf. Decorative — the parent's
+ * label already says where it goes — so it is hidden from assistive tech, and
+ * it flips for RTL along with everything else on the ar locale.
+ */
+function HubChevron() {
+  return (
+    <svg
+      aria-hidden="true"
+      focusable="false"
+      viewBox="0 0 20 20"
+      className="size-4 shrink-0 text-text-muted rtl:rotate-180"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M7.5 4.5 13 10l-5.5 5.5" />
+    </svg>
+  );
+}
+
+/**
  * Mobile navigation panel.
  *
  * While open it traps Tab within the panel, restores focus to the trigger on
@@ -32,12 +67,12 @@ export type MobileNavLink = { href: string; label: string };
  */
 export function MobileNav({
   labels,
-  links,
+  items,
   phoneHref,
   booking,
 }: {
   labels: MobileNavLabels;
-  links: readonly MobileNavLink[];
+  items: readonly MobileNavItem[];
   phoneHref: string;
   booking: { href: string; external: boolean };
 }) {
@@ -97,9 +132,26 @@ export function MobileNav({
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
+    /**
+     * Tells the rest of the page a full-screen nav is up.
+     *
+     * The chat launcher is `fixed` at z-50 on the body, and this panel lives
+     * inside the header's own stacking context, so no z-index available here
+     * can put the panel above it — the launcher paints over the menu whatever
+     * we do locally. It is also simply wrong for a floating button to sit on
+     * top of a full-screen navigation.
+     *
+     * An attribute rather than shared state: the two components have no
+     * common owner short of the layout, and a body attribute is the smallest
+     * contract that does not make ChatWidget import from the header. The rule
+     * that reads it is in globals.css, next to the other body-level styles.
+     */
+    document.body.dataset.navOpen = "true";
+
     return () => {
       document.removeEventListener("keydown", onKeyDown);
       document.body.style.overflow = previousOverflow;
+      delete document.body.dataset.navOpen;
     };
   }, [open, close]);
 
@@ -137,20 +189,64 @@ export function MobileNav({
         ref={panelRef}
         id={panelId}
         hidden={!open}
-        className="fixed inset-x-0 top-16 bottom-0 z-40 overflow-y-auto border-t border-divider bg-bg px-sm py-md"
+        /* `pb-3xl` is launcher clearance, not rhythm. The chat launcher is
+           fixed at `bottom-sm` and is `h-14`, so it covers the bottom 72px of
+           the viewport at z-50 — above this panel. On a short screen the list
+           scrolls, and without this the last row sits underneath it. 96px
+           clears the button and leaves a thumb's room besides. */
+        className="fixed inset-x-0 top-16 bottom-0 z-40 overflow-y-auto border-t border-divider bg-bg px-sm pt-md pb-3xl"
       >
         <nav aria-label={labels.primaryNavigation}>
-          <ul className="flex flex-col gap-2xs">
-            {links.map((link) => (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className="block py-2xs text-base text-text link-accent"
+          <ul className="flex flex-col">
+            {items.map((item, index) => {
+              const children = item.children ?? [];
+              const isGroup = children.length > 0;
+              // The rule sits where the grouped rows end and the plain ones
+              // begin, derived from the data rather than hardcoded at index 2
+              // — a sixth destination must not silently land on the wrong side.
+              const opensFlatRun =
+                !isGroup &&
+                index > 0 &&
+                Boolean(items[index - 1].children?.length);
+
+              return (
+                <li
+                  key={item.href}
+                  className={
+                    opensFlatRun
+                      ? "mt-2xs border-t border-divider pt-2xs"
+                      : undefined
+                  }
                 >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
+                  <Link
+                    href={item.href}
+                    className="flex min-h-12 items-center justify-between gap-sm py-2xs text-base font-semibold text-text link-accent"
+                  >
+                    {item.label}
+                    {isGroup ? <HubChevron /> : null}
+                  </Link>
+
+                  {isGroup ? (
+                    /* The hairline is the grouping: it ties the children to
+                       the parent without indenting them so far that the tap
+                       targets narrow. Logical properties, so it moves to the
+                       right edge on ar. */
+                    <ul className="ms-3xs mb-2xs border-s border-divider ps-sm">
+                      {children.map((child) => (
+                        <li key={child.href}>
+                          <Link
+                            href={child.href}
+                            className="flex min-h-11 items-center py-3xs text-sm text-text-muted link-accent hover:text-text"
+                          >
+                            {child.label}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
+                </li>
+              );
+            })}
           </ul>
         </nav>
 
