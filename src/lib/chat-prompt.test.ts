@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import { LEAD_FORM_TOKEN } from "./chat-format";
 import { CHAT_SYSTEM_PROMPT } from "./chat-prompt";
 import { productLinks, routes, serviceRouteKeys } from "./routes";
 
@@ -64,6 +65,111 @@ describe("chat prompt: facts come from the dictionary", () => {
 
   it("states the Hafsa Sastho release from the dictionary", () => {
     expect(CHAT_SYSTEM_PROMPT).toContain(en.productStatus.closedBeta);
+  });
+});
+
+describe("chat prompt: format", () => {
+  /** Everything above the first behaviour rule. */
+  const formatSection = CHAT_SYSTEM_PROMPT.slice(
+    CHAT_SYSTEM_PROMPT.indexOf("## Format"),
+    CHAT_SYSTEM_PROMPT.indexOf("## How you run the conversation"),
+  );
+
+  it("comes before the behaviour rules, and says so", () => {
+    // Both production defects were format defects, so format outranks the
+    // rules it precedes — and "lower number wins" only means something if the
+    // section is actually where it claims to be.
+    const format = CHAT_SYSTEM_PROMPT.indexOf("## Format");
+    expect(format).toBeGreaterThan(-1);
+    expect(format).toBeLessThan(
+      CHAT_SYSTEM_PROMPT.indexOf("## How you run the conversation"),
+    );
+    expect(formatSection).toMatch(/outranks everything below it/i);
+  });
+
+  it("forbids markdown, by name", () => {
+    // Defect A: the panel renders a text node, so `**bold**` reached the
+    // visitor as four literal asterisks.
+    expect(formatSection).toMatch(/PLAIN TEXT ONLY/);
+    for (const form of [
+      /asterisks/i,
+      /bullet points/i,
+      /numbered lists/i,
+      /headings/i,
+    ]) {
+      expect(formatSection, String(form)).toMatch(form);
+    }
+    // The instructions are markdown; the replies must not be. Said out loud,
+    // because the surrounding prompt is a standing example of the thing it
+    // is forbidding.
+    expect(formatSection).toMatch(
+      /written in markdown\. Your replies must not/,
+    );
+  });
+
+  it("caps the default length and names the exception", () => {
+    expect(formatSection).toMatch(/under about 60 words/i);
+    expect(formatSection).toMatch(/only when the visitor explicitly asks/i);
+  });
+
+  it("shapes a broad price answer without reciting the whole card", () => {
+    expect(formatSection).toMatch(/exactly two short paragraphs/i);
+    expect(formatSection).toContain(
+      "fully credited toward any project within 90 days",
+    );
+    expect(formatSection).toContain(routes.pricing);
+    expect(formatSection).toMatch(
+      /Never recite the whole card unless they ask for everything/i,
+    );
+  });
+
+  it("quotes the two default 'from' figures from the price card", () => {
+    // Composed, not typed: the same rename that would break the card breaks
+    // this, rather than leaving the assistant quoting a retired number.
+    const web = en.pricing.projects.find((p) => p.name === "Web Development");
+    const automation = en.pricing.projects.find(
+      (p) => p.name === "AI Automation build",
+    );
+    expect(formatSection).toContain(`Web Development ${web!.price}`);
+    expect(formatSection).toContain(`AI Automation build ${automation!.price}`);
+  });
+
+  it("defines the lead signal token, and the three cases that earn it", () => {
+    // Defect B: the model had no way to summon the form, so a fully qualified
+    // conversation ended with nowhere to go.
+    expect(formatSection).toContain(LEAD_FORM_TOKEN);
+    expect(formatSection).toMatch(/on its own line, as the last thing/i);
+    expect(formatSection).toMatch(/in exactly three situations/i);
+    expect(formatSection).toMatch(/agree to be contacted/i);
+    expect(formatSection).toMatch(
+      /custom quote, a negotiation, or scheduling/i,
+    );
+  });
+
+  it("keeps the token invisible and answers a yes without a question", () => {
+    expect(formatSection).toMatch(
+      /never mention, explain, quote or describe it/i,
+    );
+    expect(formatSection).toMatch(
+      /Never answer "yes, contact me" with another question/i,
+    );
+  });
+
+  it("wires the token into the rules that offer a person", () => {
+    // The definition is in the format section; rules 4 and 5 are where the
+    // offer is actually made, so both have to point at it or it never fires.
+    const rule4 = CHAT_SYSTEM_PROMPT.slice(
+      CHAT_SYSTEM_PROMPT.indexOf("**4. Offer a person once"),
+      CHAT_SYSTEM_PROMPT.indexOf("**5. Be straight about humans"),
+    );
+    const rule5 = CHAT_SYSTEM_PROMPT.slice(
+      CHAT_SYSTEM_PROMPT.indexOf("**5. Be straight about humans"),
+      CHAT_SYSTEM_PROMPT.indexOf("## Services"),
+    );
+    expect(rule4).toMatch(/lead signal token/i);
+    expect(rule5).toMatch(/lead signal token/i);
+    // Rule 4 still ends the offer if it is declined — now including the token.
+    expect(rule4).toMatch(/do not send the token again/i);
   });
 });
 
