@@ -160,6 +160,16 @@ second number.
 
 ## 5. Outstanding — founder side
 
+- **Vercel Attack Challenge Mode is ON and needs clearing.** Project →
+  Firewall. It tripped on 16 Aug during automated QA of the chat and again
+  during the team-photo work — repeated scripted requests from one IP are
+  exactly what it exists to stop, so this was self-inflicted rather than an
+  attack. While it is on, `nahltech-web.vercel.app` answers 403 with a "Vercel
+  Security Checkpoint" to scripted clients and, once it escalates, to ordinary
+  browsers as well. **Clear it before doing anything else on the live URL, and
+  before cutover.** The lesson for future sessions is in §7: verify against a
+  local production build and hit the live URL once, rather than polling it.
+
 - ~~Team photos for `/about`~~ — **landed 16 Aug 2026.** Both founders now
   carry a 56px hex avatar beside their name, built by `npm run build:team`
   from originals kept in gitignored `.work/`. The photographs appear on that
