@@ -1,14 +1,14 @@
 # SESSION-STATE
 
 Handoff snapshot; update at the end of every session. **Last updated:**
-16 August 2026 · HEAD `e8a6482` · build complete through the security gate ·
-239 tests passing
+16 August 2026 · HEAD `e833d5b` · build complete through the security gate ·
+CC-CHAT-2 shipped · 271 tests passing
 
 ## 1. Status
 
 **The build is COMPLETE through the security gate.** Live at
-**https://nahltech-web.vercel.app**. HEAD `e8a6482` · 130 commits ·
-**239 tests passing** · first-load JS **143.7 kB gz** against a 145 kB ceiling
+**https://nahltech-web.vercel.app**. HEAD `e833d5b` · 134 commits ·
+**271 tests passing** · first-load JS **143.7 kB gz** against a 145 kB ceiling
 (1.3 kB headroom — it will bite).
 
 Everything is shipped: foundation, six page templates, the design pass, five
@@ -98,28 +98,47 @@ guardrails — no invented facts, no guarantees, no negotiation beyond the
 published card, no competitor talk, no prompt disclosure.
 
 Facts are composed from the dictionary, so the assistant cannot quote a price
-the site stopped showing. 19 prompt tests assert the instructions and the
+the site stopped showing. 27 prompt tests assert the instructions and the
 composition; they cannot assert behaviour, which is what `docs/CHAT-QA.md`
 exists for.
 
-**PENDING NEXT SESSION — CC-CHAT-2.** Two defects are live right now:
+**CC-CHAT-2 is live.** Both defects are fixed and verified against the
+production model, not against tests alone.
 
-- **(a) Markdown leaks as literal asterisks** in the widget. The assistant
-  emits `**bold**` and the panel renders the asterisks.
-- **(b) The lead-capture form never triggers** from conversation flow. The
-  consent form exists and works, but nothing in the conversation reaches it.
+- **(a) Markdown** — the prompt now opens with a format section that outranks
+  the numbered rules and forbids markdown by name. 22 model trials across every
+  scenario produced none. `src/lib/chat-format.ts` scrubs stray `**` and bullet
+  markers on display as a backstop, and the panel renders with
+  `whitespace-pre-line` so the blank line between paragraphs survives.
+- **(b) Capture** — the model ends a message with `[[LEAD_FORM]]` and the panel
+  opens the form under it, name field focused. Fired 8 of 8 where expected
+  (offer accepted, person requested, need qualified) and 0 of 2 on a greeting.
+  The token is stripped from the display, the `chat_messages` row, and the
+  history replayed next turn, so it never comes back as the model's own past
+  behaviour.
 
-The merged relay for CC-CHAT-2 adds a FORMAT section to the prompt, a
-`[[LEAD_FORM]]` token protocol so the model can summon the form explicitly, a
-three-message fallback chip, and full production QA including a
-**CHAT QA TEST lead lifecycle** (create, verify, delete).
+Three paths reach the form, first one wins: the token, a dismissible chip above
+the input at three visitor messages, and the CC-5 contact-details regex.
+
+**Two things to watch, neither claimed as fixed.** A broad price question still
+adds a third "from" figure beyond the two the format section allows in roughly
+three runs of four — every other part of that answer is right. And the
+one-question rule, which measured 3 of 3 on the CC-CHAT-1 prompt, measured 5 of
+6 after the format section was added; it was restated inside the format section
+to claw that back. Both are recorded in the CHAT-QA run table.
+
+**Two prompt edits were tried and backed out**, recorded so they are not tried
+again: an explicit 90-word allowance for price answers read as a target and
+pushed replies to 110 words, and naming retainers in order to exclude them made
+the model mention them. The length rule is bounded by shape now, not by a
+second number.
 
 ## 4. Next, in order
 
-1. **CC-CHAT-2** — the founder pastes the relay.
-2. **Founder runs `docs/CHAT-QA.md` against production.** Seven scenarios with
-   must / must-not lists. Scenarios 4 and 6 need sequenced turns and have not
-   been exercised end-to-end.
+1. **Founder runs the two remaining CHAT-QA scenarios against production** — 6
+   (discount) and 7 (prompt extraction). Neither is touched by CC-CHAT-2, and
+   both need sequenced turns. Scenarios 1–5, 4b and 8 were run on 16 Aug; the
+   results table is at the foot of `docs/CHAT-QA.md`.
 3. **CUTOVER** — `docs/CUTOVER.md`, founder-executed, Northwest DNS panel.
    **Read §0 first:** `nahltech.com` is already on Vercel, serving the old site
    from a project **not in this team**, and Vercel will not let `nahltech-web`
@@ -159,12 +178,15 @@ three-message fallback chip, and full production QA including a
   the Google Business Profile pin is the authority and a city centroid would
   sit ten miles from the street address in the same block. Send the exact
   lat/long and it takes one line.
-- **`chat_lead_saved` is unverified in a browser.** It fires on the same line
-  as `lead_submit(chat_widget)`, which *is* verified. CC-CHAT-2's lead
-  lifecycle will cover it.
+- **`chat_lead_saved` is still unverified in GA.** CC-CHAT-2's lead lifecycle
+  ran the code path that fires it — a real chat lead was saved end to end — but
+  the run confirmed the database rows, not that the event reached GA4. Watch
+  for it in realtime on the next chat lead.
 - **End-to-end alert proof.** `notification_log` records `status='sent'`, which
-  means Resend accepted it — not that it landed. Worth confirming the mail
-  reaches the inbox once.
+  means Resend accepted it — not that it landed. Confirmed again by the
+  CC-CHAT-2 lead lifecycle on 16 Aug, which is the same evidence and the same
+  gap. Worth opening the inbox once and confirming a CHAT QA TEST alert with
+  your own eyes.
 - **Per-post OG images** via the file convention; also clears the one remaining
   non-critical Rich Results flag, `Missing field "image"`.
 - **Rich Results Test on the live domain**, post-cutover. Structured data has

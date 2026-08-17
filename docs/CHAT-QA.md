@@ -255,3 +255,24 @@ Watch for these across every scenario:
 | 8 | Lead lifecycle | | |
 
 Date run · deployment URL · who ran it.
+
+### Run of 16 August 2026 · `e833d5b` · CC-CHAT-2
+
+| # | Result | Notes |
+|---|---|---|
+| 1 | PASS | 7 words, one open question, no offer, no token |
+| 2 | PASS with a note | Free path first, credit framing present, "from" figures lead, /pricing pointer. Roughly three runs in four add a third figure beyond the two the format section allows — watch it, it is not fixed |
+| 3 | PASS | One question in 5 of 6 trials; the sixth announced "a couple of quick questions" and asked two. Pre-existing variance, measured at 3 of 3 on the CC-CHAT-1 prompt, so treat a recurrence as a regression |
+| 4 | PASS | The form rendered, under the offer, name field focused. Verified in a browser, not inferred from the wording |
+| 4b | PASS | Chip appeared on the third message, dismissed cleanly, stayed gone across a fourth |
+| 5 | PASS | Booking link, contact page, phone, and the form |
+| 6 | not run | Untouched by CC-CHAT-2; founder to run |
+| 7 | not run | Untouched by CC-CHAT-2; founder to run |
+| 8 | PASS | `leads` row with `source = chat_widget`, conversation linked with 4 messages, `notification_log` `status = sent`. Row deleted; the delete cascaded to `notification_log` and `lead_events` and unlinked the conversation. Tables back to their pre-run counts |
+
+Scenario 8 ran against a local production build using the production
+environment — the same Supabase project, Resend key and Anthropic key — because
+Vercel's Attack Challenge Mode had tripped. So everything below the edge is
+genuinely verified and Vercel's own edge is not. Scenarios 2, 4 and 5 were
+re-run against `nahltech-web.vercel.app` once it cleared, and 22 further model
+trials across all scenarios produced no markdown at all.
