@@ -129,6 +129,29 @@ describe("POST /api/chat", () => {
     expect(call.messages[0]).toEqual({ role: "user", content: "earlier" });
   });
 
+  it("sends our system prompt, and only ours, on every call", async () => {
+    // The behaviour spec lives in the prompt, so it is worth asserting that
+    // the prompt actually reaches the model: a route that silently dropped
+    // `system` would leave a bare model answering as the company, and every
+    // guardrail in chat-prompt.test.ts would still pass.
+    const { CHAT_SYSTEM_PROMPT } = await import("@/lib/chat-prompt");
+    const { POST } = await loadRoute();
+
+    await POST(
+      post({
+        message: "how much do you charge?",
+        history: [{ role: "user", content: "hi" }],
+      }),
+    );
+
+    const call = streamMock.mock.calls[0][0];
+    expect(call.system).toBe(CHAT_SYSTEM_PROMPT);
+    // Nothing from the client is in the system position.
+    expect(
+      call.messages.every((m: { role: string }) => m.role !== "system"),
+    ).toBe(true);
+  });
+
   it("answers 429 with Retry-After when either window is exhausted", async () => {
     checkLimitMock.mockResolvedValue({ ok: false, retryAfterSeconds: 12 });
     const { POST } = await loadRoute();
