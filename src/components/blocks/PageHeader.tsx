@@ -1,6 +1,11 @@
 /**
- * Top of every hub and utility page: the h1, a single intro line, and the
- * ornamental gold rule between them.
+ * Top of every hub and utility page: the h1, the intro, and the ornamental
+ * gold rule between them.
+ *
+ * `intro` accepts an array because the services hub leads with two
+ * paragraphs. Every other page passes a single string and renders exactly as
+ * it did — the alternative was a second header component whose only
+ * difference was a `<p>`.
  */
 export function PageHeader({
   title,
@@ -8,9 +13,11 @@ export function PageHeader({
   eyebrow,
 }: {
   title: string;
-  intro?: string;
+  intro?: string | readonly string[];
   eyebrow?: string;
 }) {
+  const paragraphs =
+    intro === undefined ? [] : Array.isArray(intro) ? intro : [intro];
   return (
     <div className="mx-auto max-w-(--container-page) px-sm pt-2xl pb-xl">
       {eyebrow ? (
@@ -20,9 +27,15 @@ export function PageHeader({
         {title}
       </h1>
       <span className="mt-md heading-rule" aria-hidden="true" />
-      {intro ? (
-        <p className="mt-md max-w-prose text-lg text-text-muted">{intro}</p>
-      ) : null}
+      {paragraphs.map((paragraph, index) => (
+        <p
+          key={paragraph.slice(0, 40)}
+          /* The first sits under the rule; the rest space off each other. */
+          className={`max-w-prose text-lg text-text-muted ${index === 0 ? "mt-md" : "mt-sm"}`}
+        >
+          {paragraph}
+        </p>
+      ))}
     </div>
   );
 }

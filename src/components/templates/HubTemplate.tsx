@@ -17,11 +17,14 @@ export function HubTemplate({
   intro,
   emptyLabel,
   children,
+  footer,
 }: {
   title: string;
-  intro: string;
+  intro: string | readonly string[];
   emptyLabel: string;
   children?: ReactNode;
+  /** Rendered under the grid. The services hub uses it to keep its scope open. */
+  footer?: ReactNode;
 }) {
   const hasItems = Children.count(children) > 0;
 
@@ -30,6 +33,7 @@ export function HubTemplate({
       <PageHeader title={title} intro={intro} />
       <div className="mx-auto max-w-(--container-page) px-sm pb-2xl">
         {hasItems ? children : <EmptyState label={emptyLabel} />}
+        {footer}
       </div>
     </>
   );

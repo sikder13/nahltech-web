@@ -70,7 +70,7 @@
     },
     "services": {
       "title": "Services",
-      "description": "Everything we do starts the same way: find where AI pays in your business, prove it with numbers, then build. Five services, one method."
+      "description": "AI consulting and development for small and mid-size businesses — automation, search visibility, custom software, websites, and the problems that don't fit a category. Indiana-based, working worldwide. Published pricing."
     },
     "aiSearchVisibility": {
       "title": "AI Search Visibility & SEO",
@@ -163,7 +163,10 @@
   },
   "hubPages": {
     "services": {
-      "intro": "Everything we do starts the same way: find where AI pays in your business, prove it with numbers, then build. Five services, one method."
+      "intro": "We're an AI consulting and development company working with small and mid-size businesses in Indiana, across the United States, and worldwide. The work is wider than any menu: finding where hours and money leak in an operation, then fixing it with software, data, and AI. Quoting that takes days, calls that go unanswered, paperwork that eats a team, a business invisible on Google and in ChatGPT, a system nobody wants to touch — that's the kind of problem we take.",
+      "introSecond": "Below are the five common shapes the work takes. If yours doesn't fit one, that's normal. Tell us the problem and we'll tell you honestly what it needs and what it costs — the first look is always free.",
+      "closingBody": "Working on something that doesn't fit a category? Most of our favorite projects didn't.",
+      "closingLink": "Tell us about it"
     },
     "products": {
       "intro": "We ship our own products. They're the fastest way to judge how we build."
@@ -251,6 +254,10 @@
     "deliverablesHeading": "What you get",
     "faqHeading": "Questions",
     "startingAt": "Starting at"
+  },
+  "serviceContact": {
+    "heading": "Talk to us about this",
+    "body": "Book a call, or send a message and we'll reply within one business day."
   },
   "servicePages": {
     "aiConsultancy": {

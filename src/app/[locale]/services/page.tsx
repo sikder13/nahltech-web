@@ -1,4 +1,5 @@
 import { CardGrid, ServiceCard } from "@/components/blocks/cards";
+import { CtaSlim } from "@/components/blocks/CtaSlim";
 import { HubTemplate } from "@/components/templates/HubTemplate";
 import { requireDictionary } from "@/lib/i18n/require-dictionary";
 import { serviceIcons } from "@/lib/service-icons";
@@ -31,8 +32,20 @@ export default async function Page({
   return (
     <HubTemplate
       title={t.pages.services.title}
-      intro={t.hubPages.services.intro}
+      intro={[t.hubPages.services.intro, t.hubPages.services.introSecond]}
       emptyLabel={t.hub.emptyLabel}
+      footer={
+        /* The cards are five examples, not a menu. This says so after the
+           visitor has read them, where the alternative — a sixth card
+           labelled "something else" — would have looked like a service. */
+        <CtaSlim
+          body={t.hubPages.services.closingBody}
+          action={{
+            label: t.hubPages.services.closingLink,
+            href: routes.contact,
+          }}
+        />
+      }
     >
       {/* Three then two at lg — five in a four-column grid would orphan one. */}
       <CardGrid columns={3}>
