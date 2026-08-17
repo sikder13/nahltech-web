@@ -1,6 +1,43 @@
 import type { NextConfig } from "next";
 
+const isProduction = process.env.NODE_ENV === "production";
+
+/**
+ * Security headers that must reach *every* response, including static assets.
+ *
+ * The middleware already sets these, and deliberately keeps doing so — but its
+ * matcher excludes `_next/static` and anything with a file extension, because
+ * those must not go through the locale rewrite. The consequence was that every
+ * JavaScript and CSS file shipped without `nosniff`. Headers declared here are
+ * applied by the platform to all routes, so the two layers overlap on pages
+ * and API routes and only this one covers the bundles.
+ *
+ * The Content-Security-Policy is NOT duplicated here. It is assembled per
+ * request in the middleware from the Supabase origin and whether analytics is
+ * configured, which static config cannot do — and a second, staler CSP on the
+ * same response would be worse than none.
+ */
+const BASELINE_SECURITY_HEADERS = [
+  { key: "X-Content-Type-Options", value: "nosniff" },
+  { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+  { key: "X-Frame-Options", value: "DENY" },
+  ...(isProduction
+    ? [
+        {
+          // No `preload` — see the note in src/middleware.ts. The two values
+          // must stay identical; they are asserted together in the tests.
+          key: "Strict-Transport-Security",
+          value: "max-age=63072000; includeSubDomains",
+        },
+      ]
+    : []),
+];
+
 const nextConfig: NextConfig = {
+  async headers() {
+    return [{ source: "/:path*", headers: BASELINE_SECURITY_HEADERS }];
+  },
+
   /**
    * Legacy URL map.
    *

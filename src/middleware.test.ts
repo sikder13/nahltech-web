@@ -1,3 +1,6 @@
+import { readFileSync } from "node:fs";
+import path from "node:path";
+
 import { NextRequest } from "next/server";
 import { describe, expect, it, vi } from "vitest";
 
@@ -106,5 +109,43 @@ describe("middleware routing", () => {
     expect(csp).toContain("connect-src 'self'");
     expect(csp).not.toContain("undefined");
     vi.unstubAllEnvs();
+  });
+});
+
+describe("HSTS", () => {
+  it("does not claim preload readiness before cutover", async () => {
+    // `preload` declares the apex and every subdomain HTTPS-only forever, and
+    // removal from the list takes months. www.nahltech.com does not resolve
+    // over TLS today, so the claim would be false. Add it after cutover.
+    const csp = middleware(request("/")).headers.get(
+      "Strict-Transport-Security",
+    );
+    // Dev builds send no HSTS at all; only assert the shape when present.
+    if (csp !== null) {
+      expect(csp).not.toContain("preload");
+      expect(csp).toContain("includeSubDomains");
+    }
+  });
+
+  it("uses the same value next.config sets for static assets", async () => {
+    // Two layers set this: the middleware for pages and API routes, and
+    // next.config for `_next/static`, which the matcher excludes. Two
+    // different max-ages would be a confusing thing to debug at 2am.
+    const config = await import("../next.config");
+    const source = readFileSync(
+      path.join(process.cwd(), "next.config.ts"),
+      "utf8",
+    );
+    const fromConfig = source.match(
+      /value: "(max-age=\d+; includeSubDomains[^"]*)"/,
+    )?.[1];
+    const fromMiddleware = readFileSync(
+      path.join(process.cwd(), "src/middleware.ts"),
+      "utf8",
+    ).match(/"(max-age=\d+; includeSubDomains[^"]*)"/)?.[1];
+
+    expect(config).toBeDefined();
+    expect(fromConfig).toBeDefined();
+    expect(fromMiddleware).toBe(fromConfig);
   });
 });

@@ -120,10 +120,16 @@ function withSecurityHeaders(response: NextResponse): NextResponse {
 
   // Only over TLS. Sending HSTS from a plain-HTTP dev server can pin
   // localhost to HTTPS in the browser and break unrelated local work.
+  //
+  // No `preload`. The directive is a declaration that the apex and every
+  // subdomain is ready to be hard-coded into browsers as HTTPS-only, and
+  // removal from the preload list takes months. nahltech.com has not cut over
+  // yet and `www` is currently broken over TLS, so claiming readiness now
+  // would be false. Add it deliberately after cutover, not before.
   if (isProduction) {
     response.headers.set(
       "Strict-Transport-Security",
-      "max-age=63072000; includeSubDomains; preload",
+      "max-age=63072000; includeSubDomains",
     );
   }
 

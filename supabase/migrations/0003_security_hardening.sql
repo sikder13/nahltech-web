@@ -1,0 +1,36 @@
+-- 0003_security_hardening.sql
+-- Nahl Technologies web — security hardening ahead of the domain cutover.
+-- Applied to project nahltech-web (ref posdwhozfmlofsvqfohn).
+-- This file is the source of truth. Dashboard SQL editor is verification only.
+
+-- ============================================================
+-- Pin the search_path on the updated_at trigger function.
+-- ============================================================
+-- Supabase's advisor raises `function_search_path_mutable` on this. The
+-- function is not SECURITY DEFINER, so this is hardening rather than a live
+-- privilege-escalation hole — but a function whose search_path is resolved at
+-- call time can be made to bind a different `now()` if a caller's search_path
+-- puts a shadowing schema first. Pinning it removes the question entirely and
+-- costs nothing.
+--
+-- pg_temp is listed last on purpose: it is where a session's temporary objects
+-- live, and leaving it off the end of an explicit search_path is the usual way
+-- this fix gets written wrong.
+alter function public.touch_updated_at() set search_path = public, pg_temp;
+
+-- ============================================================
+-- NOT DOING: policies for the five "RLS enabled, no policy" INFO items.
+-- ============================================================
+-- Those five tables — leads, lead_events, audit_requests,
+-- newsletter_subscribers, notification_log — have RLS enabled and zero
+-- policies, which is what the advisor reports as INFO. That combination is the
+-- intended posture, not an oversight: with RLS on and no policy, PostgREST
+-- returns nothing to anon and authenticated for any operation, so the tables
+-- are deny-all to every client-side role. Every legitimate read and write goes
+-- through the service role in a server route, which bypasses RLS by design.
+--
+-- Adding a policy to silence the lint would be a downgrade. RLS cannot
+-- restrict columns, so any anon SELECT policy on `leads` would expose every
+-- column of every lead to anyone holding the publicly-shipped anon key.
+-- The lint is informational precisely because the safe answer is sometimes
+-- "no policy at all". See docs/SECURITY.md.
