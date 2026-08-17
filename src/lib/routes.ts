@@ -48,6 +48,20 @@ export const serviceRouteKeys = [
 export type ServiceKey = (typeof serviceRouteKeys)[number];
 
 /**
+ * The data report the home page's proof line cites by its numbers.
+ *
+ * Pinned to this artifact rather than to the research hub, and deliberately
+ * not to "whatever is featured": the proof line quotes a figure that belongs
+ * to this document, so the link has to land on the document that carries it.
+ * A visitor who taps a number should arrive at the number.
+ *
+ * `home-proof.test.ts` checks the slug resolves to a published artifact and
+ * that the figure still matches what the artifact says.
+ */
+export const datasetReportSlug = "crawlmouse-dataset-report";
+export const datasetReportPath = `${routes.research}/${datasetReportSlug}`;
+
+/**
  * NAP details. These must match the Google Business Profile exactly — see
  * ARCH-1 §7, where LocalBusiness JSON-LD is generated from the same values.
  */

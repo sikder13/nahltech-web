@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { HomeTemplate } from "./HomeTemplate";
 
 import en from "@/lib/i18n/dictionaries/en.json";
-import { bookingCta, routes } from "@/lib/routes";
+import { bookingCta, routes, datasetReportPath } from "@/lib/routes";
 
 describe("HomeTemplate", () => {
   it("renders the fixed section order", () => {
@@ -46,7 +46,10 @@ describe("HomeTemplate", () => {
     expect(links.map((a) => a.getAttribute("href"))).toEqual([
       "https://crawlmouse.com",
       routes.hafsaSastho,
-      routes.research,
+      // The research line quotes a figure from one report, so it lands on
+      // that report rather than the hub. The method line still points at the
+      // hub, which is the right target for "every method shown".
+      datasetReportPath,
       routes.research,
     ]);
     // The external one must not leak the referrer or opener.

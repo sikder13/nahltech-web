@@ -8,6 +8,7 @@ import { TwoWaysBlock } from "@/components/blocks/TwoWaysBlock";
 import {
   bookingCta,
   contactDetails,
+  datasetReportPath,
   productLinks,
   routes,
   serviceRouteKeys,
@@ -70,7 +71,8 @@ export function HomeTemplate({
           {
             icon: "research",
             label: t.home.proof.items.research,
-            href: routes.research,
+            // The report itself, not the hub: this line quotes its figure.
+            href: datasetReportPath,
           },
           {
             icon: "method",
