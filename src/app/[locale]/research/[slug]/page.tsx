@@ -10,10 +10,12 @@ import { getPublishedResearch, getResearchBySlug } from "@/lib/research";
 import { routes } from "@/lib/routes";
 import {
   breadcrumbSchema,
+  datasetSchema,
   faqSchema,
   researchArticleSchema,
 } from "@/lib/schema-org";
 
+import { MethodBox } from "@/components/blocks/MethodBox";
 import { SampleBanner } from "@/components/blocks/SampleBanner";
 import {
   CallRoutingDiagram,
@@ -49,6 +51,7 @@ export function generateStaticParams() {
  * instead of rendering as literal text.
  */
 const mdxComponents = {
+  MethodBox,
   CallRoutingDiagram,
   HvacIntakeArchitecture,
   RfqProcessMap,
@@ -120,6 +123,8 @@ export default async function Page({
   // one; the builder returns null otherwise rather than emitting an empty
   // FAQPage, which Google reads as invalid rather than absent.
   const faq = faqSchema(article);
+  // Only artifacts that publish original data carry one; see the registry.
+  const dataset = datasetSchema(article);
 
   const breadcrumb = breadcrumbSchema(
     t,
@@ -136,6 +141,7 @@ export default async function Page({
       {/* Parsed from the section's own h3s and prose, so the markup and the
           visible text cannot drift apart. */}
       {faq ? <JsonLd data={faq} /> : null}
+      {dataset ? <JsonLd data={dataset} /> : null}
       <ArticleTemplate
         t={t}
         title={article.title}
