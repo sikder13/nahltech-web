@@ -1,6 +1,6 @@
-import { CtaBlock } from "@/components/blocks/CtaBlock";
 import { FaqBlock } from "@/components/blocks/FaqBlock";
 import { PageHeader } from "@/components/blocks/PageHeader";
+import { ServiceContact } from "@/components/blocks/ServiceContact";
 import {
   DeliverablesList,
   MeasurementBlock,
@@ -8,9 +8,11 @@ import {
   PriceCard,
   ProblemStatement,
 } from "@/components/blocks/service-blocks";
-import { bookingCta, contactDetails } from "@/lib/routes";
+import { bookingCta } from "@/lib/routes";
+import { serviceInterestFor } from "@/lib/service-interest";
 
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
+import type { ServiceKey } from "@/lib/routes";
 import type { ReactNode } from "react";
 
 /**
@@ -36,10 +38,17 @@ export function ServiceTemplate({
   t,
   content,
   demo,
+  serviceKey,
 }: {
   t: Dictionary;
   content: ServiceContent;
   demo: ReactNode;
+  /**
+   * Which service this page is. Only used to classify a lead submitted from
+   * the form at the foot of the page — passed explicitly rather than inferred
+   * from `content`, because the dictionary slice does not know its own key.
+   */
+  serviceKey: ServiceKey;
 }) {
   return (
     <>
@@ -79,17 +88,11 @@ export function ServiceTemplate({
 
       <FaqBlock heading={t.service.faqHeading} items={content.faq} />
 
-      <CtaBlock
-        heading={t.ctaBlock.heading}
-        body={t.ctaBlock.body}
-        primary={{
-          label: t.cta.bookCall,
-          href: bookingCta.href,
-          external: bookingCta.external,
-        }}
-        phone={{ label: t.cta.phoneDisplay, href: contactDetails.phoneHref }}
-        orCallLabel={t.cta.orCall}
-      />
+      {/* Replaces the CtaBlock these pages used to close with. That block sent
+          the visitor to /contact to say anything at all; this asks on the page
+          they already read, and the lead arrives knowing which service it came
+          from. */}
+      <ServiceContact t={t} serviceInterest={serviceInterestFor(serviceKey)} />
     </>
   );
 }

@@ -38,6 +38,7 @@ export default async function Page({
       {breadcrumb ? <JsonLd data={breadcrumb} /> : null}
       <ServiceTemplate
         t={t}
+        serviceKey="softwareDevelopment"
         content={t.servicePages.softwareDevelopment}
         demo={
           <DemoProse

@@ -19,7 +19,10 @@ const measurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ?? "";
 
 export type AnalyticsEvent =
   /** A lead reached /api/lead successfully. `source` names the entry point. */
-  | { name: "lead_submit"; source: "contact_form" | "chat_widget" }
+  | {
+      name: "lead_submit";
+      source: "contact_form" | "chat_widget" | "service_page";
+    }
   /** Newsletter subscription accepted. */
   | { name: "subscribe" }
   /** The chat panel was opened. Not fired on close. */

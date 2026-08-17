@@ -38,6 +38,7 @@ export default async function Page({
       {breadcrumb ? <JsonLd data={breadcrumb} /> : null}
       <ServiceTemplate
         t={t}
+        serviceKey="aiSearchVisibility"
         content={t.servicePages.aiSearchVisibility}
         demo={
           <DemoInstructionCard

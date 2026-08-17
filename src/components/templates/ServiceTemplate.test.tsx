@@ -23,7 +23,12 @@ const demo = (
 describe("ServiceTemplate", () => {
   it("renders the anatomy in order: problem, demo, method, price, deliverables, measurement, faq, cta", () => {
     const { container } = render(
-      <ServiceTemplate t={en} content={content} demo={demo} />,
+      <ServiceTemplate
+        t={en}
+        serviceKey="aiSearchVisibility"
+        content={content}
+        demo={demo}
+      />,
     );
 
     const h2s = Array.from(container.querySelectorAll("h2")).map(
@@ -40,12 +45,21 @@ describe("ServiceTemplate", () => {
       en.service.deliverablesHeading,
       content.measurement.heading,
       en.service.faqHeading,
-      en.ctaBlock.heading,
+      // The page now closes by asking on the page rather than linking to
+      // /contact, so the last section is the embedded form's heading.
+      en.serviceContact.heading,
     ]);
   });
 
   it("publishes the price rather than hiding it behind an enquiry", () => {
-    render(<ServiceTemplate t={en} content={content} demo={demo} />);
+    render(
+      <ServiceTemplate
+        t={en}
+        serviceKey="aiSearchVisibility"
+        content={content}
+        demo={demo}
+      />,
+    );
 
     expect(screen.getByText(content.price.amount)).toBeInTheDocument();
     expect(screen.getByText(content.price.unit)).toBeInTheDocument();
@@ -53,7 +67,14 @@ describe("ServiceTemplate", () => {
   });
 
   it("states how the work will be measured", () => {
-    render(<ServiceTemplate t={en} content={content} demo={demo} />);
+    render(
+      <ServiceTemplate
+        t={en}
+        serviceKey="aiSearchVisibility"
+        content={content}
+        demo={demo}
+      />,
+    );
 
     expect(
       screen.getByRole("heading", { name: content.measurement.heading }),
@@ -62,7 +83,14 @@ describe("ServiceTemplate", () => {
   });
 
   it("renders every method step and deliverable", () => {
-    render(<ServiceTemplate t={en} content={content} demo={demo} />);
+    render(
+      <ServiceTemplate
+        t={en}
+        serviceKey="aiSearchVisibility"
+        content={content}
+        demo={demo}
+      />,
+    );
 
     for (const step of content.steps) {
       expect(
@@ -75,7 +103,14 @@ describe("ServiceTemplate", () => {
   });
 
   it("renders each FAQ as a collapsed disclosure", () => {
-    render(<ServiceTemplate t={en} content={content} demo={demo} />);
+    render(
+      <ServiceTemplate
+        t={en}
+        serviceKey="aiSearchVisibility"
+        content={content}
+        demo={demo}
+      />,
+    );
 
     for (const entry of content.faq) {
       const trigger = screen.getByRole("button", {
@@ -88,7 +123,14 @@ describe("ServiceTemplate", () => {
   });
 
   it("closes with a CTA pointing at booking", () => {
-    render(<ServiceTemplate t={en} content={content} demo={demo} />);
+    render(
+      <ServiceTemplate
+        t={en}
+        serviceKey="aiSearchVisibility"
+        content={content}
+        demo={demo}
+      />,
+    );
 
     const ctas = screen.getAllByRole("link", { name: en.cta.bookCall });
     expect(ctas.length).toBeGreaterThan(0);

@@ -1,7 +1,16 @@
 import type { ReactNode } from "react";
 
+/**
+ * `text-base md:text-sm` is not a typographic choice, it is an iOS one.
+ *
+ * Mobile Safari zooms the viewport when a focused input's text is under 16px,
+ * and it does not zoom back out — the visitor is left scrolled sideways on a
+ * page they were trying to fill in. 16px on touch widths prevents it; the
+ * desktop size is unchanged, so the design is the same everywhere the problem
+ * does not exist.
+ */
 const control =
-  "w-full rounded-md border bg-bg px-xs py-2xs text-sm text-text " +
+  "w-full rounded-md border bg-bg px-xs py-2xs text-base md:text-sm text-text " +
   "placeholder:text-text-muted focus-visible:outline-2 " +
   "focus-visible:outline-offset-2 focus-visible:outline-focus";
 
