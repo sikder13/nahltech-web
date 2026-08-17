@@ -61,10 +61,44 @@ function getResend(): Resend | null {
   return resend;
 }
 
+/**
+ * Flatten a visitor-supplied value to a single safe line.
+ *
+ * Two separate problems, one fix.
+ *
+ * The subject line is a mail header. A name containing CR/LF — the classic
+ * `X\r\nBcc: evil@example.com` — is an attempt to append headers of the
+ * attacker's choosing to our outbound mail. Resend takes JSON over HTTPS
+ * rather than us writing SMTP by hand, so it is not obviously exploitable
+ * today; that is a property of the provider's implementation, not of our code,
+ * and it is not something to depend on.
+ *
+ * The body has a quieter version of the same problem. Every field renders as
+ * `Label: value` on its own line, so a newline inside a value lets a visitor
+ * forge a line that reads exactly like one of ours — `Lead id: …` pointing at
+ * a row that is not theirs, in the email a human acts on.
+ *
+ * Also strips other C0 control characters and the Unicode line separators,
+ * which some clients treat as line breaks.
+ */
+export function singleLine(value: string | null | undefined): string {
+  return (
+    (value ?? "")
+      // CR, LF, and the Unicode line/paragraph separators some clients
+      // render as breaks.
+      .replace(/[\r\n\u2028\u2029]+/g, " ")
+      // Remaining C0 controls and DEL.
+      .replace(/[\u0000-\u001f\u007f]/g, "")
+      .replace(/\s+/g, " ")
+      .trim()
+  );
+}
+
 function subjectFor(lead: LeadAlertPayload, fallback: boolean): string {
-  const who = lead.company?.trim() || lead.name?.trim() || "no name given";
+  const who =
+    singleLine(lead.company) || singleLine(lead.name) || "no name given";
   const prefix = fallback ? "LEAD INSERT FAILED" : "New lead";
-  return `${prefix}: ${who} — ${lead.source}`;
+  return `${prefix}: ${who} — ${singleLine(lead.source)}`;
 }
 
 function bodyFor(
@@ -82,6 +116,8 @@ function bodyFor(
     );
   }
 
+  // Everything except the message is a single-line field by nature, so any
+  // line break in one is either corruption or an attempt to forge a field.
   const fields: Array<[string, string | null | undefined]> = [
     ["Name", lead.name],
     ["Email", lead.email],
@@ -89,7 +125,6 @@ function bodyFor(
     ["Company", lead.company],
     ["Service interest", lead.service_interest],
     ["Source", lead.source],
-    ["Message", lead.message],
     ["Landing page", lead.landing_page],
     ["Referrer", lead.referrer],
     ["utm_source", lead.utm_source],
@@ -97,12 +132,31 @@ function bodyFor(
     ["utm_campaign", lead.utm_campaign],
     ["Locale", lead.locale],
     ["Created at", createdAt],
-    ["Lead id", options.leadId ?? "— not stored —"],
+    ["Lead id", options.leadId ?? "not stored"],
   ];
 
   for (const [label, value] of fields) {
-    lines.push(`${label}: ${value?.toString().trim() || "—"}`);
+    lines.push(`${label}: ${singleLine(value) || "—"}`);
   }
+
+  // The message keeps its line breaks — it is prose, and flattening a
+  // paragraph into one line makes the thing the founder actually reads worse.
+  // Instead it goes last, after a delimiter, with every line indented, so a
+  // line inside it can never be mistaken for one of the fields above.
+  const message = (lead.message ?? "")
+    // Strip controls but keep \n and \t, which are legitimate in prose.
+    .replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/g, "")
+    .trim();
+
+  lines.push("", "--- message ---");
+  lines.push(
+    message
+      ? message
+          .split(/\r?\n/)
+          .map((line) => `  ${line}`)
+          .join("\n")
+      : "  —",
+  );
 
   return lines.join("\n");
 }
@@ -146,7 +200,9 @@ export async function sendLeadAlert(
     const { error } = await client.emails.send({
       from: FROM,
       to: TO,
-      replyTo: lead.email?.trim() || undefined,
+      // A header, like the subject. zod already validates this as an email
+      // upstream, so this is depth rather than the only guard.
+      replyTo: singleLine(lead.email) || undefined,
       subject: subjectFor(lead, Boolean(options.fallback)),
       text: bodyFor(lead, options, createdAt),
     });
