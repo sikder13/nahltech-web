@@ -116,8 +116,8 @@
     },
     "about": {
       "title": "About",
-      "metaTitle": "About Nahl Technologies — AI Consultancy",
-      "description": "Nahl is Arabic for honeybee. An Indiana AI consultancy founded by two immigrants — one builds software, the other builds systems — working with businesses worldwide."
+      "metaTitle": "About | Nahl Technologies — AI Consulting Company in Indianapolis",
+      "description": "An AI consulting and development company in Indianapolis working with small and mid-size businesses — public pricing, published research, and two products of our own: Crawlmouse and Hafsa Sastho."
     },
     "contact": {
       "title": "Contact",
@@ -792,7 +792,18 @@
       "We're proudly based in Indiana and we work with businesses everywhere, across the United States and around the world, helping them adopt AI and put it to work. We build with AI in every part of our own operation; that is how the company runs. The products we've shipped, the research we publish, and this website itself are the proof we'd rather show than tell.",
       "The American dream, as far as we can tell, still works. You just have to build it."
     ],
-    "teamHeading": "Team",
+    "whatWeDoHeading": "What we do",
+    "whatWeDoParagraphs": [
+      "We're an AI consulting and development company in Indianapolis. Most of our clients are small and mid-size businesses in Indiana and across the United States. Some are further away than that.",
+      "The work varies. One month it's helping a manufacturer quote faster. Another it's a website rebuild, an intake automation for a clinic, or figuring out why a business never comes up when people ask ChatGPT for recommendations. We don't keep a narrow menu. If the problem involves software, data, or AI, send it over and we'll tell you whether we can help and what it would cost. Our pricing is public. So is the research behind how we work."
+    ],
+    "whatWeBuiltHeading": "What we've built",
+    "whatWeBuiltParagraphs": [
+      "The easiest way to judge us is by what we ship for ourselves. Crawlmouse is our free audit tool. It shows what AI crawlers can actually see on a website, and the data from hundreds of audits became our first published research report. Hafsa Sastho (হাফসা স্বাস্থ্য) is a Bengali-language maternal health app for mothers in Bangladesh, launching on Google Play September 1, 2026. We started the company to build it.",
+      "We're a young company. Our early clients get founding rates and more attention than they probably expect. That part won't last forever."
+    ],
+    "closingLine": "Based in Indianapolis. Working with businesses anywhere.",
+    "teamHeading": "The founders",
     "team": [
       {
         "name": "Udaay Sikder",

@@ -26,6 +26,55 @@ describe("AboutTemplate", () => {
     ).toBeInTheDocument();
   });
 
+  it("runs the three prose bands in order, then the founders", () => {
+    // The order is the argument: who we are, what the work looks like, what we
+    // shipped, then the faces. A reordering here changes what the page says.
+    const { container } = render(<AboutTemplate t={en} />);
+    const headings = [...container.querySelectorAll("h2")].map((h) =>
+      h.textContent?.trim(),
+    );
+
+    expect(headings.slice(0, 4)).toEqual([
+      en.about.storyHeading,
+      en.about.whatWeDoHeading,
+      en.about.whatWeBuiltHeading,
+      en.about.teamHeading,
+    ]);
+    expect(en.about.teamHeading).toBe("The founders");
+  });
+
+  it("publishes the approved copy verbatim", () => {
+    // Hard rule 12: this copy is the founder's, and a component that
+    // paraphrases or truncates it is the failure mode worth catching.
+    //
+    // Matched against textContent rather than getByText, because the Bengali
+    // name is wrapped in its own element and so spans several text nodes —
+    // which is the point of the test below this one.
+    const { container } = render(<AboutTemplate t={en} />);
+    const rendered = container.textContent ?? "";
+
+    for (const paragraph of [
+      ...en.about.whatWeDoParagraphs,
+      ...en.about.whatWeBuiltParagraphs,
+      en.about.closingLine,
+    ]) {
+      expect(rendered, paragraph.slice(0, 48)).toContain(paragraph);
+    }
+  });
+
+  it("marks the Bengali name so it is not read as English", () => {
+    // Inter is latin-only, so these glyphs fall back regardless; the lang
+    // attribute is what stops a screen reader pronouncing a Bengali name with
+    // English phonetics.
+    const { container } = render(<AboutTemplate t={en} />);
+    const bengali = container.querySelector('[lang="bn"]');
+
+    expect(bengali).not.toBeNull();
+    expect(bengali?.textContent).toBe("হাফসা স্বাস্থ্য");
+    // The English around it stays in the document language.
+    expect(screen.getByText(/Hafsa Sastho/)).toBeInTheDocument();
+  });
+
   it("names Mohieminul without his middle name", () => {
     // Explicit founder instruction. The page shipped with "Mohieminul Islam
     // Khan" until the photographs landed, so this is a corrected fact rather

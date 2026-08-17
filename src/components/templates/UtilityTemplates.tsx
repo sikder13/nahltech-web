@@ -1,6 +1,7 @@
 import { CtaBlock } from "@/components/blocks/CtaBlock";
 import { PageHeader } from "@/components/blocks/PageHeader";
 import {
+  ClosingLine,
   ContactChannels,
   CredentialsRow,
   DiscountsBlock,
@@ -14,7 +15,14 @@ import { bookingCta, contactDetails, routes } from "@/lib/routes";
 
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
 
-/** T6 — about. */
+/**
+ * T6 — about.
+ *
+ * Three prose bands, then the founders. The order is the argument the page
+ * makes: who we are, what the work actually looks like, what we have shipped
+ * for ourselves — and only then the two faces. The middle band is tinted so
+ * three consecutive runs of prose do not read as one wall of text.
+ */
 export function AboutTemplate({ t }: { t: Dictionary }) {
   return (
     <>
@@ -23,6 +31,16 @@ export function AboutTemplate({ t }: { t: Dictionary }) {
         heading={t.about.storyHeading}
         paragraphs={t.about.storyParagraphs}
       />
+      <StorySection
+        heading={t.about.whatWeDoHeading}
+        paragraphs={t.about.whatWeDoParagraphs}
+        surface
+      />
+      <StorySection
+        heading={t.about.whatWeBuiltHeading}
+        paragraphs={t.about.whatWeBuiltParagraphs}
+      />
+      <ClosingLine>{t.about.closingLine}</ClosingLine>
       <TeamGrid heading={t.about.teamHeading} members={t.about.team} />
       <CredentialsRow
         heading={t.about.credentialsHeading}

@@ -3,6 +3,7 @@ import { FadeIn } from "@/components/ui/FadeIn";
 import { Icon } from "@/components/ui/Icon";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Prose } from "@/components/ui/Prose";
+import { markScriptRuns } from "@/components/ui/ScriptText";
 import { getTeamPhoto } from "@/lib/team-photos";
 
 const shell = "mx-auto max-w-(--container-page) px-sm py-2xl";
@@ -10,21 +11,42 @@ const shell = "mx-auto max-w-(--container-page) px-sm py-2xl";
 export function StorySection({
   heading,
   paragraphs,
+  surface = false,
 }: {
   heading: string;
   paragraphs: readonly string[];
+  /** Tints the band, so consecutive prose sections do not read as one wall. */
+  surface?: boolean;
 }) {
   return (
-    <section className={shell}>
-      <FadeIn>
-        <SectionHeading>{heading}</SectionHeading>
-        <Prose className="mt-md">
-          {paragraphs.map((paragraph) => (
-            <p key={paragraph.slice(0, 40)}>{paragraph}</p>
-          ))}
-        </Prose>
-      </FadeIn>
+    <section className={surface ? "bg-surface" : undefined}>
+      <div className={shell}>
+        <FadeIn>
+          <SectionHeading>{heading}</SectionHeading>
+          <Prose className="mt-md">
+            {paragraphs.map((paragraph) => (
+              <p key={paragraph.slice(0, 40)}>{markScriptRuns(paragraph)}</p>
+            ))}
+          </Prose>
+        </FadeIn>
+      </div>
     </section>
+  );
+}
+
+/**
+ * The one-line sign-off between the prose and the founders.
+ *
+ * Small and italic by instruction — it is a caption on everything above it,
+ * not another paragraph, and it reads as an aside rather than a claim.
+ */
+export function ClosingLine({ children }: { children: string }) {
+  return (
+    <div className="mx-auto max-w-(--container-page) px-sm pb-xl">
+      <FadeIn>
+        <p className="text-sm text-text-muted italic">{children}</p>
+      </FadeIn>
+    </div>
   );
 }
 
