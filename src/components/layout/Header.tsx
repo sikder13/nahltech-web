@@ -12,6 +12,17 @@ import {
 
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
 
+/**
+ * Primary nav: Services, Products, Pricing, About, Contact.
+ *
+ * Research is deliberately not here. It was, and it came out when Contact went
+ * in — the bar was crowding at laptop widths and Research is the one item
+ * every visitor already reaches contextually: from the footer's Company
+ * column, the home page's featured section, every service page, and the blog
+ * posts that cite it. Contact had no such path. Removing Research is a
+ * presentation change only; nothing about the routes, the sitemap or the
+ * schema moves with it, which `crawl-check` and the sitemap test both hold.
+ */
 export function Header({ t }: { t: Dictionary }) {
   const serviceItems = [
     { href: routes.services, label: t.nav.services },
@@ -28,7 +39,23 @@ export function Header({ t }: { t: Dictionary }) {
   ];
 
   return (
-    <header className="sticky top-0 z-50 border-b border-divider bg-bg/95 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-divider">
+      {/* The blur lives on its own layer rather than on the header.
+
+          `backdrop-filter` makes an element the containing block for every
+          `position: fixed` descendant, and the mobile menu panel is one:
+          with the filter on the header, the panel's `top-16 bottom-0`
+          resolved against a 64px-tall box and the whole menu rendered as a
+          49px scrolling sliver. Measured at 390px — 49px with the filter,
+          780px without.
+
+          As a sibling of the content it blurs exactly the same pixels and
+          contains nothing, so the panel resolves against the viewport again.
+          Do not fold this back onto the header element. */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 -z-10 bg-bg/95 backdrop-blur"
+      />
       <div className="mx-auto flex h-16 max-w-(--container-page) items-center justify-between gap-md px-sm">
         <Link
           href={routes.home}
@@ -81,18 +108,18 @@ export function Header({ t }: { t: Dictionary }) {
             </li>
             <li>
               <Link
-                href={routes.research}
-                className="text-sm font-medium text-text link-accent"
-              >
-                {t.nav.research}
-              </Link>
-            </li>
-            <li>
-              <Link
                 href={routes.about}
                 className="text-sm font-medium text-text link-accent"
               >
                 {t.nav.about}
+              </Link>
+            </li>
+            <li>
+              <Link
+                href={routes.contact}
+                className="text-sm font-medium text-text link-accent"
+              >
+                {t.nav.contact}
               </Link>
             </li>
           </ul>
@@ -128,8 +155,8 @@ export function Header({ t }: { t: Dictionary }) {
             { href: routes.crawlmouse, label: t.products.crawlmouse },
             { href: routes.hafsaSastho, label: t.products.hafsaSastho },
             { href: routes.pricing, label: t.nav.pricing },
-            { href: routes.research, label: t.nav.research },
             { href: routes.about, label: t.nav.about },
+            { href: routes.contact, label: t.nav.contact },
           ]}
           phoneHref={contactDetails.phoneHref}
           booking={bookingCta}
