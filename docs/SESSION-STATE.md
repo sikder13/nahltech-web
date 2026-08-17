@@ -1,12 +1,19 @@
 # SESSION-STATE
 
 Handoff snapshot; update at the end of every session. **Last updated:**
-13 August 2026 · HEAD `777a826` · 103 commits · 190 tests passing
+16 August 2026 · security gate complete · 237 tests passing
 
 ## 1. Status
 
-**Phases 1–5 complete. The build is done; the domain cutover is the only
-thing left, and it is the founder's to execute — see `docs/CUTOVER.md`.**
+**Phases 1–5 complete and the security gate is closed. The domain cutover is
+the only remaining step, and it is the founder's to execute — see
+`docs/CUTOVER.md`.**
+
+**Security posture: `docs/SECURITY.md`.** Written to be read by a client as
+well as a maintainer. It records the deny-all RLS design and why the five
+`rls_enabled_no_policy` INFO lints must not be "fixed", the key-handling
+rules, the rate-limit and header tables, the fail-open and fail-soft
+rationales, and the incident runbook.
 
 Foundation, six page templates, the design pass, five service pages, all
 approved copy, published pricing, the backend (three API routes, lead alerting,
@@ -116,8 +123,13 @@ checked against the source.
 **Supabase** — project `nahltech-web`, ref `posdwhozfmlofsvqfohn`,
 org `yhkazuzdlcaqgealmjjp`, us-east-1 (N. Virginia), Postgres 17.6.
 
-- Migrations `0001` and `0002` committed and applied. RLS on all 7 tables. No
-  test data left: every probe row from this session was deleted.
+- Migrations `0001`, `0002` and `0003` committed and applied via psql against
+  `SUPABASE_DB_URL`. RLS on all 7 tables. No test data left: every probe row
+  is deleted after use.
+- `0003_security_hardening.sql` pinned `search_path` on `touch_updated_at()`;
+  the function now reports `search_path=public, pg_temp`. The five
+  `rls_enabled_no_policy` INFO items are the intended deny-all posture — see
+  `docs/SECURITY.md` before ever "fixing" one.
 - `anon` SELECT is false on every table; `anon` INSERT is true on
   `chat_conversations` and `chat_messages` only. Since anon cannot SELECT,
   `INSERT … RETURNING` is unavailable to the browser — the chat client makes
@@ -192,6 +204,15 @@ nowhere else.
 
 ## 5. Outstanding — founder side
 
+- **Add HSTS `preload` after cutover.** The header ships without it on
+  purpose: it declares the apex and every subdomain HTTPS-only forever, and
+  `www` is broken over TLS today. Once cutover is done and `www` resolves,
+  add `; preload` in BOTH `next.config.ts` and `src/middleware.ts` — the two
+  values are asserted equal by test.
+- **Re-pull the Supabase advisor** to confirm the `function_search_path_mutable`
+  WARN is gone. Migration `0003_security_hardening.sql` is applied and the
+  function now reports `search_path=public, pg_temp`; the advisor pull itself
+  is founder-side.
 - **THE CUTOVER.** `docs/CUTOVER.md`, start to finish. Read §0 before anything
   else: `nahltech.com` is already on Vercel, serving the old site from a
   project that is **not in the `Nahl Technologies' projects` team** — almost

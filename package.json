@@ -70,5 +70,10 @@
     "*.{js,mjs,json,css,md}": [
       "prettier --write"
     ]
+  },
+  "overrides": {
+    "sharp": "^0.35.0",
+    "nanoid": "^3.3.18",
+    "postcss": "^8.5.23"
   }
 }
