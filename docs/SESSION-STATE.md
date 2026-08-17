@@ -1,14 +1,14 @@
 # SESSION-STATE
 
 Handoff snapshot; update at the end of every session. **Last updated:**
-16 August 2026 · HEAD `204ae97` · build complete through the security gate ·
-CC-CHAT-2 and the team photos shipped · 282 tests passing
+16 August 2026 · HEAD `7a9a5b2` · build complete through the security gate ·
+CC-CHAT-2, the team photos and the final About copy shipped · 290 tests passing
 
 ## 1. Status
 
 **The build is COMPLETE through the security gate.** Live at
-**https://nahltech-web.vercel.app**. HEAD `204ae97` · 137 commits ·
-**282 tests passing** · first-load JS **143.7 kB gz** against a 145 kB ceiling
+**https://nahltech-web.vercel.app**. HEAD `7a9a5b2` · 139 commits ·
+**290 tests passing** · first-load JS **143.7 kB gz** against a 145 kB ceiling
 (1.3 kB headroom — it will bite).
 
 Everything is shipped: foundation, six page templates, the design pass, five
@@ -83,8 +83,27 @@ relaxed. Hub order is by kind, not date:
 3–5. the three sample engagements — Kestrel, Redbud, Limestone. All three
    carry the fictional-client disclosure banner above the h1, before any number
 
-**All gates green.** Banned words: clean (one approved exception — a quoted
-"digital transformation" that the sentence rejects; see CLAUDE.md rule 15).
+**`/about` carries its final approved copy** as of 16 Aug: "Our story", then
+"What we do" and "What we've built", the italic sign-off, then "The founders"
+with both photographs. Metadata was replaced at the same time; the supplied
+title and description run to 65 and 195 characters, longer than Google
+displays, and were shipped as approved copy rather than trimmed — the home page
+already sits at 84 and 193.
+
+**The Bengali name renders as Bengali.** হাফসা স্বাস্থ্য is wrapped in
+`lang="bn"` by `markScriptRuns`, which detects the Unicode block rather than
+the phrase, so it survives a copy edit. Inter is subsetted to latin, so
+`:lang(bn)` in globals.css names the platform Bengali faces and corrects the
+optical size instead of shipping a webfont for two words. This is the
+mechanism the bn locale will use when its content exists; do not remove it as
+"about-page-specific".
+
+**All gates green.** Banned words: clean, including every string added on
+16 Aug — checked across the whole dictionary, not just the new copy. There is
+still **no automated banned-word gate**; rule 15 is enforced by grep and by
+review, which is worth knowing before trusting "clean" in a future handoff.
+One approved exception stands — a quoted "digital transformation" that the
+sentence rejects; see CLAUDE.md rule 15.
 Duplicate anchors: **0** on article targets, enforced by `npm run crawl:check`,
 which exits non-zero. Sibling links: zero NOTICEs. Placeholders: **0**.
 Orphans **0**, max depth **2**, broken links **0**.
