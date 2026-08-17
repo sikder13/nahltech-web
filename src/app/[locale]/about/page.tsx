@@ -1,6 +1,8 @@
 import { AboutTemplate } from "@/components/templates/UtilityTemplates";
 import { requireDictionary } from "@/lib/i18n/require-dictionary";
 
+import { routes } from "@/lib/routes";
+
 import type { Metadata } from "next";
 
 export async function generateMetadata({
@@ -12,6 +14,7 @@ export async function generateMetadata({
   const t = await requireDictionary(locale);
 
   return {
+    alternates: { canonical: routes.about },
     title: { absolute: t.pages.about.metaTitle },
     description: t.pages.about.description,
   };

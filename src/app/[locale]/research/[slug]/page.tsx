@@ -7,7 +7,7 @@ import remarkGfm from "remark-gfm";
 import { formatPostDate } from "@/lib/format-date";
 import { requireDictionary } from "@/lib/i18n/require-dictionary";
 import { getPublishedResearch, getResearchBySlug } from "@/lib/research";
-import { routes } from "@/lib/routes";
+import { routes, ogImagePath } from "@/lib/routes";
 import {
   breadcrumbSchema,
   datasetSchema,
@@ -85,6 +85,7 @@ export async function generateMetadata({
   if (!article || article.draft) return {};
 
   return {
+    alternates: { canonical: `${routes.research}/${article.slug}` },
     title: article.title,
     description: article.description,
     openGraph: {
@@ -93,6 +94,10 @@ export async function generateMetadata({
       description: article.description,
       publishedTime: article.date,
       authors: [article.author],
+      // Declaring `openGraph` here stops the file convention's image being
+      // inherited, so it is named back explicitly. Without it these pages
+      // share with no image and Twitter falls back to a small card.
+      images: [ogImagePath],
     },
   };
 }

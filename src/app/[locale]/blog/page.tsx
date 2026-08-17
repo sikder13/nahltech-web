@@ -4,6 +4,8 @@ import { getPublishedPosts } from "@/lib/blog";
 import { formatPostDate } from "@/lib/format-date";
 import { requireDictionary } from "@/lib/i18n/require-dictionary";
 
+import { routes } from "@/lib/routes";
+
 import type { Metadata } from "next";
 
 export async function generateMetadata({
@@ -14,7 +16,11 @@ export async function generateMetadata({
   const { locale } = await params;
   const t = await requireDictionary(locale);
 
-  return { title: t.pages.blog.title, description: t.pages.blog.description };
+  return {
+    alternates: { canonical: routes.blog },
+    title: t.pages.blog.title,
+    description: t.pages.blog.description,
+  };
 }
 
 export default async function Page({

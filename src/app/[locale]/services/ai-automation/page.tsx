@@ -17,6 +17,7 @@ export async function generateMetadata({
   const t = await requireDictionary(locale);
 
   return {
+    alternates: { canonical: routes.aiAutomation },
     title: { absolute: t.pages.aiAutomation.metaTitle },
     description: t.pages.aiAutomation.description,
   };

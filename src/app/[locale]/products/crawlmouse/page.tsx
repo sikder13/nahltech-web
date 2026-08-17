@@ -16,6 +16,7 @@ export async function generateMetadata({
   const t = await requireDictionary(locale);
 
   return {
+    alternates: { canonical: routes.crawlmouse },
     title: { absolute: t.pages.crawlmouse.metaTitle },
     description: t.pages.crawlmouse.description,
   };

@@ -8,7 +8,7 @@ import { getPostBySlug, getPublishedPosts, getRelatedPosts } from "@/lib/blog";
 import { requireDictionary } from "@/lib/i18n/require-dictionary";
 import { formatPostDate } from "@/lib/format-date";
 import { articleSchema, breadcrumbSchema, faqSchema } from "@/lib/schema-org";
-import { routes } from "@/lib/routes";
+import { routes, ogImagePath } from "@/lib/routes";
 
 import { JsonLd } from "@/components/seo/JsonLd";
 import { ArticleTemplate } from "@/components/templates/ArticleTemplate";
@@ -61,6 +61,7 @@ export async function generateMetadata({
   if (!post || post.draft) return {};
 
   return {
+    alternates: { canonical: `${routes.blog}/${slug}` },
     title: post.title,
     description: post.description,
     openGraph: {
@@ -69,6 +70,10 @@ export async function generateMetadata({
       description: post.description,
       publishedTime: post.date,
       authors: [post.author],
+      // Declaring `openGraph` here stops the file convention's image being
+      // inherited, so it is named back explicitly. Without it these pages
+      // share with no image and Twitter falls back to a small card.
+      images: [ogImagePath],
     },
   };
 }

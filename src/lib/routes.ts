@@ -58,6 +58,21 @@ export type ServiceKey = (typeof serviceRouteKeys)[number];
  * `home-proof.test.ts` checks the slug resolves to a published artifact and
  * that the figure still matches what the artifact says.
  */
+/**
+ * The generated site-wide OG image, as a URL.
+ *
+ * Emitted by `app/opengraph-image.tsx` — the file convention CLAUDE.md
+ * requires, not a static asset. It is named here because the article routes
+ * have to reference it explicitly: a page that declares its own `openGraph`
+ * object stops inheriting the convention's image, and every article does
+ * declare one to carry `type: article`, `publishedTime` and `authors`. Left
+ * alone, those pages share with no image at all and a small `summary` card.
+ *
+ * Per-post images remain a separate piece of work; this is the site default
+ * standing in until they exist, which is strictly better than nothing.
+ */
+export const ogImagePath = "/opengraph-image";
+
 export const datasetReportSlug = "crawlmouse-dataset-report";
 export const datasetReportPath = `${routes.research}/${datasetReportSlug}`;
 

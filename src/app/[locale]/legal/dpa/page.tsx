@@ -14,7 +14,11 @@ export async function generateMetadata({
   const { locale } = await params;
   const t = await requireDictionary(locale);
 
-  return { title: t.pages.dpa.title, description: t.pages.dpa.description };
+  return {
+    alternates: { canonical: routes.dpa },
+    title: t.pages.dpa.title,
+    description: t.pages.dpa.description,
+  };
 }
 
 export default async function Page({

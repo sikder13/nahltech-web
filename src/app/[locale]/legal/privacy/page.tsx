@@ -2,6 +2,8 @@ import { LegalSections } from "@/components/blocks/LegalSections";
 import { LegalTemplate } from "@/components/templates/LegalTemplate";
 import { requireDictionary } from "@/lib/i18n/require-dictionary";
 
+import { routes } from "@/lib/routes";
+
 import type { Metadata } from "next";
 
 export async function generateMetadata({
@@ -13,6 +15,7 @@ export async function generateMetadata({
   const t = await requireDictionary(locale);
 
   return {
+    alternates: { canonical: routes.privacy },
     title: t.pages.privacy.title,
     description: t.pages.privacy.description,
   };

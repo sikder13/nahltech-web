@@ -4,6 +4,8 @@ import { localBusinessSchema } from "@/lib/schema-org";
 
 import { JsonLd } from "@/components/seo/JsonLd";
 
+import { routes } from "@/lib/routes";
+
 import type { Metadata } from "next";
 
 export async function generateMetadata({
@@ -15,6 +17,7 @@ export async function generateMetadata({
   const t = await requireDictionary(locale);
 
   return {
+    alternates: { canonical: routes.contact },
     title: t.pages.contact.title,
     description: t.pages.contact.description,
   };
