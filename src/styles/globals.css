@@ -271,3 +271,21 @@
     transform: none !important;
   }
 }
+
+/**
+ * The chat launcher stands down while the mobile nav is open.
+ *
+ * The launcher is `fixed` at z-50 on the body; the nav panel lives inside the
+ * header's own stacking context and so can never out-rank it from there. It
+ * also has nothing to offer over a full-screen menu — it only sits on top of
+ * the last row. MobileNav sets the attribute, ChatWidget carries the hook.
+ *
+ * Deliberately unlayered. Inside `@layer base` this lost to the launcher's
+ * `flex` utility, because Tailwind orders utilities after base and the later
+ * layer wins regardless of specificity. Unlayered rules out-rank every layer,
+ * which is the whole reason this sits at the end of the file rather than with
+ * the other body-level styles above.
+ */
+body[data-nav-open="true"] [data-chat-launcher] {
+  display: none;
+}

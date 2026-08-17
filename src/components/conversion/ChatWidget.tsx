@@ -52,6 +52,10 @@ export function ChatWidget({
         onClick={toggle}
         aria-expanded={open}
         aria-label={labels.launcherLabel}
+        /* Read by globals.css so the launcher gets out of the way while the
+           mobile nav is open — it is fixed at z-50 on the body and would
+           otherwise paint over a full-screen menu. See MobileNav. */
+        data-chat-launcher=""
         /* Bottom-end, clear of the page's own CTAs at 390px. Gold appears as
            a ring only — it is decoration in this design system, never a fill
            or a text colour. */
