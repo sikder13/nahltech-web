@@ -1,14 +1,15 @@
 # SESSION-STATE
 
 Handoff snapshot; update at the end of every session. **Last updated:**
-17 August 2026 · HEAD `514a6aa` · build complete through the security gate ·
-services polish shipped · 321 tests passing
+21 August 2026 · HEAD `fd36d2a` · build complete through the security gate ·
+**cutover done, `nahltech.com` live** · 339 tests passing
 
 ## 1. Status
 
 **The build is COMPLETE through the security gate.** Live at
-**https://nahltech-web.vercel.app**. HEAD `514a6aa` · 143 commits ·
-**321 tests passing** · first-load JS **143.7 kB gz** against a 145 kB ceiling
+**https://nahltech.com** since the 17 Aug cutover; the
+`nahltech-web.vercel.app` alias still resolves. HEAD `fd36d2a` · 155 commits ·
+**339 tests passing** · first-load JS **143.7 kB gz** against a 145 kB ceiling
 (1.3 kB headroom — it will bite).
 
 Everything is shipped: foundation, six page templates, the design pass, five
@@ -22,6 +23,28 @@ gates and the security gate.
 - `npm audit --omit=dev`: **0 vulnerabilities**.
 - Booking live: `routes.bookingUrl` → `https://cal.com/udaay-nahltech/intro-call-15-min`.
   Plain external links only; no Cal.com embed.
+
+**Cutover is done.** `nahltech.com` moved onto this project on **17 Aug 2026**
+and serves the site; the domain is no longer held by the old project. What is
+left of it is the founder-side post-cutover checklist in §4.
+
+**Since that snapshot — 21 Aug, two fixes, one commit each.**
+
+- **`914fce0` — CC BY 4.0 on the dataset.** The `Dataset` node on
+  `/research/crawlmouse-dataset-report` now carries
+  `license: "https://creativecommons.org/licenses/by/4.0/"`, which clears the
+  non-critical `Missing field "license"` Search Console raised against the
+  Datasets rich result. Founder decision: the published aggregate data is
+  licensed CC BY 4.0. The report states the grant in its own prose in the same
+  commit, because Google reads the field against what the page visibly says —
+  and the dataset test in `research.test.ts` asserts markup and body carry the
+  same URL, so deleting the sentence fails the suite rather than leaving a
+  licence nobody is actually granted.
+- **`fd36d2a` — author LinkedIn URL.** Udaay Sikder's personal profile moved to
+  `https://www.linkedin.com/in/udaaysikder/`. `lib/authors.ts` is the single
+  source, so the Person node's `sameAs` and the visible byline both follow from
+  that one edit; the three pinned assertions moved with it. The company page in
+  `lib/routes.ts` is a different profile and is unchanged.
 
 **Security — CC-SEC-1 is done.** `docs/SECURITY.md` is the posture document,
 written to be read by a client as well as a maintainer.
@@ -90,7 +113,8 @@ Reversible in one edit.
 relaxed. Hub order is by kind, not date:
 
 1. `crawlmouse-dataset-report` — **the flagship, featured on the home page.**
-   Original data from 187 sites; carries `Dataset` schema
+   Original data from 187 sites; carries `Dataset` schema, licensed CC BY 4.0
+   in the markup and in the closing paragraph of the report itself
 2. `how-we-measure` — the methodology, the spine every engagement points at
 3–5. the three sample engagements — Kestrel, Redbud, Limestone. All three
    carry the fictional-client disclosure banner above the h1, before any number
@@ -202,15 +226,12 @@ outside the brief. Founder decision.**
    (discount) and 7 (prompt extraction). Neither is touched by CC-CHAT-2, and
    both need sequenced turns. Scenarios 1–5, 4b and 8 were run on 16 Aug; the
    results table is at the foot of `docs/CHAT-QA.md`.
-3. **CUTOVER** — `docs/CUTOVER.md`, founder-executed, Northwest DNS panel.
-   **Read §0 first:** `nahltech.com` is already on Vercel, serving the old site
-   from a project **not in this team**, and Vercel will not let `nahltech-web`
-   claim a domain another project holds — so the domain must be released there
-   *before* any DNS change, or the outage is spent hunting for the old project.
-   The runbook also carries the do-not-touch list: nine mail and verification
-   records (Outlook MX, SPF, `MS=`, Google verification TXT, `send.` MX/SPF,
-   `resend._domainkey`, `_dmarc`, `autodiscover`).
-4. **Same-day post-cutover checklist:**
+3. ~~**CUTOVER**~~ — **done 17 Aug 2026.** `nahltech.com` serves this project.
+   `docs/CUTOVER.md` stays as the record, and its do-not-touch list still
+   governs any future DNS edit: nine mail and verification records (Outlook MX,
+   SPF, `MS=`, Google verification TXT, `send.` MX/SPF, `resend._domainkey`,
+   `_dmarc`, `autodiscover`).
+4. **Post-cutover checklist — none of it recorded as done here:**
    - Submit the sitemap in Google Search Console (already verified — the TXT
      record stays, so no re-verification) and in Bing Webmaster Tools
    - Update the Google Business Profile cover
@@ -289,8 +310,9 @@ org `yhkazuzdlcaqgealmjjp`, us-east-1 (N. Virginia), Postgres 17.6.
 
 **Vercel** — project `nahltech-web` (`prj_Yzkc8C3WgIylyvcGcXhuEAdx8aVu`), team
 `nahl-technologies-projects` (`team_7JoIUGWqgJwobBinsyt2qRKH`). All eight env
-vars set and exercised in production. The project has **no custom domain** yet —
-only the `.vercel.app` aliases. Vercel builds on Node 24.x; `engines` is
+vars set and exercised in production. **The custom domain is live:**
+`nahltech.com` cut over to this project on 17 Aug 2026 and the `.vercel.app`
+aliases still resolve alongside it. Vercel builds on Node 24.x; `engines` is
 `>=22`, so that is fine.
 
 **GA4** — `NEXT_PUBLIC_GA_MEASUREMENT_ID=G-KMEM2DS98H`, set in all three Vercel
