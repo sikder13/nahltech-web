@@ -207,4 +207,19 @@ describe("dataset schema", () => {
     expect(dataset).not.toHaveProperty("identifier");
     expect(JSON.stringify(dataset)).not.toContain("aggregateRating");
   });
+
+  it("licenses the data CC BY 4.0, in the markup and in the prose", () => {
+    const article = getResearchBySlug("crawlmouse-dataset-report")!;
+    const dataset = datasetSchema(article) as Record<string, unknown>;
+
+    expect(dataset.license).toBe(
+      "https://creativecommons.org/licenses/by/4.0/",
+    );
+    // A licence is only granted if a reader can see it, so the report states
+    // it too. Deleting that sentence fails here rather than leaving the markup
+    // claiming a licence the page never offers.
+    expect(article.body).toContain(
+      "https://creativecommons.org/licenses/by/4.0/",
+    );
+  });
 });

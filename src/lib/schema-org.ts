@@ -254,6 +254,10 @@ export function datasetSchema(article: {
     url: absolute(`${routes.research}/${article.slug}`),
     temporalCoverage: dataset.temporalCoverage,
     variableMeasured: dataset.variableMeasured,
+    // CC BY 4.0, matching the grant the report states in its own prose. Google
+    // reads this field against what the page visibly says, so the two ship
+    // together or not at all.
+    license: "https://creativecommons.org/licenses/by/4.0/",
     creator: {
       "@type": "Organization",
       "@id": ORGANIZATION_ID,
