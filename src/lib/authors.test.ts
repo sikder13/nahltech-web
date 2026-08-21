@@ -99,7 +99,7 @@ describe("personSchema", () => {
     // `sameAs` on purpose — the company entity gets company profiles — so
     // this is the only place they should appear.
     expect(personSchema("Udaay Sikder").sameAs).toEqual([
-      "https://www.linkedin.com/in/udaay-sikder-74a207132/",
+      "https://www.linkedin.com/in/udaaysikder/",
     ]);
     expect(personSchema("Samia Zaman").sameAs).toEqual([
       "https://www.linkedin.com/in/samiazaman/",
@@ -131,7 +131,7 @@ describe("getAuthorProfileUrl", () => {
     // A second profile added to sameAs later must not become the byline
     // target just because it was listed first.
     expect(getAuthorProfileUrl("Udaay Sikder")).toBe(
-      "https://www.linkedin.com/in/udaay-sikder-74a207132/",
+      "https://www.linkedin.com/in/udaaysikder/",
     );
     expect(getAuthorProfileUrl("Samia Zaman")).toBe(
       "https://www.linkedin.com/in/samiazaman/",

@@ -275,7 +275,7 @@ describe("organizationSchema sameAs", () => {
     // The other half of the split: it is off the company entity and on the
     // person it actually describes.
     expect(personSchema("Udaay Sikder").sameAs).toEqual([
-      "https://www.linkedin.com/in/udaay-sikder-74a207132/",
+      "https://www.linkedin.com/in/udaaysikder/",
     ]);
     expect(personSchema("Samia Zaman").sameAs).toEqual([
       "https://www.linkedin.com/in/samiazaman/",

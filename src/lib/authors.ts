@@ -33,7 +33,7 @@ export const authors = {
     // His personal LinkedIn belongs to him, not to the company: it was
     // deliberately removed from Organization `sameAs` and lives here, on the
     // Person node that actually describes him.
-    sameAs: ["https://www.linkedin.com/in/udaay-sikder-74a207132/"],
+    sameAs: ["https://www.linkedin.com/in/udaaysikder/"],
   },
   "Mohieminul Khan": {
     name: "Mohieminul Khan",
