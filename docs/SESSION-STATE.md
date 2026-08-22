@@ -1,16 +1,17 @@
 # SESSION-STATE
 
 Handoff snapshot; update at the end of every session. **Last updated:**
-21 August 2026 · HEAD `fd36d2a` · build complete through the security gate ·
-**cutover done, `nahltech.com` live** · 339 tests passing
+22 August 2026 · HEAD `c189020` · build complete through the security gate ·
+**cutover done, `nahltech.com` live** · 340 tests passing
 
 ## 1. Status
 
 **The build is COMPLETE through the security gate.** Live at
 **https://nahltech.com** since the 17 Aug cutover; the
-`nahltech-web.vercel.app` alias still resolves. HEAD `fd36d2a` · 155 commits ·
-**339 tests passing** · first-load JS **143.7 kB gz** against a 145 kB ceiling
-(1.3 kB headroom — it will bite).
+`nahltech-web.vercel.app` alias still resolves. HEAD `c189020` · 157 commits ·
+**340 tests passing** · first-load JS **145 kB** on `/about` and `/contact` and
+**146 kB** on the five service pages, against a 145 kB ceiling — measured at
+this HEAD, breach and remedy in §3b.
 
 Everything is shipped: foundation, six page templates, the design pass, five
 service pages, all approved copy, published pricing, the backend (three API
@@ -45,6 +46,40 @@ left of it is the founder-side post-cutover checklist in §4.
   source, so the Person node's `sameAs` and the visible byline both follow from
   that one edit; the three pinned assertions moved with it. The company page in
   `lib/routes.ts` is a different profile and is unchanged.
+
+**Since that snapshot — 22 Aug, one commit: internal linking.**
+
+- **`c189020` — contextual links into the five unindexed URLs.** Search Console
+  had five URLs in *Crawled – currently not indexed*: three service pages and
+  two posts. The repo audit read it as those pages living on navigation links
+  alone, with almost no in-content links pointing at them from anywhere that
+  earns impressions.
+  - **`/about` gained a "What we actually do" band**, after the sign-off and
+    before the founders. Five approved sentences, each opening with the service
+    named in the anchor. The order is the copy's, **not `serviceRouteKeys`'**,
+    so `aboutServices` is written out in `UtilityTemplates.tsx`; the hrefs
+    still come from the route registry, so an anchor cannot outlive the page it
+    points at. **Untinted on purpose** — the founders band below is tinted, and
+    tinting this one would strand the italic sign-off on a white strip between
+    two tints. Do not "fix" it to match.
+  - **The two indexed posts carry one approved sentence each**, placed where
+    the argument already was rather than bolted on the end.
+    `ai-opportunity-audit-worked-example` closes its verdict section by linking
+    `/services/ai-automation` and `/services/software-development`;
+    `indianapolis-business-chatgpt-visibility` separates a site problem from a
+    content problem where it links `/services/web-development`.
+  - **The home page needed no edit.** It already links all five service pages
+    with the service name as the anchor text.
+  - **`lastmod` on those two posts could not be bumped** — the part that is
+    not done. Blog frontmatter has no `updatedAt` field (`src/lib/blog.ts`
+    carries `date` only) and `src/app/sitemap.ts` reads `date`, the publish
+    date. So both posts were edited without any way to signal it, and still
+    advertise their original date. Adding the field is a schema and sitemap
+    change that was out of that session's scope; it is §4 item 5 now.
+  - `/about` measures **145 kB** first-load at this HEAD, on the ceiling with
+    `/contact`. Whether the band moved that number was **not** measured — the
+    pre-commit figure was never rebuilt, so do not read the two facts as cause
+    and effect.
 
 **Security — CC-SEC-1 is done.** `docs/SECURITY.md` is the posture document,
 written to be read by a client as well as a maintainer.
@@ -120,9 +155,10 @@ relaxed. Hub order is by kind, not date:
    carry the fictional-client disclosure banner above the h1, before any number
 
 **`/about` carries its final approved copy** as of 16 Aug: "Our story", then
-"What we do" and "What we've built", the italic sign-off, then "The founders"
-with both photographs. Metadata was replaced at the same time; the supplied
-title and description run to 65 and 195 characters, longer than Google
+"What we do" and "What we've built", the italic sign-off, then — since 22 Aug —
+the "What we actually do" service band, and only then "The founders" with both
+photographs. Metadata was replaced at the same time; the supplied title and
+description run to 65 and 195 characters, longer than Google
 displays, and were shipped as approved copy rather than trimmed — the home page
 already sits at 84 and 193.
 
@@ -238,6 +274,17 @@ outside the brief. Founder decision.**
    - Live-domain smoke test: apex 200 with the new title, `www` redirecting,
      both padlocks valid, one contact-form submission confirming the alert mail
    - Re-run Crawlmouse on the live domain and claim it via DNS
+   - **Request indexing for the five URLs `c189020` linked**, once that commit
+     is live. The links are the reason to ask again; asking without them was
+     what produced *Crawled – currently not indexed* in the first place.
+5. **Blog `updatedAt` → sitemap `lastmod`.** `c189020` edited two published
+   posts with no way to say so: `src/lib/blog.ts` validates `date` and nothing
+   else, and `src/app/sitemap.ts` emits that as `lastmod`. An optional
+   `updatedAt` in the zod frontmatter schema, preferred by the sitemap when
+   present, would let an edited post ask for a recrawl. It touches the
+   frontmatter contract in `docs/blog-content-conventions.md` and the URL set
+   pinned by `sitemap.test.ts`, so it needs a test and a founder nod, not a
+   drive-by edit.
 
 ## 5. Outstanding — founder side
 
