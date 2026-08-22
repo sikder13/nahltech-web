@@ -26,21 +26,46 @@ describe("AboutTemplate", () => {
     ).toBeInTheDocument();
   });
 
-  it("runs the three prose bands in order, then the founders", () => {
+  it("runs the three prose bands, then the services, then the founders", () => {
     // The order is the argument: who we are, what the work looks like, what we
-    // shipped, then the faces. A reordering here changes what the page says.
+    // shipped, what any of that is to buy, then the faces. A reordering here
+    // changes what the page says.
     const { container } = render(<AboutTemplate t={en} />);
     const headings = [...container.querySelectorAll("h2")].map((h) =>
       h.textContent?.trim(),
     );
 
-    expect(headings.slice(0, 4)).toEqual([
+    expect(headings.slice(0, 5)).toEqual([
       en.about.storyHeading,
       en.about.whatWeDoHeading,
       en.about.whatWeBuiltHeading,
+      en.about.services.heading,
       en.about.teamHeading,
     ]);
     expect(en.about.teamHeading).toBe("The founders");
+  });
+
+  it("links all five service pages, with the service named in the anchor", () => {
+    // This block is the page's only in-content route to those five pages, and
+    // the reason it exists: they were living on navigation links alone. A
+    // generic anchor would carry none of that, so the label is asserted
+    // alongside the href rather than trusting the list to stay descriptive.
+    render(<AboutTemplate t={en} />);
+
+    const expected: Record<string, string> = {
+      "/services/ai-consultancy": "AI consulting and implementation",
+      "/services/ai-automation": "AI automation for business workflows",
+      "/services/software-development": "Custom software development",
+      "/services/web-development": "Web development",
+      "/services/ai-search-visibility": "AI search visibility and SEO",
+    };
+
+    for (const [href, label] of Object.entries(expected)) {
+      expect(
+        screen.getByRole("link", { name: label }).getAttribute("href"),
+        label,
+      ).toBe(href);
+    }
   });
 
   it("publishes the approved copy verbatim", () => {
@@ -56,6 +81,8 @@ describe("AboutTemplate", () => {
     for (const paragraph of [
       ...en.about.whatWeDoParagraphs,
       ...en.about.whatWeBuiltParagraphs,
+      en.about.services.intro,
+      ...Object.values(en.about.services.items).map((item) => item.description),
       en.about.closingLine,
     ]) {
       expect(rendered, paragraph.slice(0, 48)).toContain(paragraph);

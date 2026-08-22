@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { CtaBlock } from "@/components/blocks/CtaBlock";
 import { PageHeader } from "@/components/blocks/PageHeader";
 import {
@@ -11,17 +13,40 @@ import {
   TeamGrid,
 } from "@/components/blocks/utility-blocks";
 import { LeadForm } from "@/components/conversion/LeadForm";
+import { FadeIn } from "@/components/ui/FadeIn";
+import { Prose } from "@/components/ui/Prose";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 import { bookingCta, contactDetails, routes } from "@/lib/routes";
 
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
+import type { ServiceKey } from "@/lib/routes";
+
+/**
+ * The five services in the order the About copy lists them, which is not
+ * `serviceRouteKeys` order. Written out rather than derived, because the
+ * sequence is an editorial decision; the hrefs still come from the route
+ * registry, so an anchor here cannot outlive the page it points at.
+ */
+const aboutServices = [
+  "aiConsultancy",
+  "aiAutomation",
+  "softwareDevelopment",
+  "webDevelopment",
+  "aiSearchVisibility",
+] as const satisfies readonly ServiceKey[];
 
 /**
  * T6 — about.
  *
- * Three prose bands, then the founders. The order is the argument the page
- * makes: who we are, what the work actually looks like, what we have shipped
- * for ourselves — and only then the two faces. The middle band is tinted so
- * three consecutive runs of prose do not read as one wall of text.
+ * Three prose bands, the work in plain terms, then the founders. The order is
+ * the argument the page makes: who we are, what the work actually looks like,
+ * what we have shipped for ourselves, where to read about each service — and
+ * only then the two faces. The second prose band is tinted so three
+ * consecutive runs of prose do not read as one wall of text.
+ *
+ * The services band is the page's only in-content route to the five service
+ * pages, which is why it is a list of sentences rather than a card grid: it
+ * reads as part of the story, and its anchors say what they point at.
  */
 export function AboutTemplate({ t }: { t: Dictionary }) {
   return (
@@ -40,6 +65,30 @@ export function AboutTemplate({ t }: { t: Dictionary }) {
         heading={t.about.whatWeBuiltHeading}
         paragraphs={t.about.whatWeBuiltParagraphs}
       />
+      {/* Untinted on purpose: the founders band below is tinted, and tinting
+          this one would leave the italic sign-off stranded on a white strip
+          between two tinted bands. The heading rule and the bullets already
+          separate it from the prose above. */}
+      <section>
+        <div className="mx-auto max-w-(--container-page) px-sm py-2xl">
+          <FadeIn>
+            <SectionHeading>{t.about.services.heading}</SectionHeading>
+            <Prose className="mt-md">
+              <p>{t.about.services.intro}</p>
+              <ul>
+                {aboutServices.map((key) => (
+                  <li key={key}>
+                    <Link href={routes[key]}>
+                      {t.about.services.items[key].label}
+                    </Link>{" "}
+                    — {t.about.services.items[key].description}
+                  </li>
+                ))}
+              </ul>
+            </Prose>
+          </FadeIn>
+        </div>
+      </section>
       <ClosingLine>{t.about.closingLine}</ClosingLine>
       <TeamGrid heading={t.about.teamHeading} members={t.about.team} />
       <CredentialsRow

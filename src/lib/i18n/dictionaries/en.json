@@ -809,6 +809,32 @@
       "The easiest way to judge us is by what we ship for ourselves. Crawlmouse is our free audit tool. It shows what AI crawlers can actually see on a website, and the data from hundreds of audits became our first published research report. Hafsa Sastho (হাফসা স্বাস্থ্য) is a Bengali-language maternal health app for mothers in Bangladesh, launching on Google Play September 1, 2026. We started the company to build it.",
       "We're a young company. Our early clients get founding rates and more attention than they probably expect. That part won't last forever."
     ],
+    "services": {
+      "heading": "What we actually do",
+      "intro": "The work behind the story, in plain terms:",
+      "items": {
+        "aiConsultancy": {
+          "label": "AI consulting and implementation",
+          "description": "we find the highest-ROI places for AI in your operations and hand you the numbers first."
+        },
+        "aiAutomation": {
+          "label": "AI automation for business workflows",
+          "description": "agents and workflows that take real work off your team's plate."
+        },
+        "softwareDevelopment": {
+          "label": "Custom software development",
+          "description": "production-standard software and AI applications, owned by you."
+        },
+        "webDevelopment": {
+          "label": "Web development",
+          "description": "fast, accessible, search-ready websites. This site is our own work."
+        },
+        "aiSearchVisibility": {
+          "label": "AI search visibility and SEO",
+          "description": "getting found on Google and recommended by ChatGPT, Gemini, and Perplexity."
+        }
+      }
+    },
     "closingLine": "Based in Indianapolis. Working with businesses anywhere.",
     "teamHeading": "The founders",
     "team": [

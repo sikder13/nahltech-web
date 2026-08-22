@@ -78,6 +78,16 @@ export type Dictionary = typeof enDictionary;
  * "Data Processing", replacing "Terms of Service" and "Data Processing
  * Addendum".
  *
+ * ── Founder-supplied, verbatim, 22 August 2026 ────────────────────────────
+ *
+ *   about.services.heading · about.services.intro
+ *   about.services.items.<service>.label
+ *   about.services.items.<service>.description
+ *
+ * The five link sentences on /about, supplied by the internal-linking
+ * relay as approved copy and inserted without rewording. Each one names
+ * what a service is; none of them states a price or a client claim.
+ *
  * ── Not yet written ───────────────────────────────────────────────────────
  *
  * 0 `[PLACEHOLDER: …]` strings remain. Every string in en.json is approved
