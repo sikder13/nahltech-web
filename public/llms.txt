@@ -1,0 +1,23 @@
+# Nahl Technologies
+
+> Nahl Technologies is an AI consulting and implementation firm in Indianapolis, Indiana, serving businesses across the United States, Canada, and the Gulf region. The firm builds AI workflow automation, custom software, and fast, search-ready websites, and publishes its research openly. It also makes two products of its own: Crawlmouse, a free website auditor, and Hafsa Sastho, a Bengali-language maternal and infant health app.
+
+## Key pages
+
+- [Nahl Technologies](https://nahltech.com/) — AI consulting and implementation firm in Indianapolis.
+- [Services](https://nahltech.com/services) — AI consulting and development for small and mid-size businesses — automation, search visibility, custom software, websites, and the problems that don't fit a category.
+- [AI Consultancy](https://nahltech.com/services/ai-consultancy) — We study your operations and data, find the highest-ROI places for AI, and hand you the numbers before you spend a dollar building.
+- [AI Search Visibility & SEO](https://nahltech.com/services/ai-search-visibility) — Get found on Google and recommended by ChatGPT, Gemini, and Perplexity.
+- [AI Automation](https://nahltech.com/services/ai-automation) — Workflows and agents that take real work off your team's plate, integrated with the systems you already run.
+- [Web Development](https://nahltech.com/services/web-development) — Fast, accessible, search-ready websites.
+- [Software Development](https://nahltech.com/services/software-development) — Custom software and AI applications, built to production standard and owned by you.
+- [Pricing](https://nahltech.com/pricing) — Published pricing, no maze.
+- [Crawlmouse](https://nahltech.com/products/crawlmouse) — Paste a URL, get an honest A–F grade on your internal links and what AI crawlers actually see.
+- [Hafsa Sastho](https://nahltech.com/products/hafsa-sastho) — A Bengali-language AI health companion for new mothers — vaccine schedules, growth tracking, and Hafsa Apa, an AI guide that speaks her language.
+- [Research](https://nahltech.com/research) — Original data and open methods from Nahl Technologies.
+- [About](https://nahltech.com/about) — AI consulting and implementation firm in Indianapolis.
+- [Contact](https://nahltech.com/contact) — Call, book, or write — a real person answers.
+
+## Research
+
+- [We Audited 187 Small-Business Websites. Half Have Pages Nothing Links To.](https://nahltech.com/research/crawlmouse-dataset-report) — Open dataset: 187 small-business website audits, licensed CC BY 4.0.
