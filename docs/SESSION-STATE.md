@@ -1,15 +1,15 @@
 # SESSION-STATE
 
 Handoff snapshot; update at the end of every session. **Last updated:**
-22 August 2026 · HEAD `c189020` · build complete through the security gate ·
-**cutover done, `nahltech.com` live** · 340 tests passing
+22 August 2026 · HEAD `eb268f8` · build complete through the security gate ·
+**cutover done, `nahltech.com` live** · 353 tests passing
 
 ## 1. Status
 
 **The build is COMPLETE through the security gate.** Live at
 **https://nahltech.com** since the 17 Aug cutover; the
-`nahltech-web.vercel.app` alias still resolves. HEAD `c189020` · 157 commits ·
-**340 tests passing** · first-load JS **145 kB** on `/about` and `/contact` and
+`nahltech-web.vercel.app` alias still resolves. HEAD `eb268f8` · 159 commits ·
+**353 tests passing** · first-load JS **145 kB** on `/about` and `/contact` and
 **146 kB** on the five service pages, against a 145 kB ceiling — measured at
 this HEAD, breach and remedy in §3b.
 
@@ -80,6 +80,51 @@ left of it is the founder-side post-cutover checklist in §4.
     `/contact`. Whether the band moved that number was **not** measured — the
     pre-commit figure was never rebuilt, so do not read the two facts as cause
     and effect.
+
+**Then, same day — `eb268f8`, the identity relay (COPY-PACK-1).**
+
+The reason it exists is worth keeping: on 21 Aug ChatGPT described this company
+as a social-impact product startup and steered a prospect away from hiring it
+as an Indianapolis AI consultant — a verified conversation, not an inference.
+Both surfaces a model reads first invited that: the Organization node carried
+**no `description` at all**, and `/about` opened on the founder story with the
+two products in it.
+
+- **The descriptor leads everything.** `about.intro` (§1) is the About page's
+  lead, in the same `PageHeader` `intro` slot contact and pricing use — the
+  template's own lead treatment, not a hand-styled paragraph.
+- **One string, three surfaces.** `site.description` (§2) is read by the
+  Organization node; the home and About meta descriptions carry the same
+  characters. `copy-provenance.test.ts` pins the three as identical, so editing
+  one and not the others fails rather than drifts.
+- **Organization gained `areaServed` and `knowsAbout`.** Eight `Country` nodes,
+  ISO 3166-1 alpha-2, the Gulf named country by country because `areaServed`
+  takes places and "the Gulf region" is not one. Five subjects in `knowsAbout`,
+  each backed by a service page that sells that work. **No `slogan`** — none is
+  approved and an invented tagline is a product claim.
+- **LocalBusiness carries the same eight countries.** Its old
+  `[{City: Indianapolis}, "Worldwide"]` is gone. The locality claim is not:
+  `address.addressLocality` is the stronger local signal and the one the
+  Business Profile is matched against. NAP verified character-identical.
+- **`/about` order is now descriptor → services → story.** The story is
+  demoted, not edited. Titles untouched.
+
+**Three things that relay did not do, all recorded in the code itself:**
+
+- **`https://github.com/sikder13` is not in `sameAs`,** and there is a TODO on
+  the property saying why. It is a *personal* account, and that node carries
+  company profiles only by an explicit and tested decision; and
+  `companyProfiles` is built from the footer's own links, so the markup cannot
+  claim a profile the site does not link to — and **the site links to GitHub
+  nowhere**. A footer link or the founder's Person node would each unblock it.
+  This is a founder decision, not a bug (§4 item 6). The other two URLs the
+  pack asked for were already there.
+- **The Service nodes still carry the old `AREA_SERVED`,** whose "Worldwide" is
+  broader than the bounded eight. Not a contradiction, not one voice either
+  (§4 item 7).
+- **§2 is 171 characters, not the 158 the pack states.** Shipped at its
+  supplied length anyway; Google truncates the display around 155-160, so the
+  tail after "for businesses across the" is unlikely to render.
 
 **Security — CC-SEC-1 is done.** `docs/SECURITY.md` is the posture document,
 written to be read by a client as well as a maintainer.
@@ -154,13 +199,20 @@ relaxed. Hub order is by kind, not date:
 3–5. the three sample engagements — Kestrel, Redbud, Limestone. All three
    carry the fictional-client disclosure banner above the h1, before any number
 
-**`/about` carries its final approved copy** as of 16 Aug: "Our story", then
-"What we do" and "What we've built", the italic sign-off, then — since 22 Aug —
-the "What we actually do" service band, and only then "The founders" with both
-photographs. Metadata was replaced at the same time; the supplied title and
-description run to 65 and 195 characters, longer than Google
-displays, and were shipped as approved copy rather than trimmed — the home page
-already sits at 84 and 193.
+**`/about` carries its final approved copy**, reordered 22 Aug: the canonical
+descriptor, the "What we actually do" service band, then "Our story", "What we
+do", "What we've built", the italic sign-off, and "The founders" with both
+photographs. The story is demoted, not edited.
+
+**Both meta descriptions are COPY-PACK-1 §2 as of 22 Aug**, character-identical
+to `site.description` and to the Organization node's `description` — one string
+on three surfaces, pinned by `copy-provenance.test.ts` so editing one and not
+the others fails rather than drifts. It runs to **171 characters**, not the 158
+the pack claims, and ships at its supplied length because trimming approved
+copy is rewriting it (hard rule 12); Google will truncate the tail. The About
+prefix the pack offered was resolved by the pack's own rule — prefixed comes to
+196 against a 165 limit, so §2 ships unmodified. Both `metaTitle`s are
+untouched, at 65 and 84 characters.
 
 **The Bengali name renders as Bengali.** হাফসা স্বাস্থ্য is wrapped in
 `lang="bn"` by `markScriptRuns`, which detects the Unicode block rather than
@@ -285,6 +337,18 @@ outside the brief. Founder decision.**
    frontmatter contract in `docs/blog-content-conventions.md` and the URL set
    pinned by `sitemap.test.ts`, so it needs a test and a founder nod, not a
    drive-by edit.
+6. **Decide where the GitHub profile is claimed.** `eb268f8` was asked to put
+   `https://github.com/sikder13` on the Organization's `sameAs` and did not —
+   see §1. Three ways out, in preference order: put it on the founder's
+   **Person** node, where a personal account belongs (needs the LinkedIn-only
+   host guard in `lib/authors.ts` loosened); add a GitHub link to the footer's
+   `socialLinks`, which carries it into `companyProfiles` and therefore into
+   `sameAs` honestly (needs a `github` glyph in `BrandIcon` and a footer
+   label); or decide the claim is not worth making. Founder call.
+7. **Align `AREA_SERVED` on the Service nodes** with the eight countries the
+   identity nodes now claim, or decide "Worldwide" is the honest value there
+   and say so in the constant's comment. One or the other — not both, which is
+   what the file says today.
 
 ## 5. Outstanding — founder side
 
