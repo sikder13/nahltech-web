@@ -102,17 +102,27 @@ export type Dictionary = typeof enDictionary;
  * to be the same string. `copy-provenance.test.ts` pins the three as identical,
  * so editing one and not the others fails rather than drifts.
  *
- * Two notes for whoever audits this against the pack:
- *
- * §2 is 171 characters, not the 158 the pack states. It was inserted at its
- * supplied length regardless — hard rule 12 makes the copy the founder's, and
- * trimming to fit a guideline would be rewriting it. Google truncates the
- * display around 155-160, so the tail after "for businesses across the" is
- * unlikely to render in a result. Flagged, not fixed.
+ * §2 was amended on 22 August and the amended form is what ships. The first
+ * version measured 171 characters against the 158 the pack claimed, which was
+ * flagged rather than trimmed — hard rule 12 makes the copy the founder's,
+ * and cutting approved copy to fit a guideline is rewriting it. The founder
+ * supplied a 158-character replacement instead, which is this one, and it
+ * measures 158. The sentence that changed is the third: "for businesses
+ * across the US, Canada, and the Gulf region" became "Serving the US, Canada,
+ * and the Gulf region".
  *
  * `pages.about.description` carries no "About Nahl Technologies: " prefix.
- * The pack made that prefix conditional on the result staying under 165
- * characters; it comes to 196, so the pack's own rule selects §2 unmodified.
+ * The pack made that prefix conditional on the result staying at or under 165
+ * characters; prefixed it comes to 183, so the pack's own rule still selects
+ * §2 unmodified.
+ *
+ * ── CC-authored microcopy, 22 August 2026 ─────────────────────────────────
+ *
+ *   footer.social.github  accessible name of the GitHub link in the footer
+ *
+ * Interface microcopy on the same terms as the block above: it names a
+ * destination, states no product fact, number, claim or price, and follows
+ * the wording of the three sibling labels it sits beside.
  *
  * ── Not yet written ───────────────────────────────────────────────────────
  *

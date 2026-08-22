@@ -115,6 +115,14 @@ export const productLinks = {
  * author registry, not to the company. Mixing the two tells a search engine
  * the organisation and the individual are the same thing.
  *
+ * GitHub is the deliberate edge case, added on the founder's decision. The
+ * account is named for a person, but what lives in it is the company's public
+ * code — this site among it — so it is the company's code presence rather
+ * than a profile describing an individual. That is the line: a personal
+ * LinkedIn is a page *about* Udaay, and this is a page *of* the firm's work.
+ * If the account is ever renamed to an organisation, nothing here changes but
+ * the URL.
+ *
  * The LinkedIn URL carries no `?viewAsMember=true`: that parameter is an
  * artefact of viewing your own page while signed in, not part of the public
  * address.
@@ -129,6 +137,7 @@ export const socialLinks = [
     key: "facebook",
     href: "https://www.facebook.com/profile.php?id=61589050512455",
   },
+  { key: "github", href: "https://github.com/sikder13" },
 ] as const;
 
 export type SocialKey = (typeof socialLinks)[number]["key"];

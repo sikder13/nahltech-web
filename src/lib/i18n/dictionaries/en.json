@@ -2,7 +2,7 @@
   "site": {
     "name": "Nahl Technologies",
     "legalName": "Nahl Technologies Inc.",
-    "description": "AI consulting and implementation firm in Indianapolis. Workflow automation, custom software, and web development for businesses across the US, Canada, and the Gulf region."
+    "description": "AI consulting and implementation firm in Indianapolis. Workflow automation, custom software, and web development. Serving the US, Canada, and the Gulf region."
   },
   "a11y": {
     "skipToContent": "Skip to content",
@@ -55,7 +55,8 @@
     "social": {
       "x": "Nahl Technologies on X",
       "linkedin": "Nahl Technologies on LinkedIn",
-      "facebook": "Nahl Technologies on Facebook"
+      "facebook": "Nahl Technologies on Facebook",
+      "github": "Nahl Technologies on GitHub"
     }
   },
   "legal": {
@@ -67,7 +68,7 @@
     "home": {
       "title": "Nahl Technologies",
       "metaTitle": "Nahl Technologies — AI Consulting & Implementation | Indianapolis, Serving Worldwide",
-      "description": "AI consulting and implementation firm in Indianapolis. Workflow automation, custom software, and web development for businesses across the US, Canada, and the Gulf region."
+      "description": "AI consulting and implementation firm in Indianapolis. Workflow automation, custom software, and web development. Serving the US, Canada, and the Gulf region."
     },
     "services": {
       "title": "Services",
@@ -118,7 +119,7 @@
     "about": {
       "title": "About",
       "metaTitle": "About | Nahl Technologies — AI Consulting Company in Indianapolis",
-      "description": "AI consulting and implementation firm in Indianapolis. Workflow automation, custom software, and web development for businesses across the US, Canada, and the Gulf region."
+      "description": "AI consulting and implementation firm in Indianapolis. Workflow automation, custom software, and web development. Serving the US, Canada, and the Gulf region."
     },
     "contact": {
       "title": "Contact",

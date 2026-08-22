@@ -44,35 +44,23 @@ const WEBSITE_ID = `${siteUrl}/#website`;
 const LOCAL_BUSINESS_ID = `${siteUrl}/#localbusiness`;
 
 /**
- * Where we work, on the Service nodes. Indianapolis is where we are;
- * "Worldwide" is the honest second half — the delivery model is remote.
- *
- * The identity nodes no longer use this. See `AREA_SERVED_COUNTRIES`, and the
- * note there about the two not yet saying the same thing.
- */
-const AREA_SERVED: readonly unknown[] = [
-  { "@type": "City", name: "Indianapolis" },
-  "Worldwide",
-];
-
-/**
- * Where we sell, on Organization and LocalBusiness — places, not prose.
+ * Where we sell — places, not prose. One constant for every node that makes
+ * the claim: Organization, LocalBusiness and all five Services.
  *
  * The Gulf is named country by country because `areaServed` takes places and
- * "the Gulf region" is not one: a search engine resolves AE, it cannot
- * resolve a phrase. ISO 3166-1 alpha-2 throughout, so the eight are one kind
- * of value rather than a mix of codes and long names.
+ * "the Gulf region" is not one: a consumer resolves AE, it cannot resolve a
+ * phrase. ISO 3166-1 alpha-2 throughout, so the eight are one kind of value
+ * rather than a mix of codes and long names.
  *
  * These eight are the machine-readable half of the canonical descriptor, and
  * nothing here goes beyond what that descriptor says out loud.
  *
- * Known gap: the Service nodes still carry `AREA_SERVED`, whose "Worldwide"
- * is broader than this bounded list. Aligning them was outside the relay that
- * added this constant; until it happens the graph is imprecise rather than
- * wrong — a service offered worldwide by a firm that sells into eight
- * countries is not a contradiction, but it is not one voice either.
+ * The Service nodes used to carry `[{City: Indianapolis}, "Worldwide"]`
+ * instead. "Worldwide" was not false, but a firm that sells into eight named
+ * countries and offers its services worldwide is two claims, and the graph
+ * only gets to make one.
  */
-const AREA_SERVED_COUNTRIES: readonly unknown[] = [
+const AREA_SERVED: readonly unknown[] = [
   { "@type": "Country", name: "US" },
   { "@type": "Country", name: "CA" },
   { "@type": "Country", name: "AE" },
@@ -389,17 +377,12 @@ export function organizationSchema(t: Dictionary): JsonLdObject {
     email: contactDetails.email,
     telephone: contactDetails.phoneDisplay,
     address: postalAddress(),
-    areaServed: AREA_SERVED_COUNTRIES,
+    areaServed: AREA_SERVED,
     knowsAbout: KNOWS_ABOUT,
-    // TODO(identity): the relay that added the properties above also asked
-    // for https://github.com/sikder13 in this list. It is deliberately not
-    // here, and unblocking it needs a decision above this file. It is a
-    // personal account, and this node carries company profiles only, for the
-    // reason in the block above. And `companyProfiles` is built from the
-    // footer's own links so that `sameAs` cannot claim a profile the site
-    // does not link to — and the site links to GitHub nowhere. Either put a
-    // GitHub link in the footer, or put the claim on the founder's Person
-    // node where a personal account belongs.
+    // Five profiles now: the GitHub account joined `socialLinks` on the
+    // founder's decision, so it reaches this list the same way the other four
+    // do — through a real, visible footer link. The invariant held rather than
+    // being worked around: nothing is claimed here that the site does not link.
     sameAs: companyProfiles,
   };
 }
@@ -449,7 +432,7 @@ export function localBusinessSchema(t: Dictionary): JsonLdObject {
     // of the old value is not lost by dropping the City node: `address` three
     // lines up carries the locality, which is the stronger local signal and
     // the one the Google Business Profile is matched against.
-    areaServed: AREA_SERVED_COUNTRIES,
+    areaServed: AREA_SERVED,
     parentOrganization: { "@id": ORGANIZATION_ID },
   };
 }

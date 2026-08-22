@@ -13,11 +13,12 @@ describe("Footer social links", () => {
     const list = screen.getByRole("list", { name: en.footer.socialHeading });
     const links = within(list).getAllByRole("link");
 
-    expect(links).toHaveLength(3);
+    expect(links).toHaveLength(4);
     expect(links.map((link) => link.getAttribute("href"))).toEqual([
       "https://x.com/nahltech",
       "https://www.linkedin.com/company/nahl-technologies-incorporation-linkedin/",
       "https://www.facebook.com/profile.php?id=61589050512455",
+      "https://github.com/sikder13",
     ]);
   });
 
@@ -67,7 +68,7 @@ describe("Footer social links", () => {
       `ul[aria-label="${en.footer.socialHeading}"]`,
     );
     const svgs = list?.querySelectorAll("svg") ?? [];
-    expect(svgs).toHaveLength(3);
+    expect(svgs).toHaveLength(4);
     for (const svg of svgs) {
       expect(svg).toHaveAttribute("aria-hidden", "true");
     }

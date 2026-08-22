@@ -254,13 +254,22 @@ describe("offerCatalogSchema", () => {
 describe("organizationSchema sameAs", () => {
   const sameAs = organizationSchema(t).sameAs as string[];
 
-  it("lists exactly the four company profiles", () => {
+  it("lists exactly the five company profiles", () => {
     expect(sameAs).toEqual([
       "https://crawlmouse.com",
       "https://x.com/nahltech",
       "https://www.linkedin.com/company/nahl-technologies-incorporation-linkedin/",
       "https://www.facebook.com/profile.php?id=61589050512455",
+      "https://github.com/sikder13",
     ]);
+  });
+
+  it("claims the GitHub account the site actually links to", () => {
+    // Added on the founder's decision: the account is named for a person but
+    // holds the company's public code, this site included. It reached this
+    // list the way every other profile does — by being a real footer link —
+    // rather than by exempting it from the rule below.
+    expect(sameAs).toContain("https://github.com/sikder13");
   });
 
   it("does not list the founder's personal LinkedIn", () => {
@@ -370,6 +379,24 @@ describe("organizationSchema identity", () => {
     // Two nodes describing one company. If they claim different territories,
     // one of them is wrong and a consumer has no way to tell which.
     expect(localBusinessSchema(t).areaServed).toEqual(schema.areaServed);
+  });
+
+  it("gives every Service node the same eight countries", () => {
+    // The Services used to say "Worldwide" while the identity nodes named
+    // eight countries. Not false, but two claims where the graph gets one.
+    for (const key of serviceRouteKeys) {
+      expect(serviceSchema(t, key).areaServed, key).toEqual(schema.areaServed);
+    }
+  });
+
+  it("no longer says Worldwide on any node", () => {
+    for (const node of [
+      schema,
+      localBusinessSchema(t),
+      ...serviceRouteKeys.map((key) => serviceSchema(t, key)),
+    ]) {
+      expect(JSON.stringify(node)).not.toContain("Worldwide");
+    }
   });
 
   it("keeps Indianapolis on LocalBusiness through the address", () => {
