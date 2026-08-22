@@ -38,37 +38,31 @@ const aboutServices = [
 /**
  * T6 — about.
  *
- * Three prose bands, the work in plain terms, then the founders. The order is
- * the argument the page makes: who we are, what the work actually looks like,
- * what we have shipped for ourselves, where to read about each service — and
- * only then the two faces. The second prose band is tinted so three
- * consecutive runs of prose do not read as one wall of text.
+ * The descriptor first, then the work, then the story, then the founders.
+ * That order is deliberate and it is not the one a founder would write: a
+ * reader arrives already knowing they want a consultancy, and a model reading
+ * this page decides what kind of company this is from the top of it. Leading
+ * with the story let both of them conclude "product startup" — which is what
+ * happened, and why the descriptor now sits above everything.
+ *
+ * The story is unchanged and still runs in full below the services; it is
+ * demoted, not cut. The third prose band is tinted so three consecutive runs
+ * of prose do not read as one wall of text.
  *
  * The services band is the page's only in-content route to the five service
  * pages, which is why it is a list of sentences rather than a card grid: it
- * reads as part of the story, and its anchors say what they point at.
+ * reads as part of the argument, and its anchors say what they point at.
  */
 export function AboutTemplate({ t }: { t: Dictionary }) {
   return (
     <>
-      <PageHeader title={t.pages.about.title} />
-      <StorySection
-        heading={t.about.storyHeading}
-        paragraphs={t.about.storyParagraphs}
-      />
-      <StorySection
-        heading={t.about.whatWeDoHeading}
-        paragraphs={t.about.whatWeDoParagraphs}
-        surface
-      />
-      <StorySection
-        heading={t.about.whatWeBuiltHeading}
-        paragraphs={t.about.whatWeBuiltParagraphs}
-      />
-      {/* Untinted on purpose: the founders band below is tinted, and tinting
-          this one would leave the italic sign-off stranded on a white strip
-          between two tinted bands. The heading rule and the bullets already
-          separate it from the prose above. */}
+      {/* The canonical descriptor, as the page's lead. Same `intro` slot the
+          contact and pricing headers use, so it is the template's own lead
+          treatment rather than a paragraph styled by hand. */}
+      <PageHeader title={t.pages.about.title} intro={t.about.intro} />
+      {/* Untinted on purpose: it sits directly under the header rule, and a
+          tint here would read as a second banner before the page has said
+          anything. "What we do" further down is the first tinted band. */}
       <section>
         <div className="mx-auto max-w-(--container-page) px-sm py-2xl">
           <FadeIn>
@@ -89,6 +83,19 @@ export function AboutTemplate({ t }: { t: Dictionary }) {
           </FadeIn>
         </div>
       </section>
+      <StorySection
+        heading={t.about.storyHeading}
+        paragraphs={t.about.storyParagraphs}
+      />
+      <StorySection
+        heading={t.about.whatWeDoHeading}
+        paragraphs={t.about.whatWeDoParagraphs}
+        surface
+      />
+      <StorySection
+        heading={t.about.whatWeBuiltHeading}
+        paragraphs={t.about.whatWeBuiltParagraphs}
+      />
       <ClosingLine>{t.about.closingLine}</ClosingLine>
       <TeamGrid heading={t.about.teamHeading} members={t.about.team} />
       <CredentialsRow

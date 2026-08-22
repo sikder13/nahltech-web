@@ -26,23 +26,39 @@ describe("AboutTemplate", () => {
     ).toBeInTheDocument();
   });
 
-  it("runs the three prose bands, then the services, then the founders", () => {
-    // The order is the argument: who we are, what the work looks like, what we
-    // shipped, what any of that is to buy, then the faces. A reordering here
-    // changes what the page says.
+  it("leads with the services, then runs the story, then the founders", () => {
+    // The order is the argument, and this is the order that argument is made
+    // in now: what we sell, then who we are, then what the work looks like,
+    // then what we shipped, then the faces. It used to open on the story, and
+    // both readers and models concluded from that opening that this is a
+    // product startup rather than a consultancy. A reordering here changes
+    // what the page says about the company.
     const { container } = render(<AboutTemplate t={en} />);
     const headings = [...container.querySelectorAll("h2")].map((h) =>
       h.textContent?.trim(),
     );
 
     expect(headings.slice(0, 5)).toEqual([
+      en.about.services.heading,
       en.about.storyHeading,
       en.about.whatWeDoHeading,
       en.about.whatWeBuiltHeading,
-      en.about.services.heading,
       en.about.teamHeading,
     ]);
     expect(en.about.teamHeading).toBe("The founders");
+  });
+
+  it("puts the canonical descriptor above everything else", () => {
+    // The first thing on the page, under the h1 and its rule. This is the
+    // sentence every other surface's identity claim is derived from, and it
+    // only does its job if it is read before the story is.
+    const { container } = render(<AboutTemplate t={en} />);
+    const text = container.textContent ?? "";
+
+    const descriptor = text.indexOf(en.about.intro);
+    expect(descriptor, "the descriptor is not rendered").toBeGreaterThan(-1);
+    expect(descriptor).toBeLessThan(text.indexOf(en.about.services.heading));
+    expect(descriptor).toBeLessThan(text.indexOf(en.about.storyHeading));
   });
 
   it("links all five service pages, with the service named in the anchor", () => {
@@ -79,6 +95,7 @@ describe("AboutTemplate", () => {
     const rendered = container.textContent ?? "";
 
     for (const paragraph of [
+      en.about.intro,
       ...en.about.whatWeDoParagraphs,
       ...en.about.whatWeBuiltParagraphs,
       en.about.services.intro,
@@ -98,8 +115,16 @@ describe("AboutTemplate", () => {
 
     expect(bengali).not.toBeNull();
     expect(bengali?.textContent).toBe("হাফসা স্বাস্থ্য");
-    // The English around it stays in the document language.
-    expect(screen.getByText(/Hafsa Sastho/)).toBeInTheDocument();
+    // The English around it stays in the document language: the Bengali span
+    // is the only element on the page carrying a `lang` at all. Asserted this
+    // way rather than by querying for the English text, because "Hafsa
+    // Sastho" is now written twice — once in the descriptor at the top and
+    // once in the story — and neither of them is marked.
+    const marked = [...container.querySelectorAll("[lang]")].map(
+      (el) => el.textContent,
+    );
+    expect(marked).toEqual(["হাফসা স্বাস্থ্য"]);
+    expect(screen.getAllByText(/Hafsa Sastho/).length).toBeGreaterThan(1);
   });
 
   it("names Mohieminul without his middle name", () => {

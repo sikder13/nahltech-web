@@ -44,12 +44,64 @@ const WEBSITE_ID = `${siteUrl}/#website`;
 const LOCAL_BUSINESS_ID = `${siteUrl}/#localbusiness`;
 
 /**
- * Where we work. Indianapolis is where we are; "Worldwide" is the honest
- * second half — the delivery model is remote and the relay says so.
+ * Where we work, on the Service nodes. Indianapolis is where we are;
+ * "Worldwide" is the honest second half — the delivery model is remote.
+ *
+ * The identity nodes no longer use this. See `AREA_SERVED_COUNTRIES`, and the
+ * note there about the two not yet saying the same thing.
  */
 const AREA_SERVED: readonly unknown[] = [
   { "@type": "City", name: "Indianapolis" },
   "Worldwide",
+];
+
+/**
+ * Where we sell, on Organization and LocalBusiness — places, not prose.
+ *
+ * The Gulf is named country by country because `areaServed` takes places and
+ * "the Gulf region" is not one: a search engine resolves AE, it cannot
+ * resolve a phrase. ISO 3166-1 alpha-2 throughout, so the eight are one kind
+ * of value rather than a mix of codes and long names.
+ *
+ * These eight are the machine-readable half of the canonical descriptor, and
+ * nothing here goes beyond what that descriptor says out loud.
+ *
+ * Known gap: the Service nodes still carry `AREA_SERVED`, whose "Worldwide"
+ * is broader than this bounded list. Aligning them was outside the relay that
+ * added this constant; until it happens the graph is imprecise rather than
+ * wrong — a service offered worldwide by a firm that sells into eight
+ * countries is not a contradiction, but it is not one voice either.
+ */
+const AREA_SERVED_COUNTRIES: readonly unknown[] = [
+  { "@type": "Country", name: "US" },
+  { "@type": "Country", name: "CA" },
+  { "@type": "Country", name: "AE" },
+  { "@type": "Country", name: "SA" },
+  { "@type": "Country", name: "QA" },
+  { "@type": "Country", name: "KW" },
+  { "@type": "Country", name: "BH" },
+  { "@type": "Country", name: "OM" },
+];
+
+/**
+ * `knowsAbout` — the five subjects the firm claims competence in, one per
+ * service page. Each is backed by a page that sells that work, which is the
+ * only reason any of them is defensible; a sixth subject would need a sixth
+ * page before it could go here.
+ *
+ * Not derived from the service dictionary on purpose. These are vocabulary
+ * terms a model matches against, not the headings a reader sees, and the two
+ * are allowed to differ.
+ *
+ * No `slogan` sits beside them: none is approved, and inventing one would be
+ * a product claim (hard rule 12).
+ */
+const KNOWS_ABOUT: readonly string[] = [
+  "AI consulting",
+  "AI workflow automation",
+  "custom software development",
+  "web development",
+  "AI search visibility",
 ];
 
 const organization = {
@@ -326,6 +378,10 @@ export function organizationSchema(t: Dictionary): JsonLdObject {
     "@id": ORGANIZATION_ID,
     name: t.site.name,
     legalName: t.site.legalName,
+    // The canonical short descriptor, read from the same key the home and
+    // About pages put in their meta description. One string, three surfaces:
+    // the node cannot describe a different company than the pages do.
+    description: t.site.description,
     url: siteUrl,
     // File-convention icon route, so the logo cannot 404 the way a static
     // /logo.png path would once the asset is replaced.
@@ -333,6 +389,17 @@ export function organizationSchema(t: Dictionary): JsonLdObject {
     email: contactDetails.email,
     telephone: contactDetails.phoneDisplay,
     address: postalAddress(),
+    areaServed: AREA_SERVED_COUNTRIES,
+    knowsAbout: KNOWS_ABOUT,
+    // TODO(identity): the relay that added the properties above also asked
+    // for https://github.com/sikder13 in this list. It is deliberately not
+    // here, and unblocking it needs a decision above this file. It is a
+    // personal account, and this node carries company profiles only, for the
+    // reason in the block above. And `companyProfiles` is built from the
+    // footer's own links so that `sameAs` cannot claim a profile the site
+    // does not link to — and the site links to GitHub nowhere. Either put a
+    // GitHub link in the footer, or put the claim on the founder's Person
+    // node where a personal account belongs.
     sameAs: companyProfiles,
   };
 }
@@ -378,7 +445,11 @@ export function localBusinessSchema(t: Dictionary): JsonLdObject {
     telephone: contactDetails.phoneDisplay,
     email: contactDetails.email,
     address: postalAddress(),
-    areaServed: AREA_SERVED,
+    // The same eight countries the Organization claims. The Indianapolis half
+    // of the old value is not lost by dropping the City node: `address` three
+    // lines up carries the locality, which is the stronger local signal and
+    // the one the Google Business Profile is matched against.
+    areaServed: AREA_SERVED_COUNTRIES,
     parentOrganization: { "@id": ORGANIZATION_ID },
   };
 }

@@ -338,3 +338,68 @@ describe("site-wide invariants", () => {
     }
   });
 });
+
+describe("organizationSchema identity", () => {
+  const schema = organizationSchema(t);
+
+  it("describes the consulting firm, in the dictionary's own words", () => {
+    // The node and the two meta descriptions read one key, so the graph
+    // cannot describe a different company than the pages do. This is the fix
+    // for an assistant reading the site and calling it a product startup.
+    expect(schema.description).toBe(en.site.description);
+    expect(schema.description).toMatch(/^AI consulting and implementation/);
+  });
+
+  it("serves eight named countries, not a phrase", () => {
+    // `areaServed` takes places. "the Gulf region" is not one, so the Gulf is
+    // named country by country; a consumer resolves AE and cannot resolve a
+    // region name.
+    expect(schema.areaServed).toEqual([
+      { "@type": "Country", name: "US" },
+      { "@type": "Country", name: "CA" },
+      { "@type": "Country", name: "AE" },
+      { "@type": "Country", name: "SA" },
+      { "@type": "Country", name: "QA" },
+      { "@type": "Country", name: "KW" },
+      { "@type": "Country", name: "BH" },
+      { "@type": "Country", name: "OM" },
+    ]);
+  });
+
+  it("gives LocalBusiness the same eight countries", () => {
+    // Two nodes describing one company. If they claim different territories,
+    // one of them is wrong and a consumer has no way to tell which.
+    expect(localBusinessSchema(t).areaServed).toEqual(schema.areaServed);
+  });
+
+  it("keeps Indianapolis on LocalBusiness through the address", () => {
+    // The City node came off `areaServed` when the countries went on. The
+    // locality claim is not lost: it lives in the NAP, which is the stronger
+    // local signal and the one matched against the Business Profile.
+    const address = localBusinessSchema(t).address as Record<string, string>;
+    expect(address.addressLocality).toBe("Indianapolis");
+    expect(address.streetAddress).toBe("6902 Challenge Ln");
+    expect(address.postalCode).toBe("46250");
+    expect(localBusinessSchema(t).name).toBe("Nahl Technologies Inc.");
+    expect(localBusinessSchema(t).telephone).toBe("(317) 507-4303");
+  });
+
+  it("claims five subjects, each backed by a service page", () => {
+    expect(schema.knowsAbout).toEqual([
+      "AI consulting",
+      "AI workflow automation",
+      "custom software development",
+      "web development",
+      "AI search visibility",
+    ]);
+    expect((schema.knowsAbout as string[]).length).toBe(
+      serviceRouteKeys.length,
+    );
+  });
+
+  it("emits no slogan, because none is approved", () => {
+    // Hard rule 12: an invented tagline is a product claim. The property is
+    // absent rather than empty.
+    expect(schema).not.toHaveProperty("slogan");
+  });
+});

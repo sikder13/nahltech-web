@@ -1,7 +1,8 @@
 {
   "site": {
     "name": "Nahl Technologies",
-    "legalName": "Nahl Technologies Inc."
+    "legalName": "Nahl Technologies Inc.",
+    "description": "AI consulting and implementation firm in Indianapolis. Workflow automation, custom software, and web development for businesses across the US, Canada, and the Gulf region."
   },
   "a11y": {
     "skipToContent": "Skip to content",
@@ -66,7 +67,7 @@
     "home": {
       "title": "Nahl Technologies",
       "metaTitle": "Nahl Technologies — AI Consulting & Implementation | Indianapolis, Serving Worldwide",
-      "description": "AI consultancy that ships. We analyze your business, quantify where AI recovers money, and build it — automation, custom software, and AI search visibility. Based in Indiana, working worldwide."
+      "description": "AI consulting and implementation firm in Indianapolis. Workflow automation, custom software, and web development for businesses across the US, Canada, and the Gulf region."
     },
     "services": {
       "title": "Services",
@@ -117,7 +118,7 @@
     "about": {
       "title": "About",
       "metaTitle": "About | Nahl Technologies — AI Consulting Company in Indianapolis",
-      "description": "An AI consulting and development company in Indianapolis working with small and mid-size businesses — public pricing, published research, and two products of our own: Crawlmouse and Hafsa Sastho."
+      "description": "AI consulting and implementation firm in Indianapolis. Workflow automation, custom software, and web development for businesses across the US, Canada, and the Gulf region."
     },
     "contact": {
       "title": "Contact",
@@ -791,7 +792,7 @@
     }
   },
   "about": {
-    "intro": "",
+    "intro": "Nahl Technologies is an AI consulting and implementation firm in Indianapolis, Indiana, serving businesses across the United States, Canada, and the Gulf region. The firm builds AI workflow automation, custom software, and fast, search-ready websites, and publishes its research openly. It also makes two products of its own: Crawlmouse, a free website auditor, and Hafsa Sastho, a Bengali-language maternal and infant health app.",
     "storyHeading": "Our story",
     "storyParagraphs": [
       "Nahl (نحل) is Arabic for honeybee — small, relentless, and useful far beyond its size.",

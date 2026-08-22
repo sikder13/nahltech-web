@@ -112,3 +112,54 @@ describe("copy provenance block", () => {
     expect(block).toMatch(/founder's own wording/);
   });
 });
+
+describe("the canonical short descriptor", () => {
+  // COPY-PACK-1 §2 is one string with three jobs: the home meta description,
+  // the About meta description, and the Organization node's `description`.
+  // They are the same claim about the same company, so they are the same
+  // characters — a search engine that reads two of them and finds them
+  // different has been told the company is two things.
+  it("is character-identical across the three surfaces that carry it", () => {
+    expect(en.pages.home.description).toBe(en.site.description);
+    expect(en.pages.about.description).toBe(en.site.description);
+  });
+
+  it("leads with the consulting business, not the products", () => {
+    // The reason this pack exists: the machine-readable identity described a
+    // social-impact product startup and steered a prospect away from hiring
+    // the firm as a consultancy. Whatever else the sentence says, it opens on
+    // what the company sells.
+    expect(en.site.description).toMatch(/^AI consulting and implementation/);
+  });
+
+  it("names the served regions the descriptor names", () => {
+    for (const region of ["Indianapolis", "US", "Canada", "Gulf region"]) {
+      expect(en.site.description, region).toContain(region);
+    }
+  });
+
+  it("carries no About-page prefix, because the prefixed form is too long", () => {
+    // The pack made "About Nahl Technologies: " conditional on the result
+    // staying at or under 165 characters. It comes to 196, so the pack's own
+    // rule selects the unmodified form. Pinned so a later edit that adds the
+    // prefix has to confront the length rather than silently exceed it.
+    const prefixed = `About Nahl Technologies: ${en.site.description}`;
+    expect(prefixed.length).toBeGreaterThan(165);
+    expect(en.pages.about.description.startsWith("About")).toBe(false);
+  });
+});
+
+describe("the canonical descriptor on /about", () => {
+  it("opens by naming the firm and what it does", () => {
+    expect(en.about.intro).toMatch(
+      /^Nahl Technologies is an AI consulting and implementation firm/,
+    );
+  });
+
+  it("is one paragraph, not an array of them", () => {
+    // PageHeader accepts either. This one is a single supplied paragraph and
+    // splitting it across two would be an edit to approved copy.
+    expect(typeof en.about.intro).toBe("string");
+    expect(en.about.intro).not.toContain("\n");
+  });
+});

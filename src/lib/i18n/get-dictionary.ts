@@ -88,6 +88,32 @@ export type Dictionary = typeof enDictionary;
  * relay as approved copy and inserted without rewording. Each one names
  * what a service is; none of them states a price or a client claim.
  *
+ * ── Founder-supplied, verbatim, 22 August 2026 (COPY-PACK-1) ──────────────
+ *
+ *   about.intro              §1, the canonical descriptor. Rendered as the
+ *                            About page lead, above everything else.
+ *   site.description         §2, the short form. Read by the Organization
+ *                            node in schema-org.ts.
+ *   pages.home.description   §2, character-identical to site.description
+ *   pages.about.description  §2, character-identical to site.description
+ *
+ * One string on three surfaces by design: the meta descriptions and the
+ * Organization node have to agree, and the way to guarantee that is for them
+ * to be the same string. `copy-provenance.test.ts` pins the three as identical,
+ * so editing one and not the others fails rather than drifts.
+ *
+ * Two notes for whoever audits this against the pack:
+ *
+ * §2 is 171 characters, not the 158 the pack states. It was inserted at its
+ * supplied length regardless — hard rule 12 makes the copy the founder's, and
+ * trimming to fit a guideline would be rewriting it. Google truncates the
+ * display around 155-160, so the tail after "for businesses across the" is
+ * unlikely to render in a result. Flagged, not fixed.
+ *
+ * `pages.about.description` carries no "About Nahl Technologies: " prefix.
+ * The pack made that prefix conditional on the result staying under 165
+ * characters; it comes to 196, so the pack's own rule selects §2 unmodified.
+ *
  * ── Not yet written ───────────────────────────────────────────────────────
  *
  * 0 `[PLACEHOLDER: …]` strings remain. Every string in en.json is approved
