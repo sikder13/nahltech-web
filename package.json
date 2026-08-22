@@ -17,6 +17,7 @@
     "build:logo": "node scripts/build-logo.mjs",
     "build:team": "node scripts/build-team-avatars.mjs",
     "crawl:check": "node scripts/crawl-check.mjs",
+    "indexnow": "node scripts/indexnow-ping.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "prepare": "husky"
