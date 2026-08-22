@@ -1,15 +1,15 @@
 # SESSION-STATE
 
 Handoff snapshot; update at the end of every session. **Last updated:**
-22 August 2026 · HEAD `eb268f8` · build complete through the security gate ·
-**cutover done, `nahltech.com` live** · 353 tests passing
+22 August 2026 · HEAD `b5b9049` · build complete through the security gate ·
+**cutover done, `nahltech.com` live** · 369 tests passing
 
 ## 1. Status
 
 **The build is COMPLETE through the security gate.** Live at
 **https://nahltech.com** since the 17 Aug cutover; the
-`nahltech-web.vercel.app` alias still resolves. HEAD `eb268f8` · 159 commits ·
-**353 tests passing** · first-load JS **145 kB** on `/about` and `/contact` and
+`nahltech-web.vercel.app` alias still resolves. HEAD `b5b9049` · 163 commits ·
+**369 tests passing** · first-load JS **145 kB** on `/about` and `/contact` and
 **146 kB** on the five service pages, against a 145 kB ceiling — measured at
 this HEAD, breach and remedy in §3b.
 
@@ -125,6 +125,39 @@ two products in it.
 - **§2 is 171 characters, not the 158 the pack states.** Shipped at its
   supplied length anyway; Google truncates the display around 155-160, so the
   tail after "for businesses across the" is unlikely to render.
+
+**All three were amended the same day — `83643d1`.** The founder answered each
+flag rather than leaving it standing, so none of the three is open any more.
+
+- **§2 is now 158 characters and that is what ships**, on all three surfaces.
+  Only the third sentence changed: "for businesses across the US, Canada, and
+  the Gulf region" became "Serving the US, Canada, and the Gulf region".
+- **GitHub is claimed through the footer**, which was option 2. The account
+  joined `socialLinks` with a glyph and a label and reaches `sameAs` the way
+  the other four profiles do — the invariant that markup cannot claim a
+  profile the site does not link held, and the site now links it. The Person
+  node and the LinkedIn-only guard in `lib/authors.ts` were not touched.
+  The comment on `socialLinks` records where the line now sits: a personal
+  LinkedIn is a page *about* Udaay and stays off the company node, while that
+  account holds the firm's public code and is its code presence.
+- **`AREA_SERVED` is one constant again.** All five Service nodes carry the
+  same eight countries, and a test asserts "Worldwide" appears on no node.
+
+**Then RELAY-SEO-3 — AI access, two commits.**
+
+- **`7efa2d8` — `llms.txt` and explicit crawler allows.** See **§6b**, which is
+  the policy in one place. Two things worth keeping here: `/robots.txt` is now
+  a **route handler**, because the metadata API cannot emit the Content
+  Signals comment line — do not restore `robots.ts`. And `public/llms.txt` is
+  static but not hand-maintained prose: `llms-txt.test.ts` checks the
+  descriptor against `about.intro`, every description against that page's own
+  metadata, and every path against the route registry, so a rewritten meta
+  description fails the suite rather than leaving the file describing a site
+  that no longer exists.
+- **`b5b9049` — IndexNow.** Key committed at
+  `public/b0b86a7cb959561bc7a1f93b95ea2055.txt`, which is correct: the
+  protocol verifies ownership by fetching it. `npm run indexnow` after
+  production deploys only, never in the build. 31 URLs in the current sitemap.
 
 **Security — CC-SEC-1 is done.** `docs/SECURITY.md` is the posture document,
 written to be read by a client as well as a maintainer.
@@ -442,6 +475,42 @@ event looks like it fired and GA receives nothing. Covered by two tests in
   it. Check by sending and reading `notification_log`.
 - SSO protection on all deployments except custom domains, so per-deployment
   URLs 302; the `nahltech-web.vercel.app` alias is public.
+
+## 6b. AI access policy
+
+**All Search, Agent and Training crawlers are explicitly allowed.** Not merely
+permitted by the wildcard — named, one group each, in `src/lib/robots-txt.ts`.
+Twelve of them: GPTBot, OAI-SearchBot, ChatGPT-User, ClaudeBot, Claude-User,
+Claude-SearchBot, PerplexityBot, Perplexity-User, Google-Extended,
+Applebot-Extended, Bingbot, meta-externalagent. The file also carries
+`# Content-Signal: search=yes, ai-input=yes, ai-train=yes` as its first line.
+
+The three jobs are separate and allowing one does not allow the others: a site
+can welcome GPTBot and still be absent from the index ChatGPT answers from.
+**Bingbot is the load-bearing one** — ChatGPT and Copilot retrieval both run
+through Bing's index.
+
+**There are no `Disallow` lines, and adding one is a behaviour change.**
+`/api/*` is rate-limited and zod-validated rather than hidden, and
+`robots-txt.test.ts` fails if a `Disallow` appears.
+
+**`/robots.txt` is a route handler, not the `robots.ts` metadata convention.**
+The metadata API serialises a typed object and cannot emit a comment line,
+which the Content Signals declaration is by specification. Do not "restore"
+the metadata route — the signals would go with it.
+
+**IndexNow: run `npm run indexnow` after each production deploy.** It is
+deliberately not wired into the build, because Vercel builds previews too and
+a preview build would submit production URLs for content that is not live.
+`npm run indexnow -- --dry-run` prints the payload and sends nothing; a live
+run refuses any host that is not production. The key is committed at
+`public/b0b86a7cb959561bc7a1f93b95ea2055.txt` and that is correct — IndexNow
+verifies ownership by fetching it, so it is public by design, not a leak.
+
+**Cloudflare, if it is ever put in front of this DNS:** Search, Agent and
+Training must each be set to **Allow** before proxying. Its September 2026
+defaults do not match the policy above, and a proxy that blocks what
+`robots.txt` invites is the more expensive half of the contradiction.
 
 ## 7. Known quirks
 
