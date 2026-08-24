@@ -143,6 +143,24 @@ flag rather than leaving it standing, so none of the three is open any more.
 - **`AREA_SERVED` is one constant again.** All five Service nodes carry the
   same eight countries, and a test asserts "Worldwide" appears on no node.
 
+**One scoped exception to that, approved 24 August 2026.** City nodes were
+removed site-wide so the graph makes one claim. `/ai-consulting-indianapolis`
+is the deliberate exception: its subject is the local footprint, and its
+`areaServed` mirrors the GBP service-area list 1:1 — twenty Indiana cities,
+in the Business Profile's own order. **Do not add City objects anywhere
+else.** The reason it is 1:1 rather than derived from the page's prose is
+cross-source corroboration: AI systems check a local business against its
+Business Profile, and a service area that disagrees reads as two businesses.
+The page names eight of the twenty out loud; the rest are served without
+being listed in a sentence.
+
+`AREA_SERVED` itself is untouched and still shared — Organization,
+LocalBusiness and the five `serviceSchema` nodes all read it. The city list
+lives beside `localServiceSchema` instead, so widening the footprint cannot
+reach another node. `schema-org.test.ts` asserts `"City"` appears on that
+node and on no other, and `ai-consulting-indianapolis.test.ts` pins the
+twenty against an independent copy of the approved list.
+
 **Then RELAY-SEO-3 — AI access, two commits.**
 
 - **`7efa2d8` — `llms.txt` and explicit crawler allows.** See **§6b**, which is

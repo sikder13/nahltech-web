@@ -5,6 +5,7 @@ import {
   crawlmouseSchema,
   hafsaSasthoSchema,
   localBusinessSchema,
+  localServiceSchema,
   offerCatalogSchema,
   organizationSchema,
   parsePublishedPrice,
@@ -393,10 +394,33 @@ describe("organizationSchema identity", () => {
     for (const node of [
       schema,
       localBusinessSchema(t),
+      localServiceSchema(t),
       ...serviceRouteKeys.map((key) => serviceSchema(t, key)),
     ]) {
       expect(JSON.stringify(node)).not.toContain("Worldwide");
     }
+  });
+
+  it("keeps the City exception to the one node that owns it", () => {
+    // /ai-consulting-indianapolis carries City because its subject is the
+    // local footprint. Every other node keeps the shared eight countries —
+    // that is what makes it a scoped exception rather than a reversal, and
+    // this is the assertion that stops it spreading.
+    for (const node of [
+      schema,
+      localBusinessSchema(t),
+      ...serviceRouteKeys.map((key) => serviceSchema(t, key)),
+    ]) {
+      expect(JSON.stringify(node)).not.toContain('"City"');
+    }
+
+    const local = localServiceSchema(t) as {
+      areaServed: { "@type": string }[];
+    };
+    expect(local.areaServed).toHaveLength(20);
+    expect(local.areaServed.every((place) => place["@type"] === "City")).toBe(
+      true,
+    );
   });
 
   it("keeps Indianapolis on LocalBusiness through the address", () => {

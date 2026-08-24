@@ -60,6 +60,20 @@ const LOCAL_BUSINESS_ID = `${siteUrl}/#localbusiness`;
  * instead. "Worldwide" was not false, but a firm that sells into eight named
  * countries and offers its services worldwide is two claims, and the graph
  * only gets to make one.
+ *
+ * ── The one exception, approved 24 August 2026 ────────────────────────────
+ *
+ * City nodes were removed site-wide so the graph makes one claim.
+ * /ai-consulting-indianapolis is the deliberate exception: its subject is the
+ * local footprint, and its areaServed mirrors the GBP service-area list 1:1.
+ * Do not add City objects anywhere else.
+ *
+ * The exception is scoped, not a reversal. This constant is untouched and
+ * still shared: Organization, LocalBusiness and all five `serviceSchema`
+ * nodes carry these eight countries. Only `localServiceSchema` differs, and
+ * its list is defined beside it — deliberately not in here, so that widening
+ * the city footprint cannot reach any other node by accident.
+ * `schema-org.test.ts` asserts City appears on that node and on no other.
  */
 const AREA_SERVED: readonly unknown[] = [
   { "@type": "Country", name: "US" },
@@ -519,27 +533,47 @@ export function serviceSchema(t: Dictionary, key: ServiceKey): JsonLdObject {
 }
 
 /**
- * The cities the Indianapolis page names, as places.
+ * The Google Business Profile service areas, as places.
  *
- * This is the one Service node that carries City rather than the shared
- * `AREA_SERVED` countries, and the exception is deliberate: a page whose
- * whole subject is a metro area makes a narrower claim than the firm does,
- * and the node should make the same claim the page does.
+ * Twenty cities, all Indiana, in the order the Business Profile lists them.
+ * This is the *only* place in the graph where a City node appears — see the
+ * exception block on `AREA_SERVED` above, and do not add one elsewhere.
  *
- * The list is exactly the eight the copy names out loud — five in the lead,
- * three more in the on-site FAQ — and not one more. `ai-consulting-
- * indianapolis.test.ts` pins each of them to the prose, so a city cannot be
- * claimed here that a reader cannot find on the page.
+ * It lives here rather than in the shared constant on purpose: this list is
+ * the local footprint of one page, and keeping it beside that page's builder
+ * means widening it cannot reach Organization, LocalBusiness or the five
+ * service nodes.
+ *
+ * The list is not derived from the page's prose, and that is the point. The
+ * page names eight of these out loud; the other twelve are served without
+ * being listed in a sentence. What this has to match is the Business Profile,
+ * character for character, because AI systems corroborate a local business
+ * across sources and a service area that disagrees with the GBP entry reads
+ * as two different businesses. `ai-consulting-indianapolis.test.ts` pins the
+ * twenty against an independent copy of the approved list, and separately
+ * checks that every city the page does name appears among them.
  */
-const INDIANAPOLIS_CITIES: readonly string[] = [
+const GBP_SERVICE_AREA: readonly string[] = [
   "Indianapolis",
   "Carmel",
   "Fishers",
-  "Greenwood",
-  "Zionsville",
   "Noblesville",
+  "Westfield",
+  "Zionsville",
+  "Greenwood",
+  "Avon",
+  "Plainfield",
+  "Brownsburg",
+  "Lawrence",
   "Anderson",
   "Muncie",
+  "Kokomo",
+  "Lafayette",
+  "Columbus",
+  "Bloomington",
+  "Fort Wayne",
+  "Terre Haute",
+  "Evansville",
 ];
 
 /**
@@ -547,9 +581,10 @@ const INDIANAPOLIS_CITIES: readonly string[] = [
  *
  * Separate from `serviceSchema` because it is not one of the five: it has no
  * `ServiceKey`, its offers come from the mirrored rate-card table rather than
- * a single published price, and its `areaServed` is cities rather than
- * countries. Sharing the builder would have meant three conditionals inside
- * it for one caller.
+ * a single published price, and its `areaServed` is the Business Profile's
+ * cities rather than the shared countries. Sharing the builder would have
+ * meant three conditionals inside it for one caller — and would have put the
+ * City exception one boolean away from every other Service node.
  *
  * `offers` is an array built from the same rows the table renders — no figure
  * is written here, so the markup cannot quote a price the page does not show.
@@ -568,7 +603,7 @@ export function localServiceSchema(t: Dictionary): JsonLdObject {
     description: t.pages.aiConsultingIndianapolis.description,
     url,
     provider: { "@id": ORGANIZATION_ID },
-    areaServed: INDIANAPOLIS_CITIES.map((name) => ({ "@type": "City", name })),
+    areaServed: GBP_SERVICE_AREA.map((name) => ({ "@type": "City", name })),
     offers: localPricingRows(t).map((row) => ({
       ...offer(url, parsePublishedPrice(row.offerAmount), row.offerAmount),
       name: row.engagement,

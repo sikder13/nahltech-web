@@ -95,12 +95,55 @@ describe("the Service node", () => {
     aggregateRating?: unknown;
   };
 
-  it("claims only cities the page names out loud", () => {
-    // A city in the markup that a reader cannot find in the prose is a claim
-    // the page does not support.
+  it("mirrors the Business Profile service areas exactly", () => {
+    // An independent copy of the approved GBP list. AI systems corroborate a
+    // local business across sources, so a service area that disagrees with
+    // the Business Profile reads as two different businesses — which makes
+    // this an exact-match invariant, order included, not a set comparison.
+    expect(schema.areaServed.map((city) => city.name)).toEqual([
+      "Indianapolis",
+      "Carmel",
+      "Fishers",
+      "Noblesville",
+      "Westfield",
+      "Zionsville",
+      "Greenwood",
+      "Avon",
+      "Plainfield",
+      "Brownsburg",
+      "Lawrence",
+      "Anderson",
+      "Muncie",
+      "Kokomo",
+      "Lafayette",
+      "Columbus",
+      "Bloomington",
+      "Fort Wayne",
+      "Terre Haute",
+      "Evansville",
+    ]);
     for (const city of schema.areaServed) {
       expect(city["@type"]).toBe("City");
-      expect(copy, city.name).toContain(city.name);
+    }
+  });
+
+  it("covers every city the page names out loud", () => {
+    // The markup is allowed to serve more cities than the prose lists — the
+    // Business Profile is the source, not the copy. It is not allowed to
+    // serve fewer: a city a reader is told we cover must be in the footprint.
+    const served = new Set(schema.areaServed.map((city) => city.name));
+    for (const named of [
+      "Indianapolis",
+      "Carmel",
+      "Fishers",
+      "Greenwood",
+      "Zionsville",
+      "Noblesville",
+      "Anderson",
+      "Muncie",
+    ]) {
+      expect(copy, `${named} should be named in the copy`).toContain(named);
+      expect(served, `${named} should be in the service area`).toContain(named);
     }
   });
 
