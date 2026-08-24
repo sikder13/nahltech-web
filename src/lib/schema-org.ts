@@ -1,4 +1,5 @@
 import { getAuthor } from "@/lib/authors";
+import { localPricingRows } from "@/lib/pricing-mirror";
 import {
   companyProfiles,
   contactDetails,
@@ -514,6 +515,89 @@ export function serviceSchema(t: Dictionary, key: ServiceKey): JsonLdObject {
     provider: { "@id": ORGANIZATION_ID },
     areaServed: AREA_SERVED,
     offers: offer(url, parsePublishedPrice(amount), `${amount} ${unit}`),
+  };
+}
+
+/**
+ * The cities the Indianapolis page names, as places.
+ *
+ * This is the one Service node that carries City rather than the shared
+ * `AREA_SERVED` countries, and the exception is deliberate: a page whose
+ * whole subject is a metro area makes a narrower claim than the firm does,
+ * and the node should make the same claim the page does.
+ *
+ * The list is exactly the eight the copy names out loud — five in the lead,
+ * three more in the on-site FAQ — and not one more. `ai-consulting-
+ * indianapolis.test.ts` pins each of them to the prose, so a city cannot be
+ * claimed here that a reader cannot find on the page.
+ */
+const INDIANAPOLIS_CITIES: readonly string[] = [
+  "Indianapolis",
+  "Carmel",
+  "Fishers",
+  "Greenwood",
+  "Zionsville",
+  "Noblesville",
+  "Anderson",
+  "Muncie",
+];
+
+/**
+ * Service for the Indianapolis landing page.
+ *
+ * Separate from `serviceSchema` because it is not one of the five: it has no
+ * `ServiceKey`, its offers come from the mirrored rate-card table rather than
+ * a single published price, and its `areaServed` is cities rather than
+ * countries. Sharing the builder would have meant three conditionals inside
+ * it for one caller.
+ *
+ * `offers` is an array built from the same rows the table renders — no figure
+ * is written here, so the markup cannot quote a price the page does not show.
+ * "custom" parses to nothing and ships as an Offer with no price, exactly as
+ * it does on /pricing.
+ */
+export function localServiceSchema(t: Dictionary): JsonLdObject {
+  const url = absolute(routes.aiConsultingIndianapolis);
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": `${url}#service`,
+    name: "AI Consulting in Indianapolis",
+    serviceType: "AI consulting",
+    description: t.pages.aiConsultingIndianapolis.description,
+    url,
+    provider: { "@id": ORGANIZATION_ID },
+    areaServed: INDIANAPOLIS_CITIES.map((name) => ({ "@type": "City", name })),
+    offers: localPricingRows(t).map((row) => ({
+      ...offer(url, parsePublishedPrice(row.offerAmount), row.offerAmount),
+      name: row.engagement,
+      description: row.detail,
+      itemOffered: { "@type": "Service", name: row.engagement },
+    })),
+  };
+}
+
+/**
+ * FAQPage for a dictionary-backed page.
+ *
+ * `faqSchema` above takes documents whose entries were parsed out of MDX
+ * prose. These entries come from the dictionary the page renders, which gives
+ * the same guarantee by a different route: one source, read twice.
+ */
+export function dictionaryFaqSchema(
+  items: readonly { question: string; answer: string }[],
+): JsonLdObject | null {
+  if (items.length === 0) return null;
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((entry) => ({
+      "@type": "Question",
+      name: entry.question,
+      acceptedAnswer: { "@type": "Answer", text: entry.answer },
+    })),
   };
 }
 

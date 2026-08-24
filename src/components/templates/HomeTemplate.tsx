@@ -90,12 +90,28 @@ export function HomeTemplate({
 
       <ServicesGrid
         heading={t.home.services.heading}
-        services={serviceRouteKeys.map((key) => ({
-          title: t.services[key],
-          description: t.serviceSummaries[key],
-          href: routes[key],
-          icon: serviceIcons[key],
-        }))}
+        services={[
+          ...serviceRouteKeys.map((key) => ({
+            title: t.services[key],
+            description: t.serviceSummaries[key],
+            href: routes[key],
+            icon: serviceIcons[key],
+          })),
+          /* The Indianapolis landing page, sixth in the grid and not a sixth
+             service — `serviceRouteKeys` is still five, and nothing derived
+             from it changes. It earns a card here because this is the only
+             section on the home page that lists destinations you can hire us
+             through, and a page nothing links to is a page nobody finds.
+             Both strings are read from what the page already publishes: its
+             approved anchor and its own meta description, so the card cannot
+             describe it differently than it describes itself. */
+          {
+            title: t.aiConsultingIndianapolis.anchor,
+            description: t.pages.aiConsultingIndianapolis.description,
+            href: routes.aiConsultingIndianapolis,
+            icon: "pin" as const,
+          },
+        ]}
       />
 
       <MethodStrip

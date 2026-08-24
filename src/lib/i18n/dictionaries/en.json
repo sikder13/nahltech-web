@@ -146,6 +146,11 @@
       "title": "Software Development",
       "metaTitle": "Custom Software & AI Application Development | Nahl Technologies",
       "description": "Custom software and AI applications, built to production standard and owned by you. Quoted after an audit."
+    },
+    "aiConsultingIndianapolis": {
+      "title": "AI Consulting in Indianapolis",
+      "metaTitle": "AI Consulting in Indianapolis | Published Prices, ROI First | Nahl Technologies",
+      "description": "AI consulting in Indianapolis with published prices. Free 30-minute opportunity scan, ROI math you can check, and scoped builds live in 75 days or your money back."
     }
   },
   "notFound": {
@@ -987,6 +992,110 @@
       "footnote": "One discount per engagement; we'll apply whichever is largest."
     },
     "featuredLabel": "Most chosen"
+  },
+  "aiConsultingIndianapolis": {
+    "anchor": "AI consulting in Indianapolis",
+    "inboundLinks": {
+      "servicesHub": "Based in Indianapolis or the surrounding 317? See",
+      "aiConsultancy": "Working with a business in the Indianapolis area? See"
+    },
+    "lead": [
+      "We are Nahl Technologies, an AI consulting and implementation firm based on the northeast side of Indianapolis. We work with small and mid-size businesses across the 317 — Indianapolis, Carmel, Fishers, Greenwood, Zionsville, and anywhere within about 45 minutes of the city — plus remote clients across Indiana and the rest of the country.",
+      "Here is the short version of how we are different, in numbers you can check: our prices are published on this website, almost all of them. Every engagement starts with a free 30-minute AI opportunity scan. A full audit is $2,500, fully credited toward your first project. Scoped automation and software builds go live in 75 days, or your money back."
+    ],
+    "method": {
+      "heading": "What AI consulting actually looks like here",
+      "intro": "A lot of AI consulting is a strategy deck and an invoice. Ours works in four steps, and each step produces something you can hold:",
+      "steps": [
+        {
+          "label": "Observe.",
+          "body": "We study how your business actually runs — intake, quoting, scheduling, paperwork, reporting. Not how the org chart says it runs."
+        },
+        {
+          "label": "Quantify.",
+          "body": "We put numbers on the problems: hours spent, response times, error rates, cost per task. You get ROI math you can check against your own books before anything gets built."
+        },
+        {
+          "label": "Build.",
+          "body": "Workflow automation, AI agents, custom software, or a faster website — whichever the numbers point to. Fixed price, written scope, agreed before work starts."
+        },
+        {
+          "label": "Measure.",
+          "body": "We compare the result against the numbers we promised. If we told you a quoting workflow would save fifteen hours a week, we count the hours."
+        }
+      ],
+      "closing": "If the scan or the audit shows there is nothing worth building in your business right now, we say so and you have lost a coffee break. That happens, and saying it is cheaper for both of us than a project that should not exist."
+    },
+    "proof": {
+      "heading": "Proof you can check before you call",
+      "items": [
+        "Our own website is our work sample. It scores 100/100 on AI-readiness, loads in under a second, and every claim on it is sourced. We build client sites to the same standard.",
+        "We publish original research. We audited 187 small-business websites and published the findings openly, with the dataset licensed for anyone to use. Half of those sites have pages nothing links to.",
+        "We build products in the same shop. Crawlmouse is our free website auditor — over 250 audits run. Hafsa Sastho is our Bengali-language maternal health app. We do not sell anything we cannot build ourselves.",
+        "You can read our prices right now. No call required to hear a number."
+      ]
+    },
+    "audience": {
+      "heading": "Who this is for",
+      "intro": "Most of our Indianapolis-area clients look like one of these:",
+      "items": [
+        "Manufacturers and job shops modernizing their operations — often businesses that invested in automated equipment and now generate data nobody reads, or run quoting and scheduling on spreadsheets and inboxes.",
+        "Service businesses where the owner is the bottleneck: intake, follow-up, invoicing, and scheduling eating hours that should go to customers.",
+        "Professional firms that need to be findable — on Google and, increasingly, when someone asks ChatGPT or Gemini who to hire."
+      ],
+      "closing": "If you need a two-hundred-person enterprise program, larger Indianapolis firms like Resultant are built for that scale, and we will say so in the first call. If you want senior engineers finding and shipping the highest-ROI automation in a small or mid-size operation, that is exactly what we do."
+    },
+    "pricing": {
+      "heading": "Pricing, in plain sight",
+      "columns": {
+        "engagement": "Engagement",
+        "price": "Price",
+        "detail": "What you get"
+      },
+      "scanRow": {
+        "engagement": "AI Opportunity Scan",
+        "price": "Free, 30 minutes",
+        "detail": "The three places AI most likely pays off in your business. No pitch."
+      },
+      "auditDetail": "Two weeks. Quantified findings, ROI math, prioritized plan. Fee credited to your first project.",
+      "guarantee": "Scoped automation and software builds go live in 75 days, or your money back.",
+      "discounts": "Standing discounts for veteran-owned, senior-owned, and new Greater Indianapolis businesses, and 30% for nonprofits."
+    },
+    "faq": {
+      "heading": "Frequently asked questions",
+      "items": [
+        {
+          "question": "How much does AI consulting cost in Indianapolis?",
+          "answer": "With us: the first 30 minutes are free, a full audit is $2,500 with the fee fully credited toward your first project within 90 days, and scoped builds start at $6,000. Market-wide, Indianapolis AI consultants typically charge anywhere from around $150 per hour to five-figure monthly retainers, and many do not publish prices at all. We publish ours."
+        },
+        {
+          "question": "Do you come on-site?",
+          "answer": "Yes, anywhere within about 45 minutes of Indianapolis, including Carmel, Fishers, Noblesville, Greenwood, Anderson, and Muncie. Beyond that we work remotely, and we serve clients across the United States, Canada, and the Gulf region."
+        },
+        {
+          "question": "What does the 75-day guarantee cover?",
+          "answer": "Any automation or software build with a written scope: if it is not live in production within 75 days of the scope being signed, you get your money back. It does not apply to audits (which have their own promise: the fee is credited to your first project) or to ongoing SEO and AI-visibility work, where no honest firm can guarantee outcomes it does not control."
+        },
+        {
+          "question": "We already use ChatGPT. Why would we need a consultant?",
+          "answer": "Using AI tools and getting ROI from AI are different jobs. The value is rarely in the chat window; it is in wiring AI into your intake, quoting, scheduling, and reporting so work that eats staff hours happens on its own. That is plumbing, and plumbing is what we build."
+        },
+        {
+          "question": "Can you make our business show up in ChatGPT and Google's AI answers?",
+          "answer": "That is one of our core services — AI search visibility. We do the machine-readable identity work, the content, and the citation building that AI assistants draw from, and we measure it weekly. What we will not do is guarantee a ranking or a citation, because nobody controls those systems, and anyone who guarantees them is guessing."
+        },
+        {
+          "question": "What industries do you know?",
+          "answer": "Manufacturing and job shops, logistics, professional services, and local service businesses. Our research corpus — the 187-site study and 250+ Crawlmouse audits — is built almost entirely from small and mid-size American businesses."
+        }
+      ]
+    },
+    "cta": {
+      "heading": "Start with the free 30-minute scan.",
+      "body": "Bring your website or your workflow problem. If there is nothing worth building, we will say so.",
+      "primaryLabel": "Book the scan",
+      "phoneNote": "a real person answers"
+    }
   },
   "research": {
     "kinds": {

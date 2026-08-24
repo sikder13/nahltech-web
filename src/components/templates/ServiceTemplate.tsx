@@ -39,10 +39,18 @@ export function ServiceTemplate({
   content,
   demo,
   serviceKey,
+  aside,
 }: {
   t: Dictionary;
   content: ServiceContent;
   demo: ReactNode;
+  /**
+   * An optional line between the measurement block and the FAQ. Only
+   * `/services/ai-consultancy` passes one today — the link to the
+   * Indianapolis landing page — and the other four service pages render
+   * exactly as they did.
+   */
+  aside?: ReactNode;
   /**
    * Which service this page is. Only used to classify a lead submitted from
    * the form at the foot of the page — passed explicitly rather than inferred
@@ -85,6 +93,8 @@ export function ServiceTemplate({
         heading={content.measurement.heading}
         body={content.measurement.body}
       />
+
+      {aside}
 
       <FaqBlock heading={t.service.faqHeading} items={content.faq} />
 

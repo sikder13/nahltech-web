@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { CardGrid, ServiceCard } from "@/components/blocks/cards";
 import { CtaSlim } from "@/components/blocks/CtaSlim";
 import { HubTemplate } from "@/components/templates/HubTemplate";
@@ -36,16 +38,31 @@ export default async function Page({
       intro={[t.hubPages.services.intro, t.hubPages.services.introSecond]}
       emptyLabel={t.hub.emptyLabel}
       footer={
-        /* The cards are five examples, not a menu. This says so after the
-           visitor has read them, where the alternative — a sixth card
-           labelled "something else" — would have looked like a service. */
-        <CtaSlim
-          body={t.hubPages.services.closingBody}
-          action={{
-            label: t.hubPages.services.closingLink,
-            href: routes.contact,
-          }}
-        />
+        <>
+          {/* Local intent, answered where it comes up: the intro above says
+              "in Indiana, across the United States, and worldwide", and this
+              is the Indiana half of that sentence given somewhere to go. */}
+          <p className="mt-lg max-w-prose text-text-muted">
+            {t.aiConsultingIndianapolis.inboundLinks.servicesHub}{" "}
+            <Link
+              href={routes.aiConsultingIndianapolis}
+              className="link-accent underline decoration-accent decoration-2"
+            >
+              {t.aiConsultingIndianapolis.anchor}
+            </Link>
+            .
+          </p>
+          {/* The cards are five examples, not a menu. This says so after the
+              visitor has read them, where the alternative — a sixth card
+              labelled "something else" — would have looked like a service. */}
+          <CtaSlim
+            body={t.hubPages.services.closingBody}
+            action={{
+              label: t.hubPages.services.closingLink,
+              href: routes.contact,
+            }}
+          />
+        </>
       }
     >
       {/* Three then two at lg — five in a four-column grid would orphan one. */}

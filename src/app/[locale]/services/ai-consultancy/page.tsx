@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { DemoCasePanel } from "@/components/blocks/demos";
 import { ServiceTemplate } from "@/components/templates/ServiceTemplate";
 import { requireDictionary } from "@/lib/i18n/require-dictionary";
@@ -47,6 +49,25 @@ export default async function Page({
             rows={t.servicePages.aiConsultancy.demo.rows}
             closing={t.servicePages.aiConsultancy.demo.closing}
           />
+        }
+        /* The one addition to this page: a route to the Indianapolis landing
+           page for the reader who came here with local intent. Sits after the
+           measurement block, where the page has finished making its case and
+           the next question is whether we work near them. Nothing else on
+           this page changes. */
+        aside={
+          <div className="mx-auto max-w-(--container-page) px-sm">
+            <p className="max-w-prose text-text-muted">
+              {t.aiConsultingIndianapolis.inboundLinks.aiConsultancy}{" "}
+              <Link
+                href={routes.aiConsultingIndianapolis}
+                className="link-accent underline decoration-accent decoration-2"
+              >
+                {t.aiConsultingIndianapolis.anchor}
+              </Link>
+              .
+            </p>
+          </div>
         }
       />
     </>

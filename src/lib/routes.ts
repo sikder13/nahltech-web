@@ -18,6 +18,19 @@ export const routes = {
   aiAutomation: "/services/ai-automation",
   webDevelopment: "/services/web-development",
   softwareDevelopment: "/services/software-development",
+  /**
+   * Local landing page for the Indianapolis market.
+   *
+   * Deliberately *not* a sixth service. `serviceRouteKeys` stays five, the
+   * nav gains nothing, `knowsAbout` gains nothing, and no service grid
+   * derives a card from it — it sells the same engagement
+   * `/services/ai-consultancy` sells, to the visitor who searched for it by
+   * city. It sits at the root rather than under `/services` because that is
+   * the URL the copy was approved against, and because a city page nested
+   * under a service reads as a variant of that service rather than an
+   * entry point of its own.
+   */
+  aiConsultingIndianapolis: "/ai-consulting-indianapolis",
   products: "/products",
   crawlmouse: "/products/crawlmouse",
   hafsaSastho: "/products/hafsa-sastho",

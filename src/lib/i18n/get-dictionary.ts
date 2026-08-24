@@ -124,6 +124,56 @@ export type Dictionary = typeof enDictionary;
  * destination, states no product fact, number, claim or price, and follows
  * the wording of the three sibling labels it sits beside.
  *
+ * ── Founder-supplied, verbatim, 24 August 2026 (DRAFT-ai-consulting-
+ *    indianapolis) ─────────────────────────────────────────────────────────
+ *
+ *   pages.aiConsultingIndianapolis.*
+ *   aiConsultingIndianapolis.*  — except `inboundLinks`, recorded below
+ *
+ * The Indianapolis landing page, supplied as an approved draft and inserted
+ * without rewording. Four amendments, each authorised by the founder in the
+ * same session rather than decided here:
+ *
+ * 1. The draft's audit figure ($1,500–$3,500) contradicted the published
+ *    rate card ($2,500). The founder supplied a replacement sentence for the
+ *    lead — "A full audit is $2,500, fully credited toward your first
+ *    project." — which is what ships.
+ * 2. Same conflict in the first FAQ answer, same resolution: the founder
+ *    supplied the replacement pricing sentence verbatim, naming $2,500,
+ *    the 90-day credit window, and $6,000 as the build entry point.
+ * 3. `audience.closing` drops one word. The draft read "enterprise
+ *    transformation program", and "transform" is on the hard-rule-15 banned
+ *    list without the quotation marks the rejection exception requires. It
+ *    was flagged rather than reworded, and the founder chose removal of the
+ *    single word over the alternatives.
+ * 4. `pages.aiConsultingIndianapolis.description` measures 163 characters
+ *    against the draft header's own ≤165 guard; the draft's own wording came
+ *    to 171. Flagged rather than trimmed on this file's own precedent (see
+ *    COPY-PACK-1 §2 above), and the founder selected the two-word trim that
+ *    ships — "scoped builds that go live" became "scoped builds live".
+ *
+ * The prices the table shows are not in the dictionary at all. They are read
+ * out of `pricing.*` at render time by `lib/pricing-mirror.ts`, so the page
+ * cannot quote a figure /pricing does not publish. Hard rule 12 by
+ * construction rather than by review.
+ *
+ * One duration on that page is knowingly out of step and is the founder's to
+ * settle: the audit row says "Two weeks" where the rate card says "two to
+ * three weeks". It is not a price, so the mirror does not govern it, and the
+ * founder's instruction was no rewording beyond the two supplied sentences.
+ *
+ * ── CC-authored microcopy, 24 August 2026 ─────────────────────────────────
+ *
+ *   aiConsultingIndianapolis.inboundLinks.servicesHub
+ *   aiConsultingIndianapolis.inboundLinks.aiConsultancy
+ *
+ * The two lead-ins that carry the internal link to the Indianapolis page
+ * from /services and /services/ai-consultancy. Navigational microcopy on the
+ * same terms as the blocks above: each names a destination and asks a
+ * qualifying question, and neither states a product fact, number, claim or
+ * price. The link text itself is not authored here — both render
+ * `aiConsultingIndianapolis.anchor`, which is the founder's specified anchor.
+ *
  * ── Not yet written ───────────────────────────────────────────────────────
  *
  * 0 `[PLACEHOLDER: …]` strings remain. Every string in en.json is approved

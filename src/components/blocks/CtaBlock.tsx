@@ -15,12 +15,19 @@ export function CtaBlock({
   primary,
   phone,
   orCallLabel,
+  phoneNote,
 }: {
   heading: string;
   body: string;
   primary: CtaAction;
   phone: CtaAction;
   orCallLabel: string;
+  /**
+   * Trailing aside after the number — "a real person answers". Optional, so
+   * the four pages that closed with this block before still render exactly
+   * as they did; only a page whose approved copy carries the line passes it.
+   */
+  phoneNote?: string;
 }) {
   return (
     <section className="bg-surface">
@@ -39,6 +46,7 @@ export function CtaBlock({
             <span className="flex items-center gap-2xs text-sm text-text-muted">
               {orCallLabel}
               <PhoneLink label={phone.label} href={phone.href} />
+              {phoneNote ? <span>{`— ${phoneNote}`}</span> : null}
             </span>
           </div>
         </FadeIn>
