@@ -144,8 +144,11 @@ export function LocalLandingTemplate({
               </table>
             </div>
 
+            {/* The rate card's own string, not a copy of it — /pricing
+                renders this same key, so the promise cannot be worded one way
+                here and another way there. */}
             <p className="mt-md max-w-prose border-s-4 border-accent ps-md text-text">
-              {content.pricing.guarantee}
+              {t.pricing.guarantee}
             </p>
             <p className="mt-md max-w-prose text-sm text-text-muted">
               {content.pricing.discounts}

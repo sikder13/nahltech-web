@@ -198,6 +198,7 @@ export function PricingTemplate({ t }: { t: Dictionary }) {
         projects={t.pricing.projects}
         featuredLabel={t.pricing.featuredLabel}
         ctaHref={routes.contact}
+        guarantee={t.pricing.guarantee}
       />
 
       <DiscountsBlock

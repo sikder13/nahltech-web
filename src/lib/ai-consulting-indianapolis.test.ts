@@ -61,6 +61,20 @@ describe("the pricing table mirrors /pricing", () => {
     expect(() => localPricingRows(renamed)).toThrow(/Web Development/);
   });
 
+  it("takes the 75-day promise from the rate card, not a copy of it", () => {
+    // /pricing renders this same key under its builds. A guarantee worded
+    // one way here and another way there is two different promises.
+    expect(t.pricing.guarantee).toBe(
+      "Scoped automation and software builds go live in 75 days, or your money back.",
+    );
+    // The standalone line under the table comes from that key, so the page's
+    // pricing block must not hold a second copy of the sentence. The lead
+    // paragraph does state it in prose — that is the founder's approved lead,
+    // not a duplicate of the rate-card line.
+    expect(page.pricing).not.toHaveProperty("guarantee");
+    expect(page.lead.join(" ")).toContain(t.pricing.guarantee);
+  });
+
   it("states the build entry point the FAQ quotes", () => {
     // The founder's replacement sentence says builds start at $6,000, which
     // is only true while $6,000 is the cheapest build on the rate card.

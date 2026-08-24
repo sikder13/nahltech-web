@@ -274,12 +274,20 @@ export function PricingTable({
   projects,
   featuredLabel,
   ctaHref,
+  guarantee,
 }: {
   tiers: readonly PricingTier[];
   projectsHeading: string;
   projects: readonly ProjectService[];
   featuredLabel: string;
   ctaHref: string;
+  /**
+   * The delivery promise that applies to the builds above it. Sits with the
+   * builds rather than the tiers because it does not cover the audit — the
+   * Indianapolis page's FAQ is explicit about that, and this renders the same
+   * string that page does.
+   */
+  guarantee?: string;
 }) {
   return (
     <>
@@ -345,6 +353,11 @@ export function PricingTable({
               </div>
             ))}
           </dl>
+          {guarantee ? (
+            <p className="mt-md max-w-prose border-s-4 border-accent ps-md text-text">
+              {guarantee}
+            </p>
+          ) : null}
         </FadeIn>
       </section>
     </>

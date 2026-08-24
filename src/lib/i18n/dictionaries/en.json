@@ -980,6 +980,7 @@
         "note": "updates, monitoring, support"
       }
     ],
+    "guarantee": "Scoped automation and software builds go live in 75 days, or your money back.",
     "discounts": {
       "heading": "Priced for the people we want to work with.",
       "items": [
@@ -1058,7 +1059,6 @@
         "detail": "The three places AI most likely pays off in your business. No pitch."
       },
       "auditDetail": "Two weeks. Quantified findings, ROI math, prioritized plan. Fee credited to your first project.",
-      "guarantee": "Scoped automation and software builds go live in 75 days, or your money back.",
       "discounts": "Standing discounts for veteran-owned, senior-owned, and new Greater Indianapolis businesses, and 30% for nonprofits."
     },
     "faq": {

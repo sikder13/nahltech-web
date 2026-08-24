@@ -162,6 +162,20 @@ export type Dictionary = typeof enDictionary;
  * three weeks". It is not a price, so the mirror does not govern it, and the
  * founder's instruction was no rewording beyond the two supplied sentences.
  *
+ * ── Founder-supplied, verbatim, 24 August 2026 ────────────────────────────
+ *
+ *   pricing.guarantee
+ *
+ * The 75-day delivery promise, approved with the draft above and added to
+ * the rate card in the same session so the two pages agree. It lives under
+ * `pricing` rather than with the landing-page copy because it is a term of
+ * the rate card: /pricing renders it under the builds, and the Indianapolis
+ * page renders the same key under its mirrored table. One string, two
+ * surfaces, for the same reason the descriptor is one string across three.
+ *
+ * It sits with the builds, not the tiers, because it does not cover audits —
+ * which the page's third FAQ states out loud.
+ *
  * ── CC-authored microcopy, 24 August 2026 ─────────────────────────────────
  *
  *   aiConsultingIndianapolis.inboundLinks.servicesHub
