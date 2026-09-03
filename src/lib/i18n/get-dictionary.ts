@@ -102,19 +102,54 @@ export type Dictionary = typeof enDictionary;
  * to be the same string. `copy-provenance.test.ts` pins the three as identical,
  * so editing one and not the others fails rather than drifts.
  *
- * §2 was amended on 22 August and the amended form is what ships. The first
- * version measured 171 characters against the 158 the pack claimed, which was
- * flagged rather than trimmed — hard rule 12 makes the copy the founder's,
- * and cutting approved copy to fit a guideline is rewriting it. The founder
- * supplied a 158-character replacement instead, which is this one, and it
- * measures 158. The sentence that changed is the third: "for businesses
- * across the US, Canada, and the Gulf region" became "Serving the US, Canada,
- * and the Gulf region".
+ * §2 was amended on 22 August. The first version measured 171 characters
+ * against the 158 the pack claimed, which was flagged rather than trimmed —
+ * hard rule 12 makes the copy the founder's, and cutting approved copy to fit
+ * a guideline is rewriting it. The founder supplied a 158-character
+ * replacement instead. The sentence that changed is the third: "for
+ * businesses across the US, Canada, and the Gulf region" became "Serving the
+ * US, Canada, and the Gulf region". That form shipped until 3 September; the
+ * territory block below supersedes its third sentence and nothing else.
  *
  * `pages.about.description` carries no "About Nahl Technologies: " prefix.
  * The pack made that prefix conditional on the result staying at or under 165
- * characters; prefixed it comes to 183, so the pack's own rule still selects
+ * characters; prefixed it comes to 202, so the pack's own rule still selects
  * §2 unmodified.
+ *
+ * ── Founder-supplied, verbatim, 3 September 2026 (territory expansion) ─────
+ *
+ *   about.intro              §1, third clause only
+ *   site.description         §2, third sentence only
+ *   pages.home.description   §2, character-identical to site.description
+ *   pages.about.description  §2, character-identical to site.description
+ *
+ * GTM expanded to the USA, Canada, the UAE, Saudi Arabia, Kazakhstan and New
+ * Zealand, so the one sentence that names the territory changed and nothing
+ * else did:
+ *
+ *   long form   "serving businesses across the United States, Canada, and the
+ *               Gulf region" → "serving businesses across North America, the
+ *               Gulf region, Central Asia, and New Zealand"
+ *   short form  "Serving the US, Canada, and the Gulf region." → "Serving
+ *               North America, the Gulf, Central Asia, and New Zealand."
+ *
+ * **This phrase is now frozen.** It is not a string to keep tuning: repeated
+ * identity churn resets the convergence of what AI systems answer about this
+ * company, which is the whole reason the sentence exists in one place. The
+ * expansion was authorised as a single change. Do not reword it again without
+ * an explicit founder decision that accepts that cost.
+ *
+ * The short form costs length. §2 measured 158 characters and now measures
+ * 177, over the pack's own 165 guideline, because the new sentence is 20
+ * characters longer than the one it replaces. The relay anticipated an
+ * overflow and pre-approved "Serving North America, the Gulf, Central Asia &
+ * New Zealand." as the fallback; that form measures 174 and is also over, so
+ * it buys nothing the approved wording does not already have. Shipped at the
+ * approved wording under hard rule 12 — a shorter sentence would be new copy,
+ * and writing it is the founder's to do, not this file's. Google truncates
+ * display around 155-160, so the tail is at risk in a SERP snippet; the
+ * Organization node carries the full string either way, and that is the
+ * surface this sentence was rewritten for.
  *
  * ── CC-authored microcopy, 22 August 2026 ─────────────────────────────────
  *

@@ -360,10 +360,11 @@ describe("organizationSchema identity", () => {
     expect(schema.description).toMatch(/^AI consulting and implementation/);
   });
 
-  it("serves eight named countries, not a phrase", () => {
-    // `areaServed` takes places. "the Gulf region" is not one, so the Gulf is
-    // named country by country; a consumer resolves AE and cannot resolve a
-    // region name.
+  it("serves ten named countries, not a phrase", () => {
+    // `areaServed` takes places. "the Gulf region" is not one, so every
+    // region the descriptor names is spelled out country by country; a
+    // consumer resolves AE and cannot resolve a region name. The order is the
+    // descriptor's: North America, the Gulf, Central Asia, New Zealand.
     expect(schema.areaServed).toEqual([
       { "@type": "Country", name: "US" },
       { "@type": "Country", name: "CA" },
@@ -373,18 +374,32 @@ describe("organizationSchema identity", () => {
       { "@type": "Country", name: "KW" },
       { "@type": "Country", name: "BH" },
       { "@type": "Country", name: "OM" },
+      { "@type": "Country", name: "KZ" },
+      { "@type": "Country", name: "NZ" },
     ]);
   });
 
-  it("gives LocalBusiness the same eight countries", () => {
+  it("claims only the Central Asian country the firm actually sells into", () => {
+    // The sentence says "Central Asia"; the graph says KZ and stops there.
+    // The other four Central Asian states were never named in the expansion,
+    // so listing them would be the machine half claiming more territory than
+    // the firm does. Pinned so a later edit widens the list on a decision
+    // rather than on the phrase sounding broader than it is.
+    const names = (schema.areaServed as { name: string }[]).map((c) => c.name);
+    for (const unsold of ["UZ", "TM", "KG", "TJ"]) {
+      expect(names, unsold).not.toContain(unsold);
+    }
+  });
+
+  it("gives LocalBusiness the same ten countries", () => {
     // Two nodes describing one company. If they claim different territories,
     // one of them is wrong and a consumer has no way to tell which.
     expect(localBusinessSchema(t).areaServed).toEqual(schema.areaServed);
   });
 
-  it("gives every Service node the same eight countries", () => {
+  it("gives every Service node the same ten countries", () => {
     // The Services used to say "Worldwide" while the identity nodes named
-    // eight countries. Not false, but two claims where the graph gets one.
+    // the countries. Not false, but two claims where the graph gets one.
     for (const key of serviceRouteKeys) {
       expect(serviceSchema(t, key).areaServed, key).toEqual(schema.areaServed);
     }
@@ -403,7 +418,7 @@ describe("organizationSchema identity", () => {
 
   it("keeps the City exception to the one node that owns it", () => {
     // /ai-consulting-indianapolis carries City because its subject is the
-    // local footprint. Every other node keeps the shared eight countries —
+    // local footprint. Every other node keeps the shared ten countries —
     // that is what makes it a scoped exception rather than a reversal, and
     // this is the assertion that stops it spreading.
     for (const node of [

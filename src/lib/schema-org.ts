@@ -48,16 +48,26 @@ const LOCAL_BUSINESS_ID = `${siteUrl}/#localbusiness`;
  * Where we sell — places, not prose. One constant for every node that makes
  * the claim: Organization, LocalBusiness and all five Services.
  *
- * The Gulf is named country by country because `areaServed` takes places and
- * "the Gulf region" is not one: a consumer resolves AE, it cannot resolve a
- * phrase. ISO 3166-1 alpha-2 throughout, so the eight are one kind of value
- * rather than a mix of codes and long names.
+ * Every region the descriptor names is spelled out country by country,
+ * because `areaServed` takes places and "the Gulf region" is not one: a
+ * consumer resolves AE, it cannot resolve a phrase. ISO 3166-1 alpha-2
+ * throughout, so the ten are one kind of value rather than a mix of codes and
+ * long names.
  *
- * These eight are the machine-readable half of the canonical descriptor, and
- * nothing here goes beyond what that descriptor says out loud.
+ * These ten are the machine-readable half of the canonical descriptor, and
+ * nothing here goes beyond what that descriptor says out loud. The order is
+ * the descriptor's order: North America (US, CA), the Gulf (AE, SA, QA, KW,
+ * BH, OM), Central Asia (KZ), New Zealand (NZ).
+ *
+ * Central Asia is one country here and a region in the sentence, and that
+ * asymmetry is deliberate. The GTM expansion named Kazakhstan; the other four
+ * Central Asian states were not named and are not sold into, so claiming them
+ * as places would be the machine half saying more than the firm does. The
+ * narrower list is the defensible one — widen it when a country is actually
+ * added, not when the phrase sounds broader.
  *
  * The Service nodes used to carry `[{City: Indianapolis}, "Worldwide"]`
- * instead. "Worldwide" was not false, but a firm that sells into eight named
+ * instead. "Worldwide" was not false, but a firm that sells into ten named
  * countries and offers its services worldwide is two claims, and the graph
  * only gets to make one.
  *
@@ -70,7 +80,7 @@ const LOCAL_BUSINESS_ID = `${siteUrl}/#localbusiness`;
  *
  * The exception is scoped, not a reversal. This constant is untouched and
  * still shared: Organization, LocalBusiness and all five `serviceSchema`
- * nodes carry these eight countries. Only `localServiceSchema` differs, and
+ * nodes carry these ten countries. Only `localServiceSchema` differs, and
  * its list is defined beside it — deliberately not in here, so that widening
  * the city footprint cannot reach any other node by accident.
  * `schema-org.test.ts` asserts City appears on that node and on no other.
@@ -84,6 +94,8 @@ const AREA_SERVED: readonly unknown[] = [
   { "@type": "Country", name: "KW" },
   { "@type": "Country", name: "BH" },
   { "@type": "Country", name: "OM" },
+  { "@type": "Country", name: "KZ" },
+  { "@type": "Country", name: "NZ" },
 ];
 
 /**
@@ -443,7 +455,7 @@ export function localBusinessSchema(t: Dictionary): JsonLdObject {
     telephone: contactDetails.phoneDisplay,
     email: contactDetails.email,
     address: postalAddress(),
-    // The same eight countries the Organization claims. The Indianapolis half
+    // The same ten countries the Organization claims. The Indianapolis half
     // of the old value is not lost by dropping the City node: `address` three
     // lines up carries the locality, which is the stronger local signal and
     // the one the Google Business Profile is matched against.

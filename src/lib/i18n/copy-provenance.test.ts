@@ -113,6 +113,23 @@ describe("copy provenance block", () => {
   });
 });
 
+/**
+ * The regions the identity phrase claims, as of the 3 September 2026
+ * expansion. Written out rather than parsed out of the sentence: the point of
+ * the constant is to be an independent copy, so that editing the descriptor
+ * and editing what it is checked against are two deliberate acts.
+ *
+ * "the Gulf" rather than "the Gulf region" because the short form shortens it
+ * and the long form does not; this is the half both of them share.
+ */
+const SERVED_REGIONS = [
+  "Indianapolis",
+  "North America",
+  "the Gulf",
+  "Central Asia",
+  "New Zealand",
+] as const;
+
 describe("the canonical short descriptor", () => {
   // COPY-PACK-1 §2 is one string with three jobs: the home meta description,
   // the About meta description, and the Organization node's `description`.
@@ -133,14 +150,25 @@ describe("the canonical short descriptor", () => {
   });
 
   it("names the served regions the descriptor names", () => {
-    for (const region of ["Indianapolis", "US", "Canada", "Gulf region"]) {
+    for (const region of SERVED_REGIONS) {
       expect(en.site.description, region).toContain(region);
+    }
+  });
+
+  it("names the same regions as the long descriptor on /about", () => {
+    // The identity phrase exists in two lengths — the short form on the three
+    // meta surfaces, the long form in the /about lead and in llms.txt — and
+    // an expansion that reaches one and not the other is how the site starts
+    // telling two stories about where it sells. The wording differs by
+    // design ("the Gulf" against "the Gulf region"); the regions may not.
+    for (const region of SERVED_REGIONS) {
+      expect(en.about.intro, region).toContain(region);
     }
   });
 
   it("carries no About-page prefix, because the prefixed form is too long", () => {
     // The pack made "About Nahl Technologies: " conditional on the result
-    // staying at or under 165 characters. It comes to 196, so the pack's own
+    // staying at or under 165 characters. It comes to 202, so the pack's own
     // rule selects the unmodified form. Pinned so a later edit that adds the
     // prefix has to confront the length rather than silently exceed it.
     const prefixed = `About Nahl Technologies: ${en.site.description}`;

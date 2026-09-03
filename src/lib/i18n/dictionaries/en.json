@@ -2,7 +2,7 @@
   "site": {
     "name": "Nahl Technologies",
     "legalName": "Nahl Technologies Inc.",
-    "description": "AI consulting and implementation firm in Indianapolis. Workflow automation, custom software, and web development. Serving the US, Canada, and the Gulf region."
+    "description": "AI consulting and implementation firm in Indianapolis. Workflow automation, custom software, and web development. Serving North America, the Gulf, Central Asia, and New Zealand."
   },
   "a11y": {
     "skipToContent": "Skip to content",
@@ -68,7 +68,7 @@
     "home": {
       "title": "Nahl Technologies",
       "metaTitle": "Nahl Technologies — AI Consulting & Implementation | Indianapolis, Serving Worldwide",
-      "description": "AI consulting and implementation firm in Indianapolis. Workflow automation, custom software, and web development. Serving the US, Canada, and the Gulf region."
+      "description": "AI consulting and implementation firm in Indianapolis. Workflow automation, custom software, and web development. Serving North America, the Gulf, Central Asia, and New Zealand."
     },
     "services": {
       "title": "Services",
@@ -119,7 +119,7 @@
     "about": {
       "title": "About",
       "metaTitle": "About | Nahl Technologies — AI Consulting Company in Indianapolis",
-      "description": "AI consulting and implementation firm in Indianapolis. Workflow automation, custom software, and web development. Serving the US, Canada, and the Gulf region."
+      "description": "AI consulting and implementation firm in Indianapolis. Workflow automation, custom software, and web development. Serving North America, the Gulf, Central Asia, and New Zealand."
     },
     "contact": {
       "title": "Contact",
@@ -798,7 +798,7 @@
     }
   },
   "about": {
-    "intro": "Nahl Technologies is an AI consulting and implementation firm in Indianapolis, Indiana, serving businesses across the United States, Canada, and the Gulf region. The firm builds AI workflow automation, custom software, and fast, search-ready websites, and publishes its research openly. It also makes two products of its own: Crawlmouse, a free website auditor, and Hafsa Sastho, a Bengali-language maternal and infant health app.",
+    "intro": "Nahl Technologies is an AI consulting and implementation firm in Indianapolis, Indiana, serving businesses across North America, the Gulf region, Central Asia, and New Zealand. The firm builds AI workflow automation, custom software, and fast, search-ready websites, and publishes its research openly. It also makes two products of its own: Crawlmouse, a free website auditor, and Hafsa Sastho, a Bengali-language maternal and infant health app.",
     "storyHeading": "Our story",
     "storyParagraphs": [
       "Nahl (نحل) is Arabic for honeybee — small, relentless, and useful far beyond its size.",

@@ -1,6 +1,6 @@
 # Nahl Technologies
 
-> Nahl Technologies is an AI consulting and implementation firm in Indianapolis, Indiana, serving businesses across the United States, Canada, and the Gulf region. The firm builds AI workflow automation, custom software, and fast, search-ready websites, and publishes its research openly. It also makes two products of its own: Crawlmouse, a free website auditor, and Hafsa Sastho, a Bengali-language maternal and infant health app.
+> Nahl Technologies is an AI consulting and implementation firm in Indianapolis, Indiana, serving businesses across North America, the Gulf region, Central Asia, and New Zealand. The firm builds AI workflow automation, custom software, and fast, search-ready websites, and publishes its research openly. It also makes two products of its own: Crawlmouse, a free website auditor, and Hafsa Sastho, a Bengali-language maternal and infant health app.
 
 ## Key pages
 
