@@ -139,17 +139,23 @@ export type Dictionary = typeof enDictionary;
  * expansion was authorised as a single change. Do not reword it again without
  * an explicit founder decision that accepts that cost.
  *
- * The short form costs length. §2 measured 158 characters and now measures
- * 177, over the pack's own 165 guideline, because the new sentence is 20
- * characters longer than the one it replaces. The relay anticipated an
- * overflow and pre-approved "Serving North America, the Gulf, Central Asia &
- * New Zealand." as the fallback; that form measures 174 and is also over, so
- * it buys nothing the approved wording does not already have. Shipped at the
- * approved wording under hard rule 12 — a shorter sentence would be new copy,
- * and writing it is the founder's to do, not this file's. Google truncates
- * display around 155-160, so the tail is at risk in a SERP snippet; the
- * Organization node carries the full string either way, and that is the
- * surface this sentence was rewritten for.
+ * The short form cost length, briefly. The 3 September territory wording
+ * measured 177 against the pack's 165 guideline — the new sentence being 20
+ * characters longer than the one it replaced — and the pre-approved
+ * ampersand fallback measured 174, so neither approved form cleared the
+ * guard. It shipped at 177 on the founder's decision rather than being
+ * trimmed here, and the founder supplied a 163-character rewrite later the
+ * same day, which is what ships now. That one restructures the sentence rather
+ * than shortening the territory list: the descriptor leads with the firm and
+ * the territory in one clause, and the three capabilities follow as a
+ * fragment. The territory phrase itself is unchanged and still frozen.
+ *
+ * All three surfaces carry it, not two. The founder's instruction named the
+ * home and About meta descriptions; `site.description` is the same string by
+ * construction and is what the Organization node reads, so leaving it behind
+ * would have split the identity across the graph and the pages — the exact
+ * failure the one-string rule exists to prevent — and failed the test that
+ * pins the three identical.
  *
  * ── CC-authored microcopy, 22 August 2026 ─────────────────────────────────
  *
@@ -196,6 +202,11 @@ export type Dictionary = typeof enDictionary;
  * settle: the audit row says "Two weeks" where the rate card says "two to
  * three weeks". It is not a price, so the mirror does not govern it, and the
  * founder's instruction was no rewording beyond the two supplied sentences.
+ *
+ * The territory sentence in the "Do you come on-site?" answer was a second
+ * such divergence and is closed: the founder replaced its closing clause
+ * with the frozen phrase's regions on 3 September. Prose and `FAQPage`
+ * markup move together because both read this one key.
  *
  * ── Founder-supplied, verbatim, 24 August 2026 ────────────────────────────
  *
@@ -255,12 +266,15 @@ export type Dictionary = typeof enDictionary;
  * other route to the same guarantee: it reads every dollar figure out of all
  * four pages and fails if one is not a figure the rate card publishes.
  *
- * One sentence on these pages is knowingly out of step and is the founder's
- * to settle: the Canada page's first FAQ answer says the firm serves "North
- * America, the Gulf region, and Central Asia" — written before New Zealand
- * joined the descriptor, and not amended because the instruction was verbatim
- * insertion. It is the third place the territory is stated differently; see
- * SESSION-STATE §4.
+ * ── Founder-supplied, verbatim, 3 September 2026 (phrase harmonisation) ──
+ *
+ * The Canada page's first FAQ answer named three regions where the
+ * descriptor names four — it was written before New Zealand joined and
+ * shipped unamended because the instruction was verbatim insertion. The
+ * founder supplied the corrected clause, and the matching one for the
+ * Indianapolis page, in the same decision: **the frozen phrase wins
+ * everywhere**. The site now states its territory one way, in prose and in
+ * `FAQPage` markup alike, since both read these keys.
  *
  * ── CC-authored microcopy, 24 August 2026 ─────────────────────────────────
  *

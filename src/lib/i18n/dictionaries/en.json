@@ -2,7 +2,7 @@
   "site": {
     "name": "Nahl Technologies",
     "legalName": "Nahl Technologies Inc.",
-    "description": "AI consulting and implementation firm in Indianapolis. Workflow automation, custom software, and web development. Serving North America, the Gulf, Central Asia, and New Zealand."
+    "description": "AI consulting and implementation firm in Indianapolis, serving North America, the Gulf, Central Asia and New Zealand. Automation, custom software, web development."
   },
   "a11y": {
     "skipToContent": "Skip to content",
@@ -68,7 +68,7 @@
     "home": {
       "title": "Nahl Technologies",
       "metaTitle": "Nahl Technologies — AI Consulting & Implementation | Indianapolis, Serving Worldwide",
-      "description": "AI consulting and implementation firm in Indianapolis. Workflow automation, custom software, and web development. Serving North America, the Gulf, Central Asia, and New Zealand."
+      "description": "AI consulting and implementation firm in Indianapolis, serving North America, the Gulf, Central Asia and New Zealand. Automation, custom software, web development."
     },
     "services": {
       "title": "Services",
@@ -119,7 +119,7 @@
     "about": {
       "title": "About",
       "metaTitle": "About | Nahl Technologies — AI Consulting Company in Indianapolis",
-      "description": "AI consulting and implementation firm in Indianapolis. Workflow automation, custom software, and web development. Serving North America, the Gulf, Central Asia, and New Zealand."
+      "description": "AI consulting and implementation firm in Indianapolis, serving North America, the Gulf, Central Asia and New Zealand. Automation, custom software, web development."
     },
     "contact": {
       "title": "Contact",
@@ -1090,7 +1090,7 @@
         },
         {
           "question": "Do you come on-site?",
-          "answer": "Yes, anywhere within about 45 minutes of Indianapolis, including Carmel, Fishers, Noblesville, Greenwood, Anderson, and Muncie. Beyond that we work remotely, and we serve clients across the United States, Canada, and the Gulf region."
+          "answer": "Yes, anywhere within about 45 minutes of Indianapolis, including Carmel, Fishers, Noblesville, Greenwood, Anderson, and Muncie. Beyond that we work remotely, and we serve clients across North America, the Gulf region, Central Asia, and New Zealand."
         },
         {
           "question": "What does the 75-day guarantee cover?",
@@ -1144,7 +1144,7 @@
         "items": [
           {
             "question": "Do you work with Canadian small businesses remotely?",
-            "answer": "Yes — that is the model. Scans, audits, and builds all run remotely, with your team on video calls during your business hours. We serve clients across North America, the Gulf region, and Central Asia from Indianapolis."
+            "answer": "Yes — that is the model. Scans, audits, and builds all run remotely, with your team on video calls during your business hours. We serve clients across North America, the Gulf region, Central Asia, and New Zealand from Indianapolis."
           },
           {
             "question": "How much does AI consulting cost for a Canadian business?",

@@ -1,15 +1,20 @@
 # SESSION-STATE
 
-Handoff snapshot; update at the end of every session. **Last updated:**
-3 September 2026 · HEAD `716322d` · build complete through the security gate ·
-**cutover done, `nahltech.com` live** · 417 tests passing
+Handoff snapshot; update at the end of every session. This entry names a
+commit subject rather than a SHA because the docs and the code ship in one
+commit here, and a commit cannot contain its own hash — do not substitute a
+SHA for it, and prefer a separate docs commit next time if the stamp needs
+one. **Last updated:**
+3 September 2026 · at the `fix(seo): state the served territory one way`
+commit, which carries this snapshot · build complete through the security
+gate · **cutover done, `nahltech.com` live** · 419 tests passing
 
 ## 1. Status
 
 **The build is COMPLETE through the security gate.** Live at
 **https://nahltech.com** since the 17 Aug cutover; the
-`nahltech-web.vercel.app` alias still resolves. HEAD `716322d` · 171 commits ·
-**417 tests passing** · first-load JS **145 kB** on `/about`, `/contact` and
+`nahltech-web.vercel.app` alias still resolves. **172 commits** ·
+**419 tests passing** · first-load JS **145 kB** on `/about`, `/contact` and
 `/pricing`, **146 kB** on the five service pages and **123 kB** on
 `/ai-consulting-indianapolis` and each of the four market pages, against a
 145 kB ceiling — measured at this HEAD, breach and remedy in §3b.
@@ -243,11 +248,10 @@ here** — check before assuming it was.
     them would be the machine half claiming more ground than the firm sells
     into. A test pins UZ, TM, KG and TJ as absent — widen that list on a
     decision, not because the phrase sounds broader than it is.
-  - **§2 now measures 177 characters, 12 over the pack's 165 guideline**, and
-    that is the founder's call rather than an oversight. The pre-approved
-    ampersand fallback measures 174, so neither approved wording clears the
-    guard and the primary wording shipped un-trimmed (hard rule 12). Detail
-    in §2 and in the provenance block.
+  - **§2 measured 177 characters, 12 over the pack's 165 guideline**, shipped
+    un-trimmed on the founder's call because neither approved wording cleared
+    the guard (the ampersand fallback came to 174). **Superseded the same day**
+    by the 163-character rewrite below.
   - **The Indianapolis FAQ was out of scope and now disagrees.** Its "Do you
     come on-site?" answer still closes on "we serve clients across the United
     States, Canada, and the Gulf region" — in the rendered `FAQPage` markup as
@@ -295,6 +299,34 @@ page: **not services** — `serviceRouteKeys` stays five, the nav is unchanged,
   re-used rather than rewritten.
 - `crawl:check` **PASS at 36 pages** — zero orphans, zero broken links. The
   four URLs are in the sitemap because the route registry builds it.
+
+**Then, same day — the phrase harmonisation, one commit.**
+
+Both open territory items closed together, on one founder decision: **the
+frozen phrase wins everywhere.**
+
+- **§2 is 163 characters** and clears the 165 guideline for the first time
+  since August. The founder restructured the sentence rather than shortening
+  the territory list — firm and territory in one clause, the three
+  capabilities as a fragment — so **the frozen phrase itself is unchanged**.
+- **All three surfaces carry it, not the two the instruction named.**
+  `site.description` is the same string by construction and is what the
+  Organization node reads; leaving it behind would have split the identity
+  between the graph and the pages, which is the exact failure the one-string
+  rule prevents, and `copy-provenance.test.ts` would have failed.
+- **The two stale territory sentences are corrected** — the Indianapolis "Do
+  you come on-site?" answer and the Canada page's first FAQ answer. Both
+  render from one dictionary key each, so **prose and `FAQPage` markup moved
+  together**; verified in the rendered output rather than assumed.
+- **`llms.txt` moved with them.** It quotes each key page's own first
+  metadata sentence, so the home and About lines went stale the moment the
+  descriptor changed. `llms-txt.test.ts` caught it — which is that file's
+  whole reason for existing, and worth knowing before hand-editing it.
+- **Two tests now hold the harmonisation.** Any string naming two of the four
+  regions together must name all four — a list of the footprint has to be the
+  whole footprint — and the three superseded phrasings must appear nowhere.
+  The second is the one that catches an edit reaching for an old sentence out
+  of a draft or from memory.
 
 **Security — CC-SEC-1 is done.** `docs/SECURITY.md` is the posture document,
 written to be read by a client as well as a maintainer.
@@ -378,14 +410,17 @@ photographs. The story is demoted, not edited.
 to `site.description` and to the Organization node's `description` — one string
 on three surfaces, pinned by `copy-provenance.test.ts` so editing one and not
 the others fails rather than drifts. Its third sentence has been rewritten
-twice and nothing else in it has changed: 171 characters as supplied, 158 after
-the founder's 22 Aug amendment (`83643d1`), **177 since the 3 Sep territory
-expansion** (`2264250`), which is 12 over the pack's own 165 guideline. Each
-time the copy was flagged rather than trimmed, because cutting approved copy to
-fit a guideline is rewriting it (hard rule 12), and each time the founder chose
-what shipped. The About prefix the pack offered was resolved by the pack's own
-rule: prefixed it overshoots 165 by a wider margin than ever, so §2 ships
-unmodified. Both `metaTitle`s are untouched, at 65 and 84 characters.
+three times and the pattern is the point: 171 characters as supplied, 158 after
+the founder's 22 Aug amendment (`83643d1`), 177 with the 3 Sep territory
+expansion (`2264250`), and **163 now**, after the founder restructured it later
+the same day. Each time the copy was flagged rather than trimmed, because
+cutting approved copy to fit a guideline is rewriting it (hard rule 12), and
+each time the founder chose what shipped. The current form leads with the firm
+and the territory in one clause and lists the three capabilities as a fragment
+— it is the first version since August to clear the 165 guideline. The About
+prefix the pack offered was resolved by the pack's own rule: prefixed it comes
+to 188, so §2 ships unmodified. Both `metaTitle`s are untouched, at 65 and 84
+characters.
 
 **`/ai-consulting-indianapolis` carries approved copy with four recorded
 amendments** (24 Aug). Its pricing table is not copy at all — it is read from
@@ -531,22 +566,13 @@ outside the brief. Founder decision.**
    test asserts "Worldwide" appears on no node. The single
    deliberate exception is the twenty Business Profile cities on the local
    `Service` node (§1) — do not add `City` objects anywhere else.
-8. **Amend the Indianapolis FAQ's territory sentence.** `2264250` changed the
-   identity phrase everywhere it was allowed to, and that relay put the
-   Indianapolis page's copy out of scope, so the "Do you come on-site?" answer
-   still ends "we serve clients across the United States, Canada, and the Gulf
-   region". The site now states its service area two ways and both are
-   machine-readable — the descriptor through Organization, this one through
-   `FAQPage`. That is the same cross-source disagreement the GBP mirror exists
-   to prevent, turned inward. Needs founder-supplied replacement wording; the
-   edit itself is one key.
-
-   **A third divergence joined it on 3 Sep.** The Canada market page's first
-   FAQ answer says the firm serves "North America, the Gulf region, and
-   Central Asia" — written before New Zealand joined the descriptor, and
-   shipped unamended because the relay's instruction was verbatim insertion.
-   Both sentences are in `FAQPage` markup as well as prose. One founder
-   decision can settle both; they are one key each.
+8. ~~**Amend the two stale territory sentences.**~~ — **done 3 Sep 2026.**
+   The Indianapolis "Do you come on-site?" answer and the Canada page's first
+   FAQ answer each named a territory the descriptor had moved past, in
+   `FAQPage` markup as well as in prose. The founder settled both in one
+   decision — the frozen phrase wins everywhere — and two tests now hold it:
+   a footprint list must name all four regions, and the superseded phrasings
+   must appear nowhere. **The site states its territory one way.**
 
 ## 5. Outstanding — founder side
 

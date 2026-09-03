@@ -168,12 +168,55 @@ describe("the canonical short descriptor", () => {
 
   it("carries no About-page prefix, because the prefixed form is too long", () => {
     // The pack made "About Nahl Technologies: " conditional on the result
-    // staying at or under 165 characters. It comes to 202, so the pack's own
+    // staying at or under 165 characters. It comes to 188, so the pack's own
     // rule selects the unmodified form. Pinned so a later edit that adds the
     // prefix has to confront the length rather than silently exceed it.
     const prefixed = `About Nahl Technologies: ${en.site.description}`;
     expect(prefixed.length).toBeGreaterThan(165);
     expect(en.pages.about.description.startsWith("About")).toBe(false);
+  });
+});
+
+describe("the served territory is stated one way", () => {
+  /** Every string value in the dictionary, unescaped. */
+  const strings = [...JSON.stringify(en).matchAll(/"((?:[^"\\]|\\.)*)"/g)].map(
+    (match) => match[1].replaceAll("\\u2014", "—"),
+  );
+
+  it("names all four regions wherever it lists the footprint", () => {
+    // A sentence that names two of the four regions together is listing where
+    // the firm sells, not naming one market — the Gulf page's own metadata
+    // says "the wider Gulf" and nothing else, and is rightly not caught here.
+    // Once it is a list, it has to be the whole list: this is the assertion
+    // that stopped two sentences drifting a region behind the descriptor on
+    // 3 September, one of them into FAQPage markup.
+    const footprint = strings.filter(
+      (value) => value.includes("Central Asia") && value.includes("Gulf"),
+    );
+    expect(footprint.length).toBeGreaterThan(0);
+
+    for (const value of footprint) {
+      for (const region of SERVED_REGIONS.filter(
+        (name) => name !== "Indianapolis",
+      )) {
+        expect(value, `"${value.slice(0, 56)}…" omits ${region}`).toContain(
+          region,
+        );
+      }
+    }
+  });
+
+  it("carries none of the superseded territory phrasings", () => {
+    // The phrase is frozen, and these are the three forms it has already
+    // moved through. Any of them reappearing means an edit reached for an old
+    // sentence — from a draft, a cached copy, or memory.
+    for (const stale of [
+      "the United States, Canada, and the Gulf region",
+      "the US, Canada, and the Gulf region",
+      "North America, the Gulf region, and Central Asia",
+    ]) {
+      expect(strings.filter((value) => value.includes(stale))).toEqual([]);
+    }
   });
 });
 
