@@ -31,6 +31,23 @@ export const routes = {
    * entry point of its own.
    */
   aiConsultingIndianapolis: "/ai-consulting-indianapolis",
+  /**
+   * Market landing pages — one per territory the canonical descriptor names.
+   *
+   * Same reasoning as the Indianapolis page and the same limits: not
+   * services, so `serviceRouteKeys` stays five and `knowsAbout` gains
+   * nothing. Each sells the engagement `/services/ai-consultancy` sells, to
+   * a visitor who searched from a place rather than for a capability.
+   *
+   * **There is no `/markets` hub route, deliberately.** Nothing links to that
+   * path, `breadcrumbSchema` skips a segment it cannot resolve, and adding
+   * one would be a page with no approved copy on it. The four leaves are the
+   * whole feature.
+   */
+  marketCanada: "/markets/canada",
+  marketGulf: "/markets/gulf",
+  marketCentralAsia: "/markets/central-asia",
+  marketNewZealand: "/markets/new-zealand",
   products: "/products",
   crawlmouse: "/products/crawlmouse",
   hafsaSastho: "/products/hafsa-sastho",
@@ -59,6 +76,37 @@ export const serviceRouteKeys = [
 ] as const satisfies readonly RouteKey[];
 
 export type ServiceKey = (typeof serviceRouteKeys)[number];
+
+/**
+ * The four markets, in the order the canonical descriptor names them:
+ * North America, the Gulf, Central Asia, New Zealand.
+ *
+ * Read by the markets sentence, the sitemap and the tests, so the order a
+ * visitor meets them in is the order the identity phrase already uses. A
+ * fifth market is a route, a dictionary slice and an entry here.
+ */
+export const marketRouteKeys = [
+  "marketCanada",
+  "marketGulf",
+  "marketCentralAsia",
+  "marketNewZealand",
+] as const satisfies readonly RouteKey[];
+
+export type MarketKey = (typeof marketRouteKeys)[number];
+
+/**
+ * Route key → the slice under `markets` in the dictionary.
+ *
+ * Written out rather than derived from the route key by string surgery: a
+ * mapping that a human can read wrong is better than one a rename can break
+ * silently, and `markets.test.ts` checks both sides still exist.
+ */
+export const marketDictionaryKeys = {
+  marketCanada: "canada",
+  marketGulf: "gulf",
+  marketCentralAsia: "centralAsia",
+  marketNewZealand: "newZealand",
+} as const satisfies Record<MarketKey, string>;
 
 /**
  * The data report the home page's proof line cites by its numbers.

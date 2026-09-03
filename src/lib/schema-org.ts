@@ -6,6 +6,7 @@ import {
   productLinks,
   routes,
   siteUrl,
+  type MarketKey,
   type RouteKey,
   type ServiceKey,
 } from "@/lib/routes";
@@ -541,6 +542,61 @@ export function serviceSchema(t: Dictionary, key: ServiceKey): JsonLdObject {
     provider: { "@id": ORGANIZATION_ID },
     areaServed: AREA_SERVED,
     offers: offer(url, parsePublishedPrice(amount), `${amount} ${unit}`),
+  };
+}
+
+/**
+ * The countries each market page claims, as ISO 3166-1 alpha-2 codes.
+ *
+ * Every one of these is a subset of `AREA_SERVED`: a market page cannot claim
+ * a country the Organization does not, and `schema-org.test.ts` asserts that
+ * rather than trusting it. The graph's outer boundary stays the one constant
+ * at the top of this file; these narrow it per page.
+ *
+ * Countries only — no `City` objects. The Indianapolis exception is the sole
+ * place a City appears, and it stays sole (see the block on `AREA_SERVED`).
+ * A market page's subject is a territory, not a locality, and a city node
+ * here would be claiming a physical presence that does not exist: the Gulf
+ * page says out loud that we have no Gulf office, and the markup has to agree
+ * with the sentence.
+ */
+const MARKET_COUNTRIES = {
+  marketCanada: ["CA"],
+  marketGulf: ["AE", "SA", "QA", "KW", "BH", "OM"],
+  marketCentralAsia: ["KZ"],
+  marketNewZealand: ["NZ"],
+} as const satisfies Record<MarketKey, readonly string[]>;
+
+/**
+ * Service + FAQPage subject for one market page.
+ *
+ * No `offers`, unlike `serviceSchema` and `localServiceSchema`. Those two
+ * read a published figure — a service page's price field, the mirrored rate
+ * card — and these pages have neither: their prices live inside approved
+ * prose. Parsing a dollar amount back out of a sentence to build an Offer
+ * would be inventing structured data from copy, which is the failure this
+ * whole file is written to avoid. The prices are still held to `/pricing`,
+ * by assertion in `markets.test.ts`.
+ */
+export function marketServiceSchema(
+  t: Dictionary,
+  key: MarketKey,
+): JsonLdObject {
+  const url = absolute(routes[key]);
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": `${url}#service`,
+    name: t.pages[key].title,
+    serviceType: "AI consulting",
+    description: t.pages[key].description,
+    url,
+    provider: { "@id": ORGANIZATION_ID },
+    areaServed: MARKET_COUNTRIES[key].map((name) => ({
+      "@type": "Country",
+      name,
+    })),
   };
 }
 

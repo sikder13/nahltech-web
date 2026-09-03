@@ -211,6 +211,57 @@ export type Dictionary = typeof enDictionary;
  * It sits with the builds, not the tiers, because it does not cover audits —
  * which the page's third FAQ states out loud.
  *
+ * ── Founder-supplied, verbatim, 3 September 2026 (DRAFTS-market-pages-
+ *    batch1 + NZ addendum Part B) ────────────────────────────────────────
+ *
+ *   pages.marketCanada.*  ·  pages.marketGulf.*
+ *   pages.marketCentralAsia.*  ·  pages.marketNewZealand.*
+ *   markets.*
+ *
+ * Four market landing pages — Canada, the Gulf, Central Asia, New Zealand —
+ * supplied as approved drafts and inserted without rewording. Four
+ * amendments, every one of them decided by the founder in the same session:
+ *
+ * 1. `pages.marketCanada.description` came to 167 characters against the
+ *    draft header's own ≤165 guard. Flagged rather than trimmed, on the
+ *    precedent above; the founder picked the 163-character form that ships,
+ *    which drops one "and" and changes nothing else. The other three metas
+ *    passed as written (Gulf 162, Central Asia 155, New Zealand 159).
+ * 2. The Central Asia lead arrived damaged — a clause end, a heading and the
+ *    opening words of the next section were missing, leaving "…and prove"
+ *    running straight into "our operations, quantify…". Nothing was
+ *    reconstructed here. The founder supplied the whole passage verbatim:
+ *    the lead now ends "…and prove the return in numbers.", the heading
+ *    "What we do for Central Asian businesses" was added, and that section
+ *    opens "We study your operations, quantify where…". Without it the page
+ *    would not have shipped in this batch.
+ * 3. One price-anchoring sentence per page is new copy approved with this
+ *    relay rather than carried in the original drafts —
+ *    `markets.<market>.sections[].priceAnchor`. Each was written to sit
+ *    immediately after the block that quotes the figures, which is why the
+ *    template renders it last within its section and not wherever it would
+ *    fit.
+ * 4. `markets.sentencePrefix` plus the four `anchor` values are the founder's
+ *    sentence for the Indianapolis page — "We also work remotely with
+ *    businesses in Canada, the Gulf region, Central Asia, and New Zealand."
+ *    The home page and the /about services band render that same sentence
+ *    from that same key rather than each getting a lead-in written for it.
+ *    No connecting prose was authored for either placement; only the commas
+ *    and the "and" are code, and `markets.test.ts` pins the assembled
+ *    sentence character for character.
+ *
+ * The prices in this copy are prose, so `pricing-mirror` cannot govern them
+ * the way it governs the Indianapolis table. `markets.test.ts` takes the
+ * other route to the same guarantee: it reads every dollar figure out of all
+ * four pages and fails if one is not a figure the rate card publishes.
+ *
+ * One sentence on these pages is knowingly out of step and is the founder's
+ * to settle: the Canada page's first FAQ answer says the firm serves "North
+ * America, the Gulf region, and Central Asia" — written before New Zealand
+ * joined the descriptor, and not amended because the instruction was verbatim
+ * insertion. It is the third place the territory is stated differently; see
+ * SESSION-STATE §4.
+ *
  * ── CC-authored microcopy, 24 August 2026 ─────────────────────────────────
  *
  *   aiConsultingIndianapolis.inboundLinks.servicesHub

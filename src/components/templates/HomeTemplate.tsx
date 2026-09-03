@@ -3,6 +3,7 @@ import { FeaturedResearch } from "@/components/blocks/FeaturedResearch";
 import { Hero } from "@/components/blocks/Hero";
 import { MethodStrip } from "@/components/blocks/MethodStrip";
 import { ProofBar } from "@/components/blocks/ProofBar";
+import { MarketsLine } from "@/components/blocks/MarketsLine";
 import { ServicesGrid } from "@/components/blocks/ServicesGrid";
 import { TwoWaysBlock } from "@/components/blocks/TwoWaysBlock";
 import {
@@ -112,6 +113,15 @@ export function HomeTemplate({
             icon: "pin" as const,
           },
         ]}
+        /* The markets, as one line rather than four more cards. The grid is
+           already six tiles and a visitor scanning "What we do" is reading
+           capabilities, not territories — but the four pages have to be
+           reachable from the page that lists where you can hire us, or they
+           are pages nothing links to. Same sentence /about and the
+           Indianapolis page render, from the same key. */
+        footer={
+          <MarketsLine t={t} className="mt-lg max-w-prose text-text-muted" />
+        }
       />
 
       <MethodStrip

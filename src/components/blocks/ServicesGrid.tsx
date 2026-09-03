@@ -2,6 +2,7 @@ import { CardGrid, ServiceCard } from "@/components/blocks/cards";
 import { FadeIn } from "@/components/ui/FadeIn";
 
 import type { IconName } from "@/components/ui/Icon";
+import type { ReactNode } from "react";
 
 export type ServiceEntry = {
   title: string;
@@ -13,9 +14,16 @@ export type ServiceEntry = {
 export function ServicesGrid({
   heading,
   services,
+  footer,
 }: {
   heading: string;
   services: readonly ServiceEntry[];
+  /**
+   * A line under the grid, inside the same FadeIn so it arrives with the
+   * cards rather than after them. The home page puts the markets sentence
+   * here; absent, the section renders exactly as it did before.
+   */
+  footer?: ReactNode;
 }) {
   return (
     <section
@@ -42,6 +50,7 @@ export function ServicesGrid({
             ))}
           </CardGrid>
         </div>
+        {footer}
       </FadeIn>
     </section>
   );

@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { CtaBlock } from "@/components/blocks/CtaBlock";
+import { MarketsLine } from "@/components/blocks/MarketsLine";
 import { PageHeader } from "@/components/blocks/PageHeader";
 import {
   ClosingLine,
@@ -79,6 +80,11 @@ export function AboutTemplate({ t }: { t: Dictionary }) {
                   </li>
                 ))}
               </ul>
+              {/* Where that work is sold, after what the work is. Inside the
+                  Prose column so it reads as the band's closing line rather
+                  than a separate block — the anchors pick up the same link
+                  treatment the five above them have. */}
+              <MarketsLine t={t} />
             </Prose>
           </FadeIn>
         </div>

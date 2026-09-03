@@ -151,6 +151,26 @@
       "title": "AI Consulting in Indianapolis",
       "metaTitle": "AI Consulting in Indianapolis | Published Prices, ROI First | Nahl Technologies",
       "description": "AI consulting in Indianapolis with published prices. Free 30-minute opportunity scan, ROI math you can check, and scoped builds live in 75 days or your money back."
+    },
+    "marketCanada": {
+      "title": "AI Consulting for Canadian Businesses",
+      "metaTitle": "AI Consulting for Canadian Businesses | Remote, US-Based | Nahl Technologies",
+      "description": "US-based AI consulting for Canadian businesses. Same time zones, published prices, free 30-minute opportunity scan, builds delivered in 75 days or your money back."
+    },
+    "marketGulf": {
+      "title": "AI Consulting for Businesses in the Gulf",
+      "metaTitle": "AI Consulting for Gulf Businesses | US Firm, Gulf Hours | Nahl Technologies",
+      "description": "US-based AI consulting serving the UAE, Saudi Arabia, and the wider Gulf remotely — on Gulf working hours. Published prices and a free 30-minute opportunity scan."
+    },
+    "marketCentralAsia": {
+      "title": "AI Consulting for Kazakhstan and Central Asia",
+      "metaTitle": "AI Consulting for Kazakhstan & Central Asia | US Firm | Nahl Technologies",
+      "description": "US-based AI consulting serving Kazakhstan and Central Asia remotely. English-language delivery, published prices, and a free 30-minute AI opportunity scan."
+    },
+    "marketNewZealand": {
+      "title": "AI Consulting for New Zealand Businesses",
+      "metaTitle": "AI Consulting for New Zealand Businesses | US Firm, NZ Hours | Nahl Technologies",
+      "description": "US-based AI consulting for New Zealand businesses — your morning is our afternoon. Published prices, free 30-minute scan, builds in 75 days or your money back."
     }
   },
   "notFound": {
@@ -1095,6 +1115,186 @@
       "body": "Bring your website or your workflow problem. If there is nothing worth building, we will say so.",
       "primaryLabel": "Book the scan",
       "phoneNote": "a real person answers"
+    }
+  },
+  "markets": {
+    "sentencePrefix": "We also work remotely with businesses in",
+    "canada": {
+      "anchor": "Canada",
+      "lead": "Nahl Technologies is an AI consulting and implementation firm in Indianapolis, working with Canadian businesses entirely remotely — and for most of Canada, in your own time zone. We find where AI genuinely recovers money in your operation, then build it: workflow automation, custom software, and websites that both Google and AI assistants can actually read.",
+      "sections": [
+        {
+          "heading": "The execution gap, Canadian edition",
+          "paragraphs": [
+            "Canada does not lack AI strategy — it lacks applied AI implementers: the people who wire AI into quoting, intake, scheduling, and reporting inside real businesses. That gap is what we do. Every engagement starts with a free 30-minute opportunity scan, a full audit is $2,500 fully credited toward your first project, and scoped builds go live in 75 days or your money back. Our prices are published; you can read them before you ever talk to us."
+          ],
+          "priceAnchor": "For context: our full audit costs less than most Canadian agencies charge for the discovery phase alone."
+        },
+        {
+          "heading": "Practical things Canadian clients ask about",
+          "items": [
+            "Time zones: Indianapolis runs on Eastern Time — the same working day as Toronto, Ottawa, and Montréal, one hour off Winnipeg, and a workable overlap with Calgary and Vancouver mornings.",
+            "Payment and contracting: we contract as a US Delaware corporation and invoice in USD; most Canadian clients pay by wire or card exactly as they would any US software vendor.",
+            "The funding question: the federal CDAP grant most articles still recommend is closed to new applicants. What remains is a changing mix of regional and provincial programs — we track what is actually open, and our audit reports note where a program could offset project costs."
+          ]
+        }
+      ],
+      "faq": {
+        "heading": "FAQ",
+        "items": [
+          {
+            "question": "Do you work with Canadian small businesses remotely?",
+            "answer": "Yes — that is the model. Scans, audits, and builds all run remotely, with your team on video calls during your business hours. We serve clients across North America, the Gulf region, and Central Asia from Indianapolis."
+          },
+          {
+            "question": "How much does AI consulting cost for a Canadian business?",
+            "answer": "The first 30 minutes are free. A full AI opportunity audit is $2,500 USD, fully credited toward your first project within 90 days. Scoped builds start at $6,000 USD with a written scope and a 75-day delivery guarantee."
+          },
+          {
+            "question": "Can you help us show up in ChatGPT and Google's AI answers in Canada?",
+            "answer": "Yes — AI search visibility is a core service, and we practice it on ourselves in public. What we will not do is guarantee rankings or citations; nobody honestly can."
+          }
+        ]
+      },
+      "cta": {
+        "heading": "Start with the free 30-minute scan.",
+        "body": "If there is nothing worth building, we will say so.",
+        "primaryLabel": "Book the scan"
+      }
+    },
+    "gulf": {
+      "anchor": "the Gulf region",
+      "lead": "Nahl Technologies is an American AI consulting and implementation firm in Indianapolis that serves businesses across the United Arab Emirates, Saudi Arabia, Qatar, Kuwait, Bahrain, and Oman — remotely, and deliberately on your clock. Our working week runs Sunday through Thursday from 5 AM US Eastern, which is midday to early afternoon in Riyadh and Dubai. Friday mornings we pause for Jumu'ah.",
+      "sections": [
+        {
+          "heading": "The execution gap",
+          "paragraphs": [
+            "The Gulf leads the world in AI ambition — national strategies, sovereign compute, a Minister of AI. What remains scarce is applied implementation: taking the AI a business already has access to and wiring it into quoting, customer intake, back-office paperwork, and reporting so it measurably recovers money. That is the entire business of this firm. We are engineers who publish our prices, our methods, and our research, and we tell you before any money moves whether a project will pay for itself."
+          ]
+        },
+        {
+          "heading": "How a US firm works with you honestly",
+          "items": [
+            "Hours that respect yours: Sunday–Thursday availability from midday Gulf time. Booked calls, answered — not an American firm asking you to meet at your midnight.",
+            "Plain pricing in the open: a free 30-minute AI opportunity scan; a $2,500 audit fully credited toward your first project; scoped builds from $6,000 with delivery in 75 days or your money back. All published.",
+            "What we do not pretend: we have no Gulf office and will not claim one. For engagements that require an on-the-ground presence or Arabic-language delivery, we will say so in the first call rather than after a contract."
+          ],
+          "priceAnchor": "For context: our full audit typically costs a fraction of a single month of a regional agency retainer, with every price visible before you call."
+        }
+      ],
+      "faq": {
+        "heading": "FAQ",
+        "items": [
+          {
+            "question": "Do you serve clients in the UAE and Saudi Arabia remotely?",
+            "answer": "Yes. Scans, audits, automation builds, custom software, and AI search visibility work all run remotely, scheduled during Gulf business hours, Sunday through Thursday."
+          },
+          {
+            "question": "What does AI consulting cost for a Gulf business?",
+            "answer": "The first 30 minutes are free. A full audit is $2,500 USD, credited toward your first project within 90 days. Scoped builds start at $6,000 USD with a written scope and a 75-day delivery guarantee."
+          },
+          {
+            "question": "Can you make our business appear in ChatGPT, Gemini, and Google AI answers?",
+            "answer": "That is one of our core services. We do the machine-readable identity work, the content, and the citation building AI assistants draw from, and we measure results weekly. We do not guarantee rankings or citations, and we would be cautious of anyone who does."
+          }
+        ]
+      },
+      "cta": {
+        "heading": "Book the free 30-minute scan — afternoon Gulf time, Sunday to Thursday.",
+        "primaryLabel": "Book the scan"
+      }
+    },
+    "centralAsia": {
+      "anchor": "Central Asia",
+      "lead": "Nahl Technologies is an American AI consulting and implementation firm in Indianapolis serving businesses in Kazakhstan and the wider Central Asia region remotely, in English. Kazakhstan has declared its Year of Artificial Intelligence and the capital is flowing; what remains scarce everywhere is applied implementation — engineers who connect AI to the systems a business already runs and prove the return in numbers.",
+      "sections": [
+        {
+          "heading": "What we do for Central Asian businesses",
+          "paragraphs": [
+            "We study your operations, quantify where AI genuinely recovers money, and build exactly that: workflow automation, AI agents wired into your existing tools, custom software, and websites that Google and AI assistants can read. Every recommendation arrives with ROI math you can check against your own books. Our prices are published on this site — a free 30-minute opportunity scan, a $2,500 audit fully credited toward your first project, and scoped builds from $6,000 delivered in 75 days or your money back."
+          ],
+          "priceAnchor": "For context: you get US senior engineering at a published, fixed price — no enterprise retainer required to find out what things cost."
+        },
+        {
+          "heading": "The honest practicalities",
+          "items": [
+            "Language: delivery is in English. Many of the enterprises and tech companies we would serve in Almaty and Astana work comfortably in English; if your team does not, we are the wrong fit today and will say so.",
+            "Hours: Almaty is ten hours ahead of Indianapolis. Our early-morning availability (from 5 AM Eastern) lands in your mid-afternoon, and we schedule around that overlap deliberately.",
+            "Contracting: we contract as a US Delaware corporation and invoice in USD. Where a client requires a domestic contracting entity, we will discuss the right structure honestly rather than improvise one."
+          ]
+        }
+      ],
+      "faq": {
+        "heading": "FAQ",
+        "items": [
+          {
+            "question": "Does a US AI consulting firm really serve Kazakhstan remotely?",
+            "answer": "Yes — remote delivery in English, scheduled in the Almaty afternoon. Scans and audits run entirely over video with screen-shared, verifiable findings."
+          },
+          {
+            "question": "What does an engagement cost?",
+            "answer": "The first 30 minutes are free. A full AI opportunity audit is $2,500 USD, credited toward your first project within 90 days. Scoped builds start at $6,000 USD with a 75-day delivery guarantee."
+          },
+          {
+            "question": "What kinds of Central Asian businesses fit best?",
+            "answer": "English-working enterprises, tech companies, and growth businesses that already run digital systems — the audit tells us quickly whether the return is there, and if it is not, we say so."
+          }
+        ]
+      },
+      "cta": {
+        "heading": "Book the free 30-minute scan — Almaty afternoon slots available.",
+        "primaryLabel": "Book the scan"
+      }
+    },
+    "newZealand": {
+      "anchor": "New Zealand",
+      "lead": "Nahl Technologies is an American AI consulting and implementation firm in Indianapolis that works with New Zealand businesses entirely remotely — and the clock is on our side: your business morning is our mid-afternoon, so meetings happen in your 9-to-1 without anyone taking a midnight call.",
+      "sections": [
+        {
+          "heading": "New Zealand's numbers tell one story",
+          "paragraphs": [
+            "Nearly every New Zealand organisation now touches AI, yet only a small fraction have scaled it into their operations — and the most-cited blocker isn't interest or access, it's expertise. Surveys of NZ businesses report large majorities struggling to find AI talent and unsure how to turn tools into results, while AI specialist salaries have climbed out of reach for most small and mid-size firms. When hiring the capability is impossible, the practical answer is buying the implementation — scoped, priced, and delivered by a team that does this every week."
+          ]
+        },
+        {
+          "heading": "How we work with Kiwi businesses",
+          "paragraphs": [
+            "We study your operations, quantify where AI genuinely recovers money, and build exactly that: workflow automation, AI agents wired into the tools you already run, custom software, and websites that Google and AI assistants can actually read. Every recommendation comes with ROI math you can check against your own books, and if the numbers say there's nothing worth building, we say so and you've lost half an hour."
+          ],
+          "items": [
+            "Prices in the open: a free 30-minute AI opportunity scan; a full audit at $2,500 USD, fully credited toward your first project within 90 days; scoped builds from $6,000 USD, live in 75 days or your money back.",
+            "Hours that fit: we schedule NZ clients between 9 AM and early afternoon NZ time, Monday to Friday — inside our regular working day.",
+            "Contracting: we bill as a US Delaware corporation in USD; standard international card or wire, the same as any US software vendor Kiwi firms already use.",
+            "What we don't pretend: no Auckland office, no local entity today. If your engagement genuinely needs on-the-ground presence, we'll tell you in the first call."
+          ],
+          "priceAnchor": "For context: a full audit costs less than one week of a local AI specialist's salary — for firms that can find one to hire at all."
+        }
+      ],
+      "faq": {
+        "heading": "FAQ",
+        "items": [
+          {
+            "question": "Does a US AI consultancy really work New Zealand hours?",
+            "answer": "Yes, because geography does the work: New Zealand mornings fall in our Indianapolis afternoon. Your 10 AM Tuesday is our late Monday afternoon — a normal working meeting for both sides."
+          },
+          {
+            "question": "What does AI consulting cost for a New Zealand business?",
+            "answer": "The first 30 minutes are free. A full AI opportunity audit is $2,500 USD, fully credited toward your first project within 90 days. Scoped builds start at $6,000 USD with a written scope and a 75-day delivery guarantee."
+          },
+          {
+            "question": "We're a small business — is AI even worth it for us?",
+            "answer": "That is exactly what the free scan answers. We look at your intake, quoting, scheduling, and paperwork, and name the two or three places AI would most likely pay for itself. If the honest answer is \"not yet,\" we say that."
+          },
+          {
+            "question": "Can you get our business recommended by ChatGPT and Google's AI in New Zealand?",
+            "answer": "AI search visibility is one of our core services and we practice it on ourselves in public. We build the machine-readable identity, content, and citations AI systems draw from — and we don't guarantee rankings or citations, because nobody honestly can."
+          }
+        ]
+      },
+      "cta": {
+        "heading": "Book the free 30-minute scan — NZ morning slots, Monday to Friday.",
+        "primaryLabel": "Book the scan"
+      }
     }
   },
   "research": {

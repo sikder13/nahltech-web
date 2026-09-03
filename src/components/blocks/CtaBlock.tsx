@@ -18,7 +18,13 @@ export function CtaBlock({
   phoneNote,
 }: {
   heading: string;
-  body: string;
+  /**
+   * Optional because three of the four market pages close on a single
+   * approved sentence and have no second one. Absent, the paragraph is not
+   * rendered rather than rendered empty — the same treatment `phoneNote`
+   * gets, and every page that passed a body before renders unchanged.
+   */
+  body?: string;
   primary: CtaAction;
   phone: CtaAction;
   orCallLabel: string;
@@ -37,7 +43,9 @@ export function CtaBlock({
             {heading}
           </h2>
           <span className="mt-xs heading-rule" aria-hidden="true" />
-          <p className="mt-md max-w-prose text-text-muted">{body}</p>
+          {body ? (
+            <p className="mt-md max-w-prose text-text-muted">{body}</p>
+          ) : null}
 
           <div className="mt-lg flex flex-wrap items-center gap-md">
             <ButtonLink href={primary.href} external={primary.external}>

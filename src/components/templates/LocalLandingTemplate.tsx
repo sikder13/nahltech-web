@@ -1,4 +1,5 @@
 import { CtaBlock } from "@/components/blocks/CtaBlock";
+import { MarketsLine } from "@/components/blocks/MarketsLine";
 import { FaqBlock } from "@/components/blocks/FaqBlock";
 import { PageHeader } from "@/components/blocks/PageHeader";
 import { FadeIn } from "@/components/ui/FadeIn";
@@ -91,6 +92,12 @@ export function LocalLandingTemplate({
                 ))}
               </ul>
               <p>{content.audience.closing}</p>
+              {/* The remote half of the same answer, and the only place this
+                  sentence was supplied verbatim — /about and the home page
+                  re-use these exact characters from the same key. It sits
+                  here rather than in the FAQ because the section above it has
+                  just finished saying who we work with locally. */}
+              <MarketsLine t={t} />
             </Prose>
           </FadeIn>
         </div>
