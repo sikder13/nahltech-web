@@ -1,18 +1,18 @@
 # SESSION-STATE
 
 Handoff snapshot; update at the end of every session. **Last updated:**
-3 September 2026 · HEAD `2264250` · build complete through the security gate ·
-**cutover done, `nahltech.com` live** · 388 tests passing
+3 September 2026 · HEAD `716322d` · build complete through the security gate ·
+**cutover done, `nahltech.com` live** · 417 tests passing
 
 ## 1. Status
 
 **The build is COMPLETE through the security gate.** Live at
 **https://nahltech.com** since the 17 Aug cutover; the
-`nahltech-web.vercel.app` alias still resolves. HEAD `2264250` · 168 commits ·
-**388 tests passing** · first-load JS **145 kB** on `/about`, `/contact` and
+`nahltech-web.vercel.app` alias still resolves. HEAD `716322d` · 171 commits ·
+**417 tests passing** · first-load JS **145 kB** on `/about`, `/contact` and
 `/pricing`, **146 kB** on the five service pages and **123 kB** on
-`/ai-consulting-indianapolis`, against a 145 kB ceiling — measured at this
-HEAD, breach and remedy in §3b.
+`/ai-consulting-indianapolis` and each of the four market pages, against a
+145 kB ceiling — measured at this HEAD, breach and remedy in §3b.
 
 Everything is shipped: foundation, six page templates, the design pass, five
 service pages, all approved copy, published pricing, the backend (three API
@@ -252,6 +252,49 @@ here** — check before assuming it was.
     come on-site?" answer still closes on "we serve clients across the United
     States, Canada, and the Gulf region" — in the rendered `FAQPage` markup as
     well as in the prose. **§4 item 8.**
+
+**Then, same day — `716322d`, four market landing pages.**
+
+Canada, the Gulf, Central Asia and New Zealand, one per territory the
+descriptor names, at `/markets/<market>`. Same limits as the Indianapolis
+page: **not services** — `serviceRouteKeys` stays five, the nav is unchanged,
+`knowsAbout` gains nothing.
+
+- **There is no `/markets` hub and that is deliberate.** Nothing links the
+  path, `breadcrumbSchema` skips a segment it cannot resolve, and a hub would
+  be a page with no approved copy on it. The four leaves are the feature.
+- **`MarketTemplate` (T8), not `LocalLandingTemplate`.** That page mirrors the
+  rate card into a table because its copy asked for one; these quote prices in
+  prose, so there is no table and no `pricing-mirror` call. Sections render
+  **paragraphs → bullets → price-anchoring line**, and that order is the copy,
+  not a layout preference: each "For context:" sentence was written to land
+  right after the block quoting the figures.
+- **Prose prices are asserted, not mirrored.** `markets.test.ts` reads every
+  dollar figure back out of all four pages and fails on any the rate card does
+  not publish. Same invariant as the mirror, approached from the other end,
+  because interpolating a value into an approved sentence would be rewriting
+  it. No draft figure conflicted: $2,500 credited within 90 days, builds from
+  $6,000, the 75-day promise.
+- **Service + FAQPage + BreadcrumbList per page.** `Country` objects only —
+  CA · AE, SA, QA, KW, BH, OM · KZ · NZ — and a test asserts each set is a
+  **subset of the Organization's ten**, so a market page can narrow the graph's
+  territory and never widen it. **No City anywhere**; the Indianapolis
+  exception stays sole. No `offers` either: the other two Service builders read
+  a published figure, and parsing one back out of a sentence would be
+  synthesising markup from prose.
+- **One sentence links all four, and it is literally one sentence.** The
+  founder supplied it for the Indianapolis page; the home page and the /about
+  services band render the same key. **No lead-in prose was authored for
+  either placement** — only the commas and the "and" are code, pinned by a data
+  test and a DOM test. `ServicesGrid` gained a `footer` slot to carry it.
+- Four founder amendments, all in the provenance block: the Canada meta ships
+  at **163** after the draft's 167 broke its own ≤165 guard; the **damaged
+  Central Asia lead** was supplied whole rather than reconstructed, which is
+  what added the heading "What we do for Central Asian businesses"; the four
+  price-anchoring sentences are new approved copy; the markets sentence is
+  re-used rather than rewritten.
+- `crawl:check` **PASS at 36 pages** — zero orphans, zero broken links. The
+  four URLs are in the sitemap because the route registry builds it.
 
 **Security — CC-SEC-1 is done.** `docs/SECURITY.md` is the posture document,
 written to be read by a client as well as a maintainer.
@@ -498,6 +541,13 @@ outside the brief. Founder decision.**
    to prevent, turned inward. Needs founder-supplied replacement wording; the
    edit itself is one key.
 
+   **A third divergence joined it on 3 Sep.** The Canada market page's first
+   FAQ answer says the firm serves "North America, the Gulf region, and
+   Central Asia" — written before New Zealand joined the descriptor, and
+   shipped unamended because the relay's instruction was verbatim insertion.
+   Both sentences are in `FAQPage` markup as well as prose. One founder
+   decision can settle both; they are one key each.
+
 ## 5. Outstanding — founder side
 
 - **Vercel Attack Challenge Mode is ON and needs clearing.** Project →
@@ -520,6 +570,12 @@ outside the brief. Founder decision.**
   - **LinkedIn** company About: the same single-phrase edit.
   - **Search Console**: request indexing on `/` and `/about`, then run
     `npm run indexnow`.
+
+- **The four market URLs, after the `716322d` deploy.** Request indexing in
+  Search Console on `/markets/canada`, `/markets/gulf`,
+  `/markets/central-asia` and `/markets/new-zealand`; submit the same four in
+  **Bing Webmaster Tools**; run `npm run indexnow`. One ping covers the
+  sitemap, which is 36 URLs now.
 
 - ~~Team photos for `/about`~~ — **landed 16 Aug 2026.** Both founders now
   carry a 56px hex avatar beside their name, built by `npm run build:team`
