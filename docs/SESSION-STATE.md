@@ -1,15 +1,15 @@
 # SESSION-STATE
 
 Handoff snapshot; update at the end of every session. **Last updated:**
-24 August 2026 · HEAD `01b4c66` · build complete through the security gate ·
-**cutover done, `nahltech.com` live** · 386 tests passing
+3 September 2026 · HEAD `2264250` · build complete through the security gate ·
+**cutover done, `nahltech.com` live** · 388 tests passing
 
 ## 1. Status
 
 **The build is COMPLETE through the security gate.** Live at
 **https://nahltech.com** since the 17 Aug cutover; the
-`nahltech-web.vercel.app` alias still resolves. HEAD `01b4c66` · 167 commits ·
-**386 tests passing** · first-load JS **145 kB** on `/about`, `/contact` and
+`nahltech-web.vercel.app` alias still resolves. HEAD `2264250` · 168 commits ·
+**388 tests passing** · first-load JS **145 kB** on `/about`, `/contact` and
 `/pricing`, **146 kB** on the five service pages and **123 kB** on
 `/ai-consulting-indianapolis`, against a 145 kB ceiling — measured at this
 HEAD, breach and remedy in §3b.
@@ -99,12 +99,13 @@ two products in it.
   Organization node; the home and About meta descriptions carry the same
   characters. `copy-provenance.test.ts` pins the three as identical, so editing
   one and not the others fails rather than drifts.
-- **Organization gained `areaServed` and `knowsAbout`.** Eight `Country` nodes,
-  ISO 3166-1 alpha-2, the Gulf named country by country because `areaServed`
-  takes places and "the Gulf region" is not one. Five subjects in `knowsAbout`,
+- **Organization gained `areaServed` and `knowsAbout`.** Eight `Country` nodes
+  then, **ten since 3 Sep** — ISO 3166-1 alpha-2, every region named country by
+  country because `areaServed` takes places and "the Gulf region" is not one.
+  Five subjects in `knowsAbout`,
   each backed by a service page that sells that work. **No `slogan`** — none is
   approved and an invented tagline is a product claim.
-- **LocalBusiness carries the same eight countries.** Its old
+- **LocalBusiness carries the same countries as Organization.** Its old
   `[{City: Indianapolis}, "Worldwide"]` is gone. The locality claim is not:
   `address.addressLocality` is the stronger local signal and the one the
   Business Profile is matched against. NAP verified character-identical.
@@ -142,8 +143,10 @@ flag rather than leaving it standing, so none of the three is open any more.
   The comment on `socialLinks` records where the line now sits: a personal
   LinkedIn is a page *about* Udaay and stays off the company node, while that
   account holds the firm's public code and is its code presence.
-- **`AREA_SERVED` is one constant again.** All five Service nodes carry the
-  same eight countries, and a test asserts "Worldwide" appears on no node.
+- **`AREA_SERVED` is one constant again.** All five Service nodes read it, and
+  a test asserts "Worldwide" appears on no node. It held eight countries then
+  and holds ten now; the point of the bullet is that there is one list, not
+  what its length is on any given day.
 
 **One scoped exception to that, approved 24 August 2026.** City nodes were
 removed site-wide so the graph makes one claim. `/ai-consulting-indianapolis`
@@ -212,6 +215,43 @@ twenty against an independent copy of the approved list.
 
 Whether `npm run indexnow` has been run for the new URL is **not recorded
 here** — check before assuming it was.
+
+**Since that snapshot — 3 Sep, the territory expansion, one commit.**
+
+- **`2264250` — ten countries and one rewritten identity phrase.** GTM sells
+  into the USA, Canada, the UAE, Saudi Arabia, Kazakhstan and New Zealand, so
+  the sentence that names the territory changed. **It is frozen now.** The
+  phrase sits in one place precisely because repeated identity churn resets
+  what AI systems have converged on about this company; this was the single
+  sanctioned edit, and rewording it again spends that convergence.
+  - **Long form** — the `/about` lead and the `llms.txt` blockquote: "serving
+    businesses across North America, the Gulf region, Central Asia, and New
+    Zealand". **Short form** — the three meta surfaces: "Serving North
+    America, the Gulf, Central Asia, and New Zealand."
+  - **A test pins the four regions across both lengths.** The two forms word
+    the Gulf differently on purpose — "the Gulf" against "the Gulf region" —
+    but the regions they name may not differ, because an expansion that
+    reaches one form and not the other is how a site starts telling two
+    stories about where it sells.
+  - **`AREA_SERVED` is ten**, KZ and NZ appended in the descriptor's own
+    order: North America (US, CA), the Gulf (AE, SA, QA, KW, BH, OM), Central
+    Asia (KZ), New Zealand (NZ). Still one shared constant read by
+    Organization, LocalBusiness and the five Service nodes, and the
+    Indianapolis twenty-city exception is untouched.
+  - **Central Asia is a region in the sentence and one country in the graph.**
+    The expansion named Kazakhstan and not the other four states, so listing
+    them would be the machine half claiming more ground than the firm sells
+    into. A test pins UZ, TM, KG and TJ as absent — widen that list on a
+    decision, not because the phrase sounds broader than it is.
+  - **§2 now measures 177 characters, 12 over the pack's 165 guideline**, and
+    that is the founder's call rather than an oversight. The pre-approved
+    ampersand fallback measures 174, so neither approved wording clears the
+    guard and the primary wording shipped un-trimmed (hard rule 12). Detail
+    in §2 and in the provenance block.
+  - **The Indianapolis FAQ was out of scope and now disagrees.** Its "Do you
+    come on-site?" answer still closes on "we serve clients across the United
+    States, Canada, and the Gulf region" — in the rendered `FAQPage` markup as
+    well as in the prose. **§4 item 8.**
 
 **Security — CC-SEC-1 is done.** `docs/SECURITY.md` is the posture document,
 written to be read by a client as well as a maintainer.
@@ -294,13 +334,15 @@ photographs. The story is demoted, not edited.
 **Both meta descriptions are COPY-PACK-1 §2 as of 22 Aug**, character-identical
 to `site.description` and to the Organization node's `description` — one string
 on three surfaces, pinned by `copy-provenance.test.ts` so editing one and not
-the others fails rather than drifts. It runs to **158 characters**, the length
-the pack states. It shipped at its supplied 171 — trimming approved copy is
-rewriting it (hard rule 12) — and the founder amended the third sentence the
-same day in `83643d1` (§1), which is what brought it to 158. The About prefix
-the pack offered was resolved by the pack's own rule: prefixed still overshoots
-the 165 limit, so §2 ships unmodified. Both `metaTitle`s are untouched, at 65
-and 84 characters.
+the others fails rather than drifts. Its third sentence has been rewritten
+twice and nothing else in it has changed: 171 characters as supplied, 158 after
+the founder's 22 Aug amendment (`83643d1`), **177 since the 3 Sep territory
+expansion** (`2264250`), which is 12 over the pack's own 165 guideline. Each
+time the copy was flagged rather than trimmed, because cutting approved copy to
+fit a guideline is rewriting it (hard rule 12), and each time the founder chose
+what shipped. The About prefix the pack offered was resolved by the pack's own
+rule: prefixed it overshoots 165 by a wider margin than ever, so §2 ships
+unmodified. Both `metaTitle`s are untouched, at 65 and 84 characters.
 
 **`/ai-consulting-indianapolis` carries approved copy with four recorded
 amendments** (24 Aug). Its pricing table is not copy at all — it is read from
@@ -442,10 +484,19 @@ outside the brief. Founder decision.**
    host guard in `lib/authors.ts` were deliberately not touched, and that is
    still the line — a personal LinkedIn stays off the company node.
 7. ~~**Align `AREA_SERVED` on the Service nodes.**~~ — **done 22 Aug 2026.**
-   `83643d1` made it one constant: all five Service nodes carry the same eight
-   countries, and a test asserts "Worldwide" appears on no node. The single
+   `83643d1` made it one constant: all five Service nodes read one list, and a
+   test asserts "Worldwide" appears on no node. The single
    deliberate exception is the twenty Business Profile cities on the local
    `Service` node (§1) — do not add `City` objects anywhere else.
+8. **Amend the Indianapolis FAQ's territory sentence.** `2264250` changed the
+   identity phrase everywhere it was allowed to, and that relay put the
+   Indianapolis page's copy out of scope, so the "Do you come on-site?" answer
+   still ends "we serve clients across the United States, Canada, and the Gulf
+   region". The site now states its service area two ways and both are
+   machine-readable — the descriptor through Organization, this one through
+   `FAQPage`. That is the same cross-source disagreement the GBP mirror exists
+   to prevent, turned inward. Needs founder-supplied replacement wording; the
+   edit itself is one key.
 
 ## 5. Outstanding — founder side
 
@@ -458,6 +509,17 @@ outside the brief. Founder decision.**
   browsers as well. **Clear it before doing anything else on the live URL, and
   before cutover.** The lesson for future sessions is in §7: verify against a
   local production build and hit the live URL once, rather than polling it.
+
+- **The territory phrase off-site, after the `2264250` deploy.** One edit each,
+  the same sentence, and worth doing close together: an assistant checking this
+  company against its own profiles should not find one of them still describing
+  the old footprint.
+  - **Google Business Profile** → Edit profile → Description: "…serving
+    businesses across North America, the Gulf region, Central Asia, and New
+    Zealand…"
+  - **LinkedIn** company About: the same single-phrase edit.
+  - **Search Console**: request indexing on `/` and `/about`, then run
+    `npm run indexnow`.
 
 - ~~Team photos for `/about`~~ — **landed 16 Aug 2026.** Both founders now
   carry a 56px hex avatar beside their name, built by `npm run build:team`
