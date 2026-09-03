@@ -1,23 +1,25 @@
 # SESSION-STATE
 
 Handoff snapshot; update at the end of every session. **Last updated:**
-22 August 2026 · HEAD `b5b9049` · build complete through the security gate ·
-**cutover done, `nahltech.com` live** · 369 tests passing
+24 August 2026 · HEAD `01b4c66` · build complete through the security gate ·
+**cutover done, `nahltech.com` live** · 386 tests passing
 
 ## 1. Status
 
 **The build is COMPLETE through the security gate.** Live at
 **https://nahltech.com** since the 17 Aug cutover; the
-`nahltech-web.vercel.app` alias still resolves. HEAD `b5b9049` · 163 commits ·
-**369 tests passing** · first-load JS **145 kB** on `/about` and `/contact` and
-**146 kB** on the five service pages, against a 145 kB ceiling — measured at
-this HEAD, breach and remedy in §3b.
+`nahltech-web.vercel.app` alias still resolves. HEAD `01b4c66` · 167 commits ·
+**386 tests passing** · first-load JS **145 kB** on `/about`, `/contact` and
+`/pricing`, **146 kB** on the five service pages and **123 kB** on
+`/ai-consulting-indianapolis`, against a 145 kB ceiling — measured at this
+HEAD, breach and remedy in §3b.
 
 Everything is shipped: foundation, six page templates, the design pass, five
 service pages, all approved copy, published pricing, the backend (three API
 routes, lead alerting, chat widget), the MDX blog and research pipelines, the
 legal pages, full schema.org coverage, GA4, the performance pass, the launch
-gates and the security gate.
+gates and the security gate — plus, on 24 Aug, the Indianapolis local landing
+page, which is a seventh template and **not** a sixth service.
 
 - CI green on `main` (lint · typecheck · test · build, Node 22).
 - Placeholders in `en.json`: **0**. Every string is approved copy.
@@ -175,7 +177,41 @@ twenty against an independent copy of the approved list.
 - **`b5b9049` — IndexNow.** Key committed at
   `public/b0b86a7cb959561bc7a1f93b95ea2055.txt`, which is correct: the
   protocol verifies ownership by fetching it. `npm run indexnow` after
-  production deploys only, never in the build. 31 URLs in the current sitemap.
+  production deploys only, never in the build. 31 URLs in the sitemap at that
+  commit; **32 now**, since the Indianapolis page joined it.
+
+**Since that snapshot — 24 Aug, the Indianapolis landing page, three commits.**
+
+- **`24b9e94` — `/ai-consulting-indianapolis`.** A local landing page built
+  from the approved draft out of the existing blocks. **Not a sixth service:**
+  `serviceRouteKeys` stays five, the nav is unchanged, and `knowsAbout` gains
+  nothing. The draft's pricing table contradicted `/pricing` in four places, so
+  it is not transcribed — `src/lib/pricing-mirror.ts` builds the rows from
+  `t.pricing` at render time and throws if a row is renamed, and `schema-org`
+  builds the `Offer`s from the same list. **The page cannot quote a price
+  `/pricing` does not publish**; do not replace the mirror with literals. Four
+  copy amendments are recorded in the provenance block in
+  `src/lib/i18n/get-dictionary.ts` (§2). Inbound links come from the home grid,
+  the services hub, `/services/ai-consultancy` and the two Indianapolis posts,
+  all on the founder's anchor; `crawl:check` reports zero orphans and zero
+  broken links. First-load **123 kB**, under the ceiling — this page closes on
+  `CtaBlock`, not on an embedded lead form, so it is not a fourth lead surface
+  (§3b).
+- **`698dd2b` — the 75-day delivery promise on `/pricing`.** The landing page
+  published the guarantee and the rate card did not, so two pages stated
+  different terms for the same engagement. The sentence lives at
+  `pricing.guarantee` and both pages read that key, so it cannot be worded one
+  way on one page and another way on the other. It renders under "Builds and
+  retainers" rather than with the tiers because it does not cover audits, which
+  the landing page's third FAQ says out loud.
+- **`01b4c66` — the service areas mirror the Business Profile.** The scoped
+  `City` exception recorded above, in full: the twenty GBP cities sit on the
+  local `Service` node, `AREA_SERVED` is untouched, and the eight the copy
+  names are checked to be inside the twenty rather than being the source of
+  them.
+
+Whether `npm run indexnow` has been run for the new URL is **not recorded
+here** — check before assuming it was.
 
 **Security — CC-SEC-1 is done.** `docs/SECURITY.md` is the posture document,
 written to be read by a client as well as a maintainer.
@@ -258,12 +294,23 @@ photographs. The story is demoted, not edited.
 **Both meta descriptions are COPY-PACK-1 §2 as of 22 Aug**, character-identical
 to `site.description` and to the Organization node's `description` — one string
 on three surfaces, pinned by `copy-provenance.test.ts` so editing one and not
-the others fails rather than drifts. It runs to **171 characters**, not the 158
-the pack claims, and ships at its supplied length because trimming approved
-copy is rewriting it (hard rule 12); Google will truncate the tail. The About
-prefix the pack offered was resolved by the pack's own rule — prefixed comes to
-196 against a 165 limit, so §2 ships unmodified. Both `metaTitle`s are
-untouched, at 65 and 84 characters.
+the others fails rather than drifts. It runs to **158 characters**, the length
+the pack states. It shipped at its supplied 171 — trimming approved copy is
+rewriting it (hard rule 12) — and the founder amended the third sentence the
+same day in `83643d1` (§1), which is what brought it to 158. The About prefix
+the pack offered was resolved by the pack's own rule: prefixed still overshoots
+the 165 limit, so §2 ships unmodified. Both `metaTitle`s are untouched, at 65
+and 84 characters.
+
+**`/ai-consulting-indianapolis` carries approved copy with four recorded
+amendments** (24 Aug). Its pricing table is not copy at all — it is read from
+`t.pricing` through `src/lib/pricing-mirror.ts`, because the draft's figures
+contradicted the rate card in four places. Two prose sentences carry
+founder-supplied replacements for the figures that conflicted;
+`audience.closing` dropped one word to clear the rule-15 banned list; and the
+meta description ships at 163 against the draft's own 165 guard. All four are
+written into the provenance block in `src/lib/i18n/get-dictionary.ts`, not left
+in a commit message.
 
 **The Bengali name renders as Bengali.** হাফসা স্বাস্থ্য is wrapped in
 `lang="bn"` by `markScriptRuns`, which detects the Unicode block rather than
@@ -388,18 +435,17 @@ outside the brief. Founder decision.**
    frontmatter contract in `docs/blog-content-conventions.md` and the URL set
    pinned by `sitemap.test.ts`, so it needs a test and a founder nod, not a
    drive-by edit.
-6. **Decide where the GitHub profile is claimed.** `eb268f8` was asked to put
-   `https://github.com/sikder13` on the Organization's `sameAs` and did not —
-   see §1. Three ways out, in preference order: put it on the founder's
-   **Person** node, where a personal account belongs (needs the LinkedIn-only
-   host guard in `lib/authors.ts` loosened); add a GitHub link to the footer's
-   `socialLinks`, which carries it into `companyProfiles` and therefore into
-   `sameAs` honestly (needs a `github` glyph in `BrandIcon` and a footer
-   label); or decide the claim is not worth making. Founder call.
-7. **Align `AREA_SERVED` on the Service nodes** with the eight countries the
-   identity nodes now claim, or decide "Worldwide" is the honest value there
-   and say so in the constant's comment. One or the other — not both, which is
-   what the file says today.
+6. ~~**Decide where the GitHub profile is claimed.**~~ — **done 22 Aug 2026.**
+   `83643d1` took the footer route: the account joined `socialLinks`, so it
+   reaches `sameAs` through `companyProfiles` and the markup claims only a
+   profile the site links. The founder's **Person** node and the LinkedIn-only
+   host guard in `lib/authors.ts` were deliberately not touched, and that is
+   still the line — a personal LinkedIn stays off the company node.
+7. ~~**Align `AREA_SERVED` on the Service nodes.**~~ — **done 22 Aug 2026.**
+   `83643d1` made it one constant: all five Service nodes carry the same eight
+   countries, and a test asserts "Worldwide" appears on no node. The single
+   deliberate exception is the twenty Business Profile cities on the local
+   `Service` node (§1) — do not add `City` objects anywhere else.
 
 ## 5. Outstanding — founder side
 
