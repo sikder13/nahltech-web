@@ -1,20 +1,18 @@
 # SESSION-STATE
 
-Handoff snapshot; update at the end of every session. This entry names a
-commit subject rather than a SHA because the docs and the code ship in one
-commit here, and a commit cannot contain its own hash — do not substitute a
-SHA for it, and prefer a separate docs commit next time if the stamp needs
-one. **Last updated:**
-3 September 2026 · at the `fix(seo): state the served territory one way`
-commit, which carries this snapshot · build complete through the security
-gate · **cutover done, `nahltech.com` live** · 419 tests passing
+Handoff snapshot; update at the end of every session. Keep this a **separate
+commit from the code it describes** — a commit cannot contain its own hash,
+so a snapshot shipped inside the change it documents cannot name it.
+**Last updated:**
+4 September 2026 · HEAD `343e21d` · build complete through the security gate ·
+**cutover done, `nahltech.com` live** · 425 tests passing
 
 ## 1. Status
 
 **The build is COMPLETE through the security gate.** Live at
 **https://nahltech.com** since the 17 Aug cutover; the
-`nahltech-web.vercel.app` alias still resolves. **172 commits** ·
-**419 tests passing** · first-load JS **145 kB** on `/about`, `/contact` and
+`nahltech-web.vercel.app` alias still resolves. HEAD `343e21d` · 176 commits ·
+**425 tests passing** · first-load JS **145 kB** on `/about`, `/contact` and
 `/pricing`, **146 kB** on the five service pages and **123 kB** on
 `/ai-consulting-indianapolis` and each of the four market pages, against a
 145 kB ceiling — measured at this HEAD, breach and remedy in §3b.
@@ -328,6 +326,46 @@ frozen phrase wins everywhere.**
   The second is the one that catches an edit reaching for an old sentence out
   of a draft or from memory.
 
+**Then, 4 Sep — the Canada funding guide, three commits.**
+
+- **`dc0a2b9` — `/blog/ai-funding-canada-small-business`.** A decision-cluster
+  post for the Canadian market, supplied approved and inserted verbatim.
+  Frontmatter was the only part written here: `author`, `cluster`,
+  `targetKeyword`, `serviceLinks` and `draft` filled to match the sibling
+  decision posts, plus `updatedAt`. Title, description and date keep their
+  supplied values; the description measures **165 against its own 165 guard**,
+  with nothing to spare — a word added to it fails the check.
+  - **The build gate rejected it first, and that was correct.** The post
+    arrived with no `/blog/` links, and `blog.ts` requires two sibling links
+    once a cluster has three or more published posts. The body is founder
+    copy, so nothing was invented and nothing was reworded: the gate was
+    reported and the founder supplied two sentences. **This is the shape to
+    repeat** — a rejected post is a question for the founder, not a licence to
+    edit copy or weaken a gate.
+  - **No H1 was added.** No post in this collection carries one; every title
+    renders from frontmatter. The body starts on its italic dateline.
+  - **FAQPage needed no wiring.** The post route already builds it from a
+    "Frequently asked questions" section, and the five `###` questions parse
+    into it as written.
+  - **`/markets/canada` gained the link its copy was waiting for.** The
+    funding bullet shipped with a placeholder; it now closes on the founder's
+    anchor, "Canada AI funding guide". Anchor text sits in the dictionary
+    beside the sentence, the destination comes from the route registry, and a
+    test asserts the slug still resolves to a published post — the same
+    arrangement the home page's dataset link has, because a blog post is a
+    file rather than a route and hard rule 7 has nothing of its own to check.
+- **`f905b16` — `updatedAt` reaches the sitemap.** §4 item 5, closed. The
+  field is **optional and absent on every post that has never been revised**;
+  the sitemap emits `updatedAt ?? date`, so no existing post's `lastmod`
+  moved. Defaulting it to `date` was rejected on purpose: it would make
+  "published and untouched" indistinguishable from "revised on publication
+  day", which is the one distinction the field exists to draw.
+- **`343e21d` — the Article node agrees with the sitemap.** For a week the
+  sitemap said a post had changed while its `Article` markup still carried
+  only `datePublished`. Both now read `updatedAt`, `dateModified` is omitted
+  where there is none, and a test walks every published post checking the two
+  surfaces against the same value. **They are one field; keep them that way.**
+
 **Security — CC-SEC-1 is done.** `docs/SECURITY.md` is the posture document,
 written to be read by a client as well as a maintainer.
 
@@ -375,15 +413,21 @@ now nested in `LazyMotion … strict` — use `m.*`, never `motion.*`, or it thr
 
 ## 2. Content state
 
-**Blog — 10 files, 8 published.** Pipeline: `content/blog/*.mdx` →
+**Blog — 11 files, 9 published.** Pipeline: `content/blog/*.mdx` →
 `src/lib/blog.ts` (zod frontmatter plus build-time gates) →
 `next-mdx-remote/rsc`. Rules live in `docs/blog-content-conventions.md`.
 
 | Cluster | Count | Notes |
 | --- | --- | --- |
-| `decision` | 5 published | P1–P5, the SEO cluster |
+| `decision` | 6 published | the SEO cluster, plus the Canada funding guide |
 | `field-notes` | 3 published | migrated, revised |
 | `brand` | 2 **`draft: true`** | withdrawn 13 Aug; both slugs 308 to `/about` |
+
+**One post is maintained, not published-and-left:**
+`ai-funding-canada-small-business` states a month in its title, its meta
+description and its opening dateline, and its claims are checked against
+government pages. It is the only post with `updatedAt`, and the only one whose
+`lastmod` and `dateModified` move. The refresh procedure is in §5.
 
 The two brand posts are withdrawn, not deleted — the files stay, and
 `next.config.ts` redirects both old URLs so nobody holding a link hits a 404.
@@ -547,14 +591,13 @@ outside the brief. Founder decision.**
    - **Request indexing for the five URLs `c189020` linked**, once that commit
      is live. The links are the reason to ask again; asking without them was
      what produced *Crawled – currently not indexed* in the first place.
-5. **Blog `updatedAt` → sitemap `lastmod`.** `c189020` edited two published
-   posts with no way to say so: `src/lib/blog.ts` validates `date` and nothing
-   else, and `src/app/sitemap.ts` emits that as `lastmod`. An optional
-   `updatedAt` in the zod frontmatter schema, preferred by the sitemap when
-   present, would let an edited post ask for a recrawl. It touches the
-   frontmatter contract in `docs/blog-content-conventions.md` and the URL set
-   pinned by `sitemap.test.ts`, so it needs a test and a founder nod, not a
-   drive-by edit.
+5. ~~**Blog `updatedAt` → sitemap `lastmod`.**~~ — **done 4 Sep 2026**
+   (`f905b16`, `343e21d`). Optional in the frontmatter schema, absent on every
+   post never revised, and read by both the sitemap's `lastmod` and the
+   `Article` node's `dateModified`. The two posts `c189020` edited still carry
+   no `updatedAt`: setting one now would claim a revision date this repo
+   cannot evidence, and the recrawl that mattered has long since happened.
+   Set it on the next real edit to either.
 6. ~~**Decide where the GitHub profile is claimed.**~~ — **done 22 Aug 2026.**
    `83643d1` took the footer route: the account joined `socialLinks`, so it
    reaches `sameAs` through `companyProfiles` and the markup claims only a
@@ -601,7 +644,31 @@ outside the brief. Founder decision.**
   Search Console on `/markets/canada`, `/markets/gulf`,
   `/markets/central-asia` and `/markets/new-zealand`; submit the same four in
   **Bing Webmaster Tools**; run `npm run indexnow`. One ping covers the
-  sitemap, which is 36 URLs now.
+  sitemap, which is **37 URLs** now.
+
+- **The Canada funding guide, after the `dc0a2b9` deploy.** Request indexing
+  on `/blog/ai-funding-canada-small-business` and on `/markets/canada`, which
+  changed in the same commit; submit the post in Bing; run `npm run indexnow`.
+
+- **RECURRING — refresh the Canada funding guide, 1st of each month (~5 min).**
+  It is the only maintained post on the site, and its whole credibility rests
+  on the date being true rather than decorative.
+  1. Update the month in **three places**: the `title`, the `description`, and
+     the "Last checked" dateline in the body. All three say it out loud, and a
+     guide claiming September in the title while the body says August is worse
+     than one carrying no date at all.
+  2. **Re-verify the four claims at source** — CDAP's status on
+     `ised-isde.canada.ca`, LIFT's terms on `bdc.ca`, the IRAP page and phone
+     number on `nrc.canada.ca`, and the Compute Fund intake on ISED. The post
+     tells the reader every claim is dated and checkable; that promise is the
+     product.
+  3. **Bump `updatedAt`.** It drives both the sitemap's `lastmod` and the
+     `Article` node's `dateModified`, which is what asks for the recrawl.
+     Leaving it stale makes the refresh invisible to the crawlers it was for.
+  4. Ship it through **the same ask-before-merge flow** the post itself went
+     through: gates green, commit, present, wait for the founder's yes. Body
+     copy stays founder copy on a refresh exactly as it was on publication.
+  5. Afterwards: request indexing on the post, then `npm run indexnow`.
 
 - ~~Team photos for `/about`~~ — **landed 16 Aug 2026.** Both founders now
   carry a 56px hex avatar beside their name, built by `npm run build:team`
