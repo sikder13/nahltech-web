@@ -226,6 +226,16 @@ export function articleSchema(post: Post): JsonLdObject {
     // datetime missing a timezone, and a date with no offset is genuinely
     // ambiguous about which day it names.
     datePublished: `${post.date}T00:00:00+00:00`,
+    // Present only when the post has been revised, and read from the same
+    // `updatedAt` the sitemap emits as `lastmod` — one field, two surfaces,
+    // so the graph and the sitemap cannot tell a crawler different stories
+    // about when this document last changed. Omitted rather than defaulted to
+    // `datePublished`: a `dateModified` equal to publication says an edit
+    // happened when none did, and on a page revised monthly that is the
+    // claim most worth getting right.
+    ...(post.updatedAt
+      ? { dateModified: `${post.updatedAt}T00:00:00+00:00` }
+      : {}),
     author: personSchema(post.author),
     publisher: organization,
     mainEntityOfPage: { "@type": "WebPage", "@id": url },

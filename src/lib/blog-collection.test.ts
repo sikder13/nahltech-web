@@ -6,6 +6,9 @@ import {
   loadAllPosts,
   type Post,
 } from "./blog";
+import { articleSchema } from "./schema-org";
+
+import sitemap from "@/app/sitemap";
 
 /**
  * Assertions about the actual corpus in content/blog, as opposed to the
@@ -120,5 +123,59 @@ describe("the migrated collection", () => {
     expect(related.length).toBeGreaterThan(0);
     expect(related.map((r) => r.slug)).not.toContain(post.slug);
     expect(related[0].cluster).toBe("field-notes");
+  });
+});
+
+describe("a post's revision date", () => {
+  const posts = getPublishedPosts();
+
+  it("reaches the Article node and the sitemap as the same value", () => {
+    // The two surfaces answer the same question — when did this document
+    // last change — to the same crawler. They read one field so they cannot
+    // disagree, and this is the assertion that keeps it that way: the guide
+    // that gets refreshed monthly is exactly the page where a sitemap saying
+    // "changed" beside markup saying "never touched" would cost the recrawl
+    // the refresh exists to earn.
+    const lastmodByUrl = new Map(
+      sitemap().map((entry) => [
+        entry.url,
+        (entry.lastModified as Date).toISOString().slice(0, 10),
+      ]),
+    );
+
+    for (const post of posts) {
+      const node = articleSchema(post) as {
+        datePublished: string;
+        dateModified?: string;
+      };
+      const expected = post.updatedAt ?? post.date;
+
+      expect(
+        lastmodByUrl.get(`https://nahltech.com/blog/${post.slug}`),
+        post.slug,
+      ).toBe(expected);
+      expect(
+        (node.dateModified ?? node.datePublished).slice(0, 10),
+        post.slug,
+      ).toBe(expected);
+    }
+  });
+
+  it("omits dateModified on a post that was never revised", () => {
+    // Defaulting it to the publish date would assert an edit that did not
+    // happen, and make "published and untouched" indistinguishable from
+    // "revised the day it shipped".
+    for (const post of posts.filter((item) => !item.updatedAt)) {
+      expect(articleSchema(post), post.slug).not.toHaveProperty("dateModified");
+    }
+  });
+
+  it("carries one on the guide that is refreshed monthly", () => {
+    const guide = posts.find(
+      (post) => post.slug === "ai-funding-canada-small-business",
+    );
+    expect(guide).toBeDefined();
+    expect(guide!.updatedAt).toBeTruthy();
+    expect(articleSchema(guide!)).toHaveProperty("dateModified");
   });
 });
