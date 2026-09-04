@@ -78,6 +78,21 @@ const frontmatterSchema = z.object({
   title: z.string().min(1),
   description: z.string().min(1),
   date: isoDate,
+  /**
+   * When the post was last revised, if it ever was.
+   *
+   * Optional, and absent on every post that has never been edited — a post
+   * that has not changed since publication has nothing to say here, and
+   * defaulting it to `date` would make the two indistinguishable.
+   *
+   * It exists because `sitemap.ts` emitted the publish date as `lastmod` and
+   * had no other value to emit, so a substantially rewritten post asked a
+   * crawler to recrawl a document it believed was years old. The Canada
+   * funding guide is revised monthly by design, which is what finally forced
+   * the field. Set it in the same edit that changes the body; the sitemap
+   * prefers it over `date` automatically.
+   */
+  updatedAt: isoDate.optional(),
   author: z.string().min(1),
   cluster: z.enum(clusters),
   targetKeyword: z.string().min(1).nullable(),

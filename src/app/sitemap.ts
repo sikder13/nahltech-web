@@ -28,9 +28,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // Posts carry their own date: a post's lastmod is when it was published,
   // not when the site last deployed. Claiming otherwise tells a crawler every
   // post changed on every build.
+  //
+  // `updatedAt` wins where a post has one. Without it a revised post kept
+  // advertising its publish date, so an edit had no way to ask for a recrawl
+  // — the gap that left two posts silently stale after the 22 Aug internal
+  // linking pass. Absent on posts that have never been revised, which is the
+  // honest value for them.
   const posts: MetadataRoute.Sitemap = getPublishedPosts().map((post) => ({
     url: new URL(`${routes.blog}/${post.slug}`, siteUrl).toString(),
-    lastModified: new Date(`${post.date}T00:00:00Z`),
+    lastModified: new Date(`${post.updatedAt ?? post.date}T00:00:00Z`),
     changeFrequency: "yearly",
     priority: 0.6,
   }));
