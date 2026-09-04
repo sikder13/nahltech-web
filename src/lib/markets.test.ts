@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 
+import { getPublishedPosts } from "./blog";
 import {
+  canadaFundingGuidePath,
+  canadaFundingGuideSlug,
   marketDictionaryKeys,
   marketRouteKeys,
   routes,
@@ -230,6 +233,40 @@ describe("market pages in the graph", () => {
       `${siteUrl}/`,
       `${siteUrl}${routes.marketCanada}`,
     ]);
+  });
+});
+
+describe("the Canada funding-guide link", () => {
+  it("points at a published post, not a slug that used to exist", () => {
+    // The anchor lives in a React component, so nothing in the blog gates
+    // checks it — those only see links written inside MDX. This is the check
+    // that stands in for them: hard rule 7 applied to the one link on the
+    // site that crosses from a page into the post collection.
+    const post = getPublishedPosts().find(
+      (item) => item.slug === canadaFundingGuideSlug,
+    );
+    expect(
+      post,
+      `${canadaFundingGuideSlug} is not a published post; /markets/canada links it`,
+    ).toBeDefined();
+    expect(canadaFundingGuidePath).toBe(`/blog/${canadaFundingGuideSlug}`);
+  });
+
+  it("keeps the anchor text beside the sentence that carries it", () => {
+    const section = t.markets.canada.sections.find(
+      (item) => "trailingLinkAnchor" in item,
+    ) as { items: readonly string[]; trailingLinkAnchor: string } | undefined;
+
+    expect(section).toBeDefined();
+    expect(section!.trailingLinkAnchor).toBe("Canada AI funding guide");
+    // It rides the last bullet, and that bullet is the funding one — the
+    // template appends the link there, so if the copy is ever reordered this
+    // fails rather than moving the link onto an unrelated sentence.
+    expect(section!.items.at(-1)).toContain("The funding question");
+  });
+
+  it("leaves no placeholder marker behind", () => {
+    expect(JSON.stringify(t.markets.canada)).not.toContain("[LINK");
   });
 });
 

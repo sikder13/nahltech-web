@@ -138,6 +138,19 @@ export const datasetReportSlug = "crawlmouse-dataset-report";
 export const datasetReportPath = `${routes.research}/${datasetReportSlug}`;
 
 /**
+ * The Canada funding guide, named here because `/markets/canada` links it.
+ *
+ * Blog posts are not routes in this registry — they are files, resolved by
+ * slug — so a component linking one has nothing to derive an href from and
+ * hard rule 7 has nothing to check. Naming the slug in one place gives the
+ * link a single source and gives `markets.test.ts` something to assert
+ * against the published collection, which is the same arrangement
+ * `datasetReportSlug` has for the home page's proof line.
+ */
+export const canadaFundingGuideSlug = "ai-funding-canada-small-business";
+export const canadaFundingGuidePath = `${routes.blog}/${canadaFundingGuideSlug}`;
+
+/**
  * NAP details. These must match the Google Business Profile exactly — see
  * ARCH-1 §7, where LocalBusiness JSON-LD is generated from the same values.
  */

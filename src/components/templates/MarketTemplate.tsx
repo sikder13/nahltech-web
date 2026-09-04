@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { CtaBlock } from "@/components/blocks/CtaBlock";
 import { FaqBlock } from "@/components/blocks/FaqBlock";
 import { PageHeader } from "@/components/blocks/PageHeader";
@@ -31,6 +33,16 @@ export type MarketSection = {
    * note on the component.
    */
   priceAnchor?: string;
+  /**
+   * Anchor text for a link appended to this section's last bullet.
+   *
+   * One section has one today: the Canada page's funding bullet, whose
+   * approved sentence was written with the link in mind and carried a
+   * placeholder until the guide existed. The href is not in the dictionary —
+   * it comes from the route registry through `trailingLinkHref`, so the
+   * anchor cannot outlive its target.
+   */
+  trailingLinkAnchor?: string;
 };
 
 export type MarketContent = {
@@ -68,10 +80,17 @@ export function MarketTemplate({
   t,
   market,
   content,
+  trailingLinkHref,
 }: {
   t: Dictionary;
   market: MarketKey;
   content: MarketContent;
+  /**
+   * Destination for the one section that declares a `trailingLinkAnchor`.
+   * Passed by the page rather than read here, because the target is a blog
+   * slug and this template has no business knowing which post that is.
+   */
+  trailingLinkHref?: string;
 }) {
   return (
     <>
@@ -93,9 +112,30 @@ export function MarketTemplate({
                 ))}
                 {section.items ? (
                   <ul>
-                    {section.items.map((item) => (
-                      <li key={item.slice(0, 40)}>{item}</li>
-                    ))}
+                    {section.items.map((item, itemIndex) => {
+                      /* The link rides on the last bullet, which is where the
+                         approved sentence that wanted it sits. It renders
+                         only when the page supplies a destination — an anchor
+                         with nowhere to go is worse than no anchor. */
+                      const linked =
+                        section.trailingLinkAnchor &&
+                        trailingLinkHref &&
+                        itemIndex === section.items!.length - 1;
+
+                      return (
+                        <li key={item.slice(0, 40)}>
+                          {item}
+                          {linked ? (
+                            <>
+                              {" "}
+                              <Link href={trailingLinkHref}>
+                                {section.trailingLinkAnchor}
+                              </Link>
+                            </>
+                          ) : null}
+                        </li>
+                      );
+                    })}
                   </ul>
                 ) : null}
               </Prose>

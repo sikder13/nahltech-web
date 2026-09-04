@@ -1,6 +1,6 @@
 import { MarketTemplate } from "@/components/templates/MarketTemplate";
 import { requireDictionary } from "@/lib/i18n/require-dictionary";
-import { routes } from "@/lib/routes";
+import { canadaFundingGuidePath, routes } from "@/lib/routes";
 import {
   breadcrumbSchema,
   dictionaryFaqSchema,
@@ -27,14 +27,15 @@ export async function generateMetadata({
 }
 
 /**
- * TODO — Canada AI funding guide.
+ * The funding bullet's link, wired now that the guide exists.
  *
  * The approved copy's third bullet under "Practical things Canadian clients
- * ask about" ends on the funding question, and the draft marked the closing
- * clause as a future link to a Canada AI funding guide that does not exist
- * yet. It renders as plain prose until that guide ships; when it does, the
- * link belongs on that sentence and nowhere else, and hard rule 7 means the
- * route has to exist in the registry before the anchor does.
+ * ask about" was written with this link in mind and carried a placeholder
+ * until `content/blog/ai-funding-canada-small-business.mdx` shipped. The
+ * anchor is the founder's — "Canada AI funding guide" — and lives in the
+ * dictionary beside the sentence; the destination comes from the route
+ * registry, so the two cannot drift apart and `markets.test.ts` checks the
+ * slug still resolves to a published post.
  */
 
 export default async function Page({
@@ -54,7 +55,12 @@ export default async function Page({
       <JsonLd data={marketServiceSchema(t, "marketCanada")} />
       {faq ? <JsonLd data={faq} /> : null}
       {breadcrumb ? <JsonLd data={breadcrumb} /> : null}
-      <MarketTemplate t={t} market="marketCanada" content={content} />
+      <MarketTemplate
+        t={t}
+        market="marketCanada"
+        content={content}
+        trailingLinkHref={canadaFundingGuidePath}
+      />
     </>
   );
 }
