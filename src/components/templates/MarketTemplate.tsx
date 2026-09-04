@@ -43,6 +43,16 @@ export type MarketSection = {
    * anchor cannot outlive its target.
    */
   trailingLinkAnchor?: string;
+  /**
+   * A closing sentence for the section, carrying one link.
+   *
+   * Distinct from `trailingLinkAnchor`, which appends an anchor inside the
+   * last bullet. This renders its own paragraph after the section body, for
+   * approved copy that is a sentence rather than a suffix — the Gulf page's
+   * pointer at the regional study. `lead` is the text before the anchor; the
+   * destination comes from `trailingLinkHref`.
+   */
+  trailingSentence?: { lead: string; anchor: string };
 };
 
 export type MarketContent = {
@@ -139,6 +149,23 @@ export function MarketTemplate({
                   </ul>
                 ) : null}
               </Prose>
+
+              {/* The section's closing sentence, when its approved copy has
+                  one. Inside the Prose column so it reads as the last line of
+                  the argument rather than a separate block, and rendered only
+                  with a destination — an anchor with nowhere to go is worse
+                  than no anchor. */}
+              {section.trailingSentence && trailingLinkHref ? (
+                <Prose className="mt-md">
+                  <p>
+                    {section.trailingSentence.lead}{" "}
+                    <Link href={trailingLinkHref}>
+                      {section.trailingSentence.anchor}
+                    </Link>
+                    .
+                  </p>
+                </Prose>
+              ) : null}
 
               {/* Set apart from the prose above it in the accent rule the
                   rate card's guarantee already uses: this line comments on

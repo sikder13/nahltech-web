@@ -1171,7 +1171,11 @@
           "heading": "The execution gap",
           "paragraphs": [
             "The Gulf leads the world in AI ambition — national strategies, sovereign compute, a Minister of AI. What remains scarce is applied implementation: taking the AI a business already has access to and wiring it into quoting, customer intake, back-office paperwork, and reporting so it measurably recovers money. That is the entire business of this firm. We are engineers who publish our prices, our methods, and our research, and we tell you before any money moves whether a project will pay for itself."
-          ]
+          ],
+          "trailingSentence": {
+            "lead": "We also publish original research on the region: see our",
+            "anchor": "study of 44 Gulf small-business websites"
+          }
         },
         {
           "heading": "How a US firm works with you honestly",

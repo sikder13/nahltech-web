@@ -15,7 +15,7 @@ import {
   type FaqEntry,
   type Heading,
 } from "@/lib/mdx";
-import { allRoutePaths } from "@/lib/routes";
+import { allRoutePaths, datasetReportSlug } from "@/lib/routes";
 
 /**
  * MDX loader and build-time gates for content/research.
@@ -52,6 +52,18 @@ const frontmatterSchema = z.object({
   title: z.string().min(1),
   description: z.string().min(1),
   date: isoDate,
+  /**
+   * When the artifact was last revised, if it ever was. Same contract the
+   * blog collection has: optional, absent on anything never edited, and read
+   * by both the sitemap's `lastmod` and the Article node's `dateModified` so
+   * those two cannot tell a crawler different stories. Defaulting it to
+   * `date` would assert an edit that never happened.
+   *
+   * A data report is the artifact most likely to need it — a corpus grows,
+   * and a re-run with more sites is a revision of the same document rather
+   * than a new one.
+   */
+  updatedAt: isoDate.optional(),
   author: z.string().min(1),
   kind: z.enum(researchKinds),
   targetKeyword: z.string().min(1).nullable(),
@@ -245,7 +257,20 @@ export function getResearchBySlug(slug: string): ResearchArticle | undefined {
  * and the document that makes them checkable. The engagements come last —
  * they are illustrations of the method, and they describe fictional clients.
  *
- * Within a kind, the loader's newest-first-then-slug order carries through.
+ * Within a kind, the loader's newest-first-then-slug order carries through —
+ * except for the flagship, which is pinned.
+ *
+ * The pin exists because the home page takes this list's first entry, so
+ * "newest data report wins" quietly made the flagship slot follow publishing
+ * order. The 187-site study is the document a stranger should meet first: it
+ * is the largest corpus, it is the one cited elsewhere on the site, and the
+ * home page's proof line quotes its figure by name. A second data report
+ * should join the hub, not displace that.
+ *
+ * `datasetReportSlug` is the single source — the same constant the home page
+ * and `llms.txt` already point at — so the flagship cannot be one artifact
+ * here and another there. Changing which document leads is a one-line edit
+ * to that constant, made deliberately rather than by publishing something.
  */
 const KIND_ORDER: readonly ResearchKind[] = [
   "data-report",
@@ -256,7 +281,12 @@ const KIND_ORDER: readonly ResearchKind[] = [
 export function getResearchForHub(): ResearchArticle[] {
   return getPublishedResearch()
     .slice()
-    .sort((a, b) => KIND_ORDER.indexOf(a.kind) - KIND_ORDER.indexOf(b.kind));
+    .sort(
+      (a, b) =>
+        Number(b.slug === datasetReportSlug) -
+          Number(a.slug === datasetReportSlug) ||
+        KIND_ORDER.indexOf(a.kind) - KIND_ORDER.indexOf(b.kind),
+    );
 }
 
 /** Test seam: clears the memoised collection. */

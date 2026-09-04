@@ -46,7 +46,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const research: MetadataRoute.Sitemap = getPublishedResearch().map(
     (article) => ({
       url: new URL(`${routes.research}/${article.slug}`, siteUrl).toString(),
-      lastModified: new Date(`${article.date}T00:00:00Z`),
+      // `updatedAt` where the artifact has one, same as posts above.
+      lastModified: new Date(`${article.updatedAt ?? article.date}T00:00:00Z`),
       changeFrequency: "yearly",
       priority: 0.7,
     }),

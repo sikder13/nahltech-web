@@ -151,6 +151,16 @@ export const canadaFundingGuideSlug = "ai-funding-canada-small-business";
 export const canadaFundingGuidePath = `${routes.blog}/${canadaFundingGuideSlug}`;
 
 /**
+ * The Gulf website study, named here because `/markets/gulf` links it.
+ *
+ * Same reasoning as the funding guide above: research artifacts are files
+ * resolved by slug rather than routes, so a component linking one needs a
+ * single source and a test that the slug still resolves.
+ */
+export const gulfStudySlug = "gulf-smb-websites-ai-search-study";
+export const gulfStudyPath = `${routes.research}/${gulfStudySlug}`;
+
+/**
  * NAP details. These must match the Google Business Profile exactly — see
  * ARCH-1 §7, where LocalBusiness JSON-LD is generated from the same values.
  */

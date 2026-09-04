@@ -1,6 +1,6 @@
 import { MarketTemplate } from "@/components/templates/MarketTemplate";
 import { requireDictionary } from "@/lib/i18n/require-dictionary";
-import { routes } from "@/lib/routes";
+import { gulfStudyPath, routes } from "@/lib/routes";
 import {
   breadcrumbSchema,
   dictionaryFaqSchema,
@@ -43,7 +43,12 @@ export default async function Page({
       <JsonLd data={marketServiceSchema(t, "marketGulf")} />
       {faq ? <JsonLd data={faq} /> : null}
       {breadcrumb ? <JsonLd data={breadcrumb} /> : null}
-      <MarketTemplate t={t} market="marketGulf" content={content} />
+      <MarketTemplate
+        t={t}
+        market="marketGulf"
+        content={content}
+        trailingLinkHref={gulfStudyPath}
+      />
     </>
   );
 }

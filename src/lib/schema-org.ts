@@ -262,6 +262,7 @@ export function researchArticleSchema(article: {
   title: string;
   description: string;
   date: string;
+  updatedAt?: string;
   author: string;
 }): JsonLdObject {
   const url = absolute(`${routes.research}/${article.slug}`);
@@ -272,6 +273,12 @@ export function researchArticleSchema(article: {
     headline: article.title,
     description: article.description,
     datePublished: `${article.date}T00:00:00+00:00`,
+    // Same rule the blog's Article node follows: present only where the
+    // artifact was actually revised, read from the field the sitemap emits as
+    // `lastmod`, so the graph and the sitemap agree.
+    ...(article.updatedAt
+      ? { dateModified: `${article.updatedAt}T00:00:00+00:00` }
+      : {}),
     author: personSchema(article.author),
     publisher: organization,
     mainEntityOfPage: { "@type": "WebPage", "@id": url },
@@ -305,6 +312,22 @@ const DATASETS: Record<
       "Internal-linking score by site size",
       "Internal-linking grade distribution",
       "Internal-linking score by platform",
+    ],
+  },
+  // Every value here is read off the study's own prose rather than supplied
+  // separately. `temporalCoverage` is the month, not a day range: the article
+  // says "early September 2026" and dates the study to September, and a
+  // precise start and end would be a claim the document does not make.
+  "gulf-smb-websites-ai-search-study": {
+    name: "Crawlmouse Gulf Small-Business Website Structure Dataset (2026)",
+    temporalCoverage: "2026-09",
+    // The five figures the study's key-numbers section publishes.
+    variableMeasured: [
+      "Orphan pages",
+      "Readability without JavaScript",
+      "Anchor-text over-optimization",
+      "Crawl completion rate",
+      "Internal-linking grade distribution",
     ],
   },
 };

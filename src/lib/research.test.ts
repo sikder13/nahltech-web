@@ -17,9 +17,14 @@ const ENGAGEMENTS = [
 describe("the research collection", () => {
   const articles = getPublishedResearch();
 
-  it("publishes all five artifacts", () => {
+  it("publishes all six artifacts", () => {
     expect(articles.map((a) => a.slug).sort()).toEqual(
-      ["crawlmouse-dataset-report", "how-we-measure", ...ENGAGEMENTS].sort(),
+      [
+        "crawlmouse-dataset-report",
+        "gulf-smb-websites-ai-search-study",
+        "how-we-measure",
+        ...ENGAGEMENTS,
+      ].sort(),
     );
   });
 
@@ -28,6 +33,7 @@ describe("the research collection", () => {
     // methodology follows as the spine every other artifact points at, and the
     // engagements last, since they illustrate the method on fictional clients.
     expect(getResearchForHub().map((a) => a.kind)).toEqual([
+      "data-report",
       "data-report",
       "methodology",
       "sample-engagement",
@@ -50,6 +56,20 @@ describe("the research collection", () => {
     // The home page takes the hub's first entry, so the ordering above is what
     // decides what the flagship slot shows.
     expect(getResearchForHub()[0].slug).toBe("crawlmouse-dataset-report");
+  });
+
+  it("keeps the flagship first when a newer data report is published", () => {
+    // The Gulf study is newer than the 187-site report and shares its kind, so
+    // recency alone would have handed it the home page's flagship slot the day
+    // it shipped. Publishing must not silently re-point that slot: the pin is
+    // a founder decision, and this is the assertion that keeps it one.
+    const hub = getResearchForHub();
+    const gulf = hub.findIndex(
+      (a) => a.slug === "gulf-smb-websites-ai-search-study",
+    );
+    expect(hub[0].slug).toBe("crawlmouse-dataset-report");
+    expect(gulf).toBeGreaterThan(0);
+    expect(hub[0].date < hub[gulf].date).toBe(true);
   });
 
   it("carries a disclosure banner on exactly the fictional-client artifacts", () => {
