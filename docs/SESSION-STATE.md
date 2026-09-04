@@ -4,15 +4,15 @@ Handoff snapshot; update at the end of every session. Keep this a **separate
 commit from the code it describes** — a commit cannot contain its own hash,
 so a snapshot shipped inside the change it documents cannot name it.
 **Last updated:**
-4 September 2026 · HEAD `343e21d` · build complete through the security gate ·
-**cutover done, `nahltech.com` live** · 425 tests passing
+4 September 2026 · HEAD `ed5235c` · build complete through the security gate ·
+**cutover done, `nahltech.com` live** · 426 tests passing
 
 ## 1. Status
 
 **The build is COMPLETE through the security gate.** Live at
 **https://nahltech.com** since the 17 Aug cutover; the
-`nahltech-web.vercel.app` alias still resolves. HEAD `343e21d` · 176 commits ·
-**425 tests passing** · first-load JS **145 kB** on `/about`, `/contact` and
+`nahltech-web.vercel.app` alias still resolves. HEAD `ed5235c` · 178 commits ·
+**426 tests passing** · first-load JS **145 kB** on `/about`, `/contact` and
 `/pricing`, **146 kB** on the five service pages and **123 kB** on
 `/ai-consulting-indianapolis` and each of the four market pages, against a
 145 kB ceiling — measured at this HEAD, breach and remedy in §3b.
@@ -366,6 +366,35 @@ frozen phrase wins everywhere.**
   where there is none, and a test walks every published post checking the two
   surfaces against the same value. **They are one field; keep them that way.**
 
+**Then, same day — `ed5235c`, the Gulf website study.**
+
+A second data report: 44 completed audits of Gulf SMB websites, supplied
+approved and inserted verbatim. Frontmatter was the only part written here.
+
+- **The flagship pin is the part to read.** See §2 — a second `data-report`
+  took the home page's research slot simply by being newer, and publishing
+  must not re-point that slot. Pinned to `datasetReportSlug`, asserted by a
+  test.
+- **`updatedAt` reached research too**, mirroring the blog: optional, absent
+  where nothing was revised, read by both the sitemap's `lastmod` and the
+  `Article` node's `dateModified`. **The study carries none** — it published
+  the same day, and `dateModified` equal to `datePublished` is the false
+  signal the field exists to prevent. Set it at the first real revision.
+- **A `Dataset` entry was required, not optional.** A test asserts every
+  `data-report` carries one. Values are read off the study's own prose, and
+  `temporalCoverage` is the **month** (`2026-09`) rather than a day range,
+  because "early September 2026" is what the document says — a start and end
+  date would be a claim it does not make.
+- **The meta description was amended by the founder before merge.** It read
+  "We audited 54 SMB websites" and then quoted 55%, computed over the 44
+  audits that completed — two denominators in the one sentence Google shows,
+  on a document whose whole claim is that its numbers are checkable. It says
+  44 throughout now, at 164 characters. **The body was never touched**: it
+  states 54 attempted and 44 completed, and always did.
+- Inbound links: `/markets/gulf` closes its execution-gap section with the
+  study, and the 187-site report points forward to it from its own closing
+  paragraph. `crawl:check` 38 pages, zero orphans, zero broken links.
+
 **Security — CC-SEC-1 is done.** `docs/SECURITY.md` is the posture document,
 written to be read by a client as well as a maintainer.
 
@@ -433,17 +462,35 @@ The two brand posts are withdrawn, not deleted — the files stay, and
 `next.config.ts` redirects both old URLs so nobody holding a link hits a 404.
 Reversible in one edit.
 
-**Research — 5 artifacts, all live.** `content/research/*.mdx` →
+**Research — 6 artifacts, all live.** `content/research/*.mdx` →
 `src/lib/research.ts`. Exempt from the blog's sibling-link and offer-link gates
 (they cross-reference each other by hand already); link *resolution* is not
-relaxed. Hub order is by kind, not date:
+relaxed. Hub order is by kind, then **the pinned flagship**, then date:
 
-1. `crawlmouse-dataset-report` — **the flagship, featured on the home page.**
-   Original data from 187 sites; carries `Dataset` schema, licensed CC BY 4.0
-   in the markup and in the closing paragraph of the report itself
-2. `how-we-measure` — the methodology, the spine every engagement points at
-3–5. the three sample engagements — Kestrel, Redbud, Limestone. All three
+1. `crawlmouse-dataset-report` — **the flagship, featured on the home page,
+   and pinned there in code.** Original data from 187 sites; carries `Dataset`
+   schema, licensed CC BY 4.0 in the markup and in the closing paragraph of
+   the report itself
+2. `gulf-smb-websites-ai-search-study` — 44 completed Gulf SMB audits, the
+   second data report. Newer than the flagship and deliberately behind it
+3. `how-we-measure` — the methodology, the spine every engagement points at
+4–6. the three sample engagements — Kestrel, Redbud, Limestone. All three
    carry the fictional-client disclosure banner above the h1, before any number
+
+**The flagship is pinned, and this is the entry that says why.**
+`getResearchForHub` sorts `datasetReportSlug` first, ahead of the kind
+order. Without it the hub is kind-then-newest, and the home page takes the
+hub's first entry — so the moment a second `data-report` shipped, it took
+the home page's research slot by being newer. **Publishing must not re-point
+that slot.** The pin reads the same constant the home page and `llms.txt`
+already use, so the flagship is one decision in one place; changing which
+document leads is a one-line edit to that constant, made on purpose.
+`research.test.ts` asserts the newer study sits behind the older one and
+fails if recency wins again — that test is the decision, not a nuisance.
+
+**Every `kind: "data-report"` needs a `DATASETS` entry** in `schema-org.ts`,
+and a test enforces it. A data report with no `Dataset` node publishes original
+data while telling search engines it published none.
 
 **`/about` carries its final approved copy**, reordered 22 Aug: the canonical
 descriptor, the "What we actually do" service band, then "Our story", "What we
@@ -649,6 +696,13 @@ outside the brief. Founder decision.**
 - **The Canada funding guide, after the `dc0a2b9` deploy.** Request indexing
   on `/blog/ai-funding-canada-small-business` and on `/markets/canada`, which
   changed in the same commit; submit the post in Bing; run `npm run indexnow`.
+
+- **The Gulf study, after the `ed5235c` deploy.** Request indexing on
+  `/research/gulf-smb-websites-ai-search-study` and `/markets/gulf`; the
+  187-site report changed in the same commit and is worth re-requesting too.
+  Submit the study in **Bing**; run `npm run indexnow`. The sitemap is **38
+  URLs** now. Then the SEO chat gets "study live" for the Gulf media pitch
+  list, and the social chat gets the stat sheet.
 
 - **RECURRING — refresh the Canada funding guide, 1st of each month (~5 min).**
   It is the only maintained post on the site, and its whole credibility rests
