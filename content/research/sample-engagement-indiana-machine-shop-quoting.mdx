@@ -1,0 +1,65 @@
+---
+title: "The Quote That Took Six Days: AI Quoting for an Indiana Machine Shop"
+description: "A sample AI engagement for a fictional Kokomo job shop: the quoting bottleneck measured, a labeled ROI model with its negative row, an AI-assisted estimating workflow, and payback inside five months."
+date: 2026-09-11
+author: "Udaay Sikder"
+kind: "sample-engagement"
+targetKeyword: "ai quoting for machine shops"
+sampleBanner: "Juniper Tool & Machine is a fictional Indiana job shop built for this walkthrough. Every operational number comes from published industry sources or is labeled as an assumption where it is one. This is exactly how we run a real engagement — the only thing invented is the client."
+draft: false
+---
+
+# The quote that took six days: AI quoting for an Indiana machine shop
+
+**Reading time: 10 minutes. What you'll see: a different problem than our [after-hours intake engagement](/research/sample-engagement-indianapolis-hvac) — not leads that die at night, but quotes that arrive after the decision is already made — and how the same method finds it, prices it, and fixes it.**
+
+## The company
+
+Juniper Tool & Machine is a job shop in Kokomo. Thirty-eight employees, roughly $6.5M in revenue, a floor of CNC mills and lathes running two shifts, ISO 9001 certified, a customer list that leans automotive and agricultural equipment with a growing medical account they'd like to grow faster. The owner bought his first cobot two years ago with help from a state manufacturing grant, and the machines are not the problem.
+
+The problem lives in a shared inbox. RFQs arrive as emails with PDF drawings and STEP files attached. The estimator, who is also the shop's best process engineer, opens each one, studies the geometry, digs through old job folders for anything similar, calls the material supplier for current bar stock pricing, builds the routing in a spreadsheet, and writes the quote. When he is on the floor solving a setup problem, which is most afternoons, the RFQs wait.
+
+## The measurement
+
+The first two weeks of a real engagement are spent counting, not building. Here is what counting looks like for Juniper, with every number labeled.
+
+| What we measured | Value | Source |
+|---|---|---|
+| RFQs received per month | 26 | Shop inbox count (fictional company; volume typical for this size) |
+| Hours per quote, all-in | 3.5 | Assumption, labeled. Includes geometry review, history search, material pricing, routing, write-up |
+| Median RFQ-to-quote turnaround | 6 days | Fictional measurement; industry norm is 3 to 5 business days per Manufacturing Lead Generation's 2025 analysis |
+| Quote win rate | 22% | Assumption, labeled. Industry discussions commonly place healthy job-shop win rates near 30% |
+| Average quoted job value | $9,400 | Fictional, consistent with revenue and volume above |
+| Estimator loaded cost | $85/hour | Assumption, labeled |
+
+The number that matters most is not on Juniper's books at all. It comes from published data: Modern Machine Shop reported Paperless Parts data showing that shops returning quotes within two hours win over 90% of them, while quotes returned after five days win under 5%. Juniper's median is six days. They are not losing on price. They are losing on the calendar, and the jobs they win skew toward the customers patient enough to wait — which is not a compliment to a quote.
+
+## The math, including the row where this fails
+
+Quoting consumes 26 quotes × 3.5 hours = 91 estimator hours a month, about $7,700 of loaded cost. But labor is the small loss. The large loss is the quotes that go out late or never go out. At 26 RFQs, a 22% win rate, and $9,400 average value, Juniper writes roughly $645,000 of won-quote revenue a year through this bottleneck.
+
+Published results for AI-assisted quoting in job shops consistently report 30 to 50% reductions in time per quote. The mechanism is not magic: intake becomes structured automatically instead of retyped from PDFs, the system retrieves genuinely similar past jobs with their actual costs instead of relying on the estimator's memory, and material pricing pulls from current data instead of a phone call. The estimator's job shifts from assembling every quote from scratch to checking a draft and applying judgment — which is the part of his brain the shop actually pays for.
+
+We model three scenarios, and we always include the one where the project disappoints.
+
+| Scenario | Time per quote | Turnaround | Win rate | Annual effect |
+|---|---|---|---|---|
+| Conservative (the negative row) | 3.5 → 2.4 hrs | 6 days → 2 days | Unchanged at 22% | 29 estimator hours/month returned, worth ~$29,600/year. No revenue gain modeled. Against project cost, year one nets close to break-even |
+| Base | 3.5 → 2.1 hrs | 6 days → same-day for standard parts | 22% → 25% | ~$88,000 additional won revenue plus ~$34,000 of estimator time, before margin |
+| Speed effect | As base | Majority inside 24 hours | 22% → 27% | ~$147,000 additional won revenue plus estimator time |
+
+The honest reading: even the negative row roughly pays for itself in freed capacity, and the base case, at typical job-shop margins, returns the project cost several times over in year one. If a shop's win rate genuinely would not move with faster quotes — because every customer is a patient repeat account — the project is smaller and should be scoped smaller. We have told owners exactly that, and it is in [how we run every engagement](/research/how-we-measure).
+
+## What actually gets built
+
+The architecture is deliberately boring. RFQ emails land in the same inbox. A workflow reads each one, extracts part numbers, quantities, materials, and due dates from the PDF and the message, and files the drawing. It searches the shop's own quote and job history for similar parts and puts the three closest matches, with what they actually cost to run, in front of the estimator. Current material pricing attaches automatically. The estimator opens a prepared draft instead of a blank spreadsheet, adjusts routing where the geometry demands judgment, and sends. Standard repeat parts go out the same morning. Nothing is quoted without a human deciding the number.
+
+For an Indiana shop, one more fact belongs in the model. The state's Manufacturing Readiness Grants require a one-to-one company match, and awards have funded exactly this category of investment: software and equipment that cuts cycle times and lead times. A shop putting $30,000 into quoting automation alongside a matching award deploys $60,000 of capability. Quoting time is a lead time. It is the first one your customer ever experiences.
+
+## What this costs and how long it takes
+
+Our engagement structure for a project like Juniper's: a free 30-minute scan of the quoting workflow, then a $2,500 audit that produces the measured baseline above and a fixed-price scope, with the audit fee credited toward the build. A quoting workflow of this shape lands in our automation tier, from $7,500, delivered live inside 75 days or the money comes back. Against the base scenario, payback arrives inside five months; against the negative row, inside a year on labor alone.
+
+The pattern in this walkthrough repeats across every job shop we have studied: the constraint is not the machines and it is not the people. It is that the shop's accumulated knowledge — every part it has ever quoted and run — sits in folders where only one overworked expert can reach it. The build gives that memory back to the business.
+
+*Want the same measurement run on your shop's quoting? Start with the [free 30-minute scan](/pricing), or read [the worked example of a full audit](/blog/ai-opportunity-audit-worked-example) first.*
