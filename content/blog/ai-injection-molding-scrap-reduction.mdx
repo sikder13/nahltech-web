@@ -1,0 +1,46 @@
+---
+title: "The Scrap Data You Already Collect: AI for Plastics Processors"
+description: "Injection molders quote 3 to 5% scrap and often run closer to 10%. The data to close that gap is already being collected. An honest look at what AI does with it."
+date: 2026-09-11
+author: "Samia Zaman"
+cluster: "decision"
+targetKeyword: "ai for injection molding scrap reduction"
+serviceLinks: ["/services/ai-automation", "/services/ai-consultancy"]
+draft: false
+---
+
+Ask an injection molder their scrap rate and you will usually hear the number from their quotes: three to five percent. Measure it and a different number appears. Pareto's 2026 manufacturing benchmarks put average plastics scrap at 5% with a bottom quartile at 10%, and note that measured total scrap, including process rejects, averages closer to 10% in many operations even where estimates say otherwise. The Plastics Industry Association has reported processors losing 4 to 7% of total revenue to scrap. The gap between the quoted number and the measured one is where this post lives, because closing it does not require new machines. It requires reading data the plant already produces.
+
+## Where the gap hides
+
+The quoted scrap number typically counts rejected parts at inspection. The measured number counts everything: startup and changeover purge, the parts lost while a process drifts back into window after a weekend shutdown, splay and shorts from a hygroscopic resin that sat out too long, runner and gate material that never gets reground. One published breakdown counts 25,000 to 40,000 purge-and-startup parts a year on a single press, none of them appearing in a rejection-rate model. These categories go unmeasured for an ordinary reason: they sit in process engineering, and process engineering is not usually asked to build the cost model.
+
+## The data you already have
+
+A modern molding operation already records most of what an analysis needs: shot-by-shot process parameters from the press, reject counts by defect type, changeover logs, dryer and material handling records. What is missing in almost every plant we have studied is not sensors. It is anyone, human or machine, reading those streams together. The reject log lives in quality. The press parameters live in the controller. The changeover schedule lives on a whiteboard. Correlating them is nobody's job, so the same preventable scrap repeats every month with a slightly different explanation.
+
+This is precisely the shape of problem where AI earns its keep, and it is the same measurement-first method we apply everywhere: [the counting stage is published in full](/blog/ai-opportunity-audit-worked-example) in one of our audits. Applied to a molding floor, the work is unglamorous and effective. Software joins the streams the plant already produces, learns what the process parameters look like in the hours before each defect category spikes, and raises its hand when a press starts drifting toward the pattern, before the parts fail inspection. It attributes scrap to its actual categories, changeover, drift, material handling, tooling, so the monthly number stops being one blended percentage nobody can act on. None of this replaces the process engineer. It hands the process engineer the correlation work no human has time to do across four presses and three shifts. That is the boundary we hold in every build: the system detects and attributes, and [the automation we design](/services/ai-automation) always leaves the process decisions with the people qualified to make them.
+
+## The math, in one honest template
+
+Annual scrap cost is material price per kilogram, times average part weight, times scrap percentage, times annual quantity. A published worked example for a mid-size operation, ABS at €2.50 per kilogram, 35 gram parts, 6% scrap, 500,000 units, lands at roughly €26,000 a year on material alone, before press time and energy. Run your own numbers with your measured rate, not your quoted one. If the measured rate is under 2%, congratulations: McKinsey research cited across the industry associates sustained sub-2% scrap with a 3 to 5% EBITDA improvement, and you have likely already done the work this post describes. If it is 6% and you believed it was 3%, the gap is your project budget.
+
+## When not to do this
+
+Two honest disqualifiers. If your presses are old enough that parameter data is not captured at all, the first project is data capture, not AI, and it is cheaper. And if your scrap concentrates in one known cause with one known fix, a worn tool, a bad dryer, you need maintenance, not analytics. The audit exists to make exactly this call before money moves: [how we scope](/services/ai-consultancy) starts with a month of counting, and we have told plants their best AI project was not the one they called about.
+
+For Canadian processors, one more practical note: several of the plastics and packaging manufacturers funded through NRC IRAP in recent years were funded for precisely this kind of process-data work. Our [guide to Canadian AI funding that is actually open](/blog/ai-funding-canada-small-business) covers the current landscape, including the closed program most articles still recommend.
+
+## Frequently asked questions
+
+### What scrap rate is normal for injection molding?
+
+Estimates typically quote 3 to 5%. Published 2026 benchmarks put the plastics average near 5%, top-quartile operations near 1.5%, and note that measured totals including process rejects often run closer to 10%. The honest answer starts with measuring yours across all categories, not just inspection rejects.
+
+### Does reducing scrap with AI require new sensors on every press?
+
+Usually not at first. Most of the value comes from joining data streams that already exist: press parameters, reject logs by defect type, changeover and material records. Plants with no parameter capture at all should fix capture first, which is a smaller project.
+
+### How fast can scrap reduction show results?
+
+Published cases report meaningful movement within months, one documented program cut scrap from 6.5% to 3.8% in six months through process analysis and monitoring, and benchmark literature describes 25% scrap reductions inside 90 days with targeted monitoring. Your speed depends on how concentrated the causes turn out to be, which is what the first month of measurement reveals.
