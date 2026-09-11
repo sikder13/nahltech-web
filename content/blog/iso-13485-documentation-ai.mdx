@@ -1,0 +1,56 @@
+---
+title: "ISO 13485 Paperwork and AI: What Actually Gets Automated"
+description: "An honest map of AI inside a medical device QMS: what genuinely gets automated under ISO 13485, what must stay human, and why tool validation is the cost nobody prices in."
+date: 2026-09-11
+author: "Udaay Sikder"
+cluster: "decision"
+targetKeyword: "iso 13485 documentation automation"
+serviceLinks: ["/services/ai-automation", "/services/ai-consultancy"]
+draft: false
+---
+
+If you run quality at a medical device manufacturer, you have heard the pitch: AI will make the documentation burden disappear. You have also lived the reality: nothing inside an ISO 13485 quality system disappears, because the standard exists precisely so that nothing does. This post is the map we wish someone had written for us — what AI genuinely automates in a 13485 shop, what it must never touch, and the one cost the software vendors rarely put on the first slide.
+
+A note on where this comes from: before founding this firm, I spent years building software inside regulated digital health environments, where quality documentation was not an add-on to the work but the shape of it. That experience is why this post reads differently from the vendor material that dominates this topic.
+
+## The burden, named precisely
+
+ISO 13485 is more prescriptive about documentation than almost any general quality standard: a required quality manual, a medical device file per product, records retained for the lifetime of the device, and documented control over every SOP revision. The people who write about this professionally do not sugarcoat the load. Greenlight Guru's guide to the standard describes quality managers preparing for management review by living in spreadsheets for hours and sometimes days, and notes that configuring general-purpose tools to align with the standard takes months, with validation of the tool adding weeks or months more. That second point matters, and we will come back to it.
+
+The burden concentrates in a few places: keeping SOP revisions controlled and current, feeding the CAPA process with clean inputs, keeping training records aligned with document changes, logging and trending complaints, and assembling evidence when an audit or a management review arrives.
+
+## What AI genuinely automates today
+
+The honest list is shorter than the marketing list, and more valuable, because everything on it holds up in front of an auditor.
+
+**Drafting, never approving.** AI can produce the first draft of an SOP revision from a described process change, flag every downstream document the change touches, and prepare the redline. A qualified human reviews, edits, and signs. The signature is the quality system; the draft is just typing, and typing is what machines are for.
+
+**Intake and triage.** Complaint intake is pattern work: reading a message, classifying the event, extracting the device, lot, and dates, and routing it. AI does this well and consistently, and consistency at intake is exactly what makes trending trustworthy later. The same holds for nonconformance reports feeding CAPA.
+
+**Retrieval and assembly.** The days-in-spreadsheets problem before management review is mostly a retrieval problem: the evidence exists, scattered. A system that pulls training status, open CAPAs, complaint trends, and supplier records into one prepared package turns days of assembly into hours of review. Audit preparation benefits identically.
+
+**Watching for drift.** Software can continuously check that training records match current document revisions and that review dates are approaching, and raise its hand early. Humans do this in annual panics; machines do it every night.
+
+## What must stay human, and why that is not a limitation
+
+Approvals, dispositions, and signatures stay human because the standard and your notified body say so, and because they should: the entire point of a quality system is accountable judgment. AI that drafts a CAPA investigation summary is a tool. AI that closes a CAPA is a finding waiting to be written against you. [We design every regulated workflow](/services/ai-automation) so the machine prepares and the person decides, with the decision recorded exactly as the QMS requires.
+
+## The cost nobody prices in: validating the tool itself
+
+Any software that touches quality records in a 13485 environment must itself be validated for its intended use. This is the honest price of automation in this industry, and it is why "we will automate everything" pitches should worry you. The economics only work when the automation is scoped narrowly enough that its validation is tractable: one workflow, defined inputs and outputs, a human decision at the end. That is [how we scope](/services/ai-consultancy). It is also why the right first step is not buying a platform but measuring which single workflow costs the most hours — the method in [our worked example of an AI opportunity audit](/blog/ai-opportunity-audit-worked-example) applies to a quality department exactly as it does to a front office.
+
+For Canadian device manufacturers, one more practical note: projects with real technical development in them, including automation of this kind, are the sort of work NRC IRAP advisors fund every year. Our [guide to what is actually open in Canadian AI funding](/blog/ai-funding-canada-small-business) covers the current landscape, including the programs that closed while the internet kept recommending them.
+
+## Frequently asked questions
+
+### Can AI-generated documents be used in an ISO 13485 quality system?
+
+Drafts, yes; records, only after human review and approval captured by your document control process. The auditor's question is never who typed the document. It is whether a qualified, accountable person approved it under a controlled process.
+
+### Does automating QMS workflows require validating the automation?
+
+Yes. Software that creates, moves, or stores quality records must be validated for intended use. This is why narrow, well-scoped automations succeed where sweeping platform projects stall: a small validated workflow ships in weeks, and its validation file stays readable.
+
+### Where should a medical device manufacturer start?
+
+With measurement, not tools. Count the hours by workflow for one month: document control, CAPA handling, complaint intake, training reconciliation, review preparation. The workflow with the most hours and the least judgment per hour is your first automation, and the arithmetic will usually name it before any consultant does.
