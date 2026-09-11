@@ -10,6 +10,7 @@ import { datasetSchema, researchArticleSchema } from "./schema-org";
 
 const ENGAGEMENTS = [
   "sample-engagement-indiana-machine-shop-quoting",
+  "sample-engagement-ontario-machine-builder-proposals",
   "sample-engagement-indianapolis-hvac",
   "sample-engagement-indianapolis-logistics",
   "sample-engagement-kestrel-beverage",
@@ -18,7 +19,7 @@ const ENGAGEMENTS = [
 describe("the research collection", () => {
   const articles = getPublishedResearch();
 
-  it("publishes all seven artifacts", () => {
+  it("publishes all eight artifacts", () => {
     expect(articles.map((a) => a.slug).sort()).toEqual(
       [
         "crawlmouse-dataset-report",
@@ -41,14 +42,15 @@ describe("the research collection", () => {
       "sample-engagement",
       "sample-engagement",
       "sample-engagement",
+      "sample-engagement",
     ]);
   });
 
   it("orders deterministically when dates tie", () => {
-    // Three of the four engagements share a date, so without the slug
-    // tie-break their order is readdir order — which differs between
-    // machines. The machine-shop engagement is newer and leads on date
-    // alone; the other three are the ones the tie-break actually orders.
+    // Two engagements share 2026-09-11 and three share 2026-08-13, so
+    // without the slug tie-break the order inside each date is readdir
+    // order — which differs between machines. Both groups are ordered by
+    // the tie-break; only the dates decide which group leads.
     expect(
       getResearchForHub()
         .filter((a) => a.kind === "sample-engagement")
@@ -78,7 +80,7 @@ describe("the research collection", () => {
 
   it("carries a disclosure banner on exactly the fictional-client artifacts", () => {
     // The banner's presence is driven by the frontmatter field, so this is the
-    // assertion that the four engagements disclose and the methodology — which
+    // assertion that the five engagements disclose and the methodology — which
     // describes no client — does not.
     const withBanner = articles
       .filter((a) => a.sampleBanner)
@@ -107,7 +109,7 @@ describe("the research collection", () => {
   });
 
   it("leaves no h1 in the body, because the template renders the title", () => {
-    // The methodology and the four engagements each open with an h1
+    // The methodology and the five engagements each open with an h1
     // repeating their own title; the loader strips it. Rendering both would
     // ship two h1s per page — the same heading-structure error as a skipped
     // level, and worse for anyone navigating by heading. The data report
@@ -178,14 +180,20 @@ Body.
 
 describe("research schema", () => {
   it("never asserts that a fictional company exists", () => {
-    // Redbud, Kestrel, Limestone and Juniper are invented. Emitting an
-    // Organization or a Review for any of them would tell a search engine
+    // Redbud, Kestrel, Limestone, Juniper and Merlin are invented. Emitting
+    // an Organization or a Review for any of them would tell a search engine
     // that a real company was really measured — the exact claim the on-page
     // banner exists to prevent. The only Organization in the graph is ours,
     // as publisher.
     for (const article of getPublishedResearch()) {
       const json = JSON.stringify(researchArticleSchema(article));
-      for (const name of ["Redbud", "Kestrel", "Limestone", "Juniper"]) {
+      for (const name of [
+        "Redbud",
+        "Kestrel",
+        "Limestone",
+        "Juniper",
+        "Merlin",
+      ]) {
         expect(json, `${article.slug} names ${name}`).not.toContain(name);
       }
       expect(json).not.toContain("Review");
