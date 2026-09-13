@@ -52,6 +52,20 @@ export default async function Page({
             </Link>
             .
           </p>
+          {/* Industry intent, beside the local line above: the two front doors
+              that are not one of the five cards, listed before the catch-all
+              below them. The sentence is the founder's, verbatim; only the
+              space before the anchor is code. */}
+          <p className="mt-sm max-w-prose text-text-muted">
+            {t.manufacturing.inboundLinks.servicesHub.before}{" "}
+            <Link
+              href={routes.manufacturing}
+              className="link-accent underline decoration-accent decoration-2"
+            >
+              {t.manufacturing.inboundLinks.servicesHub.anchor}
+            </Link>
+            {t.manufacturing.inboundLinks.servicesHub.after}
+          </p>
           {/* The cards are five examples, not a menu. This says so after the
               visitor has read them, where the alternative — a sixth card
               labelled "something else" — would have looked like a service. */}

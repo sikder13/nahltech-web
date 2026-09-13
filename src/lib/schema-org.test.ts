@@ -6,6 +6,7 @@ import {
   hafsaSasthoSchema,
   localBusinessSchema,
   localServiceSchema,
+  manufacturingServiceSchema,
   offerCatalogSchema,
   organizationSchema,
   parsePublishedPrice,
@@ -410,6 +411,7 @@ describe("organizationSchema identity", () => {
       schema,
       localBusinessSchema(t),
       localServiceSchema(t),
+      manufacturingServiceSchema(t),
       ...serviceRouteKeys.map((key) => serviceSchema(t, key)),
     ]) {
       expect(JSON.stringify(node)).not.toContain("Worldwide");
@@ -424,6 +426,7 @@ describe("organizationSchema identity", () => {
     for (const node of [
       schema,
       localBusinessSchema(t),
+      manufacturingServiceSchema(t),
       ...serviceRouteKeys.map((key) => serviceSchema(t, key)),
     ]) {
       expect(JSON.stringify(node)).not.toContain('"City"');

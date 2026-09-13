@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { CtaBlock } from "@/components/blocks/CtaBlock";
 import { MarketsLine } from "@/components/blocks/MarketsLine";
 import { FaqBlock } from "@/components/blocks/FaqBlock";
@@ -5,7 +7,7 @@ import { PageHeader } from "@/components/blocks/PageHeader";
 import { FadeIn } from "@/components/ui/FadeIn";
 import { Prose } from "@/components/ui/Prose";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { bookingCta, contactDetails } from "@/lib/routes";
+import { bookingCta, contactDetails, routes } from "@/lib/routes";
 import { localPricingRows } from "@/lib/pricing-mirror";
 
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
@@ -98,6 +100,17 @@ export function LocalLandingTemplate({
                   here rather than in the FAQ because the section above it has
                   just finished saying who we work with locally. */}
               <MarketsLine t={t} />
+              {/* The section's last sentence, as approved: the first bullet
+                  above names manufacturers, and this sends them to the page
+                  written for them. Founder's sentence verbatim; the anchor's
+                  destination comes from the route registry. */}
+              <p>
+                {t.manufacturing.inboundLinks.aiConsultingIndianapolis.before}{" "}
+                <Link href={routes.manufacturing}>
+                  {t.manufacturing.inboundLinks.aiConsultingIndianapolis.anchor}
+                </Link>
+                {t.manufacturing.inboundLinks.aiConsultingIndianapolis.after}
+              </p>
             </Prose>
           </FadeIn>
         </div>

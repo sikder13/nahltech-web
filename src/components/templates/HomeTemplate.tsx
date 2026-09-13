@@ -112,6 +112,18 @@ export function HomeTemplate({
             href: routes.aiConsultingIndianapolis,
             icon: "pin" as const,
           },
+          /* The manufacturers page, on the same terms as the card above: a
+             destination you can hire us through, not a seventh service. The
+             title is the founder's approved anchor for this placement and the
+             description is the page's own meta description. The eye is an
+             icon nothing else on this page uses; the bar charts were the
+             first choice and read as a twin of AI Consultancy's at card size. */
+          {
+            title: t.manufacturing.inboundLinks.home.anchor,
+            description: t.pages.manufacturing.description,
+            href: routes.manufacturing,
+            icon: "observe" as const,
+          },
         ]}
         /* The markets, as one line rather than four more cards. The grid is
            already six tiles and a visitor scanning "What we do" is reading

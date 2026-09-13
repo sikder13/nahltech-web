@@ -47,7 +47,8 @@ const LOCAL_BUSINESS_ID = `${siteUrl}/#localbusiness`;
 
 /**
  * Where we sell — places, not prose. One constant for every node that makes
- * the claim: Organization, LocalBusiness and all five Services.
+ * the claim: Organization, LocalBusiness, all five Services, and the
+ * manufacturers page's Service.
  *
  * Every region the descriptor names is spelled out country by country,
  * because `areaServed` takes places and "the Gulf region" is not one: a
@@ -630,6 +631,37 @@ export function marketServiceSchema(
       "@type": "Country",
       name,
     })),
+  };
+}
+
+/**
+ * Service for the manufacturers landing page.
+ *
+ * `areaServed` is the shared `AREA_SERVED`, by reference rather than by copy:
+ * the page sells to manufacturers wherever the firm sells, so it claims
+ * exactly the ten countries the Organization does and cannot drift from
+ * them. **No City nodes.** The copy says we drive to plants across Indiana,
+ * but that is a travel radius, not a service footprint, and the Indianapolis
+ * page stays the graph's sole City exception.
+ *
+ * No `offers`, for the reason `marketServiceSchema` gives: the prices on this
+ * page are inside approved prose, and parsing them back out of sentences
+ * would be synthesising markup from copy. `manufacturing.test.ts` holds those
+ * figures to /pricing instead.
+ */
+export function manufacturingServiceSchema(t: Dictionary): JsonLdObject {
+  const url = absolute(routes.manufacturing);
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": `${url}#service`,
+    name: "AI and Automation for Manufacturers",
+    serviceType: "AI consulting",
+    description: t.pages.manufacturing.description,
+    url,
+    provider: { "@id": ORGANIZATION_ID },
+    areaServed: AREA_SERVED,
   };
 }
 

@@ -171,6 +171,11 @@
       "title": "AI Consulting for New Zealand Businesses",
       "metaTitle": "AI Consulting for New Zealand Businesses | US Firm, NZ Hours | Nahl Technologies",
       "description": "US-based AI consulting for New Zealand businesses — your morning is our afternoon. Published prices, free 30-minute scan, builds in 75 days or your money back."
+    },
+    "manufacturing": {
+      "title": "AI and automation for manufacturers",
+      "metaTitle": "AI and Automation for Manufacturers | Nahl Technologies",
+      "description": "AI consulting for job shops, contract manufacturers, machine builders, and plastics processors. Measured ROI first, published prices, and we come to the floor."
     }
   },
   "notFound": {
@@ -1299,6 +1304,99 @@
       "cta": {
         "heading": "Book the free 30-minute scan — NZ morning slots, Monday to Friday.",
         "primaryLabel": "Book the scan"
+      }
+    }
+  },
+  "manufacturing": {
+    "lead": [
+      "Nahl Technologies is an AI consulting and implementation firm in Indianapolis that works with small and mid-size manufacturers: job shops and contract manufacturers, medical device makers, custom machine builders, and plastics processors. We find where AI genuinely recovers money in a plant's front office and paperwork, then build it, with ROI math you can check against your own books before anything gets built.",
+      "Most of Indiana is within a morning's drive of us, and we come to the floor. We also work remotely with manufacturers across North America, and our published research covers exactly the problems this page describes."
+    ],
+    "gap": {
+      "heading": "The execution gap on the shop floor's other side",
+      "paragraphs": [
+        "Manufacturers automated the floor a generation before everyone else. Cobots, CNC, vision systems. What mostly has not been automated is the other side of the wall: quoting from RFQs, proposal engineering, quality system paperwork, and the process data that gets collected and never read. That is where we work. The machines are rarely the constraint anymore. The office around them is.",
+        "One credential worth stating plainly, because manufacturers in regulated work ask: before founding this firm, our CEO built software inside regulated digital health environments, where documentation is not an add-on to the work but the shape of it. FDA-registered and ISO 13485 shops will recognize what that experience means."
+      ]
+    },
+    "work": {
+      "heading": "What we build, shown in numbers",
+      "intro": "We publish full worked engagements, with the math, the assumptions labeled, and the scenario where the project disappoints included on purpose:",
+      "items": {
+        "quoting": {
+          "anchor": "The Quote That Took Six Days",
+          "after": ": AI-assisted quoting for a Kokomo job shop, built on the published finding that quotes returned in two hours win over 90% and quotes after five days win under 5%."
+        },
+        "proposals": {
+          "anchor": "The Proposal That Ate March",
+          "after": ": proposal engineering for a custom machine builder, where every quote is an engineering project and seventy percent of that engineering, by the win rate, is unpaid."
+        },
+        "iso13485": {
+          "anchor": "ISO 13485 Paperwork and AI: What Actually Gets Automated",
+          "after": ": the honest map of what AI drafts, what must stay human, and the tool-validation cost nobody prices in."
+        },
+        "scrap": {
+          "anchor": "The Scrap Data You Already Collect",
+          "after": ": why molders quote 3 to 5% scrap, measure closer to 10%, and already own the data that closes the gap."
+        }
+      }
+    },
+    "engagement": {
+      "heading": "How an engagement runs",
+      "paragraph": {
+        "before": "Every engagement starts with a free 30-minute scan: we look at your quoting, intake, paperwork, or process data and name the two or three places AI would most likely pay for itself. If a build makes sense, a $2,500 audit produces the measured baseline and a fixed-price scope, and the fee is fully credited toward your first project. Automation builds start at $7,500, with a written scope, live inside 75 days or your money back. Every price is published on",
+        "anchor": "our pricing page",
+        "after": ". If the honest answer after the scan is that nothing is worth building yet, we say that too, and it costs you half an hour."
+      }
+    },
+    "grants": {
+      "heading": "Grant money, plainly",
+      "paragraph": {
+        "before": "Two programs matter for the manufacturers we serve, and both fund exactly this category of work. Indiana's Manufacturing Readiness Grants require a one-to-one company match, which means a $50,000 award deploys $100,000 of capability, and awards have repeatedly funded software that cuts lead times and cycle times. Quoting time is a lead time. In Canada, NRC IRAP funds technical development at manufacturers through an advisor-led process that starts with a phone call, and",
+        "anchor": "our Canadian AI funding guide",
+        "after": " covers what is currently open, including the program most articles still recommend that closed in 2024."
+      }
+    },
+    "faq": {
+      "heading": "Frequently asked questions",
+      "items": [
+        {
+          "question": "Do you work with small shops, or only large manufacturers?",
+          "answer": "Small and mid-size is our lane: roughly 10 to 200 employees. Big enough that quoting, paperwork, and process data eat real hours; small enough that nobody has time to read the data or fix the workflow. Enterprise-scale programs belong with enterprise-scale firms, and we say so when that is the honest answer."
+        },
+        {
+          "question": "Do you actually come to the plant?",
+          "answer": "In Indiana, yes. Most of the state is within a morning's drive of Indianapolis, and the scan and audit work better when we have seen the floor and the office it feeds. Outside driving range we work remotely, on video, with your team walking us through the workflow."
+        },
+        {
+          "question": "What does this cost?",
+          "answer": "The first 30 minutes are free. The audit is $2,500, fully credited toward your first project within 90 days. Automation builds start at $7,500 with a fixed written scope and a 75-day delivery guarantee. All prices are published on our site."
+        },
+        {
+          "question": "Can AI really be used under ISO 13485 or FDA quality systems?",
+          "answer": "Yes, with a hard boundary: AI drafts, retrieves, and monitors; qualified people approve, sign, and decide. We wrote the honest version of that answer, including what must never be automated, in the ISO 13485 piece linked above."
+        }
+      ]
+    },
+    "cta": {
+      "heading": "Start with the free 30-minute scan.",
+      "body": "Bring your quoting inbox, your CAPA backlog, or the process data nobody reads. If there is nothing worth building, we will say so.",
+      "primaryLabel": "Book the scan",
+      "phoneNote": "a real person answers"
+    },
+    "inboundLinks": {
+      "home": {
+        "anchor": "AI for manufacturers"
+      },
+      "servicesHub": {
+        "before": "We work extensively with",
+        "anchor": "manufacturers",
+        "after": ": job shops, machine builders, device makers, and processors."
+      },
+      "aiConsultingIndianapolis": {
+        "before": "Manufacturers get their own front door:",
+        "anchor": "AI and automation for manufacturers",
+        "after": "."
       }
     }
   },

@@ -288,6 +288,46 @@ export type Dictionary = typeof enDictionary;
  * price. The link text itself is not authored here — both render
  * `aiConsultingIndianapolis.anchor`, which is the founder's specified anchor.
  *
+ * ── Founder-supplied, verbatim, 13 September 2026 (DRAFT-manufacturing-
+ *    hub) ──────────────────────────────────────────────────────────────────
+ *
+ *   pages.manufacturing.*
+ *   manufacturing.*
+ *
+ * The manufacturers landing page, supplied as an approved draft and inserted
+ * without rewording. No amendments: every price the copy quotes is one the
+ * rate card publishes ($2,500 credited within 90 days, AI Automation builds
+ * from $7,500, live in 75 days), and no banned word appears.
+ *
+ * The draft header labels the meta description "156 chars"; the sentence it
+ * labels measures 159. The label is the miscount, not the sentence — it
+ * ships as approved, inside the 165 guard the other landing pages hold.
+ *
+ * The draft is stored split, not rewritten. Two paragraphs and four bullets
+ * each carry one link, so each is held as `before` / `anchor` / `after`, and
+ * the parts rejoin — `before`, one space, `anchor`, `after` exactly — to the
+ * approved sentence; `manufacturing.test.ts` asserts the joined text against
+ * the draft. The anchors are the ones the relay specified: the four pieces'
+ * titles as the draft writes them, "our Canadian AI funding guide", and "our
+ * pricing page", which is the draft's own phrase and the one not already
+ * spent on /pricing — "pricing page" is.
+ *
+ *   manufacturing.inboundLinks.home
+ *   manufacturing.inboundLinks.servicesHub
+ *   manufacturing.inboundLinks.aiConsultingIndianapolis
+ *
+ * Also founder-supplied verbatim, in the same relay: the home page's anchor,
+ * the one-line /services entry, and the closing sentence of the Indianapolis
+ * page's "Who this is for". Unlike the Indianapolis inbound lead-ins recorded
+ * below, no connecting prose was authored for any of the three — the home
+ * placement is a card whose title is the anchor and whose description is the
+ * page's own meta description, the same arrangement the Indianapolis card has.
+ *
+ * The CTA renders through the shared `CtaBlock`, so the draft's "· Or call
+ * (317) 507-4303. A real person answers." reads "or call (317) 507-4303 — a
+ * real person answers", exactly as the Indianapolis page's does. Same words;
+ * the joining punctuation is the block's.
+ *
  * ── Not yet written ───────────────────────────────────────────────────────
  *
  * 0 `[PLACEHOLDER: …]` strings remain. Every string in en.json is approved

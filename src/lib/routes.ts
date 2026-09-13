@@ -48,6 +48,17 @@ export const routes = {
   marketGulf: "/markets/gulf",
   marketCentralAsia: "/markets/central-asia",
   marketNewZealand: "/markets/new-zealand",
+  /**
+   * Industry landing page for manufacturers.
+   *
+   * The same limits as the city and market pages, for the same reason: not a
+   * service, so `serviceRouteKeys` stays five, the nav gains nothing and
+   * `knowsAbout` gains nothing. It sells the engagement the service pages
+   * sell, to a visitor who arrived by industry rather than by capability or
+   * place. At the root, like `/ai-consulting-indianapolis`, because that is
+   * the URL the copy was approved against.
+   */
+  manufacturing: "/manufacturing",
   products: "/products",
   crawlmouse: "/products/crawlmouse",
   hafsaSastho: "/products/hafsa-sastho",
@@ -159,6 +170,26 @@ export const canadaFundingGuidePath = `${routes.blog}/${canadaFundingGuideSlug}`
  */
 export const gulfStudySlug = "gulf-smb-websites-ai-search-study";
 export const gulfStudyPath = `${routes.research}/${gulfStudySlug}`;
+
+/**
+ * The four manufacturing pieces `/manufacturing` links, in the order its
+ * approved copy lists them.
+ *
+ * Same arrangement as the two constants above, for four links at once: two
+ * research engagements and two blog posts, each a file resolved by slug
+ * rather than a route, so the page needs one place to take each href from
+ * and `manufacturing.test.ts` needs one place to check each still resolves
+ * to a published document. The keys match `manufacturing.work.items` in the
+ * dictionary, which is how each anchor finds its destination.
+ */
+export const manufacturingPiecePaths = {
+  quoting: `${routes.research}/sample-engagement-indiana-machine-shop-quoting`,
+  proposals: `${routes.research}/sample-engagement-ontario-machine-builder-proposals`,
+  iso13485: `${routes.blog}/iso-13485-documentation-ai`,
+  scrap: `${routes.blog}/ai-injection-molding-scrap-reduction`,
+} as const;
+
+export type ManufacturingPieceKey = keyof typeof manufacturingPiecePaths;
 
 /**
  * NAP details. These must match the Google Business Profile exactly — see
