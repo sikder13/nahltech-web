@@ -60,6 +60,19 @@ const publishedFigures = new Set(
     .match(/\$[\d,]+/g) ?? [],
 );
 
+/**
+ * Dollar figures in approved copy that are not prices, by page — named one
+ * at a time rather than by pattern, so the gate below stays shut to every
+ * other figure.
+ *
+ * `$200,000` is what the Canada page's concentration passage says a
+ * specialist hire costs a client — the thing we are the alternative to,
+ * not something we charge.
+ */
+const notPrices: Partial<Record<(typeof marketRouteKeys)[number], string[]>> = {
+  marketCanada: ["$200,000"],
+};
+
 describe("market pages quote only published prices", () => {
   it.each(marketSlices)(
     "$routeKey names no figure /pricing does not publish",
@@ -71,12 +84,27 @@ describe("market pages quote only published prices", () => {
       const figures = copyOf(routeKey).match(/\$[\d,]+/g) ?? [];
       expect(figures.length).toBeGreaterThan(0);
       for (const figure of figures) {
+        if (notPrices[routeKey]?.includes(figure)) continue;
         expect(publishedFigures, `${routeKey} quotes ${figure}`).toContain(
           figure,
         );
       }
     },
   );
+
+  it("exempts only figures the copy still carries", () => {
+    // An exemption outliving its sentence would be a hole in the gate with
+    // nothing in it — the next draft to quote that figure as a price would
+    // pass unchecked.
+    for (const [routeKey, figures] of Object.entries(notPrices)) {
+      for (const figure of figures) {
+        expect(
+          copyOf(routeKey as (typeof marketRouteKeys)[number]),
+          `${routeKey} no longer says ${figure}`,
+        ).toContain(figure);
+      }
+    }
+  });
 
   it("agrees with the rate card on the delivery guarantee", () => {
     // The pages state the promise in their own approved words rather than
@@ -267,6 +295,50 @@ describe("the Canada funding-guide link", () => {
 
   it("leaves no placeholder marker behind", () => {
     expect(JSON.stringify(t.markets.canada)).not.toContain("[LINK");
+  });
+});
+
+describe("the Canada concentration passage", () => {
+  const sections = t.markets.canada.sections;
+  const index = sections.findIndex(
+    (section) => section.heading === "Where our Canadian work concentrates",
+  );
+
+  it("sits after the execution gap and before the practical questions", () => {
+    expect(sections.map((section) => section.heading)).toEqual([
+      "The execution gap, Canadian edition",
+      "Where our Canadian work concentrates",
+      "Practical things Canadian clients ask about",
+    ]);
+    expect(index).toBe(1);
+  });
+
+  it("rejoins to the approved paragraph character for character", () => {
+    // The template renders `before`, one space, the anchor, then `after`.
+    const { before, anchor, after } = (
+      sections[index] as {
+        linkedParagraph: { before: string; anchor: string; after: string };
+      }
+    ).linkedParagraph;
+
+    expect(`${before} ${anchor}${after}`).toBe(
+      "Most of our Canadian conversations come from Ontario's manufacturing belt and the Prairie cities: Toronto and the towns around it, Guelph, Cambridge, Peterborough, Winnipeg. That is not an accident. Mid-size Canadian cities are full of manufacturers and service firms too small to hire a $200,000 AI specialist and too busy to become one, which is exactly who we built our engagement model for. Everything runs remotely, in your time zone, and our study of how AI funding actually works in Canada right now is where many of those conversations start.",
+    );
+    expect(anchor).toBe(
+      "study of how AI funding actually works in Canada right now",
+    );
+  });
+
+  it("uses a different anchor from the page's other link to the same guide", () => {
+    // Both links on this page go to the funding guide. Identical text twice
+    // from one page is the concentration crawl-check exists to catch.
+    const { anchor } = (
+      sections[index] as { linkedParagraph: { anchor: string } }
+    ).linkedParagraph;
+    const other = sections.find(
+      (section) => "trailingLinkAnchor" in section,
+    ) as { trailingLinkAnchor: string } | undefined;
+    expect(anchor).not.toBe(other!.trailingLinkAnchor);
   });
 });
 

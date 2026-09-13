@@ -1136,6 +1136,14 @@
           "priceAnchor": "For context: our full audit costs less than most Canadian agencies charge for the discovery phase alone."
         },
         {
+          "heading": "Where our Canadian work concentrates",
+          "linkedParagraph": {
+            "before": "Most of our Canadian conversations come from Ontario's manufacturing belt and the Prairie cities: Toronto and the towns around it, Guelph, Cambridge, Peterborough, Winnipeg. That is not an accident. Mid-size Canadian cities are full of manufacturers and service firms too small to hire a $200,000 AI specialist and too busy to become one, which is exactly who we built our engagement model for. Everything runs remotely, in your time zone, and our",
+            "anchor": "study of how AI funding actually works in Canada right now",
+            "after": " is where many of those conversations start."
+          }
+        },
+        {
           "heading": "Practical things Canadian clients ask about",
           "items": [
             "Time zones: Indianapolis runs on Eastern Time — the same working day as Toronto, Ottawa, and Montréal, one hour off Winnipeg, and a workable overlap with Calgary and Vancouver mornings.",

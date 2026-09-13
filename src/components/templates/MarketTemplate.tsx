@@ -26,6 +26,18 @@ const shell = "mx-auto max-w-(--container-page) px-sm py-2xl";
 export type MarketSection = {
   heading: string;
   paragraphs?: readonly string[];
+  /**
+   * A paragraph with one link inside it, split where the anchor sits.
+   *
+   * For approved copy whose link is mid-sentence, which neither field below
+   * can carry: `trailingLinkAnchor` only appends to a bullet and
+   * `trailingSentence` only ends on its anchor. `before` renders followed by
+   * one space and `after` renders exactly as written, so the three rejoin to
+   * the approved paragraph character for character; the destination comes
+   * from `trailingLinkHref`. Without one the words still render, unlinked —
+   * unlike the two fields below, these are the section's body, not an aside.
+   */
+  linkedParagraph?: { before: string; anchor: string; after: string };
   items?: readonly string[];
   /**
    * The price-anchoring line, which is separately approved copy and belongs
@@ -78,8 +90,9 @@ export type MarketContent = {
  * fails if one is not a figure the rate card publishes. Prose cannot be
  * mirrored, so it is asserted instead.
  *
- * A section renders in one fixed order — paragraphs, then bullets, then the
- * price-anchoring line — because that order *is* the approved copy: the
+ * A section renders in one fixed order — paragraphs, then the linked
+ * paragraph, then bullets, then the price-anchoring line — because that
+ * order *is* the approved copy: the
  * anchor sentence was written to land immediately after the block quoting the
  * numbers, and moving it changes what "for context" refers to.
  *
@@ -96,9 +109,12 @@ export function MarketTemplate({
   market: MarketKey;
   content: MarketContent;
   /**
-   * Destination for the one section that declares a `trailingLinkAnchor`.
-   * Passed by the page rather than read here, because the target is a blog
-   * slug and this template has no business knowing which post that is.
+   * Destination for every link the page's sections declare — a
+   * `trailingLinkAnchor`, a `trailingSentence` or a `linkedParagraph`. One
+   * href serves them all because each market page links one document: the
+   * Canada page's two links both go to the funding guide. Passed by the page
+   * rather than read here, because the target is a slug and this template
+   * has no business knowing which document that is.
    */
   trailingLinkHref?: string;
 }) {
@@ -120,6 +136,19 @@ export function MarketTemplate({
                 {section.paragraphs?.map((paragraph) => (
                   <p key={paragraph.slice(0, 40)}>{paragraph}</p>
                 ))}
+                {section.linkedParagraph ? (
+                  <p>
+                    {section.linkedParagraph.before}{" "}
+                    {trailingLinkHref ? (
+                      <Link href={trailingLinkHref}>
+                        {section.linkedParagraph.anchor}
+                      </Link>
+                    ) : (
+                      section.linkedParagraph.anchor
+                    )}
+                    {section.linkedParagraph.after}
+                  </p>
+                ) : null}
                 {section.items ? (
                   <ul>
                     {section.items.map((item, itemIndex) => {

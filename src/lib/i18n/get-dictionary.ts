@@ -328,6 +328,28 @@ export type Dictionary = typeof enDictionary;
  * real person answers", exactly as the Indianapolis page's does. Same words;
  * the joining punctuation is the block's.
  *
+ * ── Founder-supplied, verbatim, 13 September 2026 (Canada concentration
+ *    passage) ───────────────────────────────────────────────────────────────
+ *
+ *   markets.canada.sections[1]   heading · linkedParagraph
+ *
+ * One new section on /markets/canada, "Where our Canadian work
+ * concentrates", placed after the execution-gap section and before the
+ * practical questions, as instructed. Nothing else on the page changed.
+ *
+ * The paragraph carries its link mid-sentence, so it is stored split as
+ * `before` / `anchor` / `after` and rejoins — `before`, one space, `anchor`,
+ * `after` exactly — to the approved text. The anchor, "study of how AI
+ * funding actually works in Canada right now", was checked unspent against a
+ * crawl of production before it shipped, and is recorded in
+ * docs/anchor-ledger.md.
+ *
+ * `$200,000` is the first dollar figure on a market page that is not a
+ * price: it is what the passage says a specialist hire costs. The gate in
+ * `markets.test.ts` that fails any figure /pricing does not publish names it
+ * as an exception for this page only, and a second test fails if the
+ * exception outlives the sentence.
+ *
  * ── Not yet written ───────────────────────────────────────────────────────
  *
  * 0 `[PLACEHOLDER: …]` strings remain. Every string in en.json is approved

@@ -14,7 +14,7 @@ them too. Phrases are exact, case included.
 Seeded 13 September 2026 from a crawl of the built site. Targets without a line
 have not been recorded yet; that does not mean nothing links them.
 
-/blog/ai-funding-canada-small-business: "Canada AI funding guide"; "guide to Canadian AI funding that is actually open"; "guide to what is actually open in Canadian AI funding"; "our Canadian AI funding guide"; "what is actually open in Canadian AI funding"
+/blog/ai-funding-canada-small-business: "Canada AI funding guide"; "guide to Canadian AI funding that is actually open"; "guide to what is actually open in Canadian AI funding"; "our Canadian AI funding guide"; "study of how AI funding actually works in Canada right now"; "what is actually open in Canadian AI funding"
 
 /blog/ai-injection-molding-scrap-reduction: "The Scrap Data You Already Collect"
 
