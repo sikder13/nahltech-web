@@ -14,7 +14,8 @@ import {
   isoDate,
   type FaqEntry,
 } from "@/lib/mdx";
-import { allRoutePaths } from "@/lib/routes";
+import { getPublishedResearch } from "@/lib/research";
+import { allRoutePaths, routes } from "@/lib/routes";
 
 /**
  * MDX loader and build-time gates for content/blog (ARCH-1 §4.3).
@@ -132,12 +133,20 @@ class BlogContentError extends Error {
  * `clusterSize` is how many published posts share this post's cluster. It
  * defaults to enforcing the sibling gate, because a caller that does not know
  * the size should get the stricter behaviour rather than a silent waiver.
+ *
+ * `publishedResearchSlugs` is the set of research articles a post may cite.
+ * Research articles are published pages but not routes in the registry, so
+ * without it every `/research/<slug>` link read as dead. Published only: a
+ * draft is not a page anyone can reach. It defaults to empty for the same
+ * reason `clusterSize` defaults strict — an uninformed caller rejects
+ * research links rather than waving them through.
  */
 export function validatePost(
   file: string,
   raw: string,
   knownSlugs: ReadonlySet<string>,
   clusterSize: number = Number.POSITIVE_INFINITY,
+  publishedResearchSlugs: ReadonlySet<string> = new Set(),
 ): Post {
   const slug = file.replace(/\.mdx?$/, "");
 
@@ -177,6 +186,16 @@ export function validatePost(
         throw new BlogContentError(
           file,
           `links to /blog/${target}, which is not a post in content/blog`,
+        );
+      }
+      continue;
+    }
+    if (pathname.startsWith(`${routes.research}/`)) {
+      const target = pathname.slice(`${routes.research}/`.length);
+      if (!publishedResearchSlugs.has(target)) {
+        throw new BlogContentError(
+          file,
+          `links to ${routes.research}/${target}, which is not a published research article in content/research`,
         );
       }
       continue;
@@ -281,6 +300,10 @@ export function loadAllPosts(): Post[] {
     clusterSizes.set(data.cluster, (clusterSizes.get(data.cluster) ?? 0) + 1);
   }
 
+  const publishedResearchSlugs = new Set(
+    getPublishedResearch().map((article) => article.slug),
+  );
+
   const posts = [...sources].map(([file, raw]) => {
     const cluster = matter(raw).data?.cluster;
     return validatePost(
@@ -288,6 +311,7 @@ export function loadAllPosts(): Post[] {
       raw,
       knownSlugs,
       typeof cluster === "string" ? (clusterSizes.get(cluster) ?? 0) : 0,
+      publishedResearchSlugs,
     );
   });
 

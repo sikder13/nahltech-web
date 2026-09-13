@@ -161,6 +161,77 @@ describe("validatePost — dead links", () => {
   });
 });
 
+describe("validatePost — research links", () => {
+  const PUBLISHED_RESEARCH = new Set(["a-published-report"]);
+  const withResearch = (href: string) =>
+    `${PASSING_BODY}\nCiting [the report](${href}).\n`;
+
+  it("accepts a link to a published research article", () => {
+    // Research articles are published pages; a post citing one is what a
+    // content cluster is for.
+    const post = validatePost(
+      "post.mdx",
+      build({}, withResearch("/research/a-published-report#method")),
+      SIBLINGS,
+      Number.POSITIVE_INFINITY,
+      PUBLISHED_RESEARCH,
+    );
+    expect(post.slug).toBe("post");
+  });
+
+  it("rejects a research link that is not a published article", () => {
+    // A draft never reaches the set, so it fails here the same as a slug
+    // that never existed.
+    expect(() =>
+      validatePost(
+        "post.mdx",
+        build({}, withResearch("/research/a-draft-or-a-typo")),
+        SIBLINGS,
+        Number.POSITIVE_INFINITY,
+        PUBLISHED_RESEARCH,
+      ),
+    ).toThrow(
+      /\/research\/a-draft-or-a-typo, which is not a published research article/,
+    );
+  });
+
+  it("rejects research links when the caller supplies no research set", () => {
+    // Strict by default, like the cluster size: an uninformed caller must not
+    // wave a research link through unchecked.
+    expect(() =>
+      validatePost(
+        "post.mdx",
+        build({}, withResearch("/research/a-published-report")),
+        SIBLINGS,
+      ),
+    ).toThrow(/not a published research article/);
+  });
+
+  it("still accepts the research hub, which is a route", () => {
+    const post = validatePost(
+      "post.mdx",
+      build({}, withResearch("/research")),
+      SIBLINGS,
+    );
+    expect(post.slug).toBe("post");
+  });
+
+  it("does not count a research link toward the sibling gate", () => {
+    // Siblings are posts in the same collection. A research citation is a
+    // good link, but it is not the cluster interlinking the gate asks for.
+    const body = `[pricing](/pricing) [one](/blog/sibling-one) [report](/research/a-published-report)`;
+    expect(() =>
+      validatePost(
+        "post.mdx",
+        build({ cluster: "decision" }, body),
+        SIBLINGS,
+        3,
+        PUBLISHED_RESEARCH,
+      ),
+    ).toThrow(/at least two links to sibling posts; found 1/);
+  });
+});
+
 describe("validatePost — headings", () => {
   it("extracts h2s with slugs matching rehype-slug", () => {
     const body = `## First Heading\n\ntext\n\n## Second: With Punctuation!\n\ntext`;
