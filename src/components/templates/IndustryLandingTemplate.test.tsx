@@ -11,6 +11,7 @@ import {
   bookingCta,
   canadaFundingGuidePath,
   contactDetails,
+  indianaGrantsGuidePath,
   manufacturingPiecePaths,
   routes,
 } from "@/lib/routes";
@@ -42,7 +43,7 @@ const draft = {
     "One credential worth stating plainly, because manufacturers in regulated work ask: before founding this firm, our CEO built software inside regulated digital health environments, where documentation is not an add-on to the work but the shape of it. FDA-registered and ISO 13485 shops will recognize what that experience means.",
     "We publish full worked engagements, with the math, the assumptions labeled, and the scenario where the project disappoints included on purpose:",
     "Every engagement starts with a free 30-minute scan: we look at your quoting, intake, paperwork, or process data and name the two or three places AI would most likely pay for itself. If a build makes sense, a $2,500 audit produces the measured baseline and a fixed-price scope, and the fee is fully credited toward your first project. Automation builds start at $7,500, with a written scope, live inside 75 days or your money back. Every price is published on our pricing page. If the honest answer after the scan is that nothing is worth building yet, we say that too, and it costs you half an hour.",
-    "Two programs matter for the manufacturers we serve, and both fund exactly this category of work. Indiana's Manufacturing Readiness Grants require a one-to-one company match, which means a $50,000 award deploys $100,000 of capability, and awards have repeatedly funded software that cuts lead times and cycle times. Quoting time is a lead time. In Canada, NRC IRAP funds technical development at manufacturers through an advisor-led process that starts with a phone call, and our Canadian AI funding guide covers what is currently open, including the program most articles still recommend that closed in 2024.",
+    "Two programs matter for the manufacturers we serve, and both fund exactly this category of work. Indiana's Manufacturing Readiness Grants require a one-to-one company match, which means a $50,000 award deploys $100,000 of capability, and awards have repeatedly funded software that cuts lead times and cycle times. Quoting time is a lead time. The full guide: what Indiana's Manufacturing Readiness Grants actually fund. In Canada, NRC IRAP funds technical development at manufacturers through an advisor-led process that starts with a phone call, and our Canadian AI funding guide covers what is currently open, including the program most articles still recommend that closed in 2024.",
     "Bring your quoting inbox, your CAPA backlog, or the process data nobody reads. If there is nothing worth building, we will say so.",
   ],
   bullets: [
@@ -143,6 +144,10 @@ describe("IndustryLandingTemplate renders the approved draft", () => {
       ],
       ["The Scrap Data You Already Collect", manufacturingPiecePaths.scrap],
       ["our pricing page", routes.pricing],
+      [
+        "what Indiana's Manufacturing Readiness Grants actually fund",
+        indianaGrantsGuidePath,
+      ],
       ["our Canadian AI funding guide", canadaFundingGuidePath],
     ];
 

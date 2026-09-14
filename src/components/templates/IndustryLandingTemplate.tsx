@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Fragment } from "react";
 
 import { CtaBlock } from "@/components/blocks/CtaBlock";
 import { FaqBlock } from "@/components/blocks/FaqBlock";
@@ -10,6 +11,7 @@ import {
   bookingCta,
   canadaFundingGuidePath,
   contactDetails,
+  indianaGrantsGuidePath,
   manufacturingPiecePaths,
   routes,
   type ManufacturingPieceKey,
@@ -18,6 +20,15 @@ import {
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
 
 const shell = "mx-auto max-w-(--container-page) px-sm py-2xl";
+
+/**
+ * Destinations for the grants paragraph's runs, in the copy's order: the
+ * Indiana guide, then the Canada guide. Matched by position, which the type
+ * system cannot check against a JSON array, so the template test pins both
+ * anchors to these exact hrefs: a run added or reordered in the copy fails
+ * there rather than shipping a link to the wrong guide.
+ */
+const grantsLinks = [indianaGrantsGuidePath, canadaFundingGuidePath] as const;
 
 /**
  * A sentence carrying one link, split where the anchor sits.
@@ -132,11 +143,18 @@ export function IndustryLandingTemplate({
           <FadeIn>
             <SectionHeading>{content.grants.heading}</SectionHeading>
             <Prose className="mt-md">
+              {/* One paragraph carrying two links, stored as two runs, each
+                  ending on or just after its link: Indiana's, then Canada's.
+                  The runs join with one space, so the paragraph reads as the
+                  approved text. Each run's destination is matched here by
+                  position, in the copy's order. */}
               <p>
-                <LinkedSentence
-                  copy={content.grants.paragraph}
-                  href={canadaFundingGuidePath}
-                />
+                {content.grants.paragraph.map((run, index) => (
+                  <Fragment key={run.anchor}>
+                    {index > 0 ? " " : null}
+                    <LinkedSentence copy={run} href={grantsLinks[index]} />
+                  </Fragment>
+                ))}
               </p>
             </Prose>
           </FadeIn>

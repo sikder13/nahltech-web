@@ -1359,11 +1359,18 @@
     },
     "grants": {
       "heading": "Grant money, plainly",
-      "paragraph": {
-        "before": "Two programs matter for the manufacturers we serve, and both fund exactly this category of work. Indiana's Manufacturing Readiness Grants require a one-to-one company match, which means a $50,000 award deploys $100,000 of capability, and awards have repeatedly funded software that cuts lead times and cycle times. Quoting time is a lead time. In Canada, NRC IRAP funds technical development at manufacturers through an advisor-led process that starts with a phone call, and",
-        "anchor": "our Canadian AI funding guide",
-        "after": " covers what is currently open, including the program most articles still recommend that closed in 2024."
-      }
+      "paragraph": [
+        {
+          "before": "Two programs matter for the manufacturers we serve, and both fund exactly this category of work. Indiana's Manufacturing Readiness Grants require a one-to-one company match, which means a $50,000 award deploys $100,000 of capability, and awards have repeatedly funded software that cuts lead times and cycle times. Quoting time is a lead time. The full guide:",
+          "anchor": "what Indiana's Manufacturing Readiness Grants actually fund",
+          "after": "."
+        },
+        {
+          "before": "In Canada, NRC IRAP funds technical development at manufacturers through an advisor-led process that starts with a phone call, and",
+          "anchor": "our Canadian AI funding guide",
+          "after": " covers what is currently open, including the program most articles still recommend that closed in 2024."
+        }
+      ]
     },
     "faq": {
       "heading": "Frequently asked questions",

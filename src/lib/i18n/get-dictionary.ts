@@ -350,6 +350,24 @@ export type Dictionary = typeof enDictionary;
  * as an exception for this page only, and a second test fails if the
  * exception outlives the sentence.
  *
+ * ── Founder-supplied, verbatim, 14 September 2026 (MRG guide inbound
+ *    sentence) ──────────────────────────────────────────────────────────────
+ *
+ *   manufacturing.grants.paragraph
+ *
+ * One sentence added to /manufacturing's "Grant money, plainly": "The full
+ * guide: what Indiana's Manufacturing Readiness Grants actually fund." It is
+ * the last sentence of the Indiana passage, right after "Quoting time is a
+ * lead time." and before the Canada passage. The link is "what Indiana's
+ * Manufacturing Readiness Grants actually fund"; "The full guide:" stays
+ * plain text. The relay did not mark the link span, so that choice is ours
+ * and recorded here.
+ *
+ * The paragraph now carries two links, so it is stored as two runs rather
+ * than one before / anchor / after. Each run rejoins as before; the runs join
+ * with one space. The rest of the paragraph is character for character what
+ * shipped on 13 September.
+ *
  * ── Not yet written ───────────────────────────────────────────────────────
  *
  * 0 `[PLACEHOLDER: …]` strings remain. Every string in en.json is approved

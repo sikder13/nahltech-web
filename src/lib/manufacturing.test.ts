@@ -4,6 +4,8 @@ import { getPublishedPosts } from "./blog";
 import { getPublishedResearch } from "./research";
 import {
   canadaFundingGuidePath,
+  indianaGrantsGuidePath,
+  indianaGrantsGuideSlug,
   manufacturingPiecePaths,
   routes,
   serviceRouteKeys,
@@ -156,11 +158,24 @@ describe("the four manufacturing pieces", () => {
     },
   );
 
+  it("links the Indiana grants guide to a published post", () => {
+    // Cited mid-paragraph from the grants section, so no blog gate sees it;
+    // this is the check that stands in for them.
+    expect(indianaGrantsGuidePath).toBe(`/blog/${indianaGrantsGuideSlug}`);
+    expect(
+      getPublishedPosts().find((post) => post.slug === indianaGrantsGuideSlug),
+      `${indianaGrantsGuideSlug} is not a published post; /manufacturing links it`,
+    ).toBeDefined();
+  });
+
   it("links the Canada guide and /pricing on the relay's anchors", () => {
     expect(canadaFundingGuidePath).toBe(
       "/blog/ai-funding-canada-small-business",
     );
-    expect(page.grants.paragraph.anchor).toBe("our Canadian AI funding guide");
+    expect(page.grants.paragraph.map((run) => run.anchor)).toEqual([
+      "what Indiana's Manufacturing Readiness Grants actually fund",
+      "our Canadian AI funding guide",
+    ]);
     expect(page.engagement.paragraph.anchor).toBe("our pricing page");
   });
 });

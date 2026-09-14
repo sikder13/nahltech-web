@@ -192,6 +192,18 @@ export const manufacturingPiecePaths = {
 export type ManufacturingPieceKey = keyof typeof manufacturingPiecePaths;
 
 /**
+ * The Indiana Manufacturing Readiness Grants guide, named here because
+ * `/manufacturing` links it from its grants paragraph.
+ *
+ * Kept apart from `manufacturingPiecePaths`, which the page renders as its
+ * list of worked engagements: this is a funding guide cited mid-paragraph,
+ * the Indiana counterpart of `canadaFundingGuidePath` beside it.
+ * `manufacturing.test.ts` checks the slug still resolves to a published post.
+ */
+export const indianaGrantsGuideSlug = "manufacturing-readiness-grants-indiana";
+export const indianaGrantsGuidePath = `${routes.blog}/${indianaGrantsGuideSlug}`;
+
+/**
  * NAP details. These must match the Google Business Profile exactly — see
  * ARCH-1 §7, where LocalBusiness JSON-LD is generated from the same values.
  */
