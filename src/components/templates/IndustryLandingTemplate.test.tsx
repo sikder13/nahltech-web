@@ -49,7 +49,7 @@ const draft = {
   bullets: [
     "The Quote That Took Six Days: AI-assisted quoting for a Kokomo job shop, built on the published finding that quotes returned in two hours win over 90% and quotes after five days win under 5%.",
     "The Proposal That Ate March: proposal engineering for a custom machine builder, where every quote is an engineering project and seventy percent of that engineering, by the win rate, is unpaid.",
-    "ISO 13485 Paperwork and AI: What Actually Gets Automated: the honest map of what AI drafts, what must stay human, and the tool-validation cost nobody prices in.",
+    "ISO 13485 and AI: What Can Be Automated, and What Cannot: the honest map of what AI drafts, what must stay human, and the tool-validation cost nobody prices in.",
     "The Scrap Data You Already Collect: why molders quote 3 to 5% scrap, measure closer to 10%, and already own the data that closes the gap.",
   ],
   faq: [
@@ -139,7 +139,7 @@ describe("IndustryLandingTemplate renders the approved draft", () => {
       ["The Quote That Took Six Days", manufacturingPiecePaths.quoting],
       ["The Proposal That Ate March", manufacturingPiecePaths.proposals],
       [
-        "ISO 13485 Paperwork and AI: What Actually Gets Automated",
+        "ISO 13485 and AI: What Can Be Automated, and What Cannot",
         manufacturingPiecePaths.iso13485,
       ],
       ["The Scrap Data You Already Collect", manufacturingPiecePaths.scrap],

@@ -22,7 +22,7 @@ have not been recorded yet; that does not mean nothing links them.
 
 /blog/irap-funding-for-manufacturers: "our IRAP guide for manufacturers"; "the Canadian counterpart to this guide"
 
-/blog/iso-13485-documentation-ai: "ISO 13485 Paperwork and AI: What Actually Gets Automated"; "the honest map of AI under a 13485 system"
+/blog/iso-13485-documentation-ai: "ISO 13485 and AI: What Can Be Automated, and What Cannot"; "the honest map of AI under a 13485 system"
 
 /blog/manufacturing-readiness-grants-indiana: "what Indiana's Manufacturing Readiness Grants actually fund"
 
