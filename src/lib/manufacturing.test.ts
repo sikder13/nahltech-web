@@ -27,9 +27,9 @@ import type { Dictionary } from "@/lib/i18n/get-dictionary";
 /**
  * `/manufacturing` makes the claims the city and market pages make — prices,
  * which must agree with /pricing, and territory, which must agree with the
- * graph — plus one of its own: it sends four links into the content
- * collections by title, and a title is the thing an edit most casually
- * changes. Each is checked here rather than by eye, because every failure on
+ * graph — plus one of its own: it sends a link into the content
+ * collections for every piece it lists, each on that piece's own title, and a
+ * title is the thing an edit most casually changes. Each is checked here rather than by eye, because every failure on
  * this list is a page that still renders.
  *
  * Verbatim rendering is asserted against the draft in
@@ -121,7 +121,7 @@ describe("prices agree with /pricing", () => {
   });
 });
 
-describe("the four manufacturing pieces", () => {
+describe("the manufacturing pieces", () => {
   const documents = [
     ...getPublishedPosts().map((post) => ({
       path: `${routes.blog}/${post.slug}`,
@@ -146,15 +146,21 @@ describe("the four manufacturing pieces", () => {
   it.each(Object.entries(manufacturingPiecePaths))(
     "%s is linked on its own title",
     (key, path) => {
-      // Title-based anchors, as the draft writes them: the full title, or
-      // the title up to its colon. A retitled piece fails here instead of
-      // leaving the page linking it under a name it no longer has.
+      // Title-based anchors, as the approved copy writes them: the full
+      // title, or the title truncated at its first colon or comma — the two
+      // breaks a title uses to separate its name from its subtitle. Widened
+      // from colon-only when the quoting post joined the list, whose title
+      // breaks on a comma; an invented anchor still fails, which is the point.
+      // A retitled piece fails here rather than leaving the page linking it
+      // under a name it no longer has.
       const { anchor } =
         page.work.items[key as keyof typeof manufacturingPiecePaths];
       const { title } = documents.find((document) => document.path === path)!;
-      expect(title === anchor || title.startsWith(`${anchor}: `), title).toBe(
-        true,
-      );
+      const isTitleOrItsOpening =
+        title === anchor ||
+        (title.startsWith(anchor) &&
+          /^[:,]\s/.test(title.slice(anchor.length)));
+      expect(isTitleOrItsOpening, `${title} vs ${anchor}`).toBe(true);
     },
   );
 

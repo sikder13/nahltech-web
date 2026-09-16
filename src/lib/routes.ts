@@ -188,6 +188,7 @@ export const manufacturingPiecePaths = {
   iso13485: `${routes.blog}/iso-13485-documentation-ai`,
   scrap: `${routes.blog}/ai-injection-molding-scrap-reduction`,
   fourVector: `${routes.research}/sample-engagement-injection-molder-four-vector-screen`,
+  quotingFaster: `${routes.blog}/how-custom-manufacturers-quote-faster`,
 } as const;
 
 export type ManufacturingPieceKey = keyof typeof manufacturingPiecePaths;

@@ -18,13 +18,15 @@ have not been recorded yet; that does not mean nothing links them.
 
 /blog/ai-injection-molding-scrap-reduction: "our plastics scrap analysis"; "process-data work where models must learn your presses' behavior"; "reading the process data you already collect"; "The Scrap Data You Already Collect"
 
-/blog/ai-opportunity-audit-worked-example: "how a full audit runs, number by number"; "our worked audit example"; "our worked example of an AI opportunity audit"; "the counting stage is published in full"; "the worked example of a full audit"; "We opened one up, numbers included"; "worked example of an AI opportunity audit"
+/blog/ai-opportunity-audit-worked-example: "how a full audit runs, number by number"; "our worked audit example"; "our worked example of an AI opportunity audit"; "published audit walkthrough"; "the counting stage is published in full"; "the worked example of a full audit"; "We opened one up, numbers included"; "worked example of an AI opportunity audit"
+
+/blog/how-custom-manufacturers-quote-faster: "How Custom Manufacturers Quote Faster"
 
 /blog/irap-funding-for-manufacturers: "our IRAP guide for manufacturers"; "the Canadian counterpart to this guide"
 
 /blog/iso-13485-documentation-ai: "ISO 13485 and AI: What Can Be Automated, and What Cannot"; "the honest map of AI under a 13485 system"
 
-/blog/manufacturing-readiness-grants-indiana: "what Indiana's Manufacturing Readiness Grants actually fund"
+/blog/manufacturing-readiness-grants-indiana: "what Indiana's grant-funded floors keep discovering"; "what Indiana's Manufacturing Readiness Grants actually fund"
 
 /manufacturing: "AI and automation for manufacturers"; "AI for manufacturers"; "manufacturers"
 
@@ -32,12 +34,12 @@ have not been recorded yet; that does not mean nothing links them.
 
 /research/how-we-measure: "here"; "how we measure"; "how we run every engagement"; "measurement methodology"; "our published method"; "published in full"; "The method behind every number above"
 
-/research/sample-engagement-indiana-machine-shop-quoting: "a job shop quoting engagement, fully costed"; "a Kokomo job shop"; "machine shop quoting engagement"; "The Quote That Took Six Days"
+/research/sample-engagement-indiana-machine-shop-quoting: "a job shop quoting engagement, fully costed"; "a Kokomo job shop"; "a Kokomo shop's quoting numbers, worked in full"; "machine shop quoting engagement"; "The Quote That Took Six Days"
 
-/research/sample-engagement-injection-molder-four-vector-screen: "The Four-Vector Screen"
+/research/sample-engagement-injection-molder-four-vector-screen: "our published screening method"; "The Four-Vector Screen"
 
 /research/sample-engagement-ontario-machine-builder-proposals: "a machine builder's proposal workflow, fully costed"; "proposal engineering engagement"; "The Proposal That Ate March"
 
-/services/ai-automation: "AI automation"; "AI automation for business workflows"; "AI automation work we do"; "builds we deliver at fixed price"; "the automation we design"; "the build that follows"; "We design every regulated workflow"; "workflow automation"
+/services/ai-automation: "a fixed-price automation project"; "AI automation"; "AI automation for business workflows"; "AI automation work we do"; "builds we deliver at fixed price"; "the automation we design"; "the build that follows"; "We design every regulated workflow"; "workflow automation"
 
-/services/ai-consultancy: "a measured baseline for your application"; "AI consulting and implementation"; "AI opportunity audit"; "AI Opportunity Audit"; "how we scope"; "the audit that produces that documentation"; "what building this well actually demands"
+/services/ai-consultancy: "a measured baseline for your application"; "a measured quoting audit"; "AI consulting and implementation"; "AI opportunity audit"; "AI Opportunity Audit"; "how we scope"; "the audit that produces that documentation"; "what building this well actually demands"
