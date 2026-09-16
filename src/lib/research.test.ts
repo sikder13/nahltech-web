@@ -9,6 +9,9 @@ import {
 import { datasetSchema, researchArticleSchema } from "./schema-org";
 
 const ENGAGEMENTS = [
+  // Newest first: the hub orders engagements by date, then by slug where
+  // dates tie. The four-vector screen (2026-09-15) leads the group.
+  "sample-engagement-injection-molder-four-vector-screen",
   "sample-engagement-indiana-machine-shop-quoting",
   "sample-engagement-ontario-machine-builder-proposals",
   "sample-engagement-indianapolis-hvac",
@@ -19,7 +22,7 @@ const ENGAGEMENTS = [
 describe("the research collection", () => {
   const articles = getPublishedResearch();
 
-  it("publishes all eight artifacts", () => {
+  it("publishes all nine artifacts", () => {
     expect(articles.map((a) => a.slug).sort()).toEqual(
       [
         "crawlmouse-dataset-report",
@@ -38,6 +41,7 @@ describe("the research collection", () => {
       "data-report",
       "data-report",
       "methodology",
+      "sample-engagement",
       "sample-engagement",
       "sample-engagement",
       "sample-engagement",
@@ -80,7 +84,7 @@ describe("the research collection", () => {
 
   it("carries a disclosure banner on exactly the fictional-client artifacts", () => {
     // The banner's presence is driven by the frontmatter field, so this is the
-    // assertion that the five engagements disclose and the methodology — which
+    // assertion that the six engagements disclose and the methodology — which
     // describes no client — does not.
     const withBanner = articles
       .filter((a) => a.sampleBanner)
@@ -109,7 +113,7 @@ describe("the research collection", () => {
   });
 
   it("leaves no h1 in the body, because the template renders the title", () => {
-    // The methodology and the five engagements each open with an h1
+    // The methodology and the six engagements each open with an h1
     // repeating their own title; the loader strips it. Rendering both would
     // ship two h1s per page — the same heading-structure error as a skipped
     // level, and worse for anyone navigating by heading. The data report
@@ -180,7 +184,7 @@ Body.
 
 describe("research schema", () => {
   it("never asserts that a fictional company exists", () => {
-    // Redbud, Kestrel, Limestone, Juniper and Merlin are invented. Emitting
+    // Redbud, Kestrel, Osprey, Limestone, Juniper and Merlin are invented. Emitting
     // an Organization or a Review for any of them would tell a search engine
     // that a real company was really measured — the exact claim the on-page
     // banner exists to prevent. The only Organization in the graph is ours,
@@ -190,6 +194,7 @@ describe("research schema", () => {
       for (const name of [
         "Redbud",
         "Kestrel",
+        "Osprey",
         "Limestone",
         "Juniper",
         "Merlin",

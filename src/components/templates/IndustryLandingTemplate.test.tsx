@@ -51,6 +51,7 @@ const draft = {
     "The Proposal That Ate March: proposal engineering for a custom machine builder, where every quote is an engineering project and seventy percent of that engineering, by the win rate, is unpaid.",
     "ISO 13485 and AI: What Can Be Automated, and What Cannot: the honest map of what AI drafts, what must stay human, and the tool-validation cost nobody prices in.",
     "The Scrap Data You Already Collect: why molders quote 3 to 5% scrap, measure closer to 10%, and already own the data that closes the gap.",
+    "The Four-Vector Screen: four money vectors on one fictional molder, ranked with labeled numbers, including the row where the right answer is the smaller project.",
   ],
   faq: [
     [
@@ -143,6 +144,7 @@ describe("IndustryLandingTemplate renders the approved draft", () => {
         manufacturingPiecePaths.iso13485,
       ],
       ["The Scrap Data You Already Collect", manufacturingPiecePaths.scrap],
+      ["The Four-Vector Screen", manufacturingPiecePaths.fourVector],
       ["our pricing page", routes.pricing],
       [
         "what Indiana's Manufacturing Readiness Grants actually fund",

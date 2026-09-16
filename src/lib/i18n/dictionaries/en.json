@@ -1346,6 +1346,10 @@
         "scrap": {
           "anchor": "The Scrap Data You Already Collect",
           "after": ": why molders quote 3 to 5% scrap, measure closer to 10%, and already own the data that closes the gap."
+        },
+        "fourVector": {
+          "anchor": "The Four-Vector Screen",
+          "after": ": four money vectors on one fictional molder, ranked with labeled numbers, including the row where the right answer is the smaller project."
         }
       }
     },

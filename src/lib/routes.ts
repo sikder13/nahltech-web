@@ -172,11 +172,11 @@ export const gulfStudySlug = "gulf-smb-websites-ai-search-study";
 export const gulfStudyPath = `${routes.research}/${gulfStudySlug}`;
 
 /**
- * The four manufacturing pieces `/manufacturing` links, in the order its
- * approved copy lists them.
+ * The manufacturing pieces `/manufacturing` links, in the order its approved
+ * copy lists them.
  *
- * Same arrangement as the two constants above, for four links at once: two
- * research engagements and two blog posts, each a file resolved by slug
+ * Same arrangement as the two constants above, for several links at once:
+ * research engagements and blog posts, each a file resolved by slug
  * rather than a route, so the page needs one place to take each href from
  * and `manufacturing.test.ts` needs one place to check each still resolves
  * to a published document. The keys match `manufacturing.work.items` in the
@@ -187,6 +187,7 @@ export const manufacturingPiecePaths = {
   proposals: `${routes.research}/sample-engagement-ontario-machine-builder-proposals`,
   iso13485: `${routes.blog}/iso-13485-documentation-ai`,
   scrap: `${routes.blog}/ai-injection-molding-scrap-reduction`,
+  fourVector: `${routes.research}/sample-engagement-injection-molder-four-vector-screen`,
 } as const;
 
 export type ManufacturingPieceKey = keyof typeof manufacturingPiecePaths;
