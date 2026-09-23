@@ -133,10 +133,10 @@ export const marketDictionaryKeys = {
 /**
  * The generated site-wide OG image, as a URL.
  *
- * Emitted by `app/opengraph-image.tsx` — the file convention CLAUDE.md
- * requires, not a static asset. It is named here because the article routes
- * have to reference it explicitly: a page that declares its own `openGraph`
- * object stops inheriting the convention's image, and every article does
+ * Emitted by `app/opengraph-image.tsx` — the file convention
+ * docs/CONVENTIONS.md requires, not a static asset. It is named here
+ * because the article routes have to reference it explicitly: a page
+ * that declares its own `openGraph` object stops inheriting the convention's image, and every article does
  * declare one to carry `type: article`, `publishedTime` and `authors`. Left
  * alone, those pages share with no image at all and a small `summary` card.
  *

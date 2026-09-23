@@ -3,7 +3,7 @@
 **Version:** 1.0 · July 30, 2026
 **Repo:** `nahltech-web` (new) · **Database:** new Supabase project on company account
 **Consolidates:** A1 (IA), A2 (schema) + frontend/backend system design
-**This is the reference document for the entire build. Every Claude Code prompt derives from it.**
+**This is the reference document for the entire build. Every build task derives from it.**
 
 ---
 
@@ -132,14 +132,13 @@ nahltech-web/
 ├── supabase/
 │   ├── migrations/                   # numbered SQL, source of truth
 │   └── functions/notify-new-lead/
-├── CLAUDE.md                         # Claude Code project instructions
 ├── .env.example
 └── package.json
 ```
 
 **Two structural rules with teeth:**
 1. `supabase/migrations/` is the schema's source of truth — the dashboard SQL editor is for verification only. Schema changes go through numbered migration files in the repo, so the database is reproducible and reviewable like code.
-2. `CLAUDE.md` at repo root carries the project conventions so every Claude Code session inherits them without re-prompting (content provided in SETUP-1).
+2. `docs/CONVENTIONS.md` carries the project rules and conventions so every build session starts from the same standard without restating it.
 
 ---
 
@@ -363,7 +362,7 @@ Method, so the next measurement is comparable: sum the `.js` entries from `build
 | Google Analytics | 4.5 KB | Only by dropping analytics |
 | **Everything we wrote** — layout, header, footer, chat launcher, forms, page | **11.0 KB** | Marginal |
 
-The two locked dependencies alone total **128.0 KB**, which is over the 120 KB target before a single line of our own code. Our own code is 11 KB of a 143.5 KB page — roughly 7%. The remaining levers are: loading `domAnimation` asynchronously (moves ~15 KB out of first load, but `FadeIn` renders `opacity: 0` until features arrive, so it trades directly against LCP, currently 1.5–1.7 s against a 2.0 s budget), or dropping Framer Motion, which the stack lock in `CLAUDE.md` forbids. Neither is worth taking unilaterally.
+The two locked dependencies alone total **128.0 KB**, which is over the 120 KB target before a single line of our own code. Our own code is 11 KB of a 143.5 KB page — roughly 7%. The remaining levers are: loading `domAnimation` asynchronously (moves ~15 KB out of first load, but `FadeIn` renders `opacity: 0` until features arrive, so it trades directly against LCP, currently 1.5–1.7 s against a 2.0 s budget), or dropping Framer Motion, which the stack lock in `docs/CONVENTIONS.md` forbids. Neither is worth taking unilaterally.
 
 The honest conclusion is that 120 KB was set before the framework cost was measured: shaving our own 11 KB cannot close a 23 KB gap. **The founder ratified 145 KB on 13 Aug 2026** on that basis. The new figure is deliberately only 1.5 KB above the current 143.5 KB — it is a ceiling that still bites if application code grows, not a number chosen to be comfortable. If a future change needs more, measure first and move it again for a stated reason; do not quietly exceed it.
 
@@ -413,4 +412,4 @@ This table is a record of what was built, kept current as sessions land. It repl
 | **CC-7** | MDX blog pipeline, migration of the five legacy posts, legal pages | Shipped |
 | _next_ | SEO and launch: schema.org, sitemaps, perf pass, Crawlmouse gate, domain cutover | Not started |
 
-Each session ends with acceptance criteria Claude Code verifies before the work is accepted — the verification loop.
+Each session ends with acceptance criteria verified before the work is accepted — the verification loop.

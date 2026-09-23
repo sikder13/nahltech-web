@@ -101,7 +101,7 @@ To add an FAQ, write the section. There is nothing else to wire up.
 
 ## Prose
 
-- Banned words (CLAUDE.md rule 15): empower, leverage, unlock, transform,
+- Banned words (`docs/CONVENTIONS.md` rule 15): empower, leverage, unlock, transform,
   harness, cutting-edge, innovative, world-class, and "solutions" as a
   standalone noun.
 - Em dashes: at most one per paragraph. Clause-joining dashes become periods.

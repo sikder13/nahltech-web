@@ -9,5 +9,4 @@ package-lock.json
 # Hand-authored documents and SQL — never reformat these.
 docs/
 supabase/
-CLAUDE.md
 README.md

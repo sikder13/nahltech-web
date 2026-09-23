@@ -536,7 +536,7 @@ mechanism the bn locale will use when its content exists; do not remove it as
 still **no automated banned-word gate**; rule 15 is enforced by grep and by
 review, which is worth knowing before trusting "clean" in a future handoff.
 One approved exception stands — a quoted "digital transformation" that the
-sentence rejects; see CLAUDE.md rule 15.
+sentence rejects; see `docs/CONVENTIONS.md` rule 15.
 Duplicate anchors: **0** on article targets, enforced by `npm run crawl:check`,
 which exits non-zero. Sibling links: zero NOTICEs. Placeholders: **0**.
 Orphans **0**, max depth **2**, broken links **0**.
@@ -910,10 +910,10 @@ defaults do not match the policy above, and a proxy that blocks what
 
 ## 8. Process rules
 
-`CLAUDE.md` at repo root is authoritative — rules 1–15. The ones that bite
+`docs/CONVENTIONS.md` is authoritative — rules 1–15. The ones that bite
 most often:
 
-- **11** no AI attribution anywhere: commits, PR titles/bodies, comments,
+- **11** no tool attribution anywhere: commits, PR titles/bodies, comments,
   file headers.
 - **12** placeholder gates — never invent product facts, statistics, client
   claims or pricing. Unapproved copy stays `[PLACEHOLDER: …]`.
