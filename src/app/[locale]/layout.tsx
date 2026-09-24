@@ -1,8 +1,8 @@
-import { Fraunces, Inter } from "next/font/google";
 import { notFound } from "next/navigation";
 
 import { GoogleAnalytics } from "@next/third-parties/google";
 
+import { fraunces, inter } from "@/app/fonts";
 import { OutboundEvents } from "@/components/analytics/OutboundEvents";
 import { ChatWidget } from "@/components/conversion/ChatWidget";
 import { Footer } from "@/components/layout/Footer";
@@ -19,30 +19,8 @@ import type { ReactNode } from "react";
 
 import "@/styles/globals.css";
 
-/**
- * Inter is the brand typeface. Self-hosted at build time by next/font — the
- * files are served from our own origin, so the page makes no request to a
- * third-party font host.
- */
-const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-inter",
-});
-
-/**
- * Display face, h1/h2 only. Two weights, latin subset — the whole family is
- * one file under the font budget in ARCH-1 §7.
- */
 /** Unset in development and in any preview without the var — see the mount. */
 const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ?? "";
-
-const fraunces = Fraunces({
-  subsets: ["latin"],
-  display: "swap",
-  weight: ["400", "600"],
-  variable: "--font-fraunces",
-});
 
 /**
  * Only live locales are prerendered. `ar` and `bn` are deliberately absent:
