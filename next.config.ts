@@ -39,6 +39,15 @@ const nextConfig: NextConfig = {
   },
 
   /**
+   * /api/visit validates tokens against the dashboard configs at request
+   * time, so the JSON has to travel with that function. File tracing cannot
+   * see a directory read, so it is named here.
+   */
+  outputFileTracingIncludes: {
+    "/api/visit": ["./content/dashboards/**/*.json"],
+  },
+
+  /**
    * Legacy URL map.
    *
    * `permanent: true` emits 308, not 301. The two are equivalent for search

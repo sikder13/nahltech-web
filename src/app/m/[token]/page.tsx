@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { CalibrationModel } from "@/components/dashboard/CalibrationModel";
 import { EvidenceLabel, Labelled } from "@/components/dashboard/EvidenceLabel";
 import { SeriesChart } from "@/components/dashboard/SeriesChart";
+import { VisitBeacon } from "@/components/dashboard/VisitBeacon";
 import { FooterBase } from "@/components/layout/FooterBase";
 import { requireDictionary } from "@/lib/i18n/require-dictionary";
 import { evidenceLabels } from "@/lib/dashboards/model";
@@ -336,6 +337,8 @@ export default async function DashboardPage({ params }: Params) {
           <p className="mt-lg text-text">{shared.closing}</p>
           <p className="mt-xs text-text">{shared.privacy}</p>
         </footer>
+
+        <VisitBeacon token={config.token} />
       </main>
       <FooterBase t={t} />
     </>
