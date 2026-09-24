@@ -1,0 +1,33 @@
+{
+  "firm": "Nahl Technologies",
+  "labelsLink": "What the labels mean",
+  "legendHeading": "How to read this page",
+  "legend": {
+    "OBSERVED": "A fact read from your own public record, such as your Conexus Indiana case study.",
+    "BENCHMARK": "A published public series, named and dated beside the number.",
+    "ASSUMED": "Our estimate, stated as a range. These are the numbers we are asking you to correct."
+  },
+  "sourcesHeading": "Sources",
+  "book": {
+    "heading": "Fifteen minutes, your numbers against ours",
+    "body": "Bring the figures you know and we will re-run the model with you on the call. If our baseline is wrong, that is the most useful thing you can tell us.",
+    "button": "Book the fifteen-minute correction session",
+    "phoneLabel": "(317) 507-4303, calls or texts",
+    "phoneHref": "tel:+13175074303",
+    "email": "udaay@nahltech.com"
+  },
+  "method": {
+    "anchor": "Our method",
+    "trail": ", shown on a fictional molding company.",
+    "href": "/research/sample-engagement-injection-molder-four-vector-screen"
+  },
+  "privacy": "No login, no tracking that identifies you, and no one will call you because you visited.",
+  "resetLabel": "Reset to our letter's ranges",
+  "nowLabel": "Estimate",
+  "lowLabel": "low end",
+  "highLabel": "high end",
+  "perYear": "a year",
+  "closing": "If the answer is no, that is a fair answer, and the model is yours to keep either way.",
+  "narrowedNote": "You have changed our assumptions. The estimate now reflects your figures.",
+  "flagLabel": "FLAGGED"
+}

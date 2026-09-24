@@ -151,6 +151,20 @@ export function middleware(request: NextRequest) {
     return withSecurityHeaders(NextResponse.next());
   }
 
+  /**
+   * Prospect dashboards are not localized and not part of the site shell.
+   *
+   * They have their own root layout at `app/m/`, so rewriting them under /en
+   * would 404. They also carry `X-Robots-Tag` as well as the meta tag: the
+   * header covers crawlers that read headers only, and it is the one signal
+   * that survives if the page markup is ever served without its head.
+   */
+  if (firstSegment === "m") {
+    const response = withSecurityHeaders(NextResponse.next());
+    response.headers.set("X-Robots-Tag", "noindex, nofollow, noarchive");
+    return response;
+  }
+
   // English ships unprefixed, so /en/* is not a canonical URL. Redirect it
   // rather than serving the same page at two addresses.
   if (firstSegment === defaultLocale) {
