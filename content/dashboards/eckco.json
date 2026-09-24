@@ -1,0 +1,241 @@
+{
+  "slug": "eckco",
+  "token": "eckco-plastics-inc-5481eb6929",
+  "company": {
+    "name": "EckCo Plastics, Inc.",
+    "short": "EckCo",
+    "town": "Mishawaka, Indiana",
+    "prepared": "September 2026"
+  },
+  "hero": {
+    "caption": "Our letter's estimate of what molding yield loss costs EckCo in a year",
+    "liveCaption": "The model's estimate, on the assumptions you have set below",
+    "subline": "Built to be corrected, not believed."
+  },
+  "model": {
+    "heading": "Move our assumptions",
+    "intro": "Each slider is one of the assumptions in our letter, set to the range we wrote down. If you know a figure, narrow its range, or close both handles on the exact number. The estimate above then follows your figures instead of ours.",
+    "sliders": [
+      {
+        "id": "spend",
+        "label": "Annual material spend",
+        "format": "usdMillions",
+        "min": 1500000,
+        "max": 3500000,
+        "step": 100000,
+        "basis": "Your 30 employees [[OBSERVED]] at $150,000 to $300,000 of revenue each, with materials at 30 to 45 percent of revenue [[ASSUMED]]. The first number we expect you to correct."
+      },
+      {
+        "id": "scrap",
+        "label": "Scrap rate",
+        "format": "percent",
+        "min": 2,
+        "max": 6,
+        "step": 0.1,
+        "basis": "Startup purge, rejects and changeover scrap, as a share of the material you run [[ASSUMED]]."
+      },
+      {
+        "id": "mult",
+        "label": "Late-reject multiplier",
+        "format": "multiple",
+        "min": 2,
+        "max": 4,
+        "step": 0.1,
+        "basis": "A frame rejected after its gasket is applied carries press time, cell time and gasket material on top of the resin, and that resin cannot be reground [[ASSUMED]]."
+      }
+    ],
+    "constants": [
+      {
+        "id": "net",
+        "value": 0.75,
+        "text": "Three quarters of press-side scrap is counted as lost after regrind credit [[ASSUMED]]."
+      },
+      {
+        "id": "late",
+        "value": 0.1,
+        "text": "One reject in ten happens after the gasket is applied [[ASSUMED]]. If the frame line is still at capacity, a late reject also costs the sale, and this understates it."
+      }
+    ],
+    "formula": "spend * scrap * net + spend * scrap * late * (mult - 1)",
+    "formulaText": "Yield loss = material spend × scrap rate × 0.75 + material spend × scrap rate × 0.10 × (late-reject multiplier − 1)",
+    "plainText": "In words, three quarters of what you scrap is lost after regrind, and the one reject in ten found after the gasket is applied costs that multiple of a normal reject.",
+    "roundTo": 5000,
+    "letterRange": {
+      "low": 25000,
+      "high": 220000
+    }
+  },
+  "market": {
+    "heading": "The squeeze behind the number",
+    "intro": "RV shipments are down 13.9 percent through July, while resin costs 5.7 percent more than a year ago after a volatile spring [[BENCHMARK]]. Selling less while inputs cost more makes every scrapped part more expensive.",
+    "charts": [
+      {
+        "kind": "bars",
+        "title": "RV wholesale shipments, January through July",
+        "unit": "Units shipped, all RV types",
+        "bars": [
+          {
+            "label": "2025",
+            "value": 213338
+          },
+          {
+            "label": "2026",
+            "value": 183592
+          }
+        ],
+        "callout": "Down 13.9 percent through July 2026. Towable RVs alone were down 9.8 percent in July, at 17,754 units.",
+        "source": "RV Industry Association, July 2026 survey of manufacturers, published August 25, 2026. Retrieved September 23, 2026."
+      },
+      {
+        "kind": "line",
+        "title": "Resin producer prices, thirteen months",
+        "unit": "Index, December 1980 = 100",
+        "points": [
+          {
+            "label": "Aug 2025",
+            "value": 313.877
+          },
+          {
+            "label": "Sep",
+            "value": 309.16
+          },
+          {
+            "label": "Oct",
+            "value": 309.279
+          },
+          {
+            "label": "Nov",
+            "value": 307.1
+          },
+          {
+            "label": "Dec",
+            "value": 302.525
+          },
+          {
+            "label": "Jan 2026",
+            "value": 303.509
+          },
+          {
+            "label": "Feb",
+            "value": 308.307
+          },
+          {
+            "label": "Mar",
+            "value": 312.707
+          },
+          {
+            "label": "Apr",
+            "value": 328.413
+          },
+          {
+            "label": "May",
+            "value": 360.445
+          },
+          {
+            "label": "Jun",
+            "value": 351.011
+          },
+          {
+            "label": "Jul",
+            "value": 335.399
+          },
+          {
+            "label": "Aug 2026",
+            "value": 331.873
+          }
+        ],
+        "annotate": [0, 5, 9, 12],
+        "callout": "5.7 percent above a year ago, after climbing 19 percent from January to May and giving back 8 percent by August.",
+        "source": "U.S. Bureau of Labor Statistics, Producer Price Index, Plastics Material and Resin Manufacturing, series PCU325211325211, not seasonally adjusted, via FRED. August 2026 reading, as revised in the September 10, 2026 release. Retrieved September 23, 2026."
+      }
+    ]
+  },
+  "findings": {
+    "heading": "Two further findings",
+    "items": [
+      {
+        "title": "Resin purchase timing: $15,000 to $105,000 a year [[ASSUMED]]",
+        "body": [
+          "Resin producer prices climbed 19 percent from January to May and gave back 8 percent by August [[BENCHMARK]]. In a year that moves like this, when you buy is worth money on its own.",
+          "On material spend of $1.5 to $3.5 million [[ASSUMED]], disciplined timing plausibly captures 1 to 3 percent of spend [[ASSUMED]]. How much of that is open to EckCo depends on how you buy today, on contract, on the spot market, or a mix."
+        ]
+      },
+      {
+        "title": "Setup knowledge held by a few people [[OBSERVED]]",
+        "body": [
+          "Your own case study says it plainly: robotics knowledge at EckCo is “held by just a few people,” on a floor that runs a robot on every injection machine [[OBSERVED]].",
+          "Your machines record more about your process than most of your team can read. We do not put a dollar figure on this one. We note it because the diagnostic below writes that knowledge down as part of the same work."
+        ]
+      }
+    ],
+    "closing": "The full working is part of the diagnostic."
+  },
+  "proposal": {
+    "heading": "What we propose",
+    "lead": "The proposal is small on purpose. In two to four weeks, for a fixed fee between $1,500 and $2,500, we turn what your presses and robotic cell already record into a scrap-and-cause ledger, and write down the setup knowledge your case study says lives in just a few heads. Read-only; nothing touches production. If your controllers export nothing usable, we say so in week one and deliver a data-readiness report at the same price.",
+    "deliverablesHeading": "What you receive",
+    "deliverables": [
+      {
+        "title": "A scrap-and-cause ledger",
+        "line": "Thirty to ninety days of what your presses and robotic cell already record, sorted by press, shift and part family. Startup scrap is separated from steady-state running, and every outlier is flagged so you can see where to look first."
+      },
+      {
+        "title": "A one-page order-flow read",
+        "line": "Your orders from the past year set against RV shipments and resin prices, so you can see how closely your volume follows the RV market and where resin costs hit hardest."
+      },
+      {
+        "title": "Three setup sheets",
+        "line": "The settings and steps your most experienced people carry in their heads, written down for three jobs, starting with the frame and gasket cell."
+      }
+    ],
+    "ledger": {
+      "title": "What a page of the ledger looks like",
+      "label": "Illustrative, not EckCo data",
+      "columns": ["Press", "Shift", "Part family", "Phase", "Scrap"],
+      "rows": [
+        {
+          "cells": ["Press 3", "1st", "Frame A", "Startup", "7.8%"]
+        },
+        {
+          "cells": ["Press 3", "1st", "Frame A", "Steady", "1.9%"]
+        },
+        {
+          "cells": ["Press 5", "2nd", "Frame B", "Steady", "2.2%"]
+        },
+        {
+          "cells": ["Press 5", "3rd", "Frame B", "Steady", "6.4%"],
+          "flag": "Three times the scrap of the same press and part on second shift."
+        },
+        {
+          "cells": ["Press 7", "1st", "Tray C", "Steady", "1.4%"]
+        }
+      ],
+      "note": "Every figure in this fragment is invented to show the format. Your ledger is built only from what your own machines record."
+    },
+    "weeksHeading": "How the four weeks run",
+    "weeks": [
+      {
+        "when": "Week one",
+        "what": "We read what your controllers export and give you a written verdict: whether the data can support the ledger, and if not, what is missing."
+      },
+      {
+        "when": "Weeks two to three",
+        "what": "We build the ledger, the order-flow read and the three setup sheets. You review each one before it is final."
+      },
+      {
+        "when": "Week four",
+        "what": "A 45-minute readout with you and anyone you choose. Everything is handed over, your data included."
+      }
+    ],
+    "feeHeading": "The fee",
+    "fee": "A fixed fee between $1,500 and $2,500.",
+    "feeCovers": "It covers all three deliverables, the week-one verdict, the readout and the hand-over. Nothing is installed on your network, nothing touches production, and nothing is billed by the hour.",
+    "conversion": "If your controllers export nothing usable, we say so in week one and deliver a data-readiness report at the same price."
+  },
+  "sources": [
+    "RV Industry Association, monthly wholesale shipment survey, July 2026.",
+    "U.S. Bureau of Labor Statistics, Producer Price Index, Plastics Material and Resin Manufacturing, series PCU325211325211, August 2026 reading, via FRED.",
+    "Conexus Indiana, EckCo Plastics case study.",
+    "All other figures are Nahl Technologies estimates, stated as ranges."
+  ]
+}
