@@ -63,7 +63,7 @@ export default async function DashboardPage({ params }: Params) {
 
   return (
     <>
-      <main className="mx-auto max-w-(--container-measure) px-sm pt-lg pb-2xl">
+      <main className="mx-auto max-w-(--container-measure) px-sm pt-lg pb-2xl lg:max-w-(--container-page) lg:px-md">
         {/* 1 · Title block */}
         <header>
           {/* The only header: the wordmark, home. No navigation. */}
@@ -117,9 +117,12 @@ export default async function DashboardPage({ params }: Params) {
           <p className="mt-md max-w-prose text-text">
             <Labelled text={market.intro} />
           </p>
-          {market.charts.map((chart) => (
-            <SeriesChart key={chart.title} chart={chart} />
-          ))}
+          {/* Stacked on phones and tablets, side by side on desktop. */}
+          <div className="mt-lg grid gap-lg lg:grid-cols-2">
+            {market.charts.map((chart) => (
+              <SeriesChart key={chart.title} chart={chart} />
+            ))}
+          </div>
         </section>
 
         {/* 5 · The two further findings the letter's P.S. promised */}
@@ -128,24 +131,26 @@ export default async function DashboardPage({ params }: Params) {
             {findings.heading}
           </h2>
           <span className="mt-sm heading-rule" aria-hidden="true" />
-          {findings.items.map((item) => (
-            <article key={item.title} className="mt-lg">
-              <h3 className="text-lg font-semibold text-text">
-                <Labelled text={item.title} />
-              </h3>
-              {item.body.map((paragraph) => (
-                <p
-                  key={paragraph.slice(0, 32)}
-                  className="mt-xs max-w-prose text-text"
-                >
-                  <Labelled text={paragraph} />
+          <div className="mt-lg grid gap-lg lg:grid-cols-2 lg:gap-2xl">
+            {findings.items.map((item) => (
+              <article key={item.title}>
+                <h3 className="text-lg font-semibold text-text">
+                  <Labelled text={item.title} />
+                </h3>
+                {item.body.map((paragraph) => (
+                  <p
+                    key={paragraph.slice(0, 32)}
+                    className="mt-xs max-w-prose text-text"
+                  >
+                    <Labelled text={paragraph} />
+                  </p>
+                ))}
+                <p className="mt-xs max-w-prose text-text-muted">
+                  {findings.closing}
                 </p>
-              ))}
-              <p className="mt-xs max-w-prose text-text-muted">
-                {findings.closing}
-              </p>
-            </article>
-          ))}
+              </article>
+            ))}
+          </div>
           <p className="mt-lg max-w-prose text-sm text-text-muted">
             <Link
               href={shared.method.href}
@@ -170,7 +175,7 @@ export default async function DashboardPage({ params }: Params) {
           <h3 className="mt-xl text-lg font-semibold text-text">
             {proposal.deliverablesHeading}
           </h3>
-          <dl className="mt-sm space-y-sm">
+          <dl className="mt-sm grid gap-sm lg:grid-cols-3 lg:gap-lg">
             {proposal.deliverables.map((d) => (
               <div key={d.title}>
                 <dt className="font-semibold text-text">{d.title}</dt>
@@ -253,11 +258,11 @@ export default async function DashboardPage({ params }: Params) {
           <h3 className="mt-xl text-lg font-semibold text-text">
             {proposal.weeksHeading}
           </h3>
-          <ol className="mt-sm space-y-sm">
+          <ol className="mt-sm grid gap-sm lg:grid-cols-3 lg:gap-lg">
             {proposal.weeks.map((w) => (
               <li
                 key={w.when}
-                className="grid gap-3xs sm:grid-cols-[9rem_1fr] sm:gap-sm"
+                className="grid gap-3xs sm:grid-cols-[9rem_1fr] sm:gap-sm lg:grid-cols-1 lg:content-start lg:gap-3xs lg:border-t lg:border-divider lg:pt-sm"
               >
                 <span className="font-semibold text-text">{w.when}</span>
                 <span className="max-w-prose text-text-muted">{w.what}</span>
@@ -308,31 +313,37 @@ export default async function DashboardPage({ params }: Params) {
 
         {/* 8 · Sources, the legend, and the promise */}
         <footer className="mt-3xl border-t border-divider pt-lg text-sm text-text-muted">
-          <h2 className="font-sans text-sm font-semibold text-text">
-            {shared.sourcesHeading}
-          </h2>
-          <ul className="mt-2xs space-y-3xs">
-            {config.sources.map((source) => (
-              <li key={source}>{source}</li>
-            ))}
-          </ul>
+          <div className="grid gap-lg lg:grid-cols-2 lg:gap-2xl">
+            <div>
+              <h2 className="font-sans text-sm font-semibold text-text">
+                {shared.sourcesHeading}
+              </h2>
+              <ul className="mt-2xs space-y-3xs">
+                {config.sources.map((source) => (
+                  <li key={source}>{source}</li>
+                ))}
+              </ul>
+            </div>
 
-          <h2
-            id="labels"
-            className="mt-lg font-sans text-sm font-semibold text-text"
-          >
-            {shared.legendHeading}
-          </h2>
-          <dl className="mt-xs space-y-xs">
-            {evidenceLabels.map((label) => (
-              <div key={label} className="flex items-start gap-sm">
-                <dt className="w-24 shrink-0 pt-[0.1em]">
-                  <EvidenceLabel label={label} />
-                </dt>
-                <dd>{shared.legend[label]}</dd>
-              </div>
-            ))}
-          </dl>
+            <div>
+              <h2
+                id="labels"
+                className="font-sans text-sm font-semibold text-text"
+              >
+                {shared.legendHeading}
+              </h2>
+              <dl className="mt-xs space-y-xs">
+                {evidenceLabels.map((label) => (
+                  <div key={label} className="flex items-start gap-sm">
+                    <dt className="w-24 shrink-0 pt-[0.1em]">
+                      <EvidenceLabel label={label} />
+                    </dt>
+                    <dd>{shared.legend[label]}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          </div>
 
           <p className="mt-lg text-text">{shared.closing}</p>
           <p className="mt-xs text-text">{shared.privacy}</p>

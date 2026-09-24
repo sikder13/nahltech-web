@@ -199,13 +199,15 @@ function Line({ chart }: { chart: Extract<Chart, { kind: "line" }> }) {
 
 export function SeriesChart({ chart }: { chart: Chart }) {
   return (
-    <figure className="mt-lg rounded-lg border border-divider p-md">
+    <figure className="rounded-lg border border-divider p-md">
       <div className="flex flex-wrap items-center gap-x-sm gap-y-2xs">
         <EvidenceLabel label="BENCHMARK" />
         <h3 className="font-semibold text-text">{chart.title}</h3>
       </div>
       <p className="mt-3xs text-xs text-text-muted">{chart.unit}</p>
-      <div className="mt-sm max-w-(--container-card)">
+      {/* Capped and centred in a single column, so the type stays near its
+          drawn size on a tablet; full width in a desktop half column. */}
+      <div className="mx-auto mt-sm max-w-(--container-card) lg:max-w-none">
         {chart.kind === "bars" ? (
           <Bars chart={chart} />
         ) : (
