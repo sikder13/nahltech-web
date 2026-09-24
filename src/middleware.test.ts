@@ -22,6 +22,19 @@ describe("middleware routing", () => {
     }
   });
 
+  it("serves prospect dashboards outside the locale shell, marked noindex", () => {
+    // /m has its own root layout; a locale rewrite would 404 it.
+    const response = middleware(request("/m/eckco-plastics-inc-5481eb6929"));
+    expect(response.headers.get("x-middleware-rewrite")).toBeNull();
+    expect(response.headers.get("location")).toBeNull();
+    expect(response.headers.get("X-Robots-Tag")).toBe(
+      "noindex, nofollow, noarchive",
+    );
+    expect(response.headers.get("Content-Security-Policy")).toContain(
+      "default-src 'self'",
+    );
+  });
+
   it("still puts the security headers on API responses", () => {
     const response = middleware(request("/api/lead"));
 

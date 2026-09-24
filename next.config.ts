@@ -1,5 +1,7 @@
 import type { NextConfig } from "next";
 
+import { dashboardRedirects } from "./src/lib/dashboards/registry";
+
 const isProduction = process.env.NODE_ENV === "production";
 
 /**
@@ -60,6 +62,12 @@ const nextConfig: NextConfig = {
    */
   async redirects() {
     return [
+      /**
+       * Prospect dashboards: the short address printed in each letter's
+       * P.S. (/eckco) to the tokenized page. Generated from
+       * content/dashboards/, temporary on purpose; see registry.ts.
+       */
+      ...dashboardRedirects(),
       {
         // Local SEO folded into AI Search Visibility & SEO. Permanent, so the
         // old URL's authority transfers rather than being dropped.
