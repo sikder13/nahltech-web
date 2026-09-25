@@ -1,5 +1,7 @@
 # DASH-1 · Prospect dashboards
 
+> Template 1, frozen with EckCo. New pages use template 2: see `docs/DASH-2-template-2.md`.
+
 A prospect dashboard is the page a mailed letter's P.S. points to. It is the
 letter, continued: one scrolling page, no navigation, the model's assumptions
 as sliders, the public series behind the argument, and one way to book.
