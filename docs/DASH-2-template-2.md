@@ -26,6 +26,20 @@ The same rule applies from here on: once a page has gone out with a letter, it s
 - Optional `respect` section and `market.notes`; `findings` is optional.
 - A print stylesheet. The screen reader hears the estimate once per interaction, not on every step.
 
+## Fields added after Mursix shipped (all default-off)
+
+Every one is optional and absent from `content/dashboards-v2/mursix.json`, so the Mursix page renders byte for byte as it shipped, which `npm run check:mursix-frozen` enforces in CI against `tests/golden/mursix-body.html` (React's generated aria ids are normalized there; their wiring is verified on the real ids by the pairing check inside both gate scripts).
+
+- `model.spans`: observed fixed ranges (a posted price span) that term formulas read. Not sliders; corner evaluation pairs low with low.
+- `model.unit`: the suffix after the headline figure ("per hundred cabs"). Absent, the shared per-year suffix renders.
+- `model.volume`: an optional field where the reader types a yearly volume; every figure scales as round-to-step of the EXACT scaled value, one rounding, last (`displayedAtVolume`).
+- Slider format `months`: a plain number; the label carries the unit.
+- `proposal.ledger.dense`: tighter phone-width ledger gutters for wide word columns.
+- `proposal.promise`: a standing promise printed under the conversion clause.
+- `company.titleBreak`: starts the company name on its own title line on phones. Set it when "Prepared for <name>" fits one line in the fallback face but wraps in Fraunces at 375 to 393px, which moves the page when the font loads (FabACab).
+- `formatUsdExact` prints true cents when a figure is fractional, rounded half up on the decimal value; whole-dollar figures render as before.
+- `npm run check:no-github` fails the build if any rendered dashboard page carries a github.com href.
+
 ## Adding a company
 
 Copy `content/dashboards-v2/mursix.json` to `content/dashboards-v2/<slug>.json`, replace every field, run `npm run test:run` and `npm run build`, and open `/m2/<token>?preview`. The tests require that the model's full span at the letter's printed assumptions rounds to exactly the range printed in the letter.

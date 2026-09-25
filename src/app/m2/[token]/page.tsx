@@ -59,6 +59,8 @@ export default async function DashboardPage({ params }: Params) {
   if (!config) notFound();
   const shared = sharedCopy();
   const { company, model, market, findings, respect, proposal } = config;
+  // Ledger column gutter below the sm breakpoint; see the note at the table.
+  const gap = proposal.ledger?.dense ? "pe-3xs" : "pe-2xs";
   const bookHref = bookingUrl ?? `mailto:${shared.book.email}`;
   // The site footer, every link and the same structure, minus the newsletter
   // form: this page asks for one thing only.
@@ -86,7 +88,14 @@ export default async function DashboardPage({ params }: Params) {
             {shared.firm}
           </Link>
           <h1 className="mt-xl text-section text-balance text-text">
-            Prepared for {company.name}
+            {company.titleBreak ? (
+              <>
+                Prepared for
+                <br className="sm:hidden" /> {company.name}
+              </>
+            ) : (
+              <>Prepared for {company.name}</>
+            )}
           </h1>
           <p className="mt-2xs text-text-muted">
             {company.town} · {company.prepared}
@@ -226,6 +235,10 @@ export default async function DashboardPage({ params }: Params) {
             ))}
           </dl>
 
+          {/* Word cells wrap and figures never break; a wide ledger tightens
+              its phone gutters (config dense) instead of scrolling sideways.
+              Without the flag the class strings are byte-identical to what
+              shipped, which the Mursix golden gate proves. */}
           {proposal.ledger ? (
             <figure className="mt-lg rounded-lg border border-divider p-md">
               <div className="flex flex-wrap items-baseline justify-between gap-x-sm gap-y-2xs">
@@ -249,7 +262,7 @@ export default async function DashboardPage({ params }: Params) {
                         <th
                           key={c}
                           scope="col"
-                          className={`py-2xs pe-2xs font-semibold last:pe-0 sm:pe-sm ${proposal.ledger!.rows.every((r) => /^[$\d.,%]+$/.test(r.cells[col] ?? "")) ? "text-end" : "text-start"}`}
+                          className={`py-2xs ${gap} font-semibold last:pe-0 sm:pe-sm ${proposal.ledger!.rows.every((r) => /^[$\d.,%]+$/.test(r.cells[col] ?? "")) ? "text-end" : "text-start"}`}
                         >
                           {c}
                         </th>
@@ -267,7 +280,7 @@ export default async function DashboardPage({ params }: Params) {
                               key={`${i}-${cell}`}
                               // Figures never break across lines; words may,
                               // so five columns still fit a 390px screen.
-                              className={`py-2xs pe-2xs last:pe-0 sm:pe-sm ${/^[$\d.,%]+$/.test(cell) ? "text-end whitespace-nowrap" : ""}`}
+                              className={`py-2xs ${gap} last:pe-0 sm:pe-sm ${/^[$\d.,%]+$/.test(cell) ? "text-end whitespace-nowrap" : ""}`}
                             >
                               {cell}
                             </td>
@@ -325,6 +338,9 @@ export default async function DashboardPage({ params }: Params) {
           <p className="mt-lg max-w-prose rounded-lg border border-border p-md font-semibold text-text">
             {proposal.conversion}
           </p>
+          {proposal.promise ? (
+            <p className="mt-sm max-w-prose text-text">{proposal.promise}</p>
+          ) : null}
         </section>
 
         {/* 7 · The ask */}

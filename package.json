@@ -9,6 +9,8 @@
     "dev": "next dev",
     "build": "next build",
     "check:eckco-frozen": "node scripts/check-eckco-frozen.mjs",
+    "check:mursix-frozen": "node scripts/check-mursix-frozen.mjs",
+    "check:no-github": "node scripts/check-no-github.mjs",
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",

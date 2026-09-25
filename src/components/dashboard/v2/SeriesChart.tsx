@@ -36,7 +36,12 @@ const fmt = (n: number) =>
 function Bars({ chart }: { chart: Extract<Chart, { kind: "bars" }> }) {
   const W = 400;
   const rowH = 44;
-  const labelW = 48;
+  // The label gutter fits the longest label, so names like "SnapCab Express"
+  // never truncate; short labels keep the original 48px gutter.
+  const labelW = Math.max(
+    48,
+    Math.min(160, 12 + 8 * Math.max(...chart.bars.map((b) => b.label.length))),
+  );
   const valueW = 76;
   const H = chart.bars.length * rowH + 8;
   const max = Math.max(...chart.bars.map((b) => b.value));
