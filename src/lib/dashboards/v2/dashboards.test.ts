@@ -5,6 +5,9 @@ import { allRoutePaths } from "@/lib/routes";
 import { evaluate, parse } from "../expression";
 import {
   compileFormula,
+  displayedAtVolume,
+  formatUsdExact,
+  scaleToVolume,
   parseTypedValue,
   totalFormula,
   displayedRange,
@@ -175,6 +178,163 @@ describe("short addresses and the visit count", () => {
       ),
     ).toBe(false);
     expect(isReaderAgent(null)).toBe(false);
+  });
+});
+
+describe("FabACab model", () => {
+  const fab = allDashboards().find((d) => d.slug === "fabacab")!;
+  const tree = compileFormula(totalFormula(fab.model.terms));
+  const full = restBands(fab.model.sliders);
+
+  it("computes $18,452.96 and $104,548.87 to the cent at the letter's assumptions", () => {
+    const range = rangeOverBands(tree, fab.model, full);
+    // 100 x 1% x 8,147 + 100 x 8,147 x 30% x 0.253 x (2/12), and the same at the top.
+    expect(range.low).toBeCloseTo(18_452.955, 3);
+    expect(range.high).toBeCloseTo(104_548.867, 3);
+    expect(formatUsdExact(range.low)).toBe("$18,452.96");
+    expect(formatUsdExact(range.high)).toBe("$104,548.87");
+  });
+
+  it("displays $20,000 to $105,000, the letter's figures, under the $5,000 rule", () => {
+    const range = rangeOverBands(tree, fab.model, full);
+    const atRest = displayedRange(
+      false,
+      range,
+      fab.model.letterRange,
+      fab.model.roundTo,
+    );
+    expect(atRest.range).toEqual({ low: 20_000, high: 105_000 });
+    expect(roundTo(range.low, 5_000)).toBe(20_000);
+    expect(roundTo(range.high, 5_000)).toBe(105_000);
+  });
+
+  it("pairs the observed price span low with low and high with high", () => {
+    const remakes = rangeOverBands(
+      compileFormula("100 * r * p"),
+      fab.model,
+      full,
+    );
+    expect(remakes.low).toBeCloseTo(8_147, 6);
+    expect(remakes.high).toBeCloseTo(50_896, 6);
+    const drift = rangeOverBands(
+      compileFormula("100 * p * m * alu * (w / 12)"),
+      fab.model,
+      full,
+    );
+    expect(formatUsdExact(drift.low)).toBe("$10,305.96");
+    expect(formatUsdExact(drift.high)).toBe("$53,652.87");
+  });
+
+  it("collapses to one component under each preset, at the letter's displayed figures", () => {
+    const wZero = rangeOverBands(tree, fab.model, {
+      ...full,
+      w: { low: 0, high: 0 },
+    });
+    expect(wZero.low).toBeCloseTo(8_147, 6);
+    expect(wZero.high).toBeCloseTo(50_896, 6);
+    expect(roundTo(wZero.low, 5_000)).toBe(10_000);
+    expect(roundTo(wZero.high, 5_000)).toBe(50_000);
+    const rZero = rangeOverBands(tree, fab.model, {
+      ...full,
+      r: { low: 0, high: 0 },
+    });
+    expect(formatUsdExact(rZero.low)).toBe("$10,305.96");
+    expect(formatUsdExact(rZero.high)).toBe("$53,652.87");
+    expect(roundTo(rZero.low, 5_000)).toBe(10_000);
+    expect(roundTo(rZero.high, 5_000)).toBe(55_000);
+  });
+
+  it("scales the EXACT range and rounds once: 240 cabs shows $45,000 to $250,000", () => {
+    const exact = rangeOverBands(tree, fab.model, full);
+    const year = scaleToVolume(exact, 240, 100);
+    expect(formatUsdExact(year.low)).toBe("$44,287.09");
+    expect(formatUsdExact(year.high)).toBe("$250,917.28");
+    const shown = displayedAtVolume(exact, 240, 100, fab.model.roundTo);
+    expect(shown).toEqual({ low: 45_000, high: 250_000 });
+    // The trap this pins: scaling the already-rounded per-hundred display
+    // (20,000 x 2.4 = 48,000) rounds to 50,000. The high end coincidentally
+    // survives double rounding, which is how this bug class hides.
+    expect(roundTo(fab.model.letterRange.low * 2.4, fab.model.roundTo)).toBe(
+      50_000,
+    );
+    expect(shown.low).not.toBe(50_000);
+  });
+
+  it("displays round-to-step of the exact scaled value, for any volume, in every state", () => {
+    const bandSets = [
+      full,
+      { ...full, w: { low: 0, high: 0 } },
+      { ...full, r: { low: 0, high: 0 } },
+    ];
+    let seed = 11;
+    const rand = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    const volumes = [1, 7, 33, 100, 240, 999, 2_400];
+    for (let i = 0; i < 200; i += 1)
+      volumes.push(1 + Math.floor(rand() * 99_999));
+    for (const bands of bandSets) {
+      const exact = rangeOverBands(tree, fab.model, bands);
+      for (const n of volumes) {
+        const shown = displayedAtVolume(exact, n, 100, fab.model.roundTo);
+        expect(shown.low).toBe(
+          roundTo((exact.low * n) / 100, fab.model.roundTo),
+        );
+        expect(shown.high).toBe(
+          roundTo((exact.high * n) / 100, fab.model.roundTo),
+        );
+      }
+    }
+  });
+
+  it("quotes the letter word for word where the page overlaps it", () => {
+    expect(fab.proposal.lead).toBe(
+      "The proposal is deliberately small. In two to three weeks, for a fixed fee between $1,500 and $2,500 settled in one call, we would measure four numbers from your records: the remake rate and its cost by cause, what your quotes absorbed, where time goes inside your lead time (qCab publishes four weeks or less, SnapCab five to six express, your site eight to ten after approvals), and the modernization share of your order book. Read-only; nothing installed, nothing changed.",
+    );
+    const strip = (t?: string) => t?.replace(/ \[\[[A-Z]+\]\]/g, "");
+    expect(strip(fab.respect?.paragraphs[0])).toBe(
+      "Your About page credits the Cab Builder with changing the way elevator interiors are quoted. Your handrail carries a patent written so the installer never enters the hoistway. You post starting prices and cab weights on the open web; of seven competitors we read, none posts both.",
+    );
+    expect(fab.proposal.promise).toBe(
+      "If your records show our letter overstated the money, the baseline says so in writing.",
+    );
+    const bars = fab.market.charts.find((c) => c.kind === "bars");
+    expect(bars && "callout" in bars ? bars.callout : "").toContain(
+      "If the gap is custom scope, it is a pricing asset.",
+    );
+  });
+
+  it("pins the copy that was approved after render review", () => {
+    // Line 11 of the copy list: the rendered "from signature to purchase" was
+    // retroactively approved over the drafted "from signed approvals to
+    // purchase" (RELAY-FAB-5). This pin holds the approved rendered wording.
+    const w = fab.model.sliders.find((s) => s.id === "w")!;
+    expect(w.basis).toContain(
+      "The window across which a fixed, all-inclusive quote absorbs material moves, from signature to purchase.",
+    );
+    // Eleven months is not a year: the chart is titled by its dates.
+    expect(fab.market.charts[0]?.title).toBe(
+      "Aluminum mill shapes, September 2025 to August 2026",
+    );
+    // The division mark reads unmistakably at phone sizes.
+    expect(fab.model.formulaText).toContain("(months / 12)");
+    expect(fab.model.formulaText).not.toContain("\u00f7");
+  });
+
+  it("labels federal series BENCHMARK and the company's own pages OBSERVED", () => {
+    expect(fab.model.constants[0]?.text).toContain("[[BENCHMARK]]");
+    expect(fab.market.intro).toContain("[[BENCHMARK]]");
+    expect(fab.model.spans[0]?.text).toContain("[[OBSERVED]]");
+  });
+
+  it("keeps every ledger row's cost equal to price times share, to the cent", () => {
+    for (const row of fab.proposal.ledger!.rows) {
+      const price = Number(row.cells[2]!.replace(/[$,]/g, ""));
+      const share =
+        row.cells[3] === "Whole"
+          ? 1
+          : Number(row.cells[3]!.replace("%", "")) / 100;
+      const cost = Number(row.cells[4]!.replace(/[$,]/g, ""));
+      expect(cost).toBeCloseTo(price * share, 2);
+    }
   });
 });
 

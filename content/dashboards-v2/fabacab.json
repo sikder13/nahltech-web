@@ -1,0 +1,272 @@
+{
+  "template": 2,
+  "slug": "fabacab",
+  "token": "fabacab-06ce93330a",
+  "company": {
+    "name": "FabACab, Inc.",
+    "short": "FabACab",
+    "town": "Anderson, Indiana",
+    "prepared": "September 2026"
+  },
+  "hero": {
+    "caption": "Our letter's estimate of the money that leaks between a signed quote and a finished install, for every hundred cabs shipped",
+    "liveCaption": "The model's estimate, on the assumptions you have set below",
+    "subline": "Built to be corrected, not believed."
+  },
+  "model": {
+    "heading": "Move our assumptions",
+    "intro": "Each slider is one of the assumptions in our letter, set to the range we wrote down. If you know a figure, narrow its range, or close both handles on the exact number. The estimate above then follows your figures instead of ours. Tap a figure to type it exactly.",
+    "unit": "per hundred cabs",
+    "volume": {
+      "label": "Cabs you ship in a year",
+      "caption": "Optional. Type your volume and every dollar figure on this page scales to your year. Leave it empty and the model stays per hundred cabs.",
+      "suffix": "a year, at {n} cabs",
+      "per": 100,
+      "max": 100000
+    },
+    "spans": [
+      {
+        "id": "p",
+        "low": 8147,
+        "high": 12724,
+        "text": "Your posted starting prices, $8,147 to $12,724 by model and capacity [[OBSERVED]], fabacab.com/elevate, as of September 25, 2026. Constants in this model, not sliders."
+      }
+    ],
+    "sliders": [
+      {
+        "id": "r",
+        "label": "Share of jobs rebuilt in whole or in part",
+        "format": "percent",
+        "min": 0,
+        "max": 10,
+        "step": 0.1,
+        "rest": {
+          "low": 1,
+          "high": 4
+        },
+        "presets": [
+          {
+            "label": "No remakes last year",
+            "low": 0,
+            "high": 0
+          }
+        ],
+        "basis": "Your pricing page names wrong field dimensions as the one thing that reopens a final, out-the-door price [[OBSERVED]]. No one in your trade publishes a remake rate, so this range is assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "m",
+        "label": "Materials as a share of a cab's price",
+        "format": "percent",
+        "min": 10,
+        "max": 70,
+        "step": 1,
+        "rest": {
+          "low": 30,
+          "high": 50
+        },
+        "basis": "The share of your posted price that is material rather than labor and margin. Assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "w",
+        "label": "Months between signature and shipment",
+        "format": "months",
+        "min": 0,
+        "max": 6,
+        "step": 0.5,
+        "rest": {
+          "low": 2,
+          "high": 4
+        },
+        "presets": [
+          {
+            "label": "We buy materials the day we quote",
+            "low": 0,
+            "high": 0
+          }
+        ],
+        "basis": "The window across which a fixed, all-inclusive quote absorbs material moves, from signature to purchase. Your site publishes eight to ten weeks after signed approvals [[OBSERVED]]; the band allows for the wait before approvals too. Assumed, printed to be corrected [[ASSUMED]]."
+      }
+    ],
+    "constants": [
+      {
+        "id": "alu",
+        "value": 0.253,
+        "text": "Aluminum mill shapes rose 25.3 percent from September 2025 to August 2026 [[BENCHMARK]], BLS series WPU102501, 295.898 to 370.902. The model uses the published 25.3; the unrounded change is 25.3479 percent."
+      }
+    ],
+    "terms": [
+      {
+        "id": "remakes",
+        "label": "Jobs rebuilt at your posted prices",
+        "formula": "100 * r * p"
+      },
+      {
+        "id": "drift",
+        "label": "Material drift absorbed inside fixed quotes",
+        "formula": "100 * p * m * alu * (w / 12)"
+      }
+    ],
+    "formulaText": "Leak per 100 cabs = 100 × remake rate × posted price + 100 × posted price × materials share × 0.253 × (months / 12)",
+    "plainText": "In words, the cabs that get rebuilt at your own posted prices, plus the slice of this year's aluminum rise that a fixed quote absorbs while it waits between signature and purchase.",
+    "roundTo": 5000,
+    "letterRange": {
+      "low": 20000,
+      "high": 105000
+    }
+  },
+  "market": {
+    "heading": "The market behind the number",
+    "intro": "You sell into the one corner of construction still growing, while the metal a cab is made of costs 25.3 percent more than last September [[BENCHMARK]].",
+    "charts": [
+      {
+        "kind": "points",
+        "title": "Aluminum mill shapes, September 2025 to August 2026",
+        "unit": "Producer price index, BLS series WPU102501",
+        "points": [
+          {
+            "date": "Sep 2025",
+            "value": 295.898,
+            "display": "295.898"
+          },
+          {
+            "date": "Aug 2026",
+            "value": 370.902,
+            "display": "370.902"
+          }
+        ],
+        "bracket": "+25.3%",
+        "callout": "Up 25.3 percent from September 2025 to August 2026. The unrounded change is 25.3479 percent.",
+        "source": "US Bureau of Labor Statistics, producer price index, aluminum mill shapes, WPU102501, via FRED. Retrieved September 25, 2026."
+      },
+      {
+        "kind": "bars",
+        "title": "Published lead times",
+        "unit": "Weeks, as published by each company, September 2026",
+        "bars": [
+          {
+            "label": "qCab",
+            "value": 4
+          },
+          {
+            "label": "SnapCab Express",
+            "value": 6
+          },
+          {
+            "label": "FabACab",
+            "value": 10
+          }
+        ],
+        "callout": "qCab publishes four weeks or less, SnapCab Express five to six weeks, and your site eight to ten weeks after signed approvals. Each bar is drawn at the top of its published range. If the gap is custom scope, it is a pricing asset.",
+        "source": "qCab, SnapCab and FabACab published pages, September 2026."
+      }
+    ],
+    "notes": [
+      "Otis booked 26 percent more modernization orders worldwide last year [[BENCHMARK]], at constant currency.",
+      "US construction spending overall fell 3.8 percent in the year to July [[BENCHMARK]]."
+    ]
+  },
+  "respect": {
+    "heading": "What you already show in the open",
+    "paragraphs": [
+      "Your About page credits the Cab Builder with changing the way elevator interiors are quoted [[OBSERVED]]. Your handrail carries a patent written so the installer never enters the hoistway [[OBSERVED]]. You post starting prices and cab weights on the open web; of seven competitors we read, none posts both [[OBSERVED]].",
+      "You build in Anderson, with satellite locations in New York, Chicago, Memphis and Las Vegas [[OBSERVED]]."
+    ]
+  },
+  "proposal": {
+    "heading": "What we propose",
+    "lead": "The proposal is deliberately small. In two to three weeks, for a fixed fee between $1,500 and $2,500 settled in one call, we would measure four numbers from your records: the remake rate and its cost by cause, what your quotes absorbed, where time goes inside your lead time (qCab publishes four weeks or less, SnapCab five to six express, your site eight to ten after approvals), and the modernization share of your order book. Read-only; nothing installed, nothing changed.",
+    "deliverablesHeading": "What you receive",
+    "deliverables": [
+      {
+        "title": "The remake rate, by cause",
+        "line": "Every rebuilt job in your records, counted and costed, split into field measurement, submittal misread, freight damage and shop error, with every classification confirmed by your people before it counts."
+      },
+      {
+        "title": "What your quotes absorbed",
+        "line": "Each job's materials priced at quote date and again at purchase date against the public index, so you see the drift a fixed, all-inclusive price ate. If you buy the day you quote, this measurement returns zero and we say so in writing."
+      },
+      {
+        "title": "Where time goes inside your lead time",
+        "line": "Your eight to ten weeks split into working time and waiting time as far as your records allow, set beside the published lead times above."
+      },
+      {
+        "title": "The modernization share of your order book",
+        "line": "Your orders split between modernization and new construction, by quarter, set against the Otis and Census series."
+      }
+    ],
+    "ledger": {
+      "dense": true,
+      "title": "What a page of the remake log looks like",
+      "label": "Illustrative, not FabACab data",
+      "columns": ["Job", "Cause", "Posted price", "Rebuilt", "Cost"],
+      "rows": [
+        {
+          "cells": [
+            "Cab 112",
+            "Field measurement",
+            "$8,940",
+            "40%",
+            "$3,576.00"
+          ]
+        },
+        {
+          "cells": [
+            "Cab 187",
+            "Submittal misread",
+            "$12,110",
+            "25%",
+            "$3,027.50"
+          ]
+        },
+        {
+          "cells": ["Cab 203", "Shop error", "$8,410", "15%", "$1,261.50"]
+        },
+        {
+          "cells": [
+            "Cab 241",
+            "Freight damage",
+            "$11,760",
+            "Whole",
+            "$11,760.00"
+          ],
+          "flag": "Rebuilt in whole for damage in transit. The one cause of the four that never touches your shop's workmanship."
+        },
+        {
+          "cells": [
+            "Cab 268",
+            "Field measurement",
+            "$9,300",
+            "30%",
+            "$2,790.00"
+          ]
+        }
+      ],
+      "note": "Per job. Cost is the posted price times the share rebuilt. Causes are the four buckets the measurement uses. Every job and figure is invented to show the format."
+    },
+    "weeksHeading": "How the two to three weeks run",
+    "weeks": [
+      {
+        "when": "Week one",
+        "what": "Your records arrive and we build the inventory: what exists and what is missing, per measurement. The data-readiness verdict comes in writing either way."
+      },
+      {
+        "when": "Weeks two to three",
+        "what": "We build the four measurements, confirm every remake classification with your people, and deliver the baseline memo, the measured numbers and the corrected model. You review before anything is final."
+      }
+    ],
+    "feeHeading": "The fee",
+    "fee": "A fixed fee between $1,500 and $2,500, settled in one call.",
+    "feeCovers": "It covers all four measurements, the first-week verdict, the readout and the hand-over. Read-only; nothing installed, nothing changed, and nothing billed by the hour.",
+    "conversion": "If your records cannot support the four measurements, we say so in the first week and deliver a data-readiness report at the same fee.",
+    "promise": "If your records show our letter overstated the money, the baseline says so in writing."
+  },
+  "sources": [
+    "fabacab.com published pages, including posted prices and weights at /elevate, as of September 25, 2026.",
+    "US Bureau of Labor Statistics, producer price index, aluminum mill shapes, series WPU102501, September 2025 to August 2026, via FRED, retrieved September 25, 2026.",
+    "US Census Bureau, construction spending, July 2026.",
+    "Otis Worldwide 2025 annual report, modernization orders, constant currency.",
+    "Lead times: qCab, SnapCab and FabACab, as published, September 2026.",
+    "US Patent 9,670,950, granted June 6, 2017.",
+    "All other figures are Nahl Technologies assumptions, stated as ranges."
+  ]
+}
