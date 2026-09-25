@@ -35,6 +35,14 @@ describe("middleware routing", () => {
     );
   });
 
+  it("serves template 2 dashboards at /m2 the same way, marked noindex", () => {
+    const response = middleware(request("/m2/mursix-corporation-6fba84c074"));
+    expect(response.headers.get("x-middleware-rewrite")).toBeNull();
+    expect(response.headers.get("X-Robots-Tag")).toBe(
+      "noindex, nofollow, noarchive",
+    );
+  });
+
   it("still puts the security headers on API responses", () => {
     const response = middleware(request("/api/lead"));
 

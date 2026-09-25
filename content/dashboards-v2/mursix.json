@@ -1,0 +1,243 @@
+{
+  "template": 2,
+  "slug": "mursix",
+  "token": "mursix-corporation-6fba84c074",
+  "company": {
+    "name": "Mursix Corporation",
+    "short": "Mursix",
+    "town": "Yorktown, Indiana",
+    "prepared": "September 2026"
+  },
+  "hero": {
+    "caption": "Our letter's estimate of Mursix's annual metal margin exposure",
+    "liveCaption": "The model's estimate, on the assumptions you have set below",
+    "subline": "Built to be corrected, not believed."
+  },
+  "model": {
+    "heading": "Move our assumptions",
+    "intro": "Each slider is one of the assumptions in our letter, set to the range we wrote down. If you know a figure, narrow its range, or close both handles on the exact number. The estimate above then follows your figures instead of ours. Tap a figure to type it exactly.",
+    "sliders": [
+      {
+        "id": "spend",
+        "label": "Steel-bearing spend",
+        "format": "usdMillions",
+        "min": 10000000,
+        "max": 17000000,
+        "step": 100000,
+        "basis": "Your stated revenue of about $40 million [[OBSERVED]], with materials at 40 to 55 percent of revenue and steel-bearing purchases at 60 to 80 percent of materials [[ASSUMED]]. The first number we expect you to correct."
+      },
+      {
+        "id": "gap",
+        "label": "Share of the steel rise not passed through",
+        "format": "percent",
+        "min": 1,
+        "max": 5,
+        "step": 0.1,
+        "basis": "The part of this year's steel increase your customer contracts do not recover, through price lag or fixed pricing [[ASSUMED]]. Only your contracts can answer this."
+      },
+      {
+        "id": "inventory",
+        "label": "Owned precious-metal inventory",
+        "format": "usdMillions",
+        "min": 0,
+        "max": 2000000,
+        "step": 100000,
+        "caption": "If your metal is consigned, or this work is discontinued, set this to zero.",
+        "presets": [
+          {
+            "label": "Consigned or discontinued",
+            "low": 0,
+            "high": 0
+          }
+        ],
+        "basis": "Silver and other precious metal Mursix owns outright, on the floor, in process and in reclaim, valued against a 20 percent price move [[ASSUMED]]."
+      },
+      {
+        "id": "leakage",
+        "label": "Reclaim leakage",
+        "format": "usd",
+        "min": 0,
+        "max": 120000,
+        "step": 1000,
+        "basis": "Your reclaim stream of $200,000 to $1.2 million in contained value a year, times a leakage rate of 3 to 10 percent, covering the refiner's non-payable share, fees, settlement float and tracking loss [[ASSUMED]].",
+        "rest": {
+          "low": 6000,
+          "high": 120000
+        },
+        "caption": "If precious-metal work is discontinued, set this to zero too.",
+        "presets": [
+          {
+            "label": "Discontinued",
+            "low": 0,
+            "high": 0
+          }
+        ]
+      }
+    ],
+    "constants": [
+      {
+        "id": "move",
+        "value": 0.2,
+        "text": "A 20 percent move in precious-metal prices, applied to owned metal only [[ASSUMED]]. Silver moved 41 percent in the year to September 24 [[BENCHMARK]]."
+      }
+    ],
+    "terms": [
+      {
+        "id": "steel",
+        "label": "Steel rise not passed through",
+        "formula": "spend * gap"
+      },
+      {
+        "id": "metal",
+        "label": "Owned metal at a 20 percent move",
+        "formula": "inventory * move"
+      },
+      {
+        "id": "reclaim",
+        "label": "Reclaim leakage",
+        "formula": "leakage"
+      }
+    ],
+    "formulaText": "Exposure = steel-bearing spend × share not passed through + owned precious-metal inventory × 0.20 + reclaim leakage",
+    "plainText": "In words, the part of the steel rise your contracts absorb, plus what a 20 percent price move would do to metal you own, plus what your reclaim stream loses between the press and the refiner's payment.",
+    "roundTo": 5000,
+    "letterRange": {
+      "low": 105000,
+      "high": 1370000
+    }
+  },
+  "market": {
+    "heading": "The squeeze behind the number",
+    "intro": "The squeeze came from both ends of your business this year: fewer vehicles to make parts for, and more expensive metal to make them from [[BENCHMARK]].",
+    "charts": [
+      {
+        "kind": "points",
+        "title": "Midwest hot-rolled coil, a year apart",
+        "unit": "Dollars per short ton",
+        "points": [
+          {
+            "date": "Aug 2025",
+            "value": 800,
+            "display": "about $800"
+          },
+          {
+            "date": "Aug 2026",
+            "value": 1202.4,
+            "display": "about $1,200"
+          }
+        ],
+        "bracket": "about +50 percent",
+        "callout": "A four-year high: $1,202.40 a ton on August 20, 2026, up from about $800 a year earlier.",
+        "source": "Fastmarkets Midwest hot-rolled coil, $1,202.40 on August 20, 2026. Year-earlier level from Steel Market Update, as reported the week of August 25, 2026."
+      },
+      {
+        "kind": "points",
+        "title": "Silver, a year apart",
+        "unit": "Dollars per troy ounce",
+        "points": [
+          {
+            "date": "Sep 2025",
+            "value": 45.09,
+            "display": "about $45",
+            "computed": true,
+            "note": "implied by the 41 percent change"
+          },
+          {
+            "date": "Sep 24, 2026",
+            "value": 63.57,
+            "display": "$63.57"
+          }
+        ],
+        "bracket": "+41 percent",
+        "callout": "$63.57 an ounce on September 24, 2026, up 41 percent in a year. The earlier point is computed from that change, not read from a source.",
+        "source": "Kitco, precious metals, September 24, 2026."
+      }
+    ],
+    "notes": [
+      "Your largest market sold 5.8 percent fewer vehicles in August than a year earlier [[BENCHMARK]]. Electric vehicles fell to 7.7 percent of sales, from 11.9 percent a year earlier [[BENCHMARK]].",
+      "Since April 6, 2026, Section 232 duties apply to the full customs value of covered imports, and parts of stamping dies are listed on the annex [[BENCHMARK]]."
+    ]
+  },
+  "respect": {
+    "heading": "What you have already built",
+    "paragraphs": [
+      "Your presses already report through SmartPAC, and your team built Murray Mentor to keep the floor's knowledge [[OBSERVED]]. This is the layer neither was built for: what the metal itself does to your margin, in dollars, by part."
+    ]
+  },
+  "proposal": {
+    "heading": "What we propose",
+    "lead": "The proposal is deliberately small. In three to four weeks, for a fixed fee between $5,000 and $7,500, we would split your top part numbers into metal value and fabrication value against the public curves, map your reclaim stream from your settlement statements, and hand you the measured number. Read-only; nothing touches production. If your records cannot support the work, we say so in the first week and deliver a data-readiness report at the same price.",
+    "deliverablesHeading": "What you receive",
+    "deliverables": [
+      {
+        "title": "Metal value and fabrication value, by part",
+        "line": "Your top part numbers split into the metal each one carries, valued at the dated public curves, and the fabrication value left in the quoted price, with how far each margin moves for every 10 percent move in metal."
+      },
+      {
+        "title": "Your reclaim stream, mapped",
+        "line": "Shipped scrap weight and contained metal, priced at spot on the ship date, reconciled against what your refiner settlements paid, with the difference itemized into the non-payable share, fees, float and anything unexplained."
+      },
+      {
+        "title": "The measured number",
+        "line": "Your annual metal margin exposure, measured from your own records in place of our range, and shown against the steel, silver and vehicle series."
+      }
+    ],
+    "ledger": {
+      "title": "What a page of the decomposition looks like",
+      "label": "Illustrative, not Mursix data",
+      "columns": [
+        "Part",
+        "Metal weight",
+        "Metal value",
+        "Quoted price",
+        "Fabrication value"
+      ],
+      "rows": [
+        {
+          "cells": ["Bracket A", "2.40 lb", "$1.44", "$3.10", "$1.66"]
+        },
+        {
+          "cells": ["Clip B", "0.85 lb", "$0.51", "$1.35", "$0.84"]
+        },
+        {
+          "cells": ["Housing C", "5.60 lb", "$3.37", "$3.52", "$0.15"],
+          "flag": "Quoted when coil was near $800 a ton. The metal move has taken $1.13 of this part's $1.28 fabrication value."
+        },
+        {
+          "cells": ["Contact D", "0.010 oz Ag", "$0.64", "$1.20", "$0.56"]
+        },
+        {
+          "cells": ["Bracket E", "1.10 lb", "$0.66", "$1.48", "$0.82"]
+        }
+      ],
+      "note": "Per piece. Steel valued at $1,202.40 a short ton and silver at $63.57 an ounce, the dated readings above. Every part and figure is invented to show the format."
+    },
+    "weeksHeading": "How the four weeks run",
+    "weeks": [
+      {
+        "when": "Week one",
+        "what": "We confirm in writing whether your records support the work, and name the parts and months they cover."
+      },
+      {
+        "when": "Weeks two to three",
+        "what": "We build the part-by-part split and the reclaim reconciliation. You review each one before it is final."
+      },
+      {
+        "when": "Week four",
+        "what": "A 45-minute readout with you and anyone you choose. One page of findings, the workbook behind it, and everything handed over, your data included."
+      }
+    ],
+    "feeHeading": "The fee",
+    "fee": "A fixed fee between $5,000 and $7,500.",
+    "feeCovers": "It covers all three deliverables, the first-week verdict, the readout and the hand-over. Nothing is installed on your network, nothing touches production, and nothing is billed by the hour.",
+    "conversion": "If your records cannot support the work, we say so in the first week and deliver a data-readiness report at the same price."
+  },
+  "sources": [
+    "Fastmarkets/Steel Market Update, Midwest hot-rolled coil, August 2026.",
+    "Kitco, precious metals, September 24, 2026.",
+    "NADA and Cox Automotive, August 2026 light-vehicle sales.",
+    "Presidential Proclamation of April 2, 2026, Section 232, with annex.",
+    "Mursix public materials; Conexus Indiana.",
+    "All other figures are Nahl Technologies estimates, stated as ranges."
+  ]
+}

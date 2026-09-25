@@ -1,0 +1,102 @@
+/*
+ * Two native range inputs stacked on one track. Native inputs keep keyboard
+ * control, screen-reader semantics and platform touch handling for free; the
+ * stack only needs the inputs themselves to ignore the pointer so that each
+ * thumb, and only the thumb, is a hit target.
+ *
+ * Thumbs are white with a 2px #111 ring: the ring carries the 3:1 non-text
+ * contrast (WCAG 1.4.11). The gold band between them is decoration only; the
+ * thumb positions and the printed values state the range.
+ */
+
+.track {
+  position: relative;
+  height: 44px; /* the touch target height, not the drawn track */
+}
+
+.rail,
+.band {
+  position: absolute;
+  top: 50%;
+  height: 6px;
+  margin-top: -3px;
+  border-radius: 3px;
+}
+
+.rail {
+  left: 0;
+  right: 0;
+  background: var(--color-divider);
+  box-shadow: inset 0 0 0 1px var(--color-border);
+}
+
+.band {
+  background: var(--color-accent);
+  box-shadow: inset 0 0 0 1px var(--color-text);
+}
+
+.input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 44px;
+  margin: 0;
+  background: transparent;
+  appearance: none;
+  -webkit-appearance: none;
+  pointer-events: none;
+}
+
+.input::-webkit-slider-runnable-track {
+  height: 44px;
+  background: transparent;
+}
+
+.input::-moz-range-track {
+  height: 44px;
+  background: transparent;
+}
+
+.input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  pointer-events: auto;
+  width: 28px;
+  height: 28px;
+  margin-top: 8px;
+  border-radius: 50%;
+  background: var(--color-bg);
+  border: 2px solid var(--color-text);
+  cursor: grab;
+}
+
+.input::-moz-range-thumb {
+  pointer-events: auto;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--color-bg);
+  border: 2px solid var(--color-text);
+  cursor: grab;
+}
+
+.input:active::-webkit-slider-thumb {
+  cursor: grabbing;
+  background: var(--color-surface);
+}
+
+/* Focus ring on the thumb itself, in ink: a focus ring conveys state. */
+.input:focus-visible {
+  outline: none;
+}
+
+.input:focus-visible::-webkit-slider-thumb {
+  box-shadow:
+    0 0 0 3px var(--color-bg),
+    0 0 0 5px var(--color-focus);
+}
+
+.input:focus-visible::-moz-range-thumb {
+  box-shadow:
+    0 0 0 3px var(--color-bg),
+    0 0 0 5px var(--color-focus);
+}
