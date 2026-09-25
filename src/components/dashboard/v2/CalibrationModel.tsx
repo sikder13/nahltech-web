@@ -1,12 +1,15 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 
 import {
   compileFormula,
   displayedRange,
   formatUsd,
   formatUsdExact,
+  displayedAtVolume,
+  parseTypedValue,
+  scaleToVolume,
   restBands,
   rangeOverBands,
   totalFormula,
@@ -70,31 +73,64 @@ export function CalibrationModel({
     [model.terms],
   );
   const initial = useMemo(() => restBands(model.sliders), [model.sliders]);
+  // The exact model at the letter's assumptions, for volume displays at rest.
+  const restExact = useMemo(
+    () => rangeOverBands(tree, model, restBands(model.sliders)),
+    [tree, model],
+  );
   const [bands, setBands] = useState<Record<string, Band>>(initial);
   const [touched, setTouched] = useState(false);
   const [announced, setAnnounced] = useState("");
+  // The reader's own yearly volume, when the config offers the field.
+  const [volume, setVolume] = useState<number | null>(null);
+  const [volumeDraft, setVolumeDraft] = useState("");
 
-  const computed = rangeOverBands(tree, model, bands);
-  const shown = displayedRange(
+  const computedBase = rangeOverBands(tree, model, bands);
+  const shownBase = displayedRange(
     touched,
-    computed,
+    computedBase,
     model.letterRange,
     model.roundTo,
   );
+  // With a volume set, every figure on the page scales to the reader's year:
+  // the displayed range rescaled and re-rounded, the exact line rescaled.
+  const scale = (r: Band) =>
+    model.volume && volume ? scaleToVolume(r, volume, model.volume.per) : r;
+  const computed = scale(computedBase);
+  // At a volume, the display is the EXACT range scaled, rounded once, last.
+  const shown =
+    model.volume && volume
+      ? {
+          ...shownBase,
+          range: displayedAtVolume(
+            computedBase,
+            volume,
+            model.volume.per,
+            model.roundTo,
+          ),
+        }
+      : shownBase;
+  const unit =
+    model.volume && volume
+      ? model.volume.suffix.replace("{n}", volume.toLocaleString("en-US"))
+      : (model.unit ?? copy.perYear);
   const text = rangeText(shown.range, formatUsd);
 
   const update = (id: string, next: Band) => {
     setBands((prev) => ({ ...prev, [id]: next }));
     setTouched(true);
   };
-  const commit = () =>
-    setAnnounced(`${copy.nowLabel}: ${text} ${copy.perYear}`);
+  const commit = () => setAnnounced(`${copy.nowLabel}: ${text} ${unit}`);
+  const commitRef = useRef(commit);
+  commitRef.current = commit;
   const reset = () => {
     setBands(initial);
     setTouched(false);
-    setAnnounced(
-      `${copy.nowLabel}: ${rangeText(model.letterRange, formatUsd)} ${copy.perYear}`,
-    );
+    const back =
+      model.volume && volume
+        ? displayedAtVolume(restExact, volume, model.volume.per, model.roundTo)
+        : model.letterRange;
+    setAnnounced(`${copy.nowLabel}: ${rangeText(back, formatUsd)} ${unit}`);
   };
 
   const resetBlock = (className: string) => (
@@ -136,7 +172,7 @@ export function CalibrationModel({
             </>
           )}{" "}
           <span className="font-sans text-lg font-normal text-text-muted">
-            {copy.perYear}
+            {unit}
           </span>
         </p>
         <p className="mt-xs flex flex-wrap items-center gap-x-sm gap-y-2xs">
@@ -158,6 +194,41 @@ export function CalibrationModel({
         <span className="mt-xs heading-rule" aria-hidden="true" />
         <p className="mt-sm max-w-prose text-text-muted">{model.intro}</p>
 
+        {model.volume ? (
+          <div className="mt-sm max-w-prose print:hidden">
+            <label className="flex flex-wrap items-center gap-x-sm gap-y-2xs">
+              <span className="font-semibold text-text">
+                {model.volume.label}
+              </span>
+              <input
+                type="text"
+                inputMode="numeric"
+                enterKeyHint="done"
+                autoComplete="off"
+                value={volumeDraft}
+                onChange={(e) => {
+                  setVolumeDraft(e.target.value);
+                  const typed = parseTypedValue(
+                    "usd",
+                    e.target.value,
+                    0,
+                    model.volume!.max,
+                  );
+                  setVolume(typed && typed >= 1 ? Math.round(typed) : null);
+                }}
+                onBlur={commitRef.current}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") commitRef.current();
+                }}
+                className="w-28 rounded-md border border-border px-xs py-3xs text-end font-display text-lg text-text tabular-nums"
+              />
+            </label>
+            <p className="mt-3xs text-sm text-text-muted">
+              {model.volume.caption}
+            </p>
+          </div>
+        ) : null}
+
         {/* Desktop: controls on the left, the live estimate in a panel that
             stays beside them while a slider is dragged with a mouse. Below
             the lg breakpoint this collapses to one column with a pinned bar. */}
@@ -169,7 +240,7 @@ export function CalibrationModel({
                 <span className="font-display text-lg text-text tabular-nums">
                   {text}{" "}
                   <span className="font-sans text-sm text-text-muted">
-                    {copy.perYear}
+                    {unit}
                   </span>
                 </span>
               </p>
@@ -248,8 +319,13 @@ export function CalibrationModel({
                 </div>
               </dl>
 
-              {model.constants.length > 0 ? (
+              {model.spans.length + model.constants.length > 0 ? (
                 <ul className="mt-sm space-y-2xs border-t border-divider pt-sm text-sm text-text-muted">
+                  {model.spans.map((sp) => (
+                    <li key={sp.id}>
+                      <Labelled text={sp.text} />
+                    </li>
+                  ))}
                   {model.constants.map((c) => (
                     <li key={c.id}>
                       <Labelled text={c.text} />
@@ -268,7 +344,7 @@ export function CalibrationModel({
             <p className="mt-2xs font-display text-3xl text-balance text-text tabular-nums">
               {text}
             </p>
-            <p className="text-sm text-text-muted">{copy.perYear}</p>
+            <p className="text-sm text-text-muted">{unit}</p>
             <p className="mt-2xs text-xs text-text-muted tabular-nums">
               {copy.computedLabel}: {rangeText(computed, formatUsdExact)}
             </p>
