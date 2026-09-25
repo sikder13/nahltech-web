@@ -2,6 +2,7 @@ import { render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
 import { Footer } from "./Footer";
+import { FooterBase } from "./FooterBase";
 
 import en from "@/lib/i18n/dictionaries/en.json";
 import { socialLinks } from "@/lib/routes";
@@ -81,5 +82,30 @@ describe("Footer social links", () => {
 
     expect(screen.getByText(en.footer.street)).toBeInTheDocument();
     expect(screen.getByText(en.footer.cityRegionPostal)).toBeInTheDocument();
+  });
+});
+
+describe("FooterBase social row on prospect dashboards", () => {
+  it("drops the profiles a page hides and keeps the rest in order", () => {
+    render(<FooterBase t={en} hideSocial={["github"]} />);
+
+    const list = screen.getByRole("list", { name: en.footer.socialHeading });
+    const hrefs = within(list)
+      .getAllByRole("link")
+      .map((link) => link.getAttribute("href"));
+
+    expect(hrefs).toEqual([
+      "https://x.com/nahltech",
+      "https://www.linkedin.com/company/nahl-technologies-incorporation-linkedin/",
+      "https://www.facebook.com/profile.php?id=61589050512455",
+    ]);
+    expect(document.body.innerHTML).not.toContain("github.com");
+  });
+
+  it("renders every profile when nothing is hidden", () => {
+    render(<FooterBase t={en} />);
+
+    const list = screen.getByRole("list", { name: en.footer.socialHeading });
+    expect(within(list).getAllByRole("link")).toHaveLength(socialLinks.length);
   });
 });
