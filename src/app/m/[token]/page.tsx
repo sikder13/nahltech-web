@@ -351,7 +351,7 @@ export default async function DashboardPage({ params }: Params) {
 
         <VisitBeacon token={config.token} />
       </main>
-      <FooterBase t={t} />
+      <FooterBase t={t} hideSocial={["github"]} />
     </>
   );
 }

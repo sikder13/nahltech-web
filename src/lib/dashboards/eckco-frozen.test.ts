@@ -47,7 +47,7 @@ const SHIPPED: Record<string, string> = {
   "src/app/m/layout.tsx":
     "1409e9fcce181a6b48789c84dfc2efbf63e34d12427f8e136929712b01c13a0a",
   "src/app/m/[token]/page.tsx":
-    "d8de0bcaec2a35e6b5f90efa78a015840ac2ba20478eea6bcdb6ef16b19898a7",
+    "9ae7709681d8f2f118ff91659f0833bbdbb61e0f0580a3045eaa3379ec5672f0",
   "src/app/api/visit/route.ts":
     "5754767b616de762f100cd5f091e911caf984e92171a0ae3c03716a9ff143b13",
 };
