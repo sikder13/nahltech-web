@@ -88,7 +88,14 @@ export default async function DashboardPage({ params }: Params) {
             {shared.firm}
           </Link>
           <h1 className="mt-xl text-section text-balance text-text">
-            Prepared for {company.name}
+            {company.titleBreak ? (
+              <>
+                Prepared for
+                <br className="sm:hidden" /> {company.name}
+              </>
+            ) : (
+              <>Prepared for {company.name}</>
+            )}
           </h1>
           <p className="mt-2xs text-text-muted">
             {company.town} · {company.prepared}

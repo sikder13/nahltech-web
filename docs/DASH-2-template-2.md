@@ -36,6 +36,7 @@ Every one is optional and absent from `content/dashboards-v2/mursix.json`, so th
 - Slider format `months`: a plain number; the label carries the unit.
 - `proposal.ledger.dense`: tighter phone-width ledger gutters for wide word columns.
 - `proposal.promise`: a standing promise printed under the conversion clause.
+- `company.titleBreak`: starts the company name on its own title line on phones. Set it when "Prepared for <name>" fits one line in the fallback face but wraps in Fraunces at 375 to 393px, which moves the page when the font loads (FabACab).
 - `formatUsdExact` prints true cents when a figure is fractional, rounded half up on the decimal value; whole-dollar figures render as before.
 - `npm run check:no-github` fails the build if any rendered dashboard page carries a github.com href.
 

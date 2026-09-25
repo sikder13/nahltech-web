@@ -319,6 +319,12 @@ describe("FabACab model", () => {
     expect(fab.model.formulaText).not.toContain("\u00f7");
   });
 
+  it("sets its short name on its own title line on phones", () => {
+    // "Prepared for FabACab, Inc." fits one line in the fallback face at
+    // 375 to 393px but wraps in Fraunces, so the font swap moved the page.
+    expect(fab.company.titleBreak).toBe(true);
+  });
+
   it("labels federal series BENCHMARK and the company's own pages OBSERVED", () => {
     expect(fab.model.constants[0]?.text).toContain("[[BENCHMARK]]");
     expect(fab.market.intro).toContain("[[BENCHMARK]]");

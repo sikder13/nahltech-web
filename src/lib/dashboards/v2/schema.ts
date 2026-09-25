@@ -110,6 +110,14 @@ export const dashboardSchema = z
       short: z.string(),
       town: z.string(),
       prepared: z.string(),
+      /**
+       * Starts the company name on its own line below the sm breakpoint. For a
+       * name short enough that "Prepared for <name>" fits one line in the
+       * fallback face but wraps in Fraunces on common phone widths: the title
+       * is two lines in both faces, so the font swap cannot move the page.
+       * Absent, the title renders as before.
+       */
+      titleBreak: z.boolean().optional(),
     }),
     hero: z.object({
       /** Above the number at rest, when it is the letter's figure. */

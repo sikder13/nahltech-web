@@ -6,7 +6,8 @@
     "name": "FabACab, Inc.",
     "short": "FabACab",
     "town": "Anderson, Indiana",
-    "prepared": "September 2026"
+    "prepared": "September 2026",
+    "titleBreak": true
   },
   "hero": {
     "caption": "Our letter's estimate of the money that leaks between a signed quote and a finished install, for every hundred cabs shipped",
