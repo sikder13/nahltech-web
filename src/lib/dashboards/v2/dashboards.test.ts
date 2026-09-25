@@ -7,6 +7,7 @@ import {
   compileFormula,
   parseTypedValue,
   totalFormula,
+  displayedRange,
   restBands,
   extentBands,
   rangeOverBands,
@@ -26,6 +27,107 @@ describe("expression evaluator", () => {
   it("rejects anything that is not arithmetic", () => {
     for (const bad of ["a; b", "fetch(1)", "a ** 2", "2 +", "(a"]) {
       expect(() => parse(bad)).toThrow();
+    }
+  });
+});
+
+describe("Mursix model", () => {
+  const mursix = allDashboards().find((d) => d.slug === "mursix")!;
+  const tree = compileFormula(totalFormula(mursix.model.terms));
+  const full = restBands(mursix.model.sliders);
+
+  it("computes $106,000 and $1,370,000 to the dollar at the letter's ranges", () => {
+    const range = rangeOverBands(tree, mursix.model, full);
+    // 10,000,000 x 1% + 0 x 20% + 6,000 and 17,000,000 x 5% + 2,000,000 x 20% + 120,000
+    expect(range.low).toBeCloseTo(106_000, 6);
+    expect(range.high).toBeCloseTo(1_370_000, 6);
+  });
+
+  it("displays $105,000 to $1,370,000, the letter's figures, under the $5,000 rounding rule", () => {
+    const range = rangeOverBands(tree, mursix.model, full);
+    expect(roundTo(range.low, mursix.model.roundTo)).toBe(105_000);
+    expect(roundTo(range.high, mursix.model.roundTo)).toBe(1_370_000);
+    expect(mursix.model.roundTo).toBe(5_000);
+    const atRest = displayedRange(
+      false,
+      range,
+      mursix.model.letterRange,
+      mursix.model.roundTo,
+    );
+    expect(atRest.range).toEqual({ low: 105_000, high: 1_370_000 });
+  });
+
+  it("gives each term its own exact range", () => {
+    const byTerm = Object.fromEntries(
+      mursix.model.terms.map((t) => [
+        t.id,
+        rangeOverBands(compileFormula(t.formula), mursix.model, full),
+      ]),
+    );
+    expect(byTerm.steel!.low).toBeCloseTo(100_000, 6);
+    expect(byTerm.steel!.high).toBeCloseTo(850_000, 6);
+    expect(byTerm.metal!.low).toBeCloseTo(0, 6);
+    expect(byTerm.metal!.high).toBeCloseTo(400_000, 6);
+    expect(byTerm.reclaim).toEqual({ low: 6_000, high: 120_000 });
+  });
+
+  it("from rest, the consigned preset gives $106,000 to $970,000, shown as $105,000 to $970,000", () => {
+    const range = rangeOverBands(tree, mursix.model, {
+      ...full,
+      inventory: { low: 0, high: 0 },
+    });
+    expect(range.low).toBeCloseTo(106_000, 6);
+    expect(range.high).toBeCloseTo(970_000, 6);
+    expect(roundTo(range.low, 5_000)).toBe(105_000);
+    expect(roundTo(range.high, 5_000)).toBe(970_000);
+  });
+
+  it("opens the reclaim band at the letter's $6,000 to $120,000 but lets it reach zero", () => {
+    const slider = mursix.model.sliders.find((s) => s.id === "leakage")!;
+    expect(slider.min).toBe(0);
+    expect(full.leakage).toEqual({ low: 6_000, high: 120_000 });
+    const both = rangeOverBands(tree, mursix.model, {
+      ...full,
+      inventory: { low: 0, high: 0 },
+      leakage: { low: 0, high: 0 },
+    });
+    expect(both).toEqual({ low: 100_000, high: 850_000 });
+  });
+
+  it("closes the precious-metal band on zero with the consigned preset", () => {
+    const slider = mursix.model.sliders.find((s) => s.id === "inventory")!;
+    expect(slider.presets).toEqual([
+      { label: "Consigned or discontinued", low: 0, high: 0 },
+    ]);
+    const range = rangeOverBands(tree, mursix.model, {
+      ...full,
+      inventory: { low: 0, high: 0 },
+    });
+    expect(range.high).toBeCloseTo(970_000, 6);
+  });
+
+  it("quotes the letter word for word where the page overlaps it", () => {
+    expect(mursix.proposal.fee).toBe("A fixed fee between $5,000 and $7,500.");
+    expect(mursix.proposal.conversion).toBe(
+      "If your records cannot support the work, we say so in the first week and deliver a data-readiness report at the same price.",
+    );
+    expect(mursix.respect?.paragraphs[0]?.replace(" [[OBSERVED]]", "")).toBe(
+      "Your presses already report through SmartPAC, and your team built Murray Mentor to keep the floor's knowledge. This is the layer neither was built for: what the metal itself does to your margin, in dollars, by part.",
+    );
+    expect(mursix.proposal.deliverables.map((d) => d.title)[2]).toBe(
+      "The measured number",
+    );
+  });
+
+  it("marks every computed chart point and draws only two dated points", () => {
+    // Labels sit inside the sentence; the words themselves must match the letter.
+    expect(mursix.market.notes[0]?.replace(/ \[\[[A-Z]+\]\]/g, "")).toContain(
+      "Your largest market sold 5.8 percent fewer vehicles in August than a year earlier.",
+    );
+    for (const chart of mursix.market.charts) {
+      if (chart.kind !== "points") continue;
+      for (const p of chart.points)
+        if (p.computed) expect(p.note).toMatch(/implied/);
     }
   });
 });
@@ -78,6 +180,11 @@ describe("short addresses and the visit count", () => {
 
 describe("every template 2 config", () => {
   const dashboards = allDashboards();
+
+  it("loads and validates, with the shared chrome", () => {
+    expect(dashboards.length).toBeGreaterThan(0);
+    expect(() => sharedCopy()).not.toThrow();
+  });
 
   it("has unique slugs and tokens", () => {
     const slugs = dashboards.map((d) => d.slug);
