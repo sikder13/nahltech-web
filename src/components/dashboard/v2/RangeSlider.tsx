@@ -68,6 +68,7 @@ export function RangeSlider({
   const [draft, setDraft] = useState("");
   const [invalid, setInvalid] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const valueRef = useRef<HTMLButtonElement>(null);
   const span = max - min;
   const pct = (v: number) => ((v - min) / span) * 100;
   const lowOnTop = pct(value.low) > 50;
@@ -90,12 +91,19 @@ export function RangeSlider({
     const typed = parseTypedValue(format, draft, min, max);
     if (typed === null) {
       setInvalid(true);
-      return;
+      return false;
     }
     onChange({ low: typed, high: typed });
     setEditing(false);
     onCommit();
+    return true;
   };
+
+  // Closing the field from the keyboard puts focus back on the value it
+  // replaced, so a keyboard or screen-reader user keeps their place instead
+  // of being dropped at the top of the page.
+  const returnFocus = () =>
+    requestAnimationFrame(() => valueRef.current?.focus());
 
   return (
     <div
@@ -124,8 +132,11 @@ export function RangeSlider({
                 setInvalid(false);
               }}
               onKeyDown={(e) => {
-                if (e.key === "Enter") apply();
-                if (e.key === "Escape") setEditing(false);
+                if (e.key === "Enter" && apply()) returnFocus();
+                if (e.key === "Escape") {
+                  setEditing(false);
+                  returnFocus();
+                }
               }}
               onBlur={() => (draft.trim() ? apply() : setEditing(false))}
               className={`w-32 rounded-md border px-xs py-3xs text-end font-display text-lg text-text tabular-nums ${invalid ? "border-2 border-text" : "border-border"}`}
@@ -136,6 +147,7 @@ export function RangeSlider({
           </span>
         ) : (
           <button
+            ref={valueRef}
             type="button"
             onClick={openEditor}
             aria-label={`${typeLabel.replace("{label}", label)}. ${shown}`}
