@@ -41,3 +41,12 @@ jobs:
       # EckCo shipped with a printed letter; its page must never change.
       - name: EckCo page unchanged
         run: npm run check:eckco-frozen
+
+      # Mursix shipped with a printed letter too; template 2 keeps growing,
+      # so its rendered page is held still by this gate.
+      - name: Mursix page unchanged
+        run: npm run check:mursix-frozen
+
+      # Dashboard footers carry no GitHub link, on any page, ever.
+      - name: No GitHub link on dashboard pages
+        run: npm run check:no-github
