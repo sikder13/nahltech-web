@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "check:eckco-frozen": "node scripts/check-eckco-frozen.mjs",
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",

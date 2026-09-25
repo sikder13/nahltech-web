@@ -37,3 +37,7 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      # EckCo shipped with a printed letter; its page must never change.
+      - name: EckCo page unchanged
+        run: npm run check:eckco-frozen
