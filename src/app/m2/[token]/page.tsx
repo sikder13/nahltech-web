@@ -415,7 +415,8 @@ export default async function DashboardPage({ params }: Params) {
       </main>
       {/* The site footer is for the screen; a printed copy ends with the promise. */}
       <div className="print:hidden">
-        <FooterBase t={t} />
+        {/* A letter to a prospect's owner links the company, not a code host. */}
+        <FooterBase t={t} hideSocial={["github"]} />
       </div>
     </>
   );

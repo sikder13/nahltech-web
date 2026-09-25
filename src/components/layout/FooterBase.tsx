@@ -6,6 +6,7 @@ import {
   routes,
   serviceRouteKeys,
   socialLinks,
+  type SocialKey,
 } from "@/lib/routes";
 
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
@@ -20,13 +21,19 @@ import type { ReactNode } from "react";
  * when it is never rendered, so the form has to live in a separate module
  * (`Footer.tsx`) rather than behind a flag. Prospect dashboards use this
  * directly, with no slot, because that page asks for one thing only.
+ *
+ * `hideSocial` drops named profiles from the social row for pages that
+ * should not carry them. Left empty, the footer renders exactly as it
+ * always has.
  */
 export function FooterBase({
   t,
   newsletter,
+  hideSocial = [],
 }: {
   t: Dictionary;
   newsletter?: ReactNode;
+  hideSocial?: readonly SocialKey[];
 }) {
   const columns = [
     {
@@ -132,19 +139,21 @@ export function FooterBase({
               aria-label={t.footer.socialHeading}
               className="mt-xs flex items-center gap-3xs"
             >
-              {socialLinks.map((link) => (
-                <li key={link.key}>
-                  <a
-                    href={link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={t.footer.social[link.key]}
-                    className="flex size-10 items-center justify-center rounded-md text-text-muted transition-colors hover:bg-bg hover:text-text motion-reduce:transition-none"
-                  >
-                    <BrandIcon name={link.key} />
-                  </a>
-                </li>
-              ))}
+              {socialLinks
+                .filter((link) => !hideSocial.includes(link.key))
+                .map((link) => (
+                  <li key={link.key}>
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={t.footer.social[link.key]}
+                      className="flex size-10 items-center justify-center rounded-md text-text-muted transition-colors hover:bg-bg hover:text-text motion-reduce:transition-none"
+                    >
+                      <BrandIcon name={link.key} />
+                    </a>
+                  </li>
+                ))}
             </ul>
           </div>
 
