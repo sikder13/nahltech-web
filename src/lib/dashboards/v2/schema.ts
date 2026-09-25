@@ -124,6 +124,44 @@ export const dashboardSchema = z
       sliders: z.array(sliderSchema).min(1).max(4),
       constants: z.array(constantSchema).default([]),
       /**
+       * Observed fixed ranges the formulas may read, such as a posted price
+       * span. Not sliders: the visitor cannot move them, and the corner
+       * evaluation pairs low with low and high with high. Each carries the
+       * sentence that states it, shown with the constants. Default: none, so
+       * configs without spans (Mursix) are untouched.
+       */
+      spans: z
+        .array(
+          z.object({
+            id: z.string(),
+            low: z.number(),
+            high: z.number(),
+            text: z.string(),
+          }),
+        )
+        .max(2)
+        .default([]),
+      /**
+       * The unit written after the headline figure, such as "per hundred
+       * cabs". Absent, the shared per-year suffix is used, so existing
+       * configs are untouched.
+       */
+      unit: z.string().optional(),
+      /**
+       * An optional volume field: the reader types their own yearly volume and
+       * every figure on the page scales to it. Absent, nothing renders.
+       */
+      volume: z
+        .object({
+          label: z.string(),
+          caption: z.string(),
+          /** Suffix once a volume is set. `{n}` becomes the typed number. */
+          suffix: z.string(),
+          per: z.number().positive(),
+          max: z.number().positive(),
+        })
+        .optional(),
+      /**
        * The model as a sum of named terms. The total is their sum; each term
        * is also shown on its own, live, in the formula box.
        */
@@ -188,8 +226,16 @@ export const dashboardSchema = z
       fee: z.string(),
       feeCovers: z.string(),
       conversion: z.string(),
+      /** An optional standing promise printed under the conversion clause. */
+      promise: z.string().optional(),
       ledger: z
         .object({
+          /**
+           * Tighter column gutters below the sm breakpoint, for ledgers whose
+           * word columns run wide. Absent, the original gutters render, so
+           * existing configs are untouched.
+           */
+          dense: z.boolean().optional(),
           title: z.string(),
           label: z.string(),
           columns: z.array(z.string()).min(2).max(6),
@@ -231,13 +277,22 @@ export const dashboardSchema = z
         });
         continue;
       }
+      const spanIds = config.model.spans.map((sp) => sp.id);
       for (const name of variablesOf(tree)) {
-        if (!ids.includes(name)) {
+        if (!ids.includes(name) && !spanIds.includes(name)) {
           ctx.addIssue({
             code: "custom",
             message: `term ${term.id} reads unknown input "${name}"`,
           });
         }
+      }
+    }
+    for (const span of config.model.spans) {
+      if (span.low > span.high) {
+        ctx.addIssue({
+          code: "custom",
+          message: `span ${span.id} has low above high`,
+        });
       }
     }
     for (const slider of config.model.sliders) {

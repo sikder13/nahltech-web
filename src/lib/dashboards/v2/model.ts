@@ -26,6 +26,7 @@ export type EvidenceLabel = (typeof evidenceLabels)[number];
 
 export const sliderFormats = [
   "usdMillions",
+  "months",
   "usd",
   "percent",
   "multiple",
@@ -59,13 +60,18 @@ export function totalFormula(terms: readonly { formula: string }[]): string {
  */
 export function rangeOverBands(
   tree: ExpressionNode,
-  model: Pick<ModelConfig, "sliders" | "constants">,
+  model: Pick<ModelConfig, "sliders" | "constants"> & {
+    spans?: readonly { id: string; low: number; high: number }[];
+  },
   bands: Record<string, Band>,
 ): Band {
   const constants = Object.fromEntries(
     model.constants.map((c) => [c.id, c.value]),
   );
-  const n = model.sliders.length;
+  // Observed spans are fixed bands: one more corner dimension each, so a
+  // low endpoint pairs low with low and a high endpoint high with high.
+  const spans = model.spans ?? [];
+  const n = model.sliders.length + spans.length;
   let low = Infinity;
   let high = -Infinity;
   for (let mask = 0; mask < 1 << n; mask += 1) {
@@ -75,6 +81,10 @@ export function rangeOverBands(
       const raw = mask & (1 << i) ? band.high : band.low;
       vars[slider.id] = toModelUnits(slider.format, raw);
     });
+    spans.forEach((span, i) => {
+      vars[span.id] =
+        mask & (1 << (model.sliders.length + i)) ? span.high : span.low;
+    });
     const value = evaluate(tree, vars);
     low = Math.min(low, value);
     high = Math.max(high, value);
@@ -82,10 +92,38 @@ export function rangeOverBands(
   return { low, high };
 }
 
+/**
+ * Scales a per-unit range to the reader's own volume: a model stated per
+ * hundred cabs, at 240 cabs a year, multiplies by 2.4. `per` is the unit the
+ * model is stated in.
+ */
+export function scaleToVolume(range: Band, volume: number, per: number): Band {
+  return { low: (range.low * volume) / per, high: (range.high * volume) / per };
+}
+
+/**
+ * What the headline shows at a reader's volume: the EXACT range scaled first,
+ * then rounded once. Never round before scaling; rounding the per-unit
+ * display and scaling that doubles the rounding error (20,000 x 2.4 = 48,000
+ * rounds to 50,000, while the exact 18,452.96 x 2.4 = 44,287.09 rounds to
+ * 45,000, the true figure).
+ */
+export function displayedAtVolume(
+  exact: Band,
+  volume: number,
+  per: number,
+  step: number,
+): Band {
+  const scaled = scaleToVolume(exact, volume, per);
+  return { low: roundTo(scaled.low, step), high: roundTo(scaled.high, step) };
+}
+
 /** The model at one exact point. Used by the monotonicity test. */
 export function valueAt(
   tree: ExpressionNode,
-  model: Pick<ModelConfig, "sliders" | "constants">,
+  model: Pick<ModelConfig, "sliders" | "constants"> & {
+    spans?: readonly { id: string; low: number; high: number }[];
+  },
   point: Record<string, number>,
 ): number {
   const vars: Record<string, number> = Object.fromEntries(
@@ -96,6 +134,10 @@ export function valueAt(
       slider.format,
       point[slider.id] ?? slider.min,
     );
+  }
+  // A point evaluation may pick any value inside an observed span too.
+  for (const span of model.spans ?? []) {
+    vars[span.id] = point[span.id] ?? span.low;
   }
   return evaluate(tree, vars);
 }
@@ -142,6 +184,9 @@ export function formatSliderValue(format: SliderFormat, value: number): string {
       return `${value.toFixed(1)}%`;
     case "multiple":
       return `${value.toFixed(1)}x`;
+    case "months":
+      // A plain number; the slider's label carries the unit.
+      return `${Number(value.toFixed(1))}`;
     case "count":
       return Math.round(value).toLocaleString("en-US");
     case "minutes":
@@ -158,6 +203,8 @@ export function spokenSliderValue(format: SliderFormat, value: number): string {
       return `${value.toFixed(1)} percent`;
     case "multiple":
       return `${value.toFixed(1)} times`;
+    case "months":
+      return `${Number(value.toFixed(1))} months`;
     default:
       return formatSliderValue(format, value);
   }
@@ -190,9 +237,16 @@ export function displayedRange(
   };
 }
 
-/** Whole dollars with separators, never rounded beyond the dollar. */
+/**
+ * Exact dollars with separators. A whole-dollar figure prints without cents;
+ * anything else prints to the cent, rounded half up on the true decimal
+ * value (the toFixed(4) step washes out binary float noise at half-cent
+ * boundaries, so $10,305.955 prints as $10,305.96).
+ */
 export function formatUsdExact(value: number): string {
-  return `$${Math.round(value).toLocaleString("en-US")}`;
+  const cents = Math.round(parseFloat((value * 100).toFixed(4))) / 100;
+  if (Number.isInteger(cents)) return `$${cents.toLocaleString("en-US")}`;
+  return `$${cents.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
 
 /**

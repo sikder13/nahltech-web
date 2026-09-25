@@ -223,9 +223,16 @@ describe("every template 2 config", () => {
       let seed = 7;
       const rand = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
       for (let i = 0; i < 500; i += 1) {
-        const point = Object.fromEntries(
-          d.model.sliders.map((s) => [s.id, s.min + rand() * (s.max - s.min)]),
-        );
+        const point = Object.fromEntries([
+          ...d.model.sliders.map((s) => [
+            s.id,
+            s.min + rand() * (s.max - s.min),
+          ]),
+          ...d.model.spans.map((sp) => [
+            sp.id,
+            sp.low + rand() * (sp.high - sp.low),
+          ]),
+        ]);
         const v = valueAt(tree, d.model, point);
         expect(v).toBeGreaterThanOrEqual(corners.low - 1e-6);
         expect(v).toBeLessThanOrEqual(corners.high + 1e-6);
