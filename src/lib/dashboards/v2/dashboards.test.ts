@@ -507,6 +507,157 @@ describe("Trifecta model", () => {
   });
 });
 
+describe("Copper Mountain model", () => {
+  const cmt = allDashboards().find((d) => d.slug === "cmt")!;
+  const tree = compileFormula(totalFormula(cmt.model.terms));
+  const full = restBands(cmt.model.sliders);
+
+  it("computes the locked endpoints to the cent at the letter's assumptions", () => {
+    const a = rangeOverBands(compileFormula("100 * h * rate"), cmt.model, full);
+    expect(a.low).toBeCloseTo(19_000, 6);
+    expect(a.high).toBeCloseTo(78_000, 6);
+    const b = rangeOverBands(
+      compileFormula("100 * p * m * d * (w / 12)"),
+      cmt.model,
+      full,
+    );
+    expect(formatUsdExact(b.low)).toBe("$35,775");
+    expect(formatUsdExact(b.high)).toBe("$190,800");
+    const total = rangeOverBands(tree, cmt.model, full);
+    expect(formatUsdExact(total.low)).toBe("$54,775");
+    expect(formatUsdExact(total.high)).toBe("$268,800");
+    expect(roundTo(total.low, 5_000)).toBe(55_000);
+    expect(roundTo(total.high, 5_000)).toBe(270_000);
+  });
+
+  it("collapses to one component under each preset", () => {
+    const hZero = rangeOverBands(tree, cmt.model, {
+      ...full,
+      h: { low: 0, high: 0 },
+    });
+    expect(hZero.low).toBeCloseTo(35_775, 6);
+    expect(hZero.high).toBeCloseTo(190_800, 6);
+    const wZero = rangeOverBands(tree, cmt.model, {
+      ...full,
+      w: { low: 0, high: 0 },
+    });
+    expect(wZero.low).toBeCloseTo(19_000, 6);
+    expect(wZero.high).toBeCloseTo(78_000, 6);
+  });
+
+  it("scales the EXACT range and rounds once, at the relay's locked volumes", () => {
+    const exact = rangeOverBands(tree, cmt.model, full);
+    expect(formatUsdExact(scaleToVolume(exact, 50, 100).low)).toBe(
+      "$27,387.50",
+    );
+    expect(formatUsdExact(scaleToVolume(exact, 50, 100).high)).toBe("$134,400");
+    expect(displayedAtVolume(exact, 50, 100, 5_000)).toEqual({
+      low: 25_000,
+      high: 135_000,
+    });
+    expect(displayedAtVolume(exact, 250, 100, 5_000)).toEqual({
+      low: 135_000,
+      high: 670_000,
+    });
+    expect(displayedAtVolume(exact, 500, 100, 5_000)).toEqual({
+      low: 275_000,
+      high: 1_345_000,
+    });
+  });
+
+  it("displays round-to-step of the exact scaled value, for any volume, in every state", () => {
+    const bandSets = [
+      full,
+      { ...full, h: { low: 0, high: 0 } },
+      { ...full, w: { low: 0, high: 0 } },
+    ];
+    let seed = 31;
+    const rand = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    const volumes = [1, 50, 100, 250, 500, 4_321];
+    for (let i = 0; i < 200; i += 1)
+      volumes.push(1 + Math.floor(rand() * 99_999));
+    for (const bands of bandSets) {
+      const exact = rangeOverBands(tree, cmt.model, bands);
+      for (const n of volumes) {
+        const shown = displayedAtVolume(exact, n, 100, cmt.model.roundTo);
+        expect(shown.low).toBe(
+          roundTo((exact.low * n) / 100, cmt.model.roundTo),
+        );
+        expect(shown.high).toBe(
+          roundTo((exact.high * n) / 100, cmt.model.roundTo),
+        );
+      }
+    }
+  });
+
+  it("keeps the hours log consistent: hours times rate per row, both totals to the cent", () => {
+    const ledger = cmt.proposal.ledger!;
+    const cents = (t: string) =>
+      Math.round(Number(t.replace(/[$,]/g, "")) * 100);
+    let hours = 0;
+    let cost = 0;
+    for (const row of ledger.rows) {
+      const [, h, rate, rowCost] = row.cells as [
+        string,
+        string,
+        string,
+        string,
+      ];
+      expect(cents(rowCost)).toBe(Math.round(Number(h) * cents(rate)));
+      hours += Number(h) * 100;
+      cost += cents(rowCost);
+    }
+    expect(hours).toBe(2_125);
+    expect(cost).toBe(243_375);
+    expect(ledger.total!.cells).toEqual(["21.25 h", "", "$2,433.75"]);
+  });
+
+  it("quotes the relay word for word where the page overlaps it", () => {
+    expect(cmt.hero.heading).toBe(
+      "Copper Mountain Technologies, a cost model sent for correction",
+    );
+    expect(cmt.hero.subline).toBe(
+      "Exact computed endpoints: $54,775.00 and $268,800.00, rounded to the nearest $5,000 for display.",
+    );
+    expect(cmt.model.callout).toBe(
+      "You publish your prices. Nobody in this trade publishes the engineering hours that ship free with every analyzer sold. If those hours are your differentiator, they deserve a price tag, or a proof that zero is the right one.",
+    );
+    expect(cmt.proposal.promise).toBe(
+      "If your records show our printed range overstated your exposure, our findings letter says so in those words.",
+    );
+    expect(cmt.model.constants[0]?.text).toContain("This one is not a slider.");
+    expect(cmt.model.formulaText).toContain("(months / 12)");
+    expect(cmt.respect?.paragraphs[5]).toContain("NASA published the paper");
+  });
+
+  it("carries none of the kill-list terms anywhere in its copy", () => {
+    const text = JSON.stringify(cmt);
+    for (const term of [
+      "\u2013",
+      "\u2014",
+      "artificial intelligence",
+      "machine learning",
+      "chatbot",
+      "Keysight",
+      "Rohde",
+      "Anritsu",
+      "Planar",
+      "Russia",
+      "Cyprus",
+      "Jared",
+      "Ildar",
+      "Hirasawa",
+      "Mathrubootham",
+      "$17,000",
+      "founder",
+      "firmware",
+    ]) {
+      expect(text.includes(term), term).toBe(false);
+    }
+    expect(/\bAI\b/.test(text), "AI as a word").toBe(false);
+  });
+});
+
 describe("every template 2 config", () => {
   const dashboards = allDashboards();
 
