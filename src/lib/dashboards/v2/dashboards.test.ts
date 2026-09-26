@@ -344,6 +344,17 @@ describe("FabACab model", () => {
   });
 });
 
+describe("roundTo at exact halves", () => {
+  it("rounds half up, one mechanical rule everywhere (the Trifecta tie ruling)", () => {
+    // Synthetic exact ties at the function, so this bug class is caught here,
+    // not on a page: 2,500/5,000 = 0.5 and 12,500/5,000 = 2.5.
+    expect(roundTo(2_500, 5_000)).toBe(5_000);
+    expect(roundTo(7_500, 5_000)).toBe(10_000);
+    expect(roundTo(12_500, 5_000)).toBe(15_000);
+    expect(roundTo(1_232_500, 5_000)).toBe(1_235_000);
+  });
+});
+
 describe("every template 2 config", () => {
   const dashboards = allDashboards();
 
