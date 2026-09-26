@@ -124,10 +124,10 @@ describe("Mursix model", () => {
 
   it("marks every computed chart point and draws only two dated points", () => {
     // Labels sit inside the sentence; the words themselves must match the letter.
-    expect(mursix.market.notes[0]?.replace(/ \[\[[A-Z]+\]\]/g, "")).toContain(
+    expect(mursix.market!.notes[0]?.replace(/ \[\[[A-Z]+\]\]/g, "")).toContain(
       "Your largest market sold 5.8 percent fewer vehicles in August than a year earlier.",
     );
-    for (const chart of mursix.market.charts) {
+    for (const chart of mursix.market!.charts) {
       if (chart.kind !== "points") continue;
       for (const p of chart.points)
         if (p.computed) expect(p.note).toMatch(/implied/);
@@ -296,7 +296,7 @@ describe("FabACab model", () => {
     expect(fab.proposal.promise).toBe(
       "If your records show our letter overstated the money, the baseline says so in writing.",
     );
-    const bars = fab.market.charts.find((c) => c.kind === "bars");
+    const bars = fab.market!.charts.find((c) => c.kind === "bars");
     expect(bars && "callout" in bars ? bars.callout : "").toContain(
       "If the gap is custom scope, it is a pricing asset.",
     );
@@ -311,7 +311,7 @@ describe("FabACab model", () => {
       "The window across which a fixed, all-inclusive quote absorbs material moves, from signature to purchase.",
     );
     // Eleven months is not a year: the chart is titled by its dates.
-    expect(fab.market.charts[0]?.title).toBe(
+    expect(fab.market!.charts[0]?.title).toBe(
       "Aluminum mill shapes, September 2025 to August 2026",
     );
     // The division mark reads unmistakably at phone sizes.
@@ -327,7 +327,7 @@ describe("FabACab model", () => {
 
   it("labels federal series BENCHMARK and the company's own pages OBSERVED", () => {
     expect(fab.model.constants[0]?.text).toContain("[[BENCHMARK]]");
-    expect(fab.market.intro).toContain("[[BENCHMARK]]");
+    expect(fab.market!.intro).toContain("[[BENCHMARK]]");
     expect(fab.model.spans[0]?.text).toContain("[[OBSERVED]]");
   });
 

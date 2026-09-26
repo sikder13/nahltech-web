@@ -16,7 +16,7 @@ import { EvidenceLabel, Labelled } from "./EvidenceLabel";
  * wide screens so the type never balloons.
  */
 
-type Chart = DashboardConfig["market"]["charts"][number];
+type Chart = NonNullable<DashboardConfig["market"]>["charts"][number];
 
 const INK = "#111111";
 const MUTED = "#555555";

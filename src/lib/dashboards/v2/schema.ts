@@ -120,6 +120,11 @@ export const dashboardSchema = z
       titleBreak: z.boolean().optional(),
     }),
     hero: z.object({
+      /**
+       * Replaces the default "Prepared for <company>" h1 when a page carries
+       * its own heading. Absent, existing pages render exactly as before.
+       */
+      heading: z.string().optional(),
       /** Above the number at rest, when it is the letter's figure. */
       caption: z.string(),
       /** Above the number once the visitor has moved a slider. */
@@ -170,6 +175,12 @@ export const dashboardSchema = z
         })
         .optional(),
       /**
+       * An emphasized standalone paragraph rendered after the formula box,
+       * for a page whose argument needs one plain statement outside any
+       * section. Absent on existing pages.
+       */
+      callout: z.string().optional(),
+      /**
        * The model as a sum of named terms. The total is their sum; each term
        * is also shown on its own, live, in the formula box.
        */
@@ -185,19 +196,21 @@ export const dashboardSchema = z
       /** The range printed in the letter. Shown, exactly, until a slider moves. */
       letterRange: z.object({ low: z.number(), high: z.number() }),
     }),
-    market: z.object({
-      heading: z.string(),
-      intro: z.string(),
-      charts: z.array(
-        z.discriminatedUnion("kind", [
-          lineChartSchema,
-          barChartSchema,
-          pointsChartSchema,
-        ]),
-      ),
-      /** One-line public facts beside the charts, each carrying its label. */
-      notes: z.array(z.string()).default([]),
-    }),
+    market: z
+      .object({
+        heading: z.string(),
+        intro: z.string(),
+        charts: z.array(
+          z.discriminatedUnion("kind", [
+            lineChartSchema,
+            barChartSchema,
+            pointsChartSchema,
+          ]),
+        ),
+        /** One-line public facts beside the charts, each carrying its label. */
+        notes: z.array(z.string()).default([]),
+      })
+      .optional(),
     /** The letter's own words acknowledging what the company already runs. */
     respect: z
       .object({ heading: z.string(), paragraphs: z.array(z.string()).min(1) })
@@ -258,6 +271,8 @@ export const dashboardSchema = z
             .min(1)
             .max(8),
           note: z.string(),
+          /** A bold closing row, such as a total, checked by tests. */
+          total: z.object({ label: z.string(), value: z.string() }).optional(),
         })
         .optional(),
     }),
