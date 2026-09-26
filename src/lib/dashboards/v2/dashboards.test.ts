@@ -447,8 +447,8 @@ describe("Trifecta model", () => {
     const cents = (t: string) =>
       Math.round(Number(t.replace(/[$,]/g, "")) * 100);
     const sum = ledger.rows.reduce((acc, row) => acc + cents(row.cells[3]!), 0);
-    expect(sum).toBe(cents(ledger.total!.value));
-    expect(cents(ledger.total!.value)).toBe(674_500);
+    expect(sum).toBe(cents(ledger.total!.value!));
+    expect(cents(ledger.total!.value!)).toBe(674_500);
   });
 
   it("quotes the letter and relay word for word where the page overlaps them", () => {

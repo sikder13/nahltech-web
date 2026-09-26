@@ -152,7 +152,7 @@ export const dashboardSchema = z
     model: z.object({
       heading: z.string(),
       intro: z.string(),
-      sliders: z.array(sliderSchema).min(1).max(4),
+      sliders: z.array(sliderSchema).min(1).max(5),
       constants: z.array(constantSchema).default([]),
       /**
        * Observed fixed ranges the formulas may read, such as a posted price
@@ -250,21 +250,28 @@ export const dashboardSchema = z
     proposal: z.object({
       heading: z.string(),
       /** The letter's proposal paragraph, verbatim. */
-      lead: z.string(),
+      lead: z.string().optional(),
       deliverablesHeading: z.string(),
       deliverables: z
-        .array(z.object({ title: z.string(), line: z.string() }))
+        .array(
+          z.object({
+            title: z.string(),
+            /** Absent when the measurement's one clause is the whole entry. */
+            line: z.string().optional(),
+          }),
+        )
         .min(1)
         .max(4),
-      weeksHeading: z.string(),
+      weeksHeading: z.string().optional(),
       weeks: z
         .array(z.object({ when: z.string(), what: z.string() }))
         .min(1)
-        .max(5),
+        .max(5)
+        .optional(),
       feeHeading: z.string(),
       fee: z.string(),
-      feeCovers: z.string(),
-      conversion: z.string(),
+      feeCovers: z.string().optional(),
+      conversion: z.string().optional(),
       /** An optional standing promise printed under the conversion clause. */
       promise: z.string().optional(),
       ledger: z
@@ -289,8 +296,21 @@ export const dashboardSchema = z
             .min(1)
             .max(8),
           note: z.string(),
-          /** A bold closing row, such as a total, checked by tests. */
-          total: z.object({ label: z.string(), value: z.string() }).optional(),
+          /**
+           * A bold closing row, such as a total, checked by tests. `value`
+           * fills the last column; `cells` instead fills each column after
+           * the label, for a table whose total spans several columns.
+           */
+          total: z
+            .object({
+              label: z.string(),
+              value: z.string().optional(),
+              cells: z.array(z.string()).optional(),
+            })
+            .refine((t) => Boolean(t.value) !== Boolean(t.cells), {
+              message: "total takes value or cells, exactly one",
+            })
+            .optional(),
         })
         .optional(),
     }),
