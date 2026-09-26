@@ -12,7 +12,11 @@
     "heading": "Copper Mountain Technologies, a cost model sent for correction",
     "caption": "Built September 25, 2026, from coppermountaintech.com and its public price pages, the Conexus Indiana case study, and federal data. Every number is labeled: published, federal, or our assumption. The assumptions are sliders; move them and the number moves.",
     "liveCaption": "The model's estimate, on the assumptions you have set below",
-    "subline": "Exact computed endpoints: $54,775.00 and $268,800.00, rounded to the nearest $5,000 for display."
+    "subline": "Exact computed endpoints: $54,775.00 and $268,800.00, rounded to the nearest $5,000 for display.",
+    "headingLines": [
+      { "upTo": 380, "lines": 4 },
+      { "upTo": 465, "lines": 3 }
+    ]
   },
   "model": {
     "heading": "Move our assumptions",

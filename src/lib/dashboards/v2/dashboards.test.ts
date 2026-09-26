@@ -630,6 +630,16 @@ describe("Copper Mountain model", () => {
     expect(cmt.respect?.paragraphs[5]).toContain("NASA published the paper");
   });
 
+  it("holds its heading's height through the font swap on phones", () => {
+    // Fraunces sets the heading in four lines up to 380px and three up to
+    // 465px; the fallback face changes at 336 and 416, so without the
+    // reservation the page moved when the font arrived.
+    expect(cmt.hero.headingLines).toEqual([
+      { upTo: 380, lines: 4 },
+      { upTo: 465, lines: 3 },
+    ]);
+  });
+
   it("carries none of the kill-list terms anywhere in its copy", () => {
     const text = JSON.stringify(cmt);
     for (const term of [
