@@ -1,0 +1,237 @@
+{
+  "template": 2,
+  "slug": "trifecta",
+  "token": "trifecta-medical-llc-e15c170849",
+  "company": {
+    "name": "Trifecta Medical, LLC",
+    "short": "Trifecta",
+    "town": "Plainfield, Indiana",
+    "prepared": "September 2026"
+  },
+  "hero": {
+    "heading": "Trifecta Medical, a cost model sent for correction",
+    "headingLines": [
+      { "upTo": 380, "lines": 3 },
+      { "upTo": 688, "lines": 2 }
+    ],
+    "caption": "Built September 25, 2026, from trifectamed.com, the Conexus Indiana case study, and federal data. Every number is labeled: published, federal, or our assumption. The assumptions are sliders; move them and the number moves.",
+    "liveCaption": "The model's estimate, on the assumptions you have set below",
+    "subline": "Exact computed endpoints: $33,975.00 and $246,500.00, rounded to the nearest $5,000 for display."
+  },
+  "model": {
+    "heading": "Move our assumptions",
+    "intro": "Each slider is one of the assumptions in our letter, set to the range we wrote down. If you know a figure, narrow its range, or close both handles on the exact number. The estimate above then follows your figures instead of ours. Tap a figure to type it exactly.",
+    "unit": "per thousand trays",
+    "volume": {
+      "label": "Trays you ship in a year",
+      "caption": "Optional. Type your volume and every dollar figure on this page scales to your year. Leave it empty and the model stays per thousand trays.",
+      "suffix": "a year, at {n} trays",
+      "per": 1000,
+      "max": 500000
+    },
+    "sliders": [
+      {
+        "id": "r",
+        "label": "Trays reworked or redesigned, by any cause",
+        "format": "percent",
+        "min": 0,
+        "max": 10,
+        "step": 0.1,
+        "rest": {
+          "low": 1,
+          "high": 4
+        },
+        "presets": [
+          {
+            "label": "No rework last year",
+            "low": 0,
+            "high": 0
+          }
+        ],
+        "basis": "Assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "p",
+        "label": "Price of a tray, held under the several-thousand-dollar ceiling Conexus published",
+        "format": "usd",
+        "min": 500,
+        "max": 6000,
+        "step": 50,
+        "rest": {
+          "low": 1500,
+          "high": 3000
+        },
+        "basis": "Assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "m",
+        "label": "Materials share of a tray's price",
+        "format": "percent",
+        "min": 10,
+        "max": 70,
+        "step": 1,
+        "rest": {
+          "low": 30,
+          "high": 50
+        },
+        "basis": "Assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "w",
+        "label": "Months a fixed quote waits between signature and delivery",
+        "format": "months",
+        "min": 0,
+        "max": 6,
+        "step": 0.5,
+        "rest": {
+          "low": 2,
+          "high": 4
+        },
+        "presets": [
+          {
+            "label": "We buy materials the day we quote",
+            "low": 0,
+            "high": 0
+          }
+        ],
+        "basis": "Assumed, printed to be corrected [[ASSUMED]]."
+      }
+    ],
+    "constants": [
+      {
+        "id": "d",
+        "value": 0.253,
+        "text": "Aluminum mill shapes rose 25.3 percent from September 2025 to August 2026 [[BENCHMARK]], BLS series WPU102501. This one is not a slider."
+      }
+    ],
+    "terms": [
+      {
+        "id": "rework",
+        "label": "Rework and redesign",
+        "formula": "1000 * r * p"
+      },
+      {
+        "id": "drift",
+        "label": "Drift inside fixed quotes",
+        "formula": "1000 * p * m * d * (w / 12)"
+      }
+    ],
+    "formulaText": "Leak per 1,000 trays = 1,000 × rework rate × tray price + 1,000 × tray price × materials share × 0.253 × (months / 12)",
+    "plainText": "In words, the trays that come back at your own prices, plus the slice of this year's aluminum rise that a fixed quote absorbs while it waits between signature and delivery.",
+    "callout": "You publish working days per tray layer. Nobody in this trade, you included, publishes the calendar days a layer waits at each customer approval. If the calendar beyond your published working days is customer approvals, that is your customers' time, and worth showing them.",
+    "roundTo": 5000,
+    "letterRange": {
+      "low": 35000,
+      "high": 245000
+    }
+  },
+  "respect": {
+    "heading": "What you already show in the open",
+    "paragraphs": [
+      "You publish design labor per tray layer: half a day for layouts, three to five days for design, one day for graphics [[OBSERVED]].",
+      "You publish your lead times: two to five weeks for prototypes, six to eight weeks for production [[OBSERVED]].",
+      "Your design process requires customer approval at three gates before a purchase order [[OBSERVED]].",
+      "You guarantee your nylon coating will not peel [[OBSERVED]].",
+      "Of the eight competitors we studied, none publishes design labor time the way you do [[BENCHMARK]]."
+    ]
+  },
+  "proposal": {
+    "heading": "What we propose",
+    "lead": "The proposal is deliberately small. In three to four weeks, for a fixed fee between $5,000 and $7,500, we would measure four numbers from your records: the rework rate and its cost by cause, what your fixed quotes absorbed, waiting time against your published working time at each approval, and the launch share of your order book. Read-only; we work from exports, and nothing touches your quality system.",
+    "deliverablesHeading": "What you receive",
+    "deliverables": [
+      {
+        "title": "Rework rate and cost, by cause",
+        "line": "From your quality and job records, trailing twelve months: how many trays came back or were redone, and what each cost, sorted into four buckets: coating guarantee honors, validation failures, customer mid-project instrument changes, and internal errors."
+      },
+      {
+        "title": "What your fixed quotes absorbed",
+        "line": "For programs quoted at a fixed price: the aluminum, stainless and coating content of the quote priced at quote date against the same content priced at delivery date, using the federal series. The result is the dollar amount your quotes silently ate, or did not."
+      },
+      {
+        "title": "Waiting time against working time",
+        "line": "The calendar days each project actually spent between layout start and production release, split at each customer approval, as far as your records allow, set against your published working days."
+      },
+      {
+        "title": "Launch share and quote-to-cash",
+        "line": "What share of revenue rode on new product launches against sustaining and replacement orders, and the days from quote to cash for each."
+      }
+    ],
+    "ledger": {
+      "dense": true,
+      "title": "What a page of the rework log looks like",
+      "label": "Illustrative, not Trifecta Medical data",
+      "columns": ["Item", "Cause bucket", "Origin", "Cost"],
+      "rows": [
+        {
+          "cells": [
+            "Spine tray layer",
+            "Coating peel honored under guarantee",
+            "Guarantee",
+            "$2,340.00"
+          ]
+        },
+        {
+          "cells": [
+            "Trauma caddy",
+            "Failed washer-disinfector validation",
+            "Validation",
+            "$1,187.50"
+          ]
+        },
+        {
+          "cells": [
+            "Knee system layer",
+            "Customer instrument revision after design approval",
+            "Customer change",
+            "$1,960.00"
+          ]
+        },
+        {
+          "cells": [
+            "First article layout",
+            "Layout error caught at first article",
+            "Internal",
+            "$845.00"
+          ]
+        },
+        {
+          "cells": [
+            "Graphics re-run",
+            "Customer spec change after graphics",
+            "Customer change",
+            "$412.50"
+          ]
+        }
+      ],
+      "total": {
+        "label": "Total",
+        "value": "$6,745.00"
+      },
+      "note": "Two of the four cause buckets begin outside the shop. Every item and figure is invented to show the format."
+    },
+    "weeksHeading": "How the three to four weeks run",
+    "weeks": [
+      {
+        "when": "Week one",
+        "what": "Your records arrive as exports and we build the inventory: what exists and what is missing, per measurement. The readiness verdict comes in writing either way."
+      },
+      {
+        "when": "Weeks two to four",
+        "what": "We build the four measurements and deliver the calibrated model, the findings letter and the hand-over. You review before anything is final."
+      }
+    ],
+    "feeHeading": "The fee",
+    "fee": "A fixed fee between $5,000 and $7,500.",
+    "feeCovers": "It covers all four measurements, the first-week verdict, the findings letter and the hand-over. Read-only; we work from exports, and nothing touches your quality system.",
+    "conversion": "If in the first week your records cannot support one or more of the four measurements, we say so at once and deliver a data-readiness report at the same fixed fee: exactly which fields are missing, and the shortest path to capturing them.",
+    "promise": "If your records show our printed range overstated your exposure, our findings letter says so in those words."
+  },
+  "sources": [
+    "trifectamed.com pages, September 2026.",
+    "Conexus Indiana case study.",
+    "Indianapolis Business Journal, March 2005.",
+    "BLS producer price index, aluminum mill shapes, series WPU102501, September 2025 to August 2026, pulled September 25, 2026; next release October 15, 2026.",
+    "All other figures are Nahl Technologies assumptions, stated as ranges."
+  ]
+}

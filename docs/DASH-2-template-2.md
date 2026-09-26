@@ -40,6 +40,8 @@ Every one is optional and absent from `content/dashboards-v2/mursix.json`, so th
 - `formatUsdExact` prints true cents when a figure is fractional, rounded half up on the decimal value; whole-dollar figures render as before.
 - `npm run check:no-github` fails the build if any rendered dashboard page carries a github.com href.
 
+Added with the Trifecta page, same additive default-off pattern: `hero.heading` (replaces the "Prepared for" h1), an optional `market` section (a page may carry none), `model.callout` (one emphasized standalone paragraph after the formula box), and `proposal.ledger.total` (a bold closing row, verified by tests), and `hero.headingLines` (per-width bands reserving the heading's display-face line count, so the font swap cannot move the page; measure the bands for each new heading). FabACab gained its own golden gate, `npm run check:fabacab-frozen`, when its letter shipped. Rounding rule, ruled September 25, 2026: `roundTo` rounds halves up, one mechanical rule everywhere, pinned by synthetic tie tests.
+
 ## Adding a company
 
 Copy `content/dashboards-v2/mursix.json` to `content/dashboards-v2/<slug>.json`, replace every field, run `npm run test:run` and `npm run build`, and open `/m2/<token>?preview`. The tests require that the model's full span at the letter's printed assumptions rounds to exactly the range printed in the letter.

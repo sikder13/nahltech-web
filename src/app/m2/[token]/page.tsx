@@ -36,6 +36,27 @@ import type { Metadata } from "next";
 
 export const dynamicParams = false;
 
+/**
+ * Media queries that reserve the heading's display-face height per width
+ * band (see `hero.headingLines`). `lh` is the heading's own line height; the
+ * em declaration before it covers browsers without the unit.
+ */
+function headingReserveCss(
+  bands: readonly { upTo: number; lines: number }[],
+): string {
+  let from = 0;
+  return bands
+    .map(({ upTo, lines }) => {
+      const range =
+        from > 0
+          ? `(min-width: ${from}px) and (max-width: ${upTo}px)`
+          : `(max-width: ${upTo}px)`;
+      from = upTo + 1;
+      return `@media ${range} { h1[data-heading-reserve] { min-height: calc(${lines} * 1.15em); min-height: ${lines}lh; } }`;
+    })
+    .join(" ");
+}
+
 export function generateStaticParams() {
   return allDashboards().map((d) => ({ token: d.token }));
 }
@@ -87,8 +108,16 @@ export default async function DashboardPage({ params }: Params) {
             />
             {shared.firm}
           </Link>
-          <h1 className="mt-xl text-section text-balance text-text">
-            {company.titleBreak ? (
+          {config.hero.headingLines ? (
+            <style>{headingReserveCss(config.hero.headingLines)}</style>
+          ) : null}
+          <h1
+            className="mt-xl text-section text-balance text-text"
+            data-heading-reserve={config.hero.headingLines ? "" : undefined}
+          >
+            {config.hero.heading ? (
+              config.hero.heading
+            ) : company.titleBreak ? (
               <>
                 Prepared for
                 <br className="sm:hidden" /> {company.name}
@@ -124,31 +153,41 @@ export default async function DashboardPage({ params }: Params) {
           }}
         />
 
-        {/* 4 · The public series */}
-        <section aria-labelledby="market-heading" className="mt-xl lg:mt-2xl">
-          <h2 id="market-heading" className="text-section text-text">
-            {market.heading}
-          </h2>
-          <span className="mt-xs heading-rule" aria-hidden="true" />
-          <p className="mt-sm max-w-prose text-text">
-            <Labelled text={market.intro} />
+        {model.callout ? (
+          <p className="mt-lg max-w-prose border-s-4 border-accent ps-md text-lg text-text">
+            {model.callout}
           </p>
-          {/* Stacked on phones and tablets, side by side on desktop. */}
-          <div className="mt-lg grid gap-lg lg:grid-cols-2">
-            {market.charts.map((chart) => (
-              <SeriesChart key={chart.title} chart={chart} />
-            ))}
-          </div>
-          {market.notes.length > 0 ? (
-            <ul className="mt-md max-w-prose space-y-2xs text-sm text-text">
-              {market.notes.map((note) => (
-                <li key={note.slice(0, 32)}>
-                  <Labelled text={note} />
-                </li>
+        ) : null}
+
+        {/* 4 · The public series. A page may carry none (Trifecta: the fixed
+            badge in the model states the aluminum fact, and a chart can be
+            added later as an additive change). */}
+        {market ? (
+          <section aria-labelledby="market-heading" className="mt-xl lg:mt-2xl">
+            <h2 id="market-heading" className="text-section text-text">
+              {market.heading}
+            </h2>
+            <span className="mt-xs heading-rule" aria-hidden="true" />
+            <p className="mt-sm max-w-prose text-text">
+              <Labelled text={market.intro} />
+            </p>
+            {/* Stacked on phones and tablets, side by side on desktop. */}
+            <div className="mt-lg grid gap-lg lg:grid-cols-2">
+              {market.charts.map((chart) => (
+                <SeriesChart key={chart.title} chart={chart} />
               ))}
-            </ul>
-          ) : null}
-        </section>
+            </div>
+            {market.notes.length > 0 ? (
+              <ul className="mt-md max-w-prose space-y-2xs text-sm text-text">
+                {market.notes.map((note) => (
+                  <li key={note.slice(0, 32)}>
+                    <Labelled text={note} />
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+          </section>
+        ) : null}
 
         {/* 5 · Further findings, when the letter's P.S. promised them */}
         {findings ? (
@@ -304,6 +343,23 @@ export default async function DashboardPage({ params }: Params) {
                       </Fragment>
                     ))}
                   </tbody>
+                  {proposal.ledger.total ? (
+                    <tfoot>
+                      <tr className="border-t border-border font-semibold text-text">
+                        <td
+                          colSpan={proposal.ledger.columns.length - 1}
+                          className={`py-2xs ${gap} last:pe-0 sm:pe-sm`}
+                        >
+                          {proposal.ledger.total.label}
+                        </td>
+                        <td
+                          className={`py-2xs ${gap} text-end whitespace-nowrap last:pe-0 sm:pe-sm`}
+                        >
+                          {proposal.ledger.total.value}
+                        </td>
+                      </tr>
+                    </tfoot>
+                  ) : null}
                 </table>
               </div>
               <figcaption className="mt-sm text-xs text-text-muted">

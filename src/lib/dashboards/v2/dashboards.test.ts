@@ -124,10 +124,10 @@ describe("Mursix model", () => {
 
   it("marks every computed chart point and draws only two dated points", () => {
     // Labels sit inside the sentence; the words themselves must match the letter.
-    expect(mursix.market.notes[0]?.replace(/ \[\[[A-Z]+\]\]/g, "")).toContain(
+    expect(mursix.market!.notes[0]?.replace(/ \[\[[A-Z]+\]\]/g, "")).toContain(
       "Your largest market sold 5.8 percent fewer vehicles in August than a year earlier.",
     );
-    for (const chart of mursix.market.charts) {
+    for (const chart of mursix.market!.charts) {
       if (chart.kind !== "points") continue;
       for (const p of chart.points)
         if (p.computed) expect(p.note).toMatch(/implied/);
@@ -296,7 +296,7 @@ describe("FabACab model", () => {
     expect(fab.proposal.promise).toBe(
       "If your records show our letter overstated the money, the baseline says so in writing.",
     );
-    const bars = fab.market.charts.find((c) => c.kind === "bars");
+    const bars = fab.market!.charts.find((c) => c.kind === "bars");
     expect(bars && "callout" in bars ? bars.callout : "").toContain(
       "If the gap is custom scope, it is a pricing asset.",
     );
@@ -311,7 +311,7 @@ describe("FabACab model", () => {
       "The window across which a fixed, all-inclusive quote absorbs material moves, from signature to purchase.",
     );
     // Eleven months is not a year: the chart is titled by its dates.
-    expect(fab.market.charts[0]?.title).toBe(
+    expect(fab.market!.charts[0]?.title).toBe(
       "Aluminum mill shapes, September 2025 to August 2026",
     );
     // The division mark reads unmistakably at phone sizes.
@@ -327,7 +327,7 @@ describe("FabACab model", () => {
 
   it("labels federal series BENCHMARK and the company's own pages OBSERVED", () => {
     expect(fab.model.constants[0]?.text).toContain("[[BENCHMARK]]");
-    expect(fab.market.intro).toContain("[[BENCHMARK]]");
+    expect(fab.market!.intro).toContain("[[BENCHMARK]]");
     expect(fab.model.spans[0]?.text).toContain("[[OBSERVED]]");
   });
 
@@ -341,6 +341,169 @@ describe("FabACab model", () => {
       const cost = Number(row.cells[4]!.replace(/[$,]/g, ""));
       expect(cost).toBeCloseTo(price * share, 2);
     }
+  });
+});
+
+describe("roundTo at exact halves", () => {
+  it("rounds half up, one mechanical rule everywhere (the Trifecta tie ruling)", () => {
+    // Synthetic exact ties at the function, so this bug class is caught here,
+    // not on a page: 2,500/5,000 = 0.5 and 12,500/5,000 = 2.5.
+    expect(roundTo(2_500, 5_000)).toBe(5_000);
+    expect(roundTo(7_500, 5_000)).toBe(10_000);
+    expect(roundTo(12_500, 5_000)).toBe(15_000);
+    expect(roundTo(1_232_500, 5_000)).toBe(1_235_000);
+  });
+});
+
+describe("Trifecta model", () => {
+  const tri = allDashboards().find((d) => d.slug === "trifecta")!;
+  const tree = compileFormula(totalFormula(tri.model.terms));
+  const full = restBands(tri.model.sliders);
+
+  it("computes the locked endpoints to the cent at the letter's assumptions", () => {
+    const a = rangeOverBands(compileFormula("1000 * r * p"), tri.model, full);
+    expect(a.low).toBeCloseTo(15_000, 6);
+    expect(a.high).toBeCloseTo(120_000, 6);
+    const b = rangeOverBands(
+      compileFormula("1000 * p * m * d * (w / 12)"),
+      tri.model,
+      full,
+    );
+    expect(formatUsdExact(b.low)).toBe("$18,975");
+    expect(formatUsdExact(b.high)).toBe("$126,500");
+    const total = rangeOverBands(tree, tri.model, full);
+    expect(formatUsdExact(total.low)).toBe("$33,975");
+    expect(formatUsdExact(total.high)).toBe("$246,500");
+    expect(roundTo(total.low, 5_000)).toBe(35_000);
+    expect(roundTo(total.high, 5_000)).toBe(245_000);
+  });
+
+  it("collapses to one component under each preset", () => {
+    const rZero = rangeOverBands(tree, tri.model, {
+      ...full,
+      r: { low: 0, high: 0 },
+    });
+    expect(rZero.low).toBeCloseTo(18_975, 6);
+    expect(rZero.high).toBeCloseTo(126_500, 6);
+    const wZero = rangeOverBands(tree, tri.model, {
+      ...full,
+      w: { low: 0, high: 0 },
+    });
+    expect(wZero.low).toBeCloseTo(15_000, 6);
+    expect(wZero.high).toBeCloseTo(120_000, 6);
+  });
+
+  it("scales the EXACT range and rounds once, at the relay's locked volumes", () => {
+    const exact = rangeOverBands(tree, tri.model, full);
+    expect(displayedAtVolume(exact, 500, 1_000, 5_000)).toEqual({
+      low: 15_000,
+      high: 125_000,
+    });
+    expect(formatUsdExact(scaleToVolume(exact, 500, 1_000).low)).toBe(
+      "$16,987.50",
+    );
+    expect(displayedAtVolume(exact, 2_000, 1_000, 5_000)).toEqual({
+      low: 70_000,
+      high: 495_000,
+    });
+    // N = 5,000 lands on an exact halfway tie at the high end: 1,232,500.
+    // Half up, per RELAY-TRI-1a: $1,235,000, never $1,230,000.
+    expect(formatUsdExact(scaleToVolume(exact, 5_000, 1_000).high)).toBe(
+      "$1,232,500",
+    );
+    expect(displayedAtVolume(exact, 5_000, 1_000, 5_000)).toEqual({
+      low: 170_000,
+      high: 1_235_000,
+    });
+  });
+
+  it("displays round-to-step of the exact scaled value, for any volume, in every state", () => {
+    const bandSets = [
+      full,
+      { ...full, r: { low: 0, high: 0 } },
+      { ...full, w: { low: 0, high: 0 } },
+    ];
+    let seed = 23;
+    const rand = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    const volumes = [1, 250, 500, 1_000, 2_000, 5_000, 12_345];
+    for (let i = 0; i < 200; i += 1)
+      volumes.push(1 + Math.floor(rand() * 499_999));
+    for (const bands of bandSets) {
+      const exact = rangeOverBands(tree, tri.model, bands);
+      for (const n of volumes) {
+        const shown = displayedAtVolume(exact, n, 1_000, tri.model.roundTo);
+        expect(shown.low).toBe(
+          roundTo((exact.low * n) / 1_000, tri.model.roundTo),
+        );
+        expect(shown.high).toBe(
+          roundTo((exact.high * n) / 1_000, tri.model.roundTo),
+        );
+      }
+    }
+  });
+
+  it("keeps the rework log consistent: rows sum to the total row, to the cent", () => {
+    const ledger = tri.proposal.ledger!;
+    const cents = (t: string) =>
+      Math.round(Number(t.replace(/[$,]/g, "")) * 100);
+    const sum = ledger.rows.reduce((acc, row) => acc + cents(row.cells[3]!), 0);
+    expect(sum).toBe(cents(ledger.total!.value));
+    expect(cents(ledger.total!.value)).toBe(674_500);
+  });
+
+  it("quotes the letter and relay word for word where the page overlaps them", () => {
+    expect(tri.hero.heading).toBe(
+      "Trifecta Medical, a cost model sent for correction",
+    );
+    expect(tri.hero.subline).toBe(
+      "Exact computed endpoints: $33,975.00 and $246,500.00, rounded to the nearest $5,000 for display.",
+    );
+    expect(tri.proposal.lead).toBe(
+      "The proposal is deliberately small. In three to four weeks, for a fixed fee between $5,000 and $7,500, we would measure four numbers from your records: the rework rate and its cost by cause, what your fixed quotes absorbed, waiting time against your published working time at each approval, and the launch share of your order book. Read-only; we work from exports, and nothing touches your quality system.",
+    );
+    expect(tri.proposal.promise).toBe(
+      "If your records show our printed range overstated your exposure, our findings letter says so in those words.",
+    );
+    expect(tri.model.callout).toBe(
+      "You publish working days per tray layer. Nobody in this trade, you included, publishes the calendar days a layer waits at each customer approval. If the calendar beyond your published working days is customer approvals, that is your customers' time, and worth showing them.",
+    );
+    expect(tri.model.constants[0]?.text).toContain("This one is not a slider.");
+    expect(tri.model.formulaText).toContain("(months / 12)");
+  });
+
+  it("holds its heading's height through the font swap on phones", () => {
+    // Fraunces sets the heading in three lines up to 380px and two up to
+    // 688px; the fallback face changes at 336 and 612, so without the
+    // reservation the page moved when the font arrived.
+    expect(tri.hero.headingLines).toEqual([
+      { upTo: 380, lines: 3 },
+      { upTo: 688, lines: 2 },
+    ]);
+  });
+
+  it("carries none of the kill-list terms anywhere in its copy", () => {
+    const text = JSON.stringify(tri);
+    for (const term of [
+      "\u2013",
+      "\u2014",
+      "artificial intelligence",
+      "machine learning",
+      "chatbot",
+      "Arcamed",
+      "father",
+      "handed",
+      "100+ years",
+      "100 years",
+      "nesting",
+      "IoT",
+      "$300,000",
+      "Bestat",
+      "Colorado",
+      "James",
+    ]) {
+      expect(text.includes(term), term).toBe(false);
+    }
+    expect(/\bAI\b/.test(text), "AI as a word").toBe(false);
   });
 });
 

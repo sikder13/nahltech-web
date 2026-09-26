@@ -47,6 +47,10 @@ jobs:
       - name: Mursix page unchanged
         run: npm run check:mursix-frozen
 
+      # FabACab shipped with a printed letter too; same gate as Mursix.
+      - name: FabACab page unchanged
+        run: npm run check:fabacab-frozen
+
       # Dashboard footers carry no GitHub link, on any page, ever.
       - name: No GitHub link on dashboard pages
         run: npm run check:no-github
