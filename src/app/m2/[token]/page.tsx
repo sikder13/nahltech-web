@@ -258,9 +258,11 @@ export default async function DashboardPage({ params }: Params) {
             {proposal.heading}
           </h2>
           <span className="mt-xs heading-rule" aria-hidden="true" />
-          <blockquote className="mt-md border-s-4 border-accent ps-md">
-            <p className="max-w-prose text-lg text-text">{proposal.lead}</p>
-          </blockquote>
+          {proposal.lead ? (
+            <blockquote className="mt-md border-s-4 border-accent ps-md">
+              <p className="max-w-prose text-lg text-text">{proposal.lead}</p>
+            </blockquote>
+          ) : null}
 
           <h3 className="mt-xl text-lg font-semibold text-text">
             {proposal.deliverablesHeading}
@@ -269,7 +271,11 @@ export default async function DashboardPage({ params }: Params) {
             {proposal.deliverables.map((d) => (
               <div key={d.title}>
                 <dt className="font-semibold text-text">{d.title}</dt>
-                <dd className="mt-3xs max-w-prose text-text-muted">{d.line}</dd>
+                {d.line ? (
+                  <dd className="mt-3xs max-w-prose text-text-muted">
+                    {d.line}
+                  </dd>
+                ) : null}
               </div>
             ))}
           </dl>
@@ -347,16 +353,30 @@ export default async function DashboardPage({ params }: Params) {
                     <tfoot>
                       <tr className="border-t border-border font-semibold text-text">
                         <td
-                          colSpan={proposal.ledger.columns.length - 1}
+                          colSpan={
+                            proposal.ledger.columns.length -
+                            (proposal.ledger.total.cells?.length ?? 1)
+                          }
                           className={`py-2xs ${gap} last:pe-0 sm:pe-sm`}
                         >
                           {proposal.ledger.total.label}
                         </td>
-                        <td
-                          className={`py-2xs ${gap} text-end whitespace-nowrap last:pe-0 sm:pe-sm`}
-                        >
-                          {proposal.ledger.total.value}
-                        </td>
+                        {proposal.ledger.total.cells ? (
+                          proposal.ledger.total.cells.map((cell, i) => (
+                            <td
+                              key={i}
+                              className={`py-2xs ${gap} text-end whitespace-nowrap last:pe-0 sm:pe-sm`}
+                            >
+                              {cell}
+                            </td>
+                          ))
+                        ) : (
+                          <td
+                            className={`py-2xs ${gap} text-end whitespace-nowrap last:pe-0 sm:pe-sm`}
+                          >
+                            {proposal.ledger.total.value}
+                          </td>
+                        )}
                       </tr>
                     </tfoot>
                   ) : null}
@@ -368,32 +388,42 @@ export default async function DashboardPage({ params }: Params) {
             </figure>
           ) : null}
 
-          <h3 className="mt-xl text-lg font-semibold text-text">
-            {proposal.weeksHeading}
-          </h3>
-          <ol className="mt-sm grid gap-sm lg:grid-cols-3 lg:gap-lg">
-            {proposal.weeks.map((w) => (
-              <li
-                key={w.when}
-                className="grid gap-3xs sm:grid-cols-[9rem_1fr] sm:gap-sm lg:grid-cols-1 lg:content-start lg:gap-3xs lg:border-t lg:border-divider lg:pt-sm"
-              >
-                <span className="font-semibold text-text">{w.when}</span>
-                <span className="max-w-prose text-text-muted">{w.what}</span>
-              </li>
-            ))}
-          </ol>
+          {proposal.weeksHeading && proposal.weeks ? (
+            <>
+              <h3 className="mt-xl text-lg font-semibold text-text">
+                {proposal.weeksHeading}
+              </h3>
+              <ol className="mt-sm grid gap-sm lg:grid-cols-3 lg:gap-lg">
+                {proposal.weeks.map((w) => (
+                  <li
+                    key={w.when}
+                    className="grid gap-3xs sm:grid-cols-[9rem_1fr] sm:gap-sm lg:grid-cols-1 lg:content-start lg:gap-3xs lg:border-t lg:border-divider lg:pt-sm"
+                  >
+                    <span className="font-semibold text-text">{w.when}</span>
+                    <span className="max-w-prose text-text-muted">
+                      {w.what}
+                    </span>
+                  </li>
+                ))}
+              </ol>
+            </>
+          ) : null}
 
           <h3 className="mt-xl text-lg font-semibold text-text">
             {proposal.feeHeading}
           </h3>
           <p className="mt-sm max-w-prose text-text">{proposal.fee}</p>
-          <p className="mt-2xs max-w-prose text-text-muted">
-            {proposal.feeCovers}
-          </p>
+          {proposal.feeCovers ? (
+            <p className="mt-2xs max-w-prose text-text-muted">
+              {proposal.feeCovers}
+            </p>
+          ) : null}
 
-          <p className="mt-lg max-w-prose rounded-lg border border-border p-md font-semibold text-text">
-            {proposal.conversion}
-          </p>
+          {proposal.conversion ? (
+            <p className="mt-lg max-w-prose rounded-lg border border-border p-md font-semibold text-text">
+              {proposal.conversion}
+            </p>
+          ) : null}
           {proposal.promise ? (
             <p className="mt-sm max-w-prose text-text">{proposal.promise}</p>
           ) : null}

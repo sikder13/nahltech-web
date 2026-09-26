@@ -51,6 +51,10 @@ jobs:
       - name: FabACab page unchanged
         run: npm run check:fabacab-frozen
 
+      # Trifecta shipped with a printed letter too; same gate as the others.
+      - name: Trifecta page unchanged
+        run: npm run check:trifecta-frozen
+
       # Dashboard footers carry no GitHub link, on any page, ever.
       - name: No GitHub link on dashboard pages
         run: npm run check:no-github

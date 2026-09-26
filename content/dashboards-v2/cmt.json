@@ -1,0 +1,233 @@
+{
+  "template": 2,
+  "slug": "cmt",
+  "token": "copper-mountain-technologies-llc-1f49d7b8c4",
+  "company": {
+    "name": "Copper Mountain Technologies, LLC",
+    "short": "Copper Mountain",
+    "town": "Indianapolis, Indiana",
+    "prepared": "September 2026"
+  },
+  "hero": {
+    "heading": "Copper Mountain Technologies, a cost model sent for correction",
+    "caption": "Built September 25, 2026, from coppermountaintech.com and its public price pages, the Conexus Indiana case study, and federal data. Every number is labeled: published, federal, or our assumption. The assumptions are sliders; move them and the number moves.",
+    "liveCaption": "The model's estimate, on the assumptions you have set below",
+    "subline": "Exact computed endpoints: $54,775.00 and $268,800.00, rounded to the nearest $5,000 for display.",
+    "headingLines": [
+      { "upTo": 380, "lines": 4 },
+      { "upTo": 465, "lines": 3 }
+    ]
+  },
+  "model": {
+    "heading": "Move our assumptions",
+    "intro": "Each slider is one of the assumptions in our letter, set to the range we wrote down. If you know a figure, narrow its range, or close both handles on the exact number. The estimate above then follows your figures instead of ours. Tap a figure to type it exactly.",
+    "unit": "per hundred analyzers",
+    "volume": {
+      "label": "Analyzers you ship in a year",
+      "caption": "Optional. Type your volume and every dollar figure on this page scales to your year. Leave it empty and the model stays per hundred analyzers.",
+      "suffix": "a year, at {n} analyzers",
+      "per": 100,
+      "max": 100000
+    },
+    "sliders": [
+      {
+        "id": "h",
+        "label": "Engineering hours that ship free with each analyzer, first year",
+        "format": "hours",
+        "min": 0,
+        "max": 12,
+        "step": 0.25,
+        "rest": {
+          "low": 2,
+          "high": 6
+        },
+        "presets": [
+          {
+            "label": "No bundled engineering hours",
+            "low": 0,
+            "high": 0
+          }
+        ],
+        "basis": "Assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "rate",
+        "label": "Loaded cost of one engineering hour",
+        "format": "usd",
+        "min": 50,
+        "max": 200,
+        "step": 5,
+        "rest": {
+          "low": 95,
+          "high": 130
+        },
+        "basis": "Assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "p",
+        "label": "Posted price of a representative analyzer, inside your printed anchors",
+        "format": "usd",
+        "min": 2500,
+        "max": 30000,
+        "step": 100,
+        "rest": {
+          "low": 9000,
+          "high": 16000
+        },
+        "basis": "Assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "m",
+        "label": "Materials share of a posted price",
+        "format": "percent",
+        "min": 10,
+        "max": 70,
+        "step": 1,
+        "rest": {
+          "low": 30,
+          "high": 45
+        },
+        "basis": "Assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "w",
+        "label": "Months a posted price stands while input costs move",
+        "format": "months",
+        "min": 0,
+        "max": 12,
+        "step": 0.5,
+        "rest": {
+          "low": 6,
+          "high": 12
+        },
+        "presets": [
+          {
+            "label": "We reprice with every order",
+            "low": 0,
+            "high": 0
+          }
+        ],
+        "basis": "Assumed, printed to be corrected [[ASSUMED]]."
+      }
+    ],
+    "constants": [
+      {
+        "id": "d",
+        "value": 0.265,
+        "text": "The federal producer price index for electronic components rose 26.5 percent from October 2025 to August 2026 [[BENCHMARK]], BLS series WPU1178. This one is not a slider."
+      }
+    ],
+    "terms": [
+      {
+        "id": "attention",
+        "label": "Engineering attention bundled free",
+        "formula": "100 * h * rate"
+      },
+      {
+        "id": "drift",
+        "label": "Drift inside posted prices",
+        "formula": "100 * p * m * d * (w / 12)"
+      }
+    ],
+    "formulaText": "Moved per 100 analyzers = 100 × free hours × loaded rate + 100 × posted price × materials share × 0.265 × (months / 12)",
+    "plainText": "In words, the engineering hours that ship free with each analyzer at their loaded cost, plus the slice of this year's component-price rise a posted price absorbs while it stands.",
+    "callout": "You publish your prices. Nobody in this trade publishes the engineering hours that ship free with every analyzer sold. If those hours are your differentiator, they deserve a price tag, or a proof that zero is the right one.",
+    "roundTo": 5000,
+    "letterRange": {
+      "low": 55000,
+      "high": 270000
+    }
+  },
+  "respect": {
+    "heading": "What you already show in the open",
+    "paragraphs": [
+      "Your store is labeled a public price list, and your product pages print their prices: $9,995.00, $10,495.00, $15,995.00 [[OBSERVED]].",
+      "Your software ships with every feature included, at no additional cost, in your own words [[OBSERVED]].",
+      "You publish refurbished prices to the cent and your calibration services pricing [[OBSERVED]].",
+      "Your V0602 page says it replaced the M5065 at the same posted price, with better specifications [[OBSERVED]].",
+      "By your own account, it took your largest competitor, a global company, seven years to answer your form factor [[OBSERVED]].",
+      "In February 2024 one of your analyzers measured fuel inside a lunar lander's tanks on the way to the Moon; NASA published the paper [[BENCHMARK]]."
+    ]
+  },
+  "proposal": {
+    "heading": "What we propose",
+    "deliverablesHeading": "What we measure",
+    "deliverables": [
+      {
+        "title": "The engineering hours bundled into each sale"
+      },
+      {
+        "title": "What your posted prices absorbed"
+      },
+      {
+        "title": "What custom adaptations actually cost by the time approvals close"
+      },
+      {
+        "title": "The mix and pace of quote to cash"
+      }
+    ],
+    "ledger": {
+      "dense": true,
+      "title": "What a page of the engineering-hours log looks like",
+      "label": "Illustrative, not Copper Mountain Technologies data",
+      "columns": ["Engagement", "Hours", "Loaded rate", "Cost"],
+      "rows": [
+        {
+          "cells": [
+            "Antenna-matching support series for one customer",
+            "3.5",
+            "$110.00",
+            "$385.00"
+          ]
+        },
+        {
+          "cells": [
+            "Custom housing adaptation design review",
+            "6.0",
+            "$120.00",
+            "$720.00"
+          ]
+        },
+        {
+          "cells": [
+            "Demo preparation and follow-up for one evaluation",
+            "4.25",
+            "$95.00",
+            "$403.75"
+          ]
+        },
+        {
+          "cells": [
+            "Integration assistance for a customer's automated test rack",
+            "5.5",
+            "$130.00",
+            "$715.00"
+          ]
+        },
+        {
+          "cells": [
+            "Post-sale calibration walkthrough",
+            "2.0",
+            "$105.00",
+            "$210.00"
+          ]
+        }
+      ],
+      "total": {
+        "label": "Total",
+        "cells": ["21.25 h", "", "$2,433.75"]
+      },
+      "note": "Every engagement and figure is invented to show the format."
+    },
+    "feeHeading": "The fee",
+    "fee": "A fixed fee between $5,000 and $7,500.",
+    "promise": "If your records show our printed range overstated your exposure, our findings letter says so in those words."
+  },
+  "sources": [
+    "coppermountaintech.com product and price pages, September 2026.",
+    "Conexus Indiana case study.",
+    "NASA document 20240015965.",
+    "BLS producer price index, electronic components, series WPU1178, October 2025 to August 2026, pulled September 25, 2026; next release October 15, 2026.",
+    "All other figures are Nahl Technologies assumptions, stated as ranges."
+  ]
+}

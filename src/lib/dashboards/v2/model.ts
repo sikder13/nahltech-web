@@ -27,6 +27,7 @@ export type EvidenceLabel = (typeof evidenceLabels)[number];
 export const sliderFormats = [
   "usdMillions",
   "months",
+  "hours",
   "usd",
   "percent",
   "multiple",
@@ -187,6 +188,10 @@ export function formatSliderValue(format: SliderFormat, value: number): string {
     case "months":
       // A plain number; the slider's label carries the unit.
       return `${Number(value.toFixed(1))}`;
+    case "hours":
+      // Quarter hours matter in an hours log, so two places; the label
+      // carries the unit.
+      return `${Number(value.toFixed(2))}`;
     case "count":
       return Math.round(value).toLocaleString("en-US");
     case "minutes":
@@ -205,6 +210,8 @@ export function spokenSliderValue(format: SliderFormat, value: number): string {
       return `${value.toFixed(1)} times`;
     case "months":
       return `${Number(value.toFixed(1))} months`;
+    case "hours":
+      return `${Number(value.toFixed(2))} hours`;
     default:
       return formatSliderValue(format, value);
   }
