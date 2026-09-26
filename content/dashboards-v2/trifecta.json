@@ -10,6 +10,10 @@
   },
   "hero": {
     "heading": "Trifecta Medical, a cost model sent for correction",
+    "headingLines": [
+      { "upTo": 380, "lines": 3 },
+      { "upTo": 688, "lines": 2 }
+    ],
     "caption": "Built September 25, 2026, from trifectamed.com, the Conexus Indiana case study, and federal data. Every number is labeled: published, federal, or our assumption. The assumptions are sliders; move them and the number moves.",
     "liveCaption": "The model's estimate, on the assumptions you have set below",
     "subline": "Exact computed endpoints: $33,975.00 and $246,500.00, rounded to the nearest $5,000 for display."

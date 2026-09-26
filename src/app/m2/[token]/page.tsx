@@ -36,6 +36,27 @@ import type { Metadata } from "next";
 
 export const dynamicParams = false;
 
+/**
+ * Media queries that reserve the heading's display-face height per width
+ * band (see `hero.headingLines`). `lh` is the heading's own line height; the
+ * em declaration before it covers browsers without the unit.
+ */
+function headingReserveCss(
+  bands: readonly { upTo: number; lines: number }[],
+): string {
+  let from = 0;
+  return bands
+    .map(({ upTo, lines }) => {
+      const range =
+        from > 0
+          ? `(min-width: ${from}px) and (max-width: ${upTo}px)`
+          : `(max-width: ${upTo}px)`;
+      from = upTo + 1;
+      return `@media ${range} { h1[data-heading-reserve] { min-height: calc(${lines} * 1.15em); min-height: ${lines}lh; } }`;
+    })
+    .join(" ");
+}
+
 export function generateStaticParams() {
   return allDashboards().map((d) => ({ token: d.token }));
 }
@@ -87,7 +108,13 @@ export default async function DashboardPage({ params }: Params) {
             />
             {shared.firm}
           </Link>
-          <h1 className="mt-xl text-section text-balance text-text">
+          {config.hero.headingLines ? (
+            <style>{headingReserveCss(config.hero.headingLines)}</style>
+          ) : null}
+          <h1
+            className="mt-xl text-section text-balance text-text"
+            data-heading-reserve={config.hero.headingLines ? "" : undefined}
+          >
             {config.hero.heading ? (
               config.hero.heading
             ) : company.titleBreak ? (

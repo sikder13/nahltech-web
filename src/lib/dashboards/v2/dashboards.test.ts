@@ -471,6 +471,16 @@ describe("Trifecta model", () => {
     expect(tri.model.formulaText).toContain("(months / 12)");
   });
 
+  it("holds its heading's height through the font swap on phones", () => {
+    // Fraunces sets the heading in three lines up to 380px and two up to
+    // 688px; the fallback face changes at 336 and 612, so without the
+    // reservation the page moved when the font arrived.
+    expect(tri.hero.headingLines).toEqual([
+      { upTo: 380, lines: 3 },
+      { upTo: 688, lines: 2 },
+    ]);
+  });
+
   it("carries none of the kill-list terms anywhere in its copy", () => {
     const text = JSON.stringify(tri);
     for (const term of [

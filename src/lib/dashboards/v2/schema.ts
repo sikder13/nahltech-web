@@ -125,6 +125,24 @@ export const dashboardSchema = z
        * its own heading. Absent, existing pages render exactly as before.
        */
       heading: z.string().optional(),
+      /**
+       * Holds the heading's height through the font swap. Each band reserves,
+       * up to its `upTo` width in px, the number of lines the display face
+       * sets the heading in there, measured for this heading. Where the
+       * fallback face would set fewer lines, the reserved height stops the
+       * page moving when Fraunces arrives; where it matches, the reservation
+       * is exactly what renders anyway. Bands ascend by `upTo`. Absent,
+       * nothing is reserved and existing pages render as before.
+       */
+      headingLines: z
+        .array(
+          z.object({
+            upTo: z.number().int().positive(),
+            lines: z.number().int().min(1).max(4),
+          }),
+        )
+        .min(1)
+        .optional(),
       /** Above the number at rest, when it is the letter's figure. */
       caption: z.string(),
       /** Above the number once the visitor has moved a slider. */
