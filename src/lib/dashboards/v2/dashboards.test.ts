@@ -6,6 +6,7 @@ import { evaluate, parse } from "../expression";
 import {
   compileFormula,
   displayedAtVolume,
+  formatSliderValue,
   formatUsdExact,
   scaleToVolume,
   parseTypedValue,
@@ -152,6 +153,32 @@ describe("exact figures typed by the visitor", () => {
     expect(parseTypedValue("percent", "3.5%", 1, 5)).toBe(3.5);
     expect(parseTypedValue("multiple", "2.5x", 2, 4)).toBe(2.5);
     expect(parseTypedValue("percent", "abc", 1, 5)).toBeNull();
+  });
+
+  it("reads a cents field the way prices are said", () => {
+    // A phone opens a decimal keypad, so "18" is the likely entry; it must
+    // land on $0.18, not clamp to the top of the slider.
+    for (const typed of ["18", "18c", "18¢", "18 cents"])
+      expect(parseTypedValue("usdCents", typed, 0.05, 0.5), typed).toBeCloseTo(
+        0.18,
+        10,
+      );
+    for (const typed of ["0.18", ".18", "$0.18", "$.18"])
+      expect(parseTypedValue("usdCents", typed, 0.05, 0.5), typed).toBeCloseTo(
+        0.18,
+        10,
+      );
+    // Out of range still clamps: a dollar figure too high, cents too low.
+    expect(parseTypedValue("usdCents", "$2", 0.05, 0.5)).toBe(0.5);
+    expect(parseTypedValue("usdCents", "2", 0.05, 0.5)).toBe(0.05);
+    expect(parseTypedValue("usdCents", "abc", 0.05, 0.5)).toBeNull();
+    // A cents mark means nothing on a dollar slider.
+    expect(parseTypedValue("usd", "18c", 6e3, 12e4)).toBeNull();
+    const shown = formatSliderValue(
+      "usdCents",
+      parseTypedValue("usdCents", "18", 0.05, 0.5)!,
+    );
+    expect(shown).toBe("$0.18");
   });
 });
 

@@ -284,10 +284,19 @@ export function parseTypedValue(
     .replace(/[$,\s%x]/g, "");
   const millions = cleaned.endsWith("m");
   const thousands = cleaned.endsWith("k");
-  const digits = cleaned.replace(/[mk]$/, "");
+  const centsMark = format === "usdCents" && /(¢|cents?|c)$/.test(cleaned);
+  const digits = centsMark
+    ? cleaned.replace(/(¢|cents?|c)$/, "")
+    : cleaned.replace(/[mk]$/, "");
   if (!/^\d*\.?\d+$/.test(digits)) return null;
   let value = Number(digits);
-  if (format === "usdMillions") {
+  if (format === "usdCents") {
+    // A cents field is typed the way prices are said: "18", "18c" and
+    // "18 cents" mean $0.18. A dollar sign or a decimal point means dollars,
+    // so "$0.18" and "0.18" read as written.
+    const dollars = !centsMark && (raw.includes("$") || digits.includes("."));
+    if (!dollars) value /= 100;
+  } else if (format === "usdMillions") {
     // Small numbers are millions ("12.4"); large ones are dollars ("12400000").
     value = thousands
       ? value * 1000
