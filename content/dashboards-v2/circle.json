@@ -1,0 +1,225 @@
+{
+  "template": 2,
+  "slug": "circle",
+  "token": "circle-beverage-3ccf29b014",
+  "company": {
+    "name": "Circle Beverage",
+    "short": "Circle Beverage",
+    "town": "Indianapolis, Indiana",
+    "prepared": "September 2026"
+  },
+  "hero": {
+    "heading": "Circle Beverage, a cost model sent for correction",
+    "caption": "Built September 27, 2026, from circlebev.com, the trade press, the Conexus Indiana case study, and federal data. Every number is labeled: published, federal, or our assumption. The assumptions are sliders; move them and the number moves.",
+    "liveCaption": "The model's estimate, on the assumptions you have set below",
+    "subline": "Exact computed endpoints: $8,920.00 and $86,750.00, rounded to the nearest $5,000 for display; the rounding widens the low end, so the exact figures govern."
+  },
+  "model": {
+    "heading": "Move our assumptions",
+    "intro": "Each slider is one of the assumptions in our letter, set to the range we wrote down. If you know a figure, narrow its range, or close both handles on the exact number. The estimate above then follows your figures instead of ours. Tap a figure to type it exactly.",
+    "unit": "per million cans",
+    "volume": {
+      "label": "Cans you co-pack in a year",
+      "caption": "Optional. Type your volume and every dollar figure on this page scales to your year. Leave it empty and the model stays per million cans.",
+      "suffix": "a year, at {n} cans",
+      "per": 1000000,
+      "max": 50000000
+    },
+    "sliders": [
+      {
+        "id": "r",
+        "label": "Cans in a typical production run",
+        "format": "count",
+        "min": 10000,
+        "max": 250000,
+        "step": 5000,
+        "rest": {
+          "low": 30000,
+          "high": 120000
+        },
+        "basis": "Anchored inside published co-packer minimums. Assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "h",
+        "label": "Hours one changeover takes, brand to brand",
+        "format": "hours",
+        "min": 0,
+        "max": 12,
+        "step": 0.25,
+        "rest": {
+          "low": 2,
+          "high": 6
+        },
+        "presets": [
+          {
+            "label": "Changeovers take no line time",
+            "low": 0,
+            "high": 0
+          }
+        ],
+        "basis": "Assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "l",
+        "label": "Cost of one line hour, people and overhead",
+        "format": "usd",
+        "min": 50,
+        "max": 500,
+        "step": 10,
+        "rest": {
+          "low": 150,
+          "high": 300
+        },
+        "basis": "Assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "c",
+        "label": "Procured cost per can on runs where you buy the materials",
+        "format": "usdCents",
+        "min": 0.05,
+        "max": 0.5,
+        "step": 0.01,
+        "rest": {
+          "low": 0.12,
+          "high": 0.25
+        },
+        "basis": "Low end anchored to the published price of an empty can. Assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "w",
+        "label": "Months a fixed tolling quote stands",
+        "format": "months",
+        "min": 0,
+        "max": 12,
+        "step": 0.5,
+        "rest": {
+          "low": 6,
+          "high": 12
+        },
+        "presets": [
+          {
+            "label": "We reprice with every run",
+            "low": 0,
+            "high": 0
+          }
+        ],
+        "basis": "Assumed, printed to be corrected [[ASSUMED]]."
+      }
+    ],
+    "constants": [
+      {
+        "id": "d",
+        "value": 0.107,
+        "text": "The federal producer price index for aluminum cans rose 10.7 percent from October 2025 to May 2026, the latest month published [[BENCHMARK]], BLS series PCU3324313324313. Next update October 15. This one is not a slider.",
+        "note": "When the October update lands, this page's number changes with it, whichever direction it moves."
+      }
+    ],
+    "terms": [
+      {
+        "id": "changeovers",
+        "label": "Changeover economics",
+        "formula": "(1000000 / r) * h * l"
+      },
+      {
+        "id": "drift",
+        "label": "Drift inside fixed tolling quotes",
+        "formula": "1000000 * c * d * (w / 12)"
+      }
+    ],
+    "formulaText": "Moved per 1,000,000 cans = (1,000,000 / cans per run) × changeover hours × line rate + 1,000,000 × cost per can × 0.107 × (months / 12)",
+    "plainText": "In words, what brand-to-brand changeovers cost across a year of runs, plus the slice of this year's can-price rise a fixed tolling quote absorbs while it stands.",
+    "callout": "Your machines measure everything they touch. Nothing on the line measures the calendar between runs: the changeover matrix across roughly twenty brands, or the days a scheduled run waits on materials that arrive from clients. Those numbers exist in your records, unread.",
+    "roundTo": 5000,
+    "letterRange": {
+      "low": 10000,
+      "high": 85000
+    }
+  },
+  "respect": {
+    "heading": "What you already show in the open",
+    "paragraphs": [
+      "You print your method on your website, four steps ending in reassessment [[OBSERVED]].",
+      "You print which client sizes fit you, on the intake form itself: under 2 million, 2 to 5 million, 5 to 15 million, and above 15 million cans a year [[OBSERVED]].",
+      "You hold SQF, USDA Organic, and FDA registrations, a distilled spirits permit, and a B Corp certificate, and you name them all in plain words [[OBSERVED]].",
+      "You told the trade press you went from everything done by hand in 2019 to almost everything done by machines, and that one sleever tripled your daily capacity [[BENCHMARK]].",
+      "You close your method with the sentence: we only win if you win [[OBSERVED]]."
+    ]
+  },
+  "proposal": {
+    "heading": "What we propose",
+    "deliverablesHeading": "What we measure",
+    "deliverables": [
+      {
+        "title": "Your changeover matrix, brand to brand, worst to best"
+      },
+      {
+        "title": "What your fixed quotes absorbed while cans moved"
+      },
+      {
+        "title": "The days runs waited on client materials against days running"
+      },
+      {
+        "title": "Forecast against actual by your own client-size tiers"
+      }
+    ],
+    "ledger": {
+      "dense": true,
+      "title": "What a page of the changeover log looks like",
+      "label": "Illustrative, not Circle Beverage data",
+      "columns": ["Transition", "Hours", "Line rate", "Cost"],
+      "rows": [
+        {
+          "cells": [
+            "Sparkling water to protein based run, deep clean",
+            "5.75",
+            "$210.00",
+            "$1,207.50"
+          ]
+        },
+        {
+          "cells": [
+            "Organic tea to conventional energy",
+            "3.5",
+            "$185.00",
+            "$647.50"
+          ]
+        },
+        {
+          "cells": [
+            "Non alcoholic to spirits based run, permit grade changeover",
+            "6.0",
+            "$240.00",
+            "$1,440.00"
+          ]
+        },
+        {
+          "cells": ["Same family flavor swap", "2.0", "$160.00", "$320.00"]
+        },
+        {
+          "cells": [
+            "Allergen bearing to allergen free, verification swabs",
+            "4.25",
+            "$200.00",
+            "$850.00"
+          ]
+        }
+      ],
+      "total": {
+        "label": "Total",
+        "cells": ["21.5 h", "", "$4,465.00"]
+      },
+      "note": "The worst transition costs four and a half times the best. Sequencing is money. Every transition and figure is invented to show the format."
+    },
+    "feeHeading": "The fee",
+    "fee": "A fixed fee between $3,500 and $4,500.",
+    "promise": "If your records show our printed range overstated your exposure, our findings letter says so in those words."
+  },
+  "sources": [
+    "circlebev.com, September 2026.",
+    "Indianapolis Business Journal, 2024 Innovation Issue.",
+    "Conexus Indiana case study.",
+    "BLS producer price index, aluminum cans, series PCU3324313324313, October 2025 to May 2026, pulled September 27, 2026; next release October 15, 2026.",
+    "Published co-packer minimums and can prices, used as anchors.",
+    "All other figures are Nahl Technologies assumptions, stated as ranges."
+  ]
+}

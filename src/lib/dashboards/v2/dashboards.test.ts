@@ -953,6 +953,188 @@ describe("Catalyst model", () => {
   });
 });
 
+describe("Circle Beverage model", () => {
+  const cir = allDashboards().find((d) => d.slug === "circle")!;
+  const tree = compileFormula(totalFormula(cir.model.terms));
+  const full = restBands(cir.model.sliders);
+
+  it("computes the locked endpoints to the cent at the letter's assumptions", () => {
+    // A divides by a slider (cans per run): the corner evaluation is exact
+    // because the formula is monotone in each variable separately.
+    const a = rangeOverBands(
+      compileFormula("(1000000 / r) * h * l"),
+      cir.model,
+      full,
+    );
+    expect(a.low).toBeCloseTo(2_500, 6);
+    expect(a.high).toBeCloseTo(60_000, 6);
+    const b = rangeOverBands(
+      compileFormula("1000000 * c * d * (w / 12)"),
+      cir.model,
+      full,
+    );
+    expect(formatUsdExact(b.low)).toBe("$6,420");
+    expect(formatUsdExact(b.high)).toBe("$26,750");
+    const total = rangeOverBands(tree, cir.model, full);
+    expect(total.low).toBeCloseTo(8_920, 6);
+    expect(total.high).toBeCloseTo(86_750, 6);
+    // The display low overstates the exact low by 12.1%; the subline
+    // states both exact endpoints, as the letter does.
+    expect(roundTo(total.low, 5_000)).toBe(10_000);
+    expect(roundTo(total.high, 5_000)).toBe(85_000);
+  });
+
+  it("collapses to one component under each preset, half up at the exact tie", () => {
+    // w=0 leaves changeovers only: the exact low, $2,500.00, sits exactly
+    // halfway between $0 and $5,000. Half up, per RELAY-TRI-1a: it displays
+    // $5,000, and the computed line shows the exact figure beside it.
+    const wZero = rangeOverBands(tree, cir.model, {
+      ...full,
+      w: { low: 0, high: 0 },
+    });
+    expect(wZero.low).toBeCloseTo(2_500, 6);
+    expect(wZero.high).toBeCloseTo(60_000, 6);
+    expect(roundTo(wZero.low, 5_000)).toBe(5_000);
+    expect(roundTo(wZero.high, 5_000)).toBe(60_000);
+    const hZero = rangeOverBands(tree, cir.model, {
+      ...full,
+      h: { low: 0, high: 0 },
+    });
+    expect(hZero.low).toBeCloseTo(6_420, 6);
+    expect(hZero.high).toBeCloseTo(26_750, 6);
+    expect(roundTo(hZero.low, 5_000)).toBe(5_000);
+    expect(roundTo(hZero.high, 5_000)).toBe(25_000);
+  });
+
+  it("scales the EXACT range and rounds once, at the relay's locked volumes", () => {
+    const exact = rangeOverBands(tree, cir.model, full);
+    expect(formatUsdExact(scaleToVolume(exact, 500_000, 1_000_000).low)).toBe(
+      "$4,460",
+    );
+    expect(formatUsdExact(scaleToVolume(exact, 500_000, 1_000_000).high)).toBe(
+      "$43,375",
+    );
+    expect(displayedAtVolume(exact, 500_000, 1_000_000, 5_000)).toEqual({
+      low: 5_000,
+      high: 45_000,
+    });
+    expect(displayedAtVolume(exact, 2_000_000, 1_000_000, 5_000)).toEqual({
+      low: 20_000,
+      high: 175_000,
+    });
+    expect(displayedAtVolume(exact, 5_000_000, 1_000_000, 5_000)).toEqual({
+      low: 45_000,
+      high: 435_000,
+    });
+  });
+
+  it("displays round-to-step of the exact scaled value, for any volume, in every state", () => {
+    const bandSets = [
+      full,
+      { ...full, h: { low: 0, high: 0 } },
+      { ...full, w: { low: 0, high: 0 } },
+    ];
+    let seed = 47;
+    const rand = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    const volumes = [
+      1_000, 250_000, 500_000, 1_000_000, 2_000_000, 5_000_000, 12_345_678,
+    ];
+    for (let i = 0; i < 200; i += 1)
+      volumes.push(1_000 + Math.floor(rand() * 49_999_000));
+    for (const bands of bandSets) {
+      const exact = rangeOverBands(tree, cir.model, bands);
+      for (const n of volumes) {
+        const shown = displayedAtVolume(exact, n, 1_000_000, cir.model.roundTo);
+        expect(shown.low).toBe(
+          roundTo((exact.low * n) / 1_000_000, cir.model.roundTo),
+        );
+        expect(shown.high).toBe(
+          roundTo((exact.high * n) / 1_000_000, cir.model.roundTo),
+        );
+      }
+    }
+  });
+
+  it("keeps the changeover log consistent: hours times rate per row, both totals to the cent", () => {
+    const ledger = cir.proposal.ledger!;
+    const cents = (t: string) =>
+      Math.round(Number(t.replace(/[$,]/g, "")) * 100);
+    let hours = 0;
+    let cost = 0;
+    for (const row of ledger.rows) {
+      const [, h, rate, rowCost] = row.cells as [
+        string,
+        string,
+        string,
+        string,
+      ];
+      expect(cents(rowCost)).toBe(Math.round(Number(h) * cents(rate)));
+      hours += Math.round(Number(h) * 100);
+      cost += cents(rowCost);
+    }
+    expect(hours).toBe(2_150);
+    expect(cost).toBe(446_500);
+    expect(ledger.total!.cells).toEqual(["21.5 h", "", "$4,465.00"]);
+    // The footnote's ratio is arithmetic, not color: worst / best = 4.5.
+    expect(cents("$1,440.00") / cents("$320.00")).toBe(4.5);
+  });
+
+  it("quotes the relay word for word where the page overlaps it", () => {
+    expect(cir.token).toBe("circle-beverage-3ccf29b014");
+    expect(cir.hero.heading).toBe(
+      "Circle Beverage, a cost model sent for correction",
+    );
+    expect(cir.hero.subline).toBe(
+      "Exact computed endpoints: $8,920.00 and $86,750.00, rounded to the nearest $5,000 for display; the rounding widens the low end, so the exact figures govern.",
+    );
+    expect(cir.model.callout).toContain(
+      "Those numbers exist in your records, unread.",
+    );
+    expect(cir.model.constants[0]?.text).toContain(
+      "the latest month published",
+    );
+    expect(cir.model.constants[0]?.text).toContain("Next update October 15.");
+    expect(cir.model.constants[0]?.note).toBe(
+      "When the October update lands, this page's number changes with it, whichever direction it moves.",
+    );
+    expect(cir.respect?.paragraphs[1]).toContain(
+      "under 2 million, 2 to 5 million, 5 to 15 million, and above 15 million",
+    );
+    expect(cir.respect?.paragraphs[4]).toContain("we only win if you win");
+    expect(cir.model.formulaText).toContain("(months / 12)");
+    expect(cir.proposal.promise).toBe(
+      "If your records show our printed range overstated your exposure, our findings letter says so in those words.",
+    );
+  });
+
+  it("carries none of the kill-list terms anywhere in its copy", () => {
+    const text = JSON.stringify(cir);
+    for (const term of [
+      "\u2013",
+      "\u2014",
+      "artificial intelligence",
+      "machine learning",
+      "chatbot",
+      "kombucha",
+      "Sonorans",
+      "$20,000",
+      "employee",
+      "headcount",
+    ]) {
+      expect(text.includes(term), term).toBe(false);
+    }
+    expect(/\bAI\b/.test(text), "AI as a word").toBe(false);
+    // "robot" in any form, per the relay: the page says "machines".
+    expect(/robot/i.test(text), "robot in any form").toBe(false);
+    // "alcohol" is scanned as a word. The relay's own final copy contains
+    // "Non alcoholic" in changeover row 3, so a substring scan is
+    // unsatisfiable against final copy; the ban reads on the word itself,
+    // with "spirits" as the page's term. Interpretation disclosed in
+    // RELAY-CIR-2 for the founder's ruling.
+    expect(/\balcohol\b/i.test(text), "alcohol as a word").toBe(false);
+  });
+});
+
 describe("every template 2 config", () => {
   const dashboards = allDashboards();
 
