@@ -1,0 +1,202 @@
+{
+  "template": 2,
+  "slug": "insects",
+  "token": "insects-limited-6c95a80d07",
+  "company": {
+    "name": "Insects Limited",
+    "short": "Insects Limited",
+    "town": "Westfield, Indiana",
+    "prepared": "September 2026"
+  },
+  "hero": {
+    "heading": "Insects Limited, a cost model sent for correction",
+    "caption": "Built September 27, 2026, from insectslimited.com and its store, and from the company's own published research summary. No federal data is used, and this page says why. Every number is labeled; the assumptions are sliders; move them and the number moves.",
+    "liveCaption": "The model's estimate, on the assumptions you have set below",
+    "subline": "Exact computed endpoints: $20,500.00 and $88,000.00, rounded to the nearest $5,000 for display."
+  },
+  "model": {
+    "heading": "Move our assumptions",
+    "intro": "Each slider is one of the assumptions in our letter, set to the range we wrote down. If you know a figure, narrow its range, or close both handles on the exact number. The estimate above then follows your figures instead of ours. Tap a figure to type it exactly.",
+    "unit": "per million dollars shipped",
+    "volume": {
+      "label": "Dollars of product you ship in a year",
+      "caption": "Optional. Type your volume and every dollar figure on this page scales to your year. Leave it empty and the model stays per million dollars shipped.",
+      "suffix": "a year, at ${n} shipped",
+      "per": 1000000,
+      "max": 100000000
+    },
+    "sliders": [
+      {
+        "id": "h",
+        "label": "Expert hours bundled free per million dollars shipped",
+        "format": "hours",
+        "min": 0,
+        "max": 800,
+        "step": 5,
+        "rest": {
+          "low": 150,
+          "high": 400
+        },
+        "presets": [
+          {
+            "label": "No bundled expert hours",
+            "low": 0,
+            "high": 0
+          }
+        ],
+        "basis": "Assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "rate",
+        "label": "Loaded cost of one entomologist hour",
+        "format": "usd",
+        "min": 30,
+        "max": 250,
+        "step": 5,
+        "rest": {
+          "low": 70,
+          "high": 120
+        },
+        "basis": "Assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "g",
+        "label": "Cents of each product dollar absorbed as cost creep your catalog prices did not pass through",
+        "format": "percent",
+        "min": 0,
+        "max": 10,
+        "step": 0.1,
+        "rest": {
+          "low": 1,
+          "high": 4
+        },
+        "presets": [
+          {
+            "label": "Our catalog prices passed every cost through",
+            "low": 0,
+            "high": 0
+          }
+        ],
+        "basis": "Assumed, printed to be corrected [[ASSUMED]]."
+      }
+    ],
+    "constants": [],
+    "disclosure": "This model contains no federal number. We checked the chemical price indexes and none maps truthfully onto pheromone synthesis; the industrial chemicals index has barely moved this year. Every figure on this page is our assumption, printed to be corrected.",
+    "terms": [
+      {
+        "id": "free",
+        "label": "The price of free expert hours",
+        "formula": "h * rate"
+      },
+      {
+        "id": "creep",
+        "label": "Absorbed cost creep",
+        "formula": "1000000 * g"
+      }
+    ],
+    "formulaText": "Moved per $1,000,000 shipped = expert hours × loaded rate + 1,000,000 × absorbed cents per dollar",
+    "plainText": "In words, what the free expert hours cost at their loaded rate, plus the slice of every product dollar that cost creep ate while catalog prices stood.",
+    "callout": "Your experts answer the world's pest questions at no charge. Those hours are your differentiator, and they ship at a price of zero. Nobody knows what they cost per million dollars sold, or which of your four audiences earns the hours it consumes. Those numbers exist in your records, unread.",
+    "roundTo": 5000,
+    "letterRange": {
+      "low": 20000,
+      "high": 90000
+    }
+  },
+  "respect": {
+    "heading": "What you already show in the open",
+    "paragraphs": [
+      "You still publish the sentence this company was founded on in 1981: the future of pest control is without the use of toxic chemicals [[OBSERVED]].",
+      "You invite anyone to send a pest question to a board certified entomologist, at no charge, and your identifications are free [[OBSERVED]].",
+      "Your guides are free, and your store posts its prices in the open [[OBSERVED]].",
+      "You name your four audiences plainly: food safety, homes, museums, and pest management professionals [[OBSERVED]].",
+      "Your own recent post about a product you discontinued says, in your words, that technically it worked and commercially it did not; a USDA and Kansas State study later measured it at 95.8 percent accuracy [[OBSERVED]]."
+    ]
+  },
+  "proposal": {
+    "heading": "What we propose",
+    "deliverablesHeading": "What we measure",
+    "deliverables": [
+      {
+        "title": "The expert hours bundled into each audience and channel"
+      },
+      {
+        "title": "What your catalog prices absorbed, from your own cost files at two dates"
+      },
+      {
+        "title": "The mix and pace of your four audiences and your services against your products"
+      },
+      {
+        "title": "Store against distributor economics with quote to cash"
+      }
+    ],
+    "ledger": {
+      "dense": true,
+      "title": "What a page of the expert-hours log looks like",
+      "label": "Illustrative, not Insects Limited data",
+      "columns": ["Inquiry", "Audience", "Hours", "Loaded rate", "Cost"],
+      "rows": [
+        {
+          "cells": [
+            "Grain moth photo identified for a food plant QA manager",
+            "Food safety",
+            "0.75",
+            "$95.00",
+            "$71.25"
+          ]
+        },
+        {
+          "cells": [
+            "Museum textile pest walkthrough by phone",
+            "Cultural heritage",
+            "1.5",
+            "$110.00",
+            "$165.00"
+          ]
+        },
+        {
+          "cells": [
+            "Homeowner pantry moth guidance by email",
+            "Residential",
+            "0.50",
+            "$80.00",
+            "$40.00"
+          ]
+        },
+        {
+          "cells": [
+            "Lure selection for a fumigator's warehouse account",
+            "Pest professionals",
+            "1.25",
+            "$100.00",
+            "$125.00"
+          ]
+        },
+        {
+          "cells": [
+            "Follow-up trap count interpretation for the same plant",
+            "Food safety",
+            "1.0",
+            "$95.00",
+            "$95.00"
+          ]
+        }
+      ],
+      "total": {
+        "label": "Total",
+        "cells": ["5.0 h", "", "$496.25"]
+      },
+      "note": "Five inquiries, five hours, priced at zero. Every inquiry and figure is invented to show the format.",
+      "tight": true
+    },
+    "feeHeading": "The fee",
+    "fee": "A fixed fee between $1,500 and $2,500.",
+    "promise": "If your records show our printed range overstated your exposure, our findings letter says so in those words."
+  },
+  "sources": [
+    "insectslimited.com pages and store, September 2026.",
+    "The company's published summary of the USDA and Kansas State study.",
+    "No federal price series applies cleanly to these inputs, and none is used.",
+    "All figures are Nahl Technologies assumptions, stated as ranges."
+  ]
+}

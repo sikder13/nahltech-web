@@ -1172,6 +1172,173 @@ describe("Circle Beverage model", () => {
   });
 });
 
+describe("Insects Limited model", () => {
+  const ins = allDashboards().find((d) => d.slug === "insects")!;
+  const tree = compileFormula(totalFormula(ins.model.terms));
+  const full = restBands(ins.model.sliders);
+
+  it("computes the locked endpoints to the cent at the letter's assumptions", () => {
+    const a = rangeOverBands(compileFormula("h * rate"), ins.model, full);
+    expect(a.low).toBeCloseTo(10_500, 6);
+    expect(a.high).toBeCloseTo(48_000, 6);
+    const b = rangeOverBands(compileFormula("1000000 * g"), ins.model, full);
+    expect(b.low).toBeCloseTo(10_000, 6);
+    expect(b.high).toBeCloseTo(40_000, 6);
+    const total = rangeOverBands(tree, ins.model, full);
+    expect(formatUsdExact(total.low)).toBe("$20,500");
+    expect(formatUsdExact(total.high)).toBe("$88,000");
+    expect(roundTo(total.low, 5_000)).toBe(20_000);
+    expect(roundTo(total.high, 5_000)).toBe(90_000);
+  });
+
+  it("collapses to one component under each preset", () => {
+    const hZero = rangeOverBands(tree, ins.model, {
+      ...full,
+      h: { low: 0, high: 0 },
+    });
+    expect(hZero.low).toBeCloseTo(10_000, 6);
+    expect(hZero.high).toBeCloseTo(40_000, 6);
+    const gZero = rangeOverBands(tree, ins.model, {
+      ...full,
+      g: { low: 0, high: 0 },
+    });
+    expect(gZero.low).toBeCloseTo(10_500, 6);
+    expect(gZero.high).toBeCloseTo(48_000, 6);
+  });
+
+  it("pins the five-million-dollar tie: $102,500 rounds half up to $105,000", () => {
+    // RELAY-IA-1's mandatory pinned tie: 102,500 / 5,000 = 20.5 exactly.
+    // Half up, per RELAY-TRI-1a: the display is $105,000, never $100,000.
+    const exact = rangeOverBands(tree, ins.model, full);
+    const five = scaleToVolume(exact, 5_000_000, 1_000_000);
+    expect(formatUsdExact(five.low)).toBe("$102,500");
+    expect(roundTo(five.low, 5_000)).toBe(105_000);
+    expect(displayedAtVolume(exact, 5_000_000, 1_000_000, 5_000)).toEqual({
+      low: 105_000,
+      high: 440_000,
+    });
+  });
+
+  it("scales the EXACT range and rounds once, at the relay's locked volumes", () => {
+    const exact = rangeOverBands(tree, ins.model, full);
+    expect(formatUsdExact(scaleToVolume(exact, 250_000, 1_000_000).low)).toBe(
+      "$5,125",
+    );
+    expect(displayedAtVolume(exact, 250_000, 1_000_000, 5_000)).toEqual({
+      low: 5_000,
+      high: 20_000,
+    });
+    expect(displayedAtVolume(exact, 2_000_000, 1_000_000, 5_000)).toEqual({
+      low: 40_000,
+      high: 175_000,
+    });
+  });
+
+  it("displays round-to-step of the exact scaled value, for any volume, in every state", () => {
+    const bandSets = [
+      full,
+      { ...full, h: { low: 0, high: 0 } },
+      { ...full, g: { low: 0, high: 0 } },
+    ];
+    let seed = 53;
+    const rand = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    const volumes = [
+      1_000, 250_000, 1_000_000, 2_000_000, 5_000_000, 77_777_777,
+    ];
+    for (let i = 0; i < 200; i += 1)
+      volumes.push(1_000 + Math.floor(rand() * 99_999_000));
+    for (const bands of bandSets) {
+      const exact = rangeOverBands(tree, ins.model, bands);
+      for (const n of volumes) {
+        const shown = displayedAtVolume(exact, n, 1_000_000, ins.model.roundTo);
+        expect(shown.low).toBe(
+          roundTo((exact.low * n) / 1_000_000, ins.model.roundTo),
+        );
+        expect(shown.high).toBe(
+          roundTo((exact.high * n) / 1_000_000, ins.model.roundTo),
+        );
+      }
+    }
+  });
+
+  it("keeps the expert-hours log consistent: hours times rate per row, both totals to the cent", () => {
+    const ledger = ins.proposal.ledger!;
+    const cents = (t: string) =>
+      Math.round(Number(t.replace(/[$,]/g, "")) * 100);
+    let hours = 0;
+    let cost = 0;
+    for (const row of ledger.rows) {
+      const [, , h, rate, rowCost] = row.cells as [
+        string,
+        string,
+        string,
+        string,
+        string,
+      ];
+      expect(cents(rowCost)).toBe(Math.round(Number(h) * cents(rate)));
+      hours += Math.round(Number(h) * 100);
+      cost += cents(rowCost);
+    }
+    expect(hours).toBe(500);
+    expect(cost).toBe(49_625);
+    expect(ledger.total!.cells).toEqual(["5.0 h", "", "$496.25"]);
+  });
+
+  it("quotes the relay word for word where the page overlaps it, disclosure included", () => {
+    expect(ins.token).toBe("insects-limited-6c95a80d07");
+    expect(ins.hero.heading).toBe(
+      "Insects Limited, a cost model sent for correction",
+    );
+    expect(ins.model.constants).toHaveLength(0);
+    expect(ins.model.disclosure).toBe(
+      "This model contains no federal number. We checked the chemical price indexes and none maps truthfully onto pheromone synthesis; the industrial chemicals index has barely moved this year. Every figure on this page is our assumption, printed to be corrected.",
+    );
+    expect(ins.model.callout).toContain(
+      "Those numbers exist in your records, unread.",
+    );
+    expect(ins.respect?.paragraphs[4]).toContain("95.8 percent accuracy");
+    expect(ins.sources[2]).toBe(
+      "No federal price series applies cleanly to these inputs, and none is used.",
+    );
+    expect(ins.proposal.promise).toBe(
+      "If your records show our printed range overstated your exposure, our findings letter says so in those words.",
+    );
+  });
+
+  it("carries none of the kill-list terms, with toxic exactly once in the founding sentence", () => {
+    const text = JSON.stringify(ins);
+    for (const term of [
+      "\u2013",
+      "\u2014",
+      "artificial intelligence",
+      "machine learning",
+      "chatbot",
+      "SightTrap",
+      "Skyhawk",
+      "camera",
+      "software",
+      "Catalyst",
+      "Fumigation",
+      "failure",
+      "father",
+      "handed",
+      "Univar",
+      "Veseris",
+      "1982",
+    ]) {
+      expect(text.includes(term), term).toBe(false);
+    }
+    expect(/\bAI\b/.test(text), "AI as a word").toBe(false);
+    expect(/robot/i.test(text), "robot in any form").toBe(false);
+    // "toxic": exactly once, and only inside the quoted founding sentence.
+    expect(text.match(/toxic/g)).toHaveLength(1);
+    const founding = ins.respect!.paragraphs[0]!;
+    expect(founding).toContain("without the use of toxic chemicals");
+    const elsewhere = JSON.stringify({ ...ins, respect: undefined });
+    expect(elsewhere.includes("toxic")).toBe(false);
+  });
+});
+
 describe("every template 2 config", () => {
   const dashboards = allDashboards();
 
