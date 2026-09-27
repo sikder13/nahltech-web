@@ -329,6 +329,11 @@ export function CalibrationModel({
                   {model.constants.map((c) => (
                     <li key={c.id}>
                       <Labelled text={c.text} />
+                      {c.note ? (
+                        <p className="mt-3xs text-sm text-text-muted">
+                          {c.note}
+                        </p>
+                      ) : null}
                     </li>
                   ))}
                 </ul>

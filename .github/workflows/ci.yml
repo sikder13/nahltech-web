@@ -59,6 +59,13 @@ jobs:
       - name: Copper Mountain page unchanged
         run: npm run check:cmt-frozen
 
+      # MSP and Catalyst shipped together; same gates as the others.
+      - name: MSP page unchanged
+        run: npm run check:msp-frozen
+
+      - name: Catalyst page unchanged
+        run: npm run check:catalyst-frozen
+
       # Dashboard footers carry no GitHub link, on any page, ever.
       - name: No GitHub link on dashboard pages
         run: npm run check:no-github
