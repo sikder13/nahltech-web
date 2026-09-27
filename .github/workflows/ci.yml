@@ -66,6 +66,10 @@ jobs:
       - name: Catalyst page unchanged
         run: npm run check:catalyst-frozen
 
+      # Circle Beverage shipped too; same gate as the others.
+      - name: Circle Beverage page unchanged
+        run: npm run check:circle-frozen
+
       # Dashboard footers carry no GitHub link, on any page, ever.
       - name: No GitHub link on dashboard pages
         run: npm run check:no-github

@@ -319,13 +319,15 @@ export function CalibrationModel({
                 </div>
               </dl>
 
-              {model.spans.length + model.constants.length > 0 ? (
+              {model.spans.length + model.constants.length > 0 ||
+              model.disclosure ? (
                 <ul className="mt-sm space-y-2xs border-t border-divider pt-sm text-sm text-text-muted">
                   {model.spans.map((sp) => (
                     <li key={sp.id}>
                       <Labelled text={sp.text} />
                     </li>
                   ))}
+                  {model.disclosure ? <li>{model.disclosure}</li> : null}
                   {model.constants.map((c) => (
                     <li key={c.id}>
                       <Labelled text={c.text} />

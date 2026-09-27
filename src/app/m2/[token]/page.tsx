@@ -285,7 +285,13 @@ export default async function DashboardPage({ params }: Params) {
               Without the flag the class strings are byte-identical to what
               shipped, which the Mursix golden gate proves. */}
           {proposal.ledger ? (
-            <figure className="mt-lg rounded-lg border border-divider p-md">
+            <figure
+              className={
+                proposal.ledger.tight
+                  ? "mt-lg rounded-lg border border-divider p-2xs pt-sm sm:p-md"
+                  : "mt-lg rounded-lg border border-divider p-md"
+              }
+            >
               <div className="flex flex-wrap items-baseline justify-between gap-x-sm gap-y-2xs">
                 <h4 className="text-sm font-semibold text-text">
                   {proposal.ledger.title}
