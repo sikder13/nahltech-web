@@ -161,6 +161,13 @@ export const dashboardSchema = z
       sliders: z.array(sliderSchema).min(1).max(5),
       constants: z.array(constantSchema).default([]),
       /**
+       * A short text block rendered in the slot the fixed benchmark badge
+       * normally occupies, for a page that deliberately carries no federal
+       * number and says why. Default: absent, so every shipped page renders
+       * exactly as before.
+       */
+      disclosure: z.string().optional(),
+      /**
        * Observed fixed ranges the formulas may read, such as a posted price
        * span. Not sliders: the visitor cannot move them, and the corner
        * evaluation pairs low with low and high with high. Each carries the
@@ -288,6 +295,12 @@ export const dashboardSchema = z
            * existing configs are untouched.
            */
           dense: z.boolean().optional(),
+          /**
+           * Every pixel at phone width for an unusually wide log: the card's
+           * padding tightens below sm. Default: off, so every shipped ledger
+           * card renders exactly as before.
+           */
+          tight: z.boolean().default(false),
           title: z.string(),
           label: z.string(),
           columns: z.array(z.string()).min(2).max(6),
