@@ -1134,6 +1134,16 @@ describe("Circle Beverage model", () => {
     );
   });
 
+  it("holds its heading's height through the font swap", () => {
+    // Fraunces sets the heading in three lines up to 380px and two up to
+    // 679px; the fallback face changes at 336 and 604, so without the
+    // reservation the page moved when the font arrived.
+    expect(cir.hero.headingLines).toEqual([
+      { upTo: 380, lines: 3 },
+      { upTo: 679, lines: 2 },
+    ]);
+  });
+
   it("carries none of the kill-list terms anywhere in its copy", () => {
     const text = JSON.stringify(cir);
     for (const term of [

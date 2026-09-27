@@ -12,7 +12,11 @@
     "heading": "Circle Beverage, a cost model sent for correction",
     "caption": "Built September 27, 2026, from circlebev.com, the trade press, the Conexus Indiana case study, and federal data. Every number is labeled: published, federal, or our assumption. The assumptions are sliders; move them and the number moves.",
     "liveCaption": "The model's estimate, on the assumptions you have set below",
-    "subline": "Exact computed endpoints: $8,920.00 and $86,750.00, rounded to the nearest $5,000 for display; the rounding widens the low end, so the exact figures govern."
+    "subline": "Exact computed endpoints: $8,920.00 and $86,750.00, rounded to the nearest $5,000 for display; the rounding widens the low end, so the exact figures govern.",
+    "headingLines": [
+      { "upTo": 380, "lines": 3 },
+      { "upTo": 679, "lines": 2 }
+    ]
   },
   "model": {
     "heading": "Move our assumptions",
