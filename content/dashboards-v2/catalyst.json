@@ -12,7 +12,11 @@
     "heading": "Catalyst, a cost model sent for correction",
     "caption": "Built September 26, 2026, from catalystpdg.com and company posts, the Conexus Indiana case study, and federal data. Every number is labeled: published, federal, or our assumption. The assumptions are sliders; move them and the number moves.",
     "liveCaption": "The model's estimate, on the assumptions you have set below",
-    "subline": "Exact computed endpoints: $11,137.50 and $74,355.00, rounded to the nearest $5,000 for display."
+    "subline": "Exact computed endpoints: $11,137.50 and $74,355.00, rounded to the nearest $5,000 for display.",
+    "headingLines": [
+      { "upTo": 331, "lines": 3 },
+      { "upTo": 582, "lines": 2 }
+    ]
   },
   "model": {
     "heading": "Move our assumptions",

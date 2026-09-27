@@ -921,6 +921,16 @@ describe("Catalyst model", () => {
     );
   });
 
+  it("holds its heading's height through the font swap", () => {
+    // Fraunces sets the heading in three lines up to 331px and two up to
+    // 582px; the fallback face sets two lines up to 517px and one above, so
+    // without the reservation the page moved when the font arrived.
+    expect(cat.hero.headingLines).toEqual([
+      { upTo: 331, lines: 3 },
+      { upTo: 582, lines: 2 },
+    ]);
+  });
+
   it("carries none of the kill-list terms anywhere in its copy", () => {
     const text = JSON.stringify(cat);
     for (const term of [
