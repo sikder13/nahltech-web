@@ -44,6 +44,12 @@ const constantSchema = z.object({
   value: z.number(),
   /** Plain statement of the fixed assumption, shown under the formula. */
   text: z.string().min(1),
+  /**
+   * One muted line rendered directly beneath the badge, for a fact about
+   * the constant itself (such as when its index next updates). Default:
+   * absent, so every shipped page renders exactly as before.
+   */
+  note: z.string().optional(),
 });
 
 const lineChartSchema = z.object({

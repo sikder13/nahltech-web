@@ -33,6 +33,7 @@ export const sliderFormats = [
   "multiple",
   "count",
   "minutes",
+  "usdCents",
 ] as const;
 export type SliderFormat = (typeof sliderFormats)[number];
 
@@ -194,6 +195,9 @@ export function formatSliderValue(format: SliderFormat, value: number): string {
       return `${Number(value.toFixed(2))}`;
     case "count":
       return Math.round(value).toLocaleString("en-US");
+    case "usdCents":
+      // Sub-dollar prices print their cents: $0.12, never $0.
+      return `$${value.toFixed(2)}`;
     case "minutes":
       return `${Math.round(value)} min`;
   }
@@ -202,6 +206,8 @@ export function formatSliderValue(format: SliderFormat, value: number): string {
 /** Screen-reader form, spoken rather than abbreviated. */
 export function spokenSliderValue(format: SliderFormat, value: number): string {
   switch (format) {
+    case "usdCents":
+      return `${Math.round(value * 100)} cents`;
     case "usdMillions":
       return `${(value / 1_000_000).toFixed(1)} million dollars`;
     case "percent":
