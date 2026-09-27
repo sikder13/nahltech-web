@@ -800,6 +800,135 @@ describe("MSP model", () => {
   });
 });
 
+describe("Catalyst model", () => {
+  const cat = allDashboards().find((d) => d.slug === "catalyst")!;
+  const tree = compileFormula(totalFormula(cat.model.terms));
+  const full = restBands(cat.model.sliders);
+
+  it("computes the locked endpoints to the cent at the letter's assumptions", () => {
+    const a = rangeOverBands(compileFormula("10 * i * c"), cat.model, full);
+    expect(a.low).toBeCloseTo(8_000, 6);
+    expect(a.high).toBeCloseTo(48_000, 6);
+    const b = rangeOverBands(
+      compileFormula("10 * t * m * d * (w / 12)"),
+      cat.model,
+      full,
+    );
+    expect(formatUsdExact(b.low)).toBe("$3,137.50");
+    expect(formatUsdExact(b.high)).toBe("$26,355");
+    const total = rangeOverBands(tree, cat.model, full);
+    expect(formatUsdExact(total.low)).toBe("$11,137.50");
+    expect(formatUsdExact(total.high)).toBe("$74,355");
+    // The display's low end understates the exact low; the subline discloses it.
+    expect(roundTo(total.low, 5_000)).toBe(10_000);
+    expect(roundTo(total.high, 5_000)).toBe(75_000);
+  });
+
+  it("collapses to one component under each preset", () => {
+    const iZero = rangeOverBands(tree, cat.model, {
+      ...full,
+      i: { low: 0, high: 0 },
+    });
+    expect(iZero.low).toBeCloseTo(3_137.5, 6);
+    expect(iZero.high).toBeCloseTo(26_355, 6);
+    const wZero = rangeOverBands(tree, cat.model, {
+      ...full,
+      w: { low: 0, high: 0 },
+    });
+    expect(wZero.low).toBeCloseTo(8_000, 6);
+    expect(wZero.high).toBeCloseTo(48_000, 6);
+  });
+
+  it("scales the EXACT range and rounds once, at the relay's locked volumes", () => {
+    const exact = rangeOverBands(tree, cat.model, full);
+    expect(formatUsdExact(scaleToVolume(exact, 5, 10).low)).toBe("$5,568.75");
+    expect(formatUsdExact(scaleToVolume(exact, 5, 10).high)).toBe("$37,177.50");
+    expect(displayedAtVolume(exact, 5, 10, 5_000)).toEqual({
+      low: 5_000,
+      high: 35_000,
+    });
+    expect(displayedAtVolume(exact, 20, 10, 5_000)).toEqual({
+      low: 20_000,
+      high: 150_000,
+    });
+    expect(displayedAtVolume(exact, 50, 10, 5_000)).toEqual({
+      low: 55_000,
+      high: 370_000,
+    });
+  });
+
+  it("displays round-to-step of the exact scaled value, for any volume, in every state", () => {
+    const bandSets = [
+      full,
+      { ...full, i: { low: 0, high: 0 } },
+      { ...full, w: { low: 0, high: 0 } },
+    ];
+    let seed = 41;
+    const rand = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    const volumes = [1, 5, 10, 20, 50, 777];
+    for (let i = 0; i < 200; i += 1)
+      volumes.push(1 + Math.floor(rand() * 9_999));
+    for (const bands of bandSets) {
+      const exact = rangeOverBands(tree, cat.model, bands);
+      for (const n of volumes) {
+        const shown = displayedAtVolume(exact, n, 10, cat.model.roundTo);
+        expect(shown.low).toBe(
+          roundTo((exact.low * n) / 10, cat.model.roundTo),
+        );
+        expect(shown.high).toBe(
+          roundTo((exact.high * n) / 10, cat.model.roundTo),
+        );
+      }
+    }
+  });
+
+  it("keeps the absorbed-iterations log consistent: rows sum to the total row, to the cent", () => {
+    const ledger = cat.proposal.ledger!;
+    const cents = (t: string) =>
+      Math.round(Number(t.replace(/[$,]/g, "")) * 100);
+    const sum = ledger.rows.reduce((acc, row) => acc + cents(row.cells[2]!), 0);
+    expect(sum).toBe(cents(ledger.total!.value!));
+    expect(sum).toBe(1_877_000);
+  });
+
+  it("quotes the relay word for word where the page overlaps it", () => {
+    expect(cat.hero.heading).toBe("Catalyst, a cost model sent for correction");
+    expect(cat.hero.subline).toBe(
+      "Exact computed endpoints: $11,137.50 and $74,355.00, rounded to the nearest $5,000 for display.",
+    );
+    expect(cat.model.callout).toContain(
+      "If the waiting belongs to clients, it is worth showing them.",
+    );
+    expect(cat.respect?.paragraphs[3]).toContain("$159,500 readiness grant");
+    expect(cat.model.constants[0]?.text).toContain("This one is not a slider.");
+    expect(cat.model.formulaText).toContain("(months / 12)");
+    expect(cat.proposal.promise).toBe(
+      "If your records show our printed range overstated your exposure, our findings letter says so in those words.",
+    );
+  });
+
+  it("carries none of the kill-list terms anywhere in its copy", () => {
+    const text = JSON.stringify(cat);
+    for (const term of [
+      "\u2013",
+      "\u2014",
+      "artificial intelligence",
+      "machine learning",
+      "chatbot",
+      "Insects",
+      "Greenline",
+      "FormLabs",
+      "Navistar",
+      "28,000",
+      "father",
+      "handed",
+    ]) {
+      expect(text.includes(term), term).toBe(false);
+    }
+    expect(/\bAI\b/.test(text), "AI as a word").toBe(false);
+  });
+});
+
 describe("every template 2 config", () => {
   const dashboards = allDashboards();
 
