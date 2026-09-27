@@ -1,0 +1,221 @@
+{
+  "template": 2,
+  "slug": "aa",
+  "token": "aa-custom-automation-9480645522",
+  "company": {
+    "name": "A&A Custom Automation",
+    "short": "A&A",
+    "town": "Indiana",
+    "prepared": "September 2026"
+  },
+  "hero": {
+    "heading": "A&A Custom Automation, a cost model sent for correction",
+    "caption": "Built September 27, 2026, from aacustomautomation.com, the company's posts, and federal data. Every number is labeled: published, federal, or our assumption. The assumptions are sliders; move them and the number moves.",
+    "liveCaption": "The model's estimate, on the assumptions you have set below",
+    "subline": "Exact computed endpoints: $32,641.67 and $228,050.00, rounded to the nearest $5,000 for display."
+  },
+  "model": {
+    "heading": "Move our assumptions",
+    "intro": "Each slider is one of the assumptions in our letter, set to the range we wrote down. If you know a figure, narrow its range, or close both handles on the exact number. The estimate above then follows your figures instead of ours. Tap a figure to type it exactly.",
+    "unit": "per ten machines",
+    "volume": {
+      "label": "Machines you deliver in a year",
+      "caption": "Optional. Type your volume and every dollar figure on this page scales to your year. Leave it empty and the model stays per ten machines.",
+      "suffix": "a year, at {n} machines",
+      "per": 10,
+      "max": 10000
+    },
+    "sliders": [
+      {
+        "id": "i",
+        "label": "Machines that absorb one unbilled engineering loop",
+        "format": "percent",
+        "min": 0,
+        "max": 80,
+        "step": 1,
+        "rest": {
+          "low": 30,
+          "high": 50
+        },
+        "presets": [
+          {
+            "label": "No absorbed loops last year",
+            "low": 0,
+            "high": 0
+          }
+        ],
+        "basis": "Assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "c",
+        "label": "Cost of one absorbed loop",
+        "format": "usd",
+        "min": 1000,
+        "max": 40000,
+        "step": 500,
+        "rest": {
+          "low": 6000,
+          "high": 18000
+        },
+        "basis": "Assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "t",
+        "label": "Value of a typical machine",
+        "format": "usd",
+        "min": 10000,
+        "max": 500000,
+        "step": 5000,
+        "rest": {
+          "low": 50000,
+          "high": 150000
+        },
+        "basis": "Assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "m",
+        "label": "Materials share of a quote",
+        "format": "percent",
+        "min": 10,
+        "max": 70,
+        "step": 1,
+        "rest": {
+          "low": 35,
+          "high": 55
+        },
+        "basis": "Assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "w",
+        "label": "Months a fixed quote stands between signature and shipment",
+        "format": "months",
+        "min": 0,
+        "max": 12,
+        "step": 0.5,
+        "rest": {
+          "low": 4,
+          "high": 8
+        },
+        "presets": [
+          {
+            "label": "We buy steel the day we quote",
+            "low": 0,
+            "high": 0
+          }
+        ],
+        "basis": "Assumed, printed to be corrected [[ASSUMED]]."
+      }
+    ],
+    "constants": [
+      {
+        "id": "d",
+        "value": 0.251,
+        "text": "Steel mill products rose 25.1 percent from September 2025 to August 2026 [[BENCHMARK]], BLS series WPU1017. This one is not a slider.",
+        "note": "When the October 15 update lands, this page's number changes with it, whichever direction it moves."
+      }
+    ],
+    "terms": [
+      {
+        "id": "loops",
+        "label": "Absorbed engineering loops",
+        "formula": "10 * i * c"
+      },
+      {
+        "id": "drift",
+        "label": "Drift inside fixed quotes",
+        "formula": "10 * t * m * d * (w / 12)"
+      }
+    ],
+    "formulaText": "Leak per 10 machines = 10 × absorbing share × loop cost + 10 × machine value × materials share × 0.251 × (months / 12)",
+    "plainText": "In words, the machines that absorb one unbilled engineering loop at its cost, plus the slice of this year's steel rise a fixed quote absorbs while it stands between signature and shipment.",
+    "callout": "One-of-a-kind machines leak between runoff and shipment. Nobody prices the debug days that make a first-of-its-kind machine behave, and nobody counts the calendar a build waits at design reviews, buyoffs, and customer furnished parts. Those numbers exist in your job records, unread.",
+    "roundTo": 5000,
+    "letterRange": {
+      "low": 35000,
+      "high": 230000
+    }
+  },
+  "respect": {
+    "heading": "What you already show in the open",
+    "paragraphs": [
+      "Since 1989, formerly as A&A Metal Products, you renamed the company to match what it became [[OBSERVED]].",
+      "Machine designers, mechanical engineers, controls engineers, and programmers work under one 30,000 square foot roof with a fifteen ton crane [[OBSERVED]].",
+      "This year your shop delivered 100 ton and 350 ton press systems for a global railcar builder, by your own account [[OBSERVED]].",
+      "A customer you publish wrote: I wish we had 100 suppliers like A&A [[OBSERVED]]."
+    ]
+  },
+  "proposal": {
+    "heading": "What we propose",
+    "deliverablesHeading": "What we measure",
+    "deliverables": [
+      {
+        "title": "Absorbed engineering loops and their cost by cause"
+      },
+      {
+        "title": "What your fixed quotes absorbed while steel moved"
+      },
+      {
+        "title": "Waiting time against working time at reviews, buyoffs, and customer furnished items"
+      },
+      {
+        "title": "Your mix of machines against machining, fabrication, and rebuild work, with quote to cash"
+      }
+    ],
+    "ledger": {
+      "dense": true,
+      "title": "What a page of the absorbed-loops log looks like",
+      "label": "Illustrative, not A&A Custom Automation data",
+      "columns": ["Machine", "Cause", "Cost"],
+      "rows": [
+        {
+          "cells": [
+            "Assembly cell, sensor logic rework at runoff",
+            "First of kind debug",
+            "$7,850.00"
+          ]
+        },
+        {
+          "cells": [
+            "Press retrofit, guarding change after customer walkthrough",
+            "Customer change",
+            "$4,200.00"
+          ]
+        },
+        {
+          "cells": [
+            "Test stand, cycle time tuning to hit quoted rate",
+            "First of kind debug",
+            "$9,975.00"
+          ]
+        },
+        {
+          "cells": [
+            "Material handling frame, scope grew after fixture revision",
+            "Scope growth",
+            "$3,640.00"
+          ]
+        },
+        {
+          "cells": [
+            "Packaging machine, PLC fault chasing at buyoff",
+            "First of kind debug",
+            "$6,410.00"
+          ]
+        }
+      ],
+      "total": {
+        "label": "Total",
+        "value": "$32,075.00"
+      },
+      "note": "Three of five are the price of building what has never existed; one was the customer's change. Every machine and figure is invented to show the format."
+    },
+    "feeHeading": "The fee",
+    "fee": "A fixed fee between $1,500 and $2,500.",
+    "promise": "If your records show our printed range overstated your exposure, our findings letter says so in those words."
+  },
+  "sources": [
+    "aacustomautomation.com and company posts, September 2026.",
+    "BLS producer price index, steel mill products, series WPU1017, September 2025 to August 2026, pulled September 27, 2026; next release October 15, 2026.",
+    "All other figures are Nahl Technologies assumptions, stated as ranges."
+  ]
+}
