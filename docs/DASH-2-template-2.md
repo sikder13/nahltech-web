@@ -48,6 +48,8 @@ Copper Mountain gained its own golden gate, `npm run check:cmt-frozen`, when it 
 
 MSP and Catalyst each gained their own golden gate (`npm run check:msp-frozen`, `npm run check:catalyst-frozen`) when they shipped. Added with the Circle Beverage page, same additive default-off pattern: a `usdCents` slider format (sub-dollar prices print their cents) and an optional `note` on a fixed constant, one muted line beneath its badge. Circle's first term divides by a slider (cans per run); the corner evaluation stays exact because every formula is monotone in each variable separately.
 
+Circle Beverage gained its own golden gate, `npm run check:circle-frozen`, when it shipped. Added with the Insects Limited page: `model.disclosure`, default-off, a short text block rendered in the slot the fixed benchmark badge normally occupies, for a page that deliberately carries no federal number and says why. The A&A page fit existing fields. `proposal.ledger.tight` (default off) tightens the log card's phone padding for an unusually wide log, added when the Insects five-column log needed the room; shipped ledger cards render exactly as before.
+
 ## Adding a company
 
 Copy `content/dashboards-v2/mursix.json` to `content/dashboards-v2/<slug>.json`, replace every field, run `npm run test:run` and `npm run build`, and open `/m2/<token>?preview`. The tests require that the model's full span at the letter's printed assumptions rounds to exactly the range printed in the letter.
