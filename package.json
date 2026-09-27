@@ -15,6 +15,7 @@
     "check:cmt-frozen": "node scripts/check-cmt-frozen.mjs",
     "check:msp-frozen": "node scripts/check-msp-frozen.mjs",
     "check:catalyst-frozen": "node scripts/check-catalyst-frozen.mjs",
+    "check:circle-frozen": "node scripts/check-circle-frozen.mjs",
     "check:no-github": "node scripts/check-no-github.mjs",
     "start": "next start",
     "lint": "eslint",
