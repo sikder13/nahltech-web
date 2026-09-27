@@ -668,6 +668,138 @@ describe("Copper Mountain model", () => {
   });
 });
 
+describe("MSP model", () => {
+  const msp = allDashboards().find((d) => d.slug === "msp")!;
+  const tree = compileFormula(totalFormula(msp.model.terms));
+  const full = restBands(msp.model.sliders);
+
+  it("computes the locked endpoints to the cent at the letter's assumptions", () => {
+    const a = rangeOverBands(compileFormula("100 * r * v"), msp.model, full);
+    expect(a.low).toBeCloseTo(6_000, 6);
+    expect(a.high).toBeCloseTo(45_000, 6);
+    const b = rangeOverBands(
+      compileFormula("100 * v * m * d * (w / 12)"),
+      msp.model,
+      full,
+    );
+    expect(formatUsdExact(b.low)).toBe("$3,162.50");
+    expect(formatUsdExact(b.high)).toBe("$45,540");
+    const total = rangeOverBands(tree, msp.model, full);
+    expect(formatUsdExact(total.low)).toBe("$9,162.50");
+    expect(formatUsdExact(total.high)).toBe("$90,540");
+    expect(roundTo(total.low, 5_000)).toBe(10_000);
+    expect(roundTo(total.high, 5_000)).toBe(90_000);
+  });
+
+  it("collapses to one component under each preset", () => {
+    const rZero = rangeOverBands(tree, msp.model, {
+      ...full,
+      r: { low: 0, high: 0 },
+    });
+    expect(rZero.low).toBeCloseTo(3_162.5, 6);
+    expect(rZero.high).toBeCloseTo(45_540, 6);
+    const wZero = rangeOverBands(tree, msp.model, {
+      ...full,
+      w: { low: 0, high: 0 },
+    });
+    expect(wZero.low).toBeCloseTo(6_000, 6);
+    expect(wZero.high).toBeCloseTo(45_000, 6);
+  });
+
+  it("scales the EXACT range and rounds once, at the relay's locked volumes", () => {
+    const exact = rangeOverBands(tree, msp.model, full);
+    expect(formatUsdExact(scaleToVolume(exact, 50, 100).low)).toBe("$4,581.25");
+    expect(displayedAtVolume(exact, 50, 100, 5_000)).toEqual({
+      low: 5_000,
+      high: 45_000,
+    });
+    expect(displayedAtVolume(exact, 250, 100, 5_000)).toEqual({
+      low: 25_000,
+      high: 225_000,
+    });
+    expect(displayedAtVolume(exact, 500, 100, 5_000)).toEqual({
+      low: 45_000,
+      high: 455_000,
+    });
+  });
+
+  it("displays round-to-step of the exact scaled value, for any volume, in every state", () => {
+    const bandSets = [
+      full,
+      { ...full, r: { low: 0, high: 0 } },
+      { ...full, w: { low: 0, high: 0 } },
+    ];
+    let seed = 37;
+    const rand = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    const volumes = [1, 50, 100, 250, 500, 8_642];
+    for (let i = 0; i < 200; i += 1)
+      volumes.push(1 + Math.floor(rand() * 99_999));
+    for (const bands of bandSets) {
+      const exact = rangeOverBands(tree, msp.model, bands);
+      for (const n of volumes) {
+        const shown = displayedAtVolume(exact, n, 100, msp.model.roundTo);
+        expect(shown.low).toBe(
+          roundTo((exact.low * n) / 100, msp.model.roundTo),
+        );
+        expect(shown.high).toBe(
+          roundTo((exact.high * n) / 100, msp.model.roundTo),
+        );
+      }
+    }
+  });
+
+  it("keeps the rework log consistent: rows sum to the total row, to the cent", () => {
+    const ledger = msp.proposal.ledger!;
+    const cents = (t: string) =>
+      Math.round(Number(t.replace(/[$,]/g, "")) * 100);
+    const sum = ledger.rows.reduce((acc, row) => acc + cents(row.cells[2]!), 0);
+    expect(sum).toBe(cents(ledger.total!.value!));
+    expect(sum).toBe(369_950);
+  });
+
+  it("quotes the relay word for word where the page overlaps it", () => {
+    expect(msp.hero.heading).toBe(
+      "MSP Manufacturing, a cost model sent for correction",
+    );
+    expect(msp.hero.subline).toBe(
+      "Exact computed endpoints: $9,162.50 and $90,540.00, rounded to the nearest $5,000 for display.",
+    );
+    expect(msp.model.callout).toContain(
+      "Those numbers exist in your records, unread.",
+    );
+    expect(msp.respect?.paragraphs[1]).toContain(
+      "NADCAP, AS9100, ISO 9001, ITAR, Boeing, FAA",
+    );
+    expect(msp.model.constants[0]?.text).toContain("This one is not a slider.");
+    expect(msp.model.formulaText).toContain("(months / 12)");
+    expect(msp.proposal.promise).toBe(
+      "If your records show our printed range overstated your exposure, our findings letter says so in those words.",
+    );
+  });
+
+  it("carries none of the kill-list terms anywhere in its copy", () => {
+    const text = JSON.stringify(msp);
+    for (const term of [
+      "\u2013",
+      "\u2014",
+      "artificial intelligence",
+      "machine learning",
+      "chatbot",
+      "father",
+      "handed",
+      "Cummins",
+      "15,000",
+      "SWAT",
+      "law enforcement",
+      "Operation Phoenix",
+      "James",
+    ]) {
+      expect(text.includes(term), term).toBe(false);
+    }
+    expect(/\bAI\b/.test(text), "AI as a word").toBe(false);
+  });
+});
+
 describe("every template 2 config", () => {
   const dashboards = allDashboards();
 
