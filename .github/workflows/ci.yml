@@ -55,6 +55,10 @@ jobs:
       - name: Trifecta page unchanged
         run: npm run check:trifecta-frozen
 
+      # Copper Mountain shipped too; same gate as the others.
+      - name: Copper Mountain page unchanged
+        run: npm run check:cmt-frozen
+
       # Dashboard footers carry no GitHub link, on any page, ever.
       - name: No GitHub link on dashboard pages
         run: npm run check:no-github
