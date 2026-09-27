@@ -1305,6 +1305,16 @@ describe("Insects Limited model", () => {
     );
   });
 
+  it("holds its heading's height through the font swap", () => {
+    // Fraunces sets the heading in three lines up to 380px and two up to
+    // 676px; the fallback face changes at 336 and 599, so without the
+    // reservation the page moved when the font arrived.
+    expect(ins.hero.headingLines).toEqual([
+      { upTo: 380, lines: 3 },
+      { upTo: 676, lines: 2 },
+    ]);
+  });
+
   it("carries none of the kill-list terms, with toxic exactly once in the founding sentence", () => {
     const text = JSON.stringify(ins);
     for (const term of [

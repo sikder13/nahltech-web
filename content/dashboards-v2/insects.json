@@ -12,7 +12,11 @@
     "heading": "Insects Limited, a cost model sent for correction",
     "caption": "Built September 27, 2026, from insectslimited.com and its store, and from the company's own published research summary. No federal data is used, and this page says why. Every number is labeled; the assumptions are sliders; move them and the number moves.",
     "liveCaption": "The model's estimate, on the assumptions you have set below",
-    "subline": "Exact computed endpoints: $20,500.00 and $88,000.00, rounded to the nearest $5,000 for display."
+    "subline": "Exact computed endpoints: $20,500.00 and $88,000.00, rounded to the nearest $5,000 for display.",
+    "headingLines": [
+      { "upTo": 380, "lines": 3 },
+      { "upTo": 676, "lines": 2 }
+    ]
   },
   "model": {
     "heading": "Move our assumptions",
