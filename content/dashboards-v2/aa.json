@@ -12,7 +12,12 @@
     "heading": "A&A Custom Automation, a cost model sent for correction",
     "caption": "Built September 27, 2026, from aacustomautomation.com, the company's posts, and federal data. Every number is labeled: published, federal, or our assumption. The assumptions are sliders; move them and the number moves.",
     "liveCaption": "The model's estimate, on the assumptions you have set below",
-    "subline": "Exact computed endpoints: $32,641.67 and $228,050.00, rounded to the nearest $5,000 for display."
+    "subline": "Exact computed endpoints: $32,641.67 and $228,050.00, rounded to the nearest $5,000 for display.",
+    "headingLines": [
+      { "upTo": 380, "lines": 4 },
+      { "upTo": 440, "lines": 3 },
+      { "upTo": 1023, "lines": 2 }
+    ]
   },
   "model": {
     "heading": "Move our assumptions",

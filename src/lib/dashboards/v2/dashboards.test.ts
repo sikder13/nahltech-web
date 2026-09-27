@@ -1465,6 +1465,17 @@ describe("A&A Custom Automation model", () => {
     );
   });
 
+  it("holds its heading's height through the font swap", () => {
+    // Fraunces sets the heading in four lines up to 380px, three up to 440px
+    // and two up to 1023px; the fallback face changes at 336, 387 and 723, so
+    // without the reservation the page moved when the font arrived.
+    expect(aa.hero.headingLines).toEqual([
+      { upTo: 380, lines: 4 },
+      { upTo: 440, lines: 3 },
+      { upTo: 1023, lines: 2 },
+    ]);
+  });
+
   it("carries none of the kill-list terms, with the former name exactly once in the formerly bullet", () => {
     const text = JSON.stringify(aa);
     for (const term of [
