@@ -668,6 +668,291 @@ describe("Copper Mountain model", () => {
   });
 });
 
+describe("MSP model", () => {
+  const msp = allDashboards().find((d) => d.slug === "msp")!;
+  const tree = compileFormula(totalFormula(msp.model.terms));
+  const full = restBands(msp.model.sliders);
+
+  it("computes the locked endpoints to the cent at the letter's assumptions", () => {
+    const a = rangeOverBands(compileFormula("100 * r * v"), msp.model, full);
+    expect(a.low).toBeCloseTo(6_000, 6);
+    expect(a.high).toBeCloseTo(45_000, 6);
+    const b = rangeOverBands(
+      compileFormula("100 * v * m * d * (w / 12)"),
+      msp.model,
+      full,
+    );
+    expect(formatUsdExact(b.low)).toBe("$3,162.50");
+    expect(formatUsdExact(b.high)).toBe("$45,540");
+    const total = rangeOverBands(tree, msp.model, full);
+    expect(formatUsdExact(total.low)).toBe("$9,162.50");
+    expect(formatUsdExact(total.high)).toBe("$90,540");
+    expect(roundTo(total.low, 5_000)).toBe(10_000);
+    expect(roundTo(total.high, 5_000)).toBe(90_000);
+  });
+
+  it("collapses to one component under each preset", () => {
+    const rZero = rangeOverBands(tree, msp.model, {
+      ...full,
+      r: { low: 0, high: 0 },
+    });
+    expect(rZero.low).toBeCloseTo(3_162.5, 6);
+    expect(rZero.high).toBeCloseTo(45_540, 6);
+    const wZero = rangeOverBands(tree, msp.model, {
+      ...full,
+      w: { low: 0, high: 0 },
+    });
+    expect(wZero.low).toBeCloseTo(6_000, 6);
+    expect(wZero.high).toBeCloseTo(45_000, 6);
+  });
+
+  it("scales the EXACT range and rounds once, at the relay's locked volumes", () => {
+    const exact = rangeOverBands(tree, msp.model, full);
+    expect(formatUsdExact(scaleToVolume(exact, 50, 100).low)).toBe("$4,581.25");
+    expect(displayedAtVolume(exact, 50, 100, 5_000)).toEqual({
+      low: 5_000,
+      high: 45_000,
+    });
+    expect(displayedAtVolume(exact, 250, 100, 5_000)).toEqual({
+      low: 25_000,
+      high: 225_000,
+    });
+    expect(displayedAtVolume(exact, 500, 100, 5_000)).toEqual({
+      low: 45_000,
+      high: 455_000,
+    });
+  });
+
+  it("displays round-to-step of the exact scaled value, for any volume, in every state", () => {
+    const bandSets = [
+      full,
+      { ...full, r: { low: 0, high: 0 } },
+      { ...full, w: { low: 0, high: 0 } },
+    ];
+    let seed = 37;
+    const rand = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    const volumes = [1, 50, 100, 250, 500, 8_642];
+    for (let i = 0; i < 200; i += 1)
+      volumes.push(1 + Math.floor(rand() * 99_999));
+    for (const bands of bandSets) {
+      const exact = rangeOverBands(tree, msp.model, bands);
+      for (const n of volumes) {
+        const shown = displayedAtVolume(exact, n, 100, msp.model.roundTo);
+        expect(shown.low).toBe(
+          roundTo((exact.low * n) / 100, msp.model.roundTo),
+        );
+        expect(shown.high).toBe(
+          roundTo((exact.high * n) / 100, msp.model.roundTo),
+        );
+      }
+    }
+  });
+
+  it("keeps the rework log consistent: rows sum to the total row, to the cent", () => {
+    const ledger = msp.proposal.ledger!;
+    const cents = (t: string) =>
+      Math.round(Number(t.replace(/[$,]/g, "")) * 100);
+    const sum = ledger.rows.reduce((acc, row) => acc + cents(row.cells[2]!), 0);
+    expect(sum).toBe(cents(ledger.total!.value!));
+    expect(sum).toBe(369_950);
+  });
+
+  it("quotes the relay word for word where the page overlaps it", () => {
+    expect(msp.hero.heading).toBe(
+      "MSP Manufacturing, a cost model sent for correction",
+    );
+    expect(msp.hero.subline).toBe(
+      "Exact computed endpoints: $9,162.50 and $90,540.00, rounded to the nearest $5,000 for display.",
+    );
+    expect(msp.model.callout).toContain(
+      "Those numbers exist in your records, unread.",
+    );
+    expect(msp.respect?.paragraphs[1]).toContain(
+      "NADCAP, AS9100, ISO 9001, ITAR, Boeing, FAA",
+    );
+    expect(msp.model.constants[0]?.text).toContain("This one is not a slider.");
+    expect(msp.model.formulaText).toContain("(months / 12)");
+    expect(msp.proposal.promise).toBe(
+      "If your records show our printed range overstated your exposure, our findings letter says so in those words.",
+    );
+  });
+
+  it("holds its heading's height through the font swap", () => {
+    // Fraunces sets the heading in four lines up to 319px, three up to 400px,
+    // two up to 739px, and two again from 993px to 1023px; the fallback face
+    // changes at 364 and 660 and stays on one line from 993px, so without the
+    // reservation the page moved when the font arrived.
+    expect(msp.hero.headingLines).toEqual([
+      { upTo: 319, lines: 4 },
+      { upTo: 400, lines: 3 },
+      { upTo: 739, lines: 2 },
+      { upTo: 992, lines: 1 },
+      { upTo: 1023, lines: 2 },
+    ]);
+  });
+
+  it("carries none of the kill-list terms anywhere in its copy", () => {
+    const text = JSON.stringify(msp);
+    for (const term of [
+      "\u2013",
+      "\u2014",
+      "artificial intelligence",
+      "machine learning",
+      "chatbot",
+      "father",
+      "handed",
+      "Cummins",
+      "15,000",
+      "SWAT",
+      "law enforcement",
+      "Operation Phoenix",
+      "James",
+    ]) {
+      expect(text.includes(term), term).toBe(false);
+    }
+    expect(/\bAI\b/.test(text), "AI as a word").toBe(false);
+  });
+});
+
+describe("Catalyst model", () => {
+  const cat = allDashboards().find((d) => d.slug === "catalyst")!;
+  const tree = compileFormula(totalFormula(cat.model.terms));
+  const full = restBands(cat.model.sliders);
+
+  it("computes the locked endpoints to the cent at the letter's assumptions", () => {
+    const a = rangeOverBands(compileFormula("10 * i * c"), cat.model, full);
+    expect(a.low).toBeCloseTo(8_000, 6);
+    expect(a.high).toBeCloseTo(48_000, 6);
+    const b = rangeOverBands(
+      compileFormula("10 * t * m * d * (w / 12)"),
+      cat.model,
+      full,
+    );
+    expect(formatUsdExact(b.low)).toBe("$3,137.50");
+    expect(formatUsdExact(b.high)).toBe("$26,355");
+    const total = rangeOverBands(tree, cat.model, full);
+    expect(formatUsdExact(total.low)).toBe("$11,137.50");
+    expect(formatUsdExact(total.high)).toBe("$74,355");
+    // The display's low end understates the exact low; the subline discloses it.
+    expect(roundTo(total.low, 5_000)).toBe(10_000);
+    expect(roundTo(total.high, 5_000)).toBe(75_000);
+  });
+
+  it("collapses to one component under each preset", () => {
+    const iZero = rangeOverBands(tree, cat.model, {
+      ...full,
+      i: { low: 0, high: 0 },
+    });
+    expect(iZero.low).toBeCloseTo(3_137.5, 6);
+    expect(iZero.high).toBeCloseTo(26_355, 6);
+    const wZero = rangeOverBands(tree, cat.model, {
+      ...full,
+      w: { low: 0, high: 0 },
+    });
+    expect(wZero.low).toBeCloseTo(8_000, 6);
+    expect(wZero.high).toBeCloseTo(48_000, 6);
+  });
+
+  it("scales the EXACT range and rounds once, at the relay's locked volumes", () => {
+    const exact = rangeOverBands(tree, cat.model, full);
+    expect(formatUsdExact(scaleToVolume(exact, 5, 10).low)).toBe("$5,568.75");
+    expect(formatUsdExact(scaleToVolume(exact, 5, 10).high)).toBe("$37,177.50");
+    expect(displayedAtVolume(exact, 5, 10, 5_000)).toEqual({
+      low: 5_000,
+      high: 35_000,
+    });
+    expect(displayedAtVolume(exact, 20, 10, 5_000)).toEqual({
+      low: 20_000,
+      high: 150_000,
+    });
+    expect(displayedAtVolume(exact, 50, 10, 5_000)).toEqual({
+      low: 55_000,
+      high: 370_000,
+    });
+  });
+
+  it("displays round-to-step of the exact scaled value, for any volume, in every state", () => {
+    const bandSets = [
+      full,
+      { ...full, i: { low: 0, high: 0 } },
+      { ...full, w: { low: 0, high: 0 } },
+    ];
+    let seed = 41;
+    const rand = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    const volumes = [1, 5, 10, 20, 50, 777];
+    for (let i = 0; i < 200; i += 1)
+      volumes.push(1 + Math.floor(rand() * 9_999));
+    for (const bands of bandSets) {
+      const exact = rangeOverBands(tree, cat.model, bands);
+      for (const n of volumes) {
+        const shown = displayedAtVolume(exact, n, 10, cat.model.roundTo);
+        expect(shown.low).toBe(
+          roundTo((exact.low * n) / 10, cat.model.roundTo),
+        );
+        expect(shown.high).toBe(
+          roundTo((exact.high * n) / 10, cat.model.roundTo),
+        );
+      }
+    }
+  });
+
+  it("keeps the absorbed-iterations log consistent: rows sum to the total row, to the cent", () => {
+    const ledger = cat.proposal.ledger!;
+    const cents = (t: string) =>
+      Math.round(Number(t.replace(/[$,]/g, "")) * 100);
+    const sum = ledger.rows.reduce((acc, row) => acc + cents(row.cells[2]!), 0);
+    expect(sum).toBe(cents(ledger.total!.value!));
+    expect(sum).toBe(1_877_000);
+  });
+
+  it("quotes the relay word for word where the page overlaps it", () => {
+    expect(cat.hero.heading).toBe("Catalyst, a cost model sent for correction");
+    expect(cat.hero.subline).toBe(
+      "Exact computed endpoints: $11,137.50 and $74,355.00, rounded to the nearest $5,000 for display.",
+    );
+    expect(cat.model.callout).toContain(
+      "If the waiting belongs to clients, it is worth showing them.",
+    );
+    expect(cat.respect?.paragraphs[3]).toContain("$159,500 readiness grant");
+    expect(cat.model.constants[0]?.text).toContain("This one is not a slider.");
+    expect(cat.model.formulaText).toContain("(months / 12)");
+    expect(cat.proposal.promise).toBe(
+      "If your records show our printed range overstated your exposure, our findings letter says so in those words.",
+    );
+  });
+
+  it("holds its heading's height through the font swap", () => {
+    // Fraunces sets the heading in three lines up to 331px and two up to
+    // 582px; the fallback face sets two lines up to 517px and one above, so
+    // without the reservation the page moved when the font arrived.
+    expect(cat.hero.headingLines).toEqual([
+      { upTo: 331, lines: 3 },
+      { upTo: 582, lines: 2 },
+    ]);
+  });
+
+  it("carries none of the kill-list terms anywhere in its copy", () => {
+    const text = JSON.stringify(cat);
+    for (const term of [
+      "\u2013",
+      "\u2014",
+      "artificial intelligence",
+      "machine learning",
+      "chatbot",
+      "Insects",
+      "Greenline",
+      "FormLabs",
+      "Navistar",
+      "28,000",
+      "father",
+      "handed",
+    ]) {
+      expect(text.includes(term), term).toBe(false);
+    }
+    expect(/\bAI\b/.test(text), "AI as a word").toBe(false);
+  });
+});
+
 describe("every template 2 config", () => {
   const dashboards = allDashboards();
 

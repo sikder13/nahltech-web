@@ -1,0 +1,217 @@
+{
+  "template": 2,
+  "slug": "msp",
+  "token": "msp-aviation-inc-f2e8978cec",
+  "company": {
+    "name": "MSP Manufacturing, Inc.",
+    "short": "MSP",
+    "town": "Huntington, Indiana",
+    "prepared": "September 2026"
+  },
+  "hero": {
+    "heading": "MSP Manufacturing, a cost model sent for correction",
+    "caption": "Built September 26, 2026, from Purdue MEP and NIST success stories, the Conexus Indiana case study, company pages, and federal data. Every number is labeled: published, federal, or our assumption. The assumptions are sliders; move them and the number moves.",
+    "liveCaption": "The model's estimate, on the assumptions you have set below",
+    "subline": "Exact computed endpoints: $9,162.50 and $90,540.00, rounded to the nearest $5,000 for display.",
+    "headingLines": [
+      { "upTo": 319, "lines": 4 },
+      { "upTo": 400, "lines": 3 },
+      { "upTo": 739, "lines": 2 },
+      { "upTo": 992, "lines": 1 },
+      { "upTo": 1023, "lines": 2 }
+    ]
+  },
+  "model": {
+    "heading": "Move our assumptions",
+    "intro": "Each slider is one of the assumptions in our letter, set to the range we wrote down. If you know a figure, narrow its range, or close both handles on the exact number. The estimate above then follows your figures instead of ours. Tap a figure to type it exactly.",
+    "unit": "per hundred jobs",
+    "volume": {
+      "label": "Jobs you release in a year",
+      "caption": "Optional. Type your volume and every dollar figure on this page scales to your year. Leave it empty and the model stays per hundred jobs.",
+      "suffix": "a year, at {n} jobs",
+      "per": 100,
+      "max": 100000
+    },
+    "sliders": [
+      {
+        "id": "r",
+        "label": "Jobs reworked or re-run, by any cause",
+        "format": "percent",
+        "min": 0,
+        "max": 10,
+        "step": 0.1,
+        "rest": {
+          "low": 2,
+          "high": 5
+        },
+        "presets": [
+          {
+            "label": "No rework last year",
+            "low": 0,
+            "high": 0
+          }
+        ],
+        "basis": "Assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "v",
+        "label": "Average value of a released job",
+        "format": "usd",
+        "min": 500,
+        "max": 20000,
+        "step": 100,
+        "rest": {
+          "low": 3000,
+          "high": 9000
+        },
+        "basis": "Assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "m",
+        "label": "Materials share of a quote",
+        "format": "percent",
+        "min": 10,
+        "max": 70,
+        "step": 1,
+        "rest": {
+          "low": 25,
+          "high": 40
+        },
+        "basis": "Assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "w",
+        "label": "Months a fixed quote waits between signature and delivery",
+        "format": "months",
+        "min": 0,
+        "max": 12,
+        "step": 0.5,
+        "rest": {
+          "low": 2,
+          "high": 6
+        },
+        "presets": [
+          {
+            "label": "We buy materials the day we quote",
+            "low": 0,
+            "high": 0
+          }
+        ],
+        "basis": "Assumed, printed to be corrected [[ASSUMED]]."
+      }
+    ],
+    "constants": [
+      {
+        "id": "d",
+        "value": 0.253,
+        "text": "Aluminum mill shapes rose 25.3 percent from September 2025 to August 2026 [[BENCHMARK]], BLS series WPU102501. This one is not a slider."
+      }
+    ],
+    "terms": [
+      {
+        "id": "rework",
+        "label": "Rework and re-runs at job value",
+        "formula": "100 * r * v"
+      },
+      {
+        "id": "drift",
+        "label": "Drift inside fixed quotes",
+        "formula": "100 * v * m * d * (w / 12)"
+      }
+    ],
+    "formulaText": "Leak per 100 jobs = 100 × rework rate × job value + 100 × job value × materials share × 0.253 × (months / 12)",
+    "plainText": "In words, the jobs that get reworked or re-run at their released value, plus the slice of this year's aluminum rise a fixed quote absorbs while it waits between signature and delivery.",
+    "callout": "You publish your certifications; they prove your parts conform. Nobody certifies the hours a job waits between operations against the hours it spends being cut, or what a held quote absorbed while aluminum moved. Those numbers exist in your records, unread.",
+    "roundTo": 5000,
+    "letterRange": {
+      "low": 10000,
+      "high": 90000
+    }
+  },
+  "respect": {
+    "heading": "What you already show in the open",
+    "paragraphs": [
+      "Your parts fly on virtually every major commercial and military aircraft [[OBSERVED]].",
+      "You carry six certifications: NADCAP, AS9100, ISO 9001, ITAR, Boeing, FAA [[OBSERVED]].",
+      "Your business grew thirty percent in a year, in a federal success story [[BENCHMARK]].",
+      "Your family bought this shop in 2002; it has made parts since 1943 [[BENCHMARK]].",
+      "Your president sits on Purdue MEP's board of advisors [[BENCHMARK]]."
+    ]
+  },
+  "proposal": {
+    "heading": "What we propose",
+    "deliverablesHeading": "What we measure",
+    "deliverables": [
+      {
+        "title": "Rework and its cost by cause"
+      },
+      {
+        "title": "What fixed quotes absorbed while aluminum moved"
+      },
+      {
+        "title": "Waiting time against cutting time, as far as records allow"
+      },
+      {
+        "title": "Catalog against custom mix with quote to cash"
+      }
+    ],
+    "ledger": {
+      "dense": true,
+      "title": "What a page of the rework log looks like",
+      "label": "Illustrative, not MSP Manufacturing data",
+      "columns": ["Item", "Cause", "Cost"],
+      "rows": [
+        {
+          "cells": [
+            "Bracket lot re-run after customer revision change",
+            "Customer change",
+            "$612.00"
+          ]
+        },
+        {
+          "cells": [
+            "Bezel batch scrapped at inspection, tool wear",
+            "Inspection finding",
+            "$1,485.50"
+          ]
+        },
+        {
+          "cells": [
+            "Clamp lot re-anodized, supplier finish",
+            "Material or supplier",
+            "$298.75"
+          ]
+        },
+        {
+          "cells": [
+            "Duct fitting re-machined, setup error",
+            "Internal",
+            "$947.00"
+          ]
+        },
+        {
+          "cells": [
+            "Switch guard lot re-inspected after drawing clarification",
+            "Customer change",
+            "$356.25"
+          ]
+        }
+      ],
+      "total": {
+        "label": "Total",
+        "value": "$3,699.50"
+      },
+      "note": "Two of the four cause buckets begin outside the shop. Every item and figure is invented to show the format."
+    },
+    "feeHeading": "The fee",
+    "fee": "A fixed fee between $1,500 and $2,500.",
+    "promise": "If your records show our printed range overstated your exposure, our findings letter says so in those words."
+  },
+  "sources": [
+    "Purdue MEP and NIST MEP success stories.",
+    "Conexus Indiana case study.",
+    "BLS producer price index, aluminum mill shapes, series WPU102501, September 2025 to August 2026, pulled September 26, 2026; next release October 15, 2026.",
+    "Company pages, September 2026.",
+    "All other figures are Nahl Technologies assumptions, stated as ranges."
+  ]
+}

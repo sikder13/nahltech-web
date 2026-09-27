@@ -1,0 +1,225 @@
+{
+  "template": 2,
+  "slug": "catalyst",
+  "token": "catalyst-product-development-inc-3d297cd8ca",
+  "company": {
+    "name": "Catalyst Product Development Group, Inc.",
+    "short": "Catalyst",
+    "town": "Indianapolis, Indiana",
+    "prepared": "September 2026"
+  },
+  "hero": {
+    "heading": "Catalyst, a cost model sent for correction",
+    "caption": "Built September 26, 2026, from catalystpdg.com and company posts, the Conexus Indiana case study, and federal data. Every number is labeled: published, federal, or our assumption. The assumptions are sliders; move them and the number moves.",
+    "liveCaption": "The model's estimate, on the assumptions you have set below",
+    "subline": "Exact computed endpoints: $11,137.50 and $74,355.00, rounded to the nearest $5,000 for display.",
+    "headingLines": [
+      { "upTo": 331, "lines": 3 },
+      { "upTo": 582, "lines": 2 }
+    ]
+  },
+  "model": {
+    "heading": "Move our assumptions",
+    "intro": "Each slider is one of the assumptions in our letter, set to the range we wrote down. If you know a figure, narrow its range, or close both handles on the exact number. The estimate above then follows your figures instead of ours. Tap a figure to type it exactly.",
+    "unit": "per ten programs",
+    "volume": {
+      "label": "Programs you run in a year",
+      "caption": "Optional. Type your volume and every dollar figure on this page scales to your year. Leave it empty and the model stays per ten programs.",
+      "suffix": "a year, at {n} programs",
+      "per": 10,
+      "max": 100000
+    },
+    "sliders": [
+      {
+        "id": "i",
+        "label": "Programs that absorb one extra iteration loop",
+        "format": "percent",
+        "min": 0,
+        "max": 70,
+        "step": 1,
+        "rest": {
+          "low": 20,
+          "high": 40
+        },
+        "presets": [
+          {
+            "label": "No absorbed loops last year",
+            "low": 0,
+            "high": 0
+          }
+        ],
+        "basis": "Assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "c",
+        "label": "Cost of one absorbed loop",
+        "format": "usd",
+        "min": 1000,
+        "max": 25000,
+        "step": 250,
+        "rest": {
+          "low": 4000,
+          "high": 12000
+        },
+        "basis": "Assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "t",
+        "label": "Tooling and molding value of a program",
+        "format": "usd",
+        "min": 5000,
+        "max": 120000,
+        "step": 1000,
+        "rest": {
+          "low": 25000,
+          "high": 60000
+        },
+        "basis": "Assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "m",
+        "label": "Materials share of that value",
+        "format": "percent",
+        "min": 10,
+        "max": 70,
+        "step": 1,
+        "rest": {
+          "low": 20,
+          "high": 35
+        },
+        "basis": "Assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "w",
+        "label": "Months a fixed quote waits between signature and first articles",
+        "format": "months",
+        "min": 0,
+        "max": 12,
+        "step": 0.5,
+        "rest": {
+          "low": 3,
+          "high": 6
+        },
+        "presets": [
+          {
+            "label": "We buy steel the day we quote",
+            "low": 0,
+            "high": 0
+          }
+        ],
+        "basis": "Assumed, printed to be corrected [[ASSUMED]]."
+      }
+    ],
+    "constants": [
+      {
+        "id": "d",
+        "value": 0.251,
+        "text": "Steel mill products rose 25.1 percent from September 2025 to August 2026 [[BENCHMARK]], BLS series WPU1017. This one is not a slider."
+      }
+    ],
+    "terms": [
+      {
+        "id": "loops",
+        "label": "Absorbed iteration loops",
+        "formula": "10 * i * c"
+      },
+      {
+        "id": "drift",
+        "label": "Drift inside tooling and molding quotes",
+        "formula": "10 * t * m * d * (w / 12)"
+      }
+    ],
+    "formulaText": "Leak per 10 programs = 10 × absorbing share × loop cost + 10 × tooling value × materials share × 0.251 × (months / 12)",
+    "plainText": "In words, the programs that absorb one extra iteration loop at its cost, plus the slice of this year's steel rise a fixed tooling and molding quote absorbs while it waits between signature and first articles.",
+    "callout": "Client approvals gate every phase of your process. Nobody publishes the calendar days a program waits at those gates against the days your people spend working it. If the waiting belongs to clients, it is worth showing them.",
+    "roundTo": 5000,
+    "letterRange": {
+      "low": 10000,
+      "high": 75000
+    }
+  },
+  "respect": {
+    "heading": "What you already show in the open",
+    "paragraphs": [
+      "You started in 1999 with four people in five hundred square feet [[OBSERVED]].",
+      "You design, engineer, prototype, tool, and mold under one roof, on six presses, in your own words [[OBSERVED]].",
+      "Your stated reason is protecting your clients' ideas by keeping their product in one building [[OBSERVED]].",
+      "In 2022 you put a $159,500 readiness grant to work on machines [[BENCHMARK]]."
+    ]
+  },
+  "proposal": {
+    "heading": "What we propose",
+    "deliverablesHeading": "What we measure",
+    "deliverables": [
+      {
+        "title": "Absorbed iterations and their cost by cause"
+      },
+      {
+        "title": "What fixed tooling and molding quotes absorbed while steel moved"
+      },
+      {
+        "title": "Waiting against working time at each client approval, as far as records allow"
+      },
+      {
+        "title": "Program mix with quote to cash"
+      }
+    ],
+    "ledger": {
+      "dense": true,
+      "title": "What a page of the absorbed-iterations log looks like",
+      "label": "Illustrative, not Catalyst data",
+      "columns": ["Program", "Cause", "Cost"],
+      "rows": [
+        {
+          "cells": [
+            "Housing program, extra loop after client color and material change",
+            "Client change",
+            "$4,850.00"
+          ]
+        },
+        {
+          "cells": [
+            "Enclosure, gate relocation after first shots",
+            "Internal",
+            "$2,340.00"
+          ]
+        },
+        {
+          "cells": [
+            "Device program, client feature added after design approval",
+            "Client change",
+            "$6,125.00"
+          ]
+        },
+        {
+          "cells": [
+            "Bracket insert, warp fix for resin behavior",
+            "Material behavior",
+            "$3,480.00"
+          ]
+        },
+        {
+          "cells": [
+            "Lid program, texture specification change",
+            "Client change",
+            "$1,975.00"
+          ]
+        }
+      ],
+      "total": {
+        "label": "Total",
+        "value": "$18,770.00"
+      },
+      "note": "Three of the five began outside the building. Every program and figure is invented to show the format."
+    },
+    "feeHeading": "The fee",
+    "fee": "A fixed fee between $1,500 and $2,500.",
+    "promise": "If your records show our printed range overstated your exposure, our findings letter says so in those words."
+  },
+  "sources": [
+    "catalystpdg.com and company posts, September 2026.",
+    "Conexus Indiana case study.",
+    "BLS producer price index, steel mill products, series WPU1017, September 2025 to August 2026, pulled September 26, 2026; next release October 15, 2026.",
+    "All other figures are Nahl Technologies assumptions, stated as ranges."
+  ]
+}

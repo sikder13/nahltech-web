@@ -44,6 +44,8 @@ Added with the Trifecta page, same additive default-off pattern: `hero.heading` 
 
 Added with the Copper Mountain page, same additive default-off pattern: a fifth slider slot, an `hours` slider format, optional `proposal.lead`, `proposal.weeks` and `proposal.conversion` (a page renders only the proposal blocks its letter carries), optional deliverable lines (a measurement may be its one clause), and `proposal.ledger.total.cells` for a total spanning several columns. Trifecta gained its own golden gate, `npm run check:trifecta-frozen`, when its letter shipped.
 
+Copper Mountain gained its own golden gate, `npm run check:cmt-frozen`, when it shipped. The MSP and Catalyst pages were built together on existing fields alone; no schema change was needed.
+
 ## Adding a company
 
 Copy `content/dashboards-v2/mursix.json` to `content/dashboards-v2/<slug>.json`, replace every field, run `npm run test:run` and `npm run build`, and open `/m2/<token>?preview`. The tests require that the model's full span at the letter's printed assumptions rounds to exactly the range printed in the letter.
