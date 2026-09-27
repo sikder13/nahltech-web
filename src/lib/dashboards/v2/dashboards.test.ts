@@ -777,6 +777,20 @@ describe("MSP model", () => {
     );
   });
 
+  it("holds its heading's height through the font swap", () => {
+    // Fraunces sets the heading in four lines up to 319px, three up to 400px,
+    // two up to 739px, and two again from 993px to 1023px; the fallback face
+    // changes at 364 and 660 and stays on one line from 993px, so without the
+    // reservation the page moved when the font arrived.
+    expect(msp.hero.headingLines).toEqual([
+      { upTo: 319, lines: 4 },
+      { upTo: 400, lines: 3 },
+      { upTo: 739, lines: 2 },
+      { upTo: 992, lines: 1 },
+      { upTo: 1023, lines: 2 },
+    ]);
+  });
+
   it("carries none of the kill-list terms anywhere in its copy", () => {
     const text = JSON.stringify(msp);
     for (const term of [
