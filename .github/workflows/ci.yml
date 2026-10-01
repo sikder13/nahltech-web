@@ -70,6 +70,13 @@ jobs:
       - name: Circle Beverage page unchanged
         run: npm run check:circle-frozen
 
+      # Insects Limited and A&A shipped together; same gates as the others.
+      - name: Insects Limited page unchanged
+        run: npm run check:insects-frozen
+
+      - name: A&A Custom Automation page unchanged
+        run: npm run check:aa-frozen
+
       # Dashboard footers carry no GitHub link, on any page, ever.
       - name: No GitHub link on dashboard pages
         run: npm run check:no-github
