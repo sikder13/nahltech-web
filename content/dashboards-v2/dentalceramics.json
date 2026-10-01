@@ -1,0 +1,247 @@
+{
+  "template": 2,
+  "slug": "dentalceramics",
+  "token": "dental-ceramics-d24b353d0a",
+  "company": {
+    "name": "Dental Ceramics LTD",
+    "short": "Dental Ceramics",
+    "town": "Zionsville, Indiana",
+    "prepared": "October 2026"
+  },
+  "hero": {
+    "heading": "Dental Ceramics LTD, a cost model sent for correction",
+    "caption": "Built October 1, 2026, from dentalceramicsltd.com, including the Policies and Resources pages, and from public metal prices. No federal index is used, and this page says why. Every number is labeled; the assumptions are sliders; move them and the number moves.",
+    "liveCaption": "The model's estimate, on the assumptions you have set below",
+    "subline": "(exact: $6,862 and $41,444), each rounded to the nearest $5,000 for display; the exact figures govern.",
+    "headingLines": [
+      { "upTo": 416, "lines": 3 },
+      { "upTo": 755, "lines": 2 },
+      { "upTo": 969, "lines": 1 },
+      { "upTo": 1023, "lines": 2 }
+    ]
+  },
+  "model": {
+    "heading": "Move our assumptions",
+    "intro": "Each slider is one of the assumptions in our letter, set to the range we wrote down. If you know a figure, narrow its range, or close both handles on the exact number. The estimate above then follows your figures instead of ours. Tap a figure to type it exactly.",
+    "unit": "per thousand units",
+    "volume": {
+      "label": "Restorative units you ship in a year",
+      "caption": "Optional. Type your volume and every dollar figure on this page scales to your year. Leave it empty and the model stays per thousand units.",
+      "suffix": "a year, at {n} units",
+      "per": 1000,
+      "max": 100000
+    },
+    "presets": {
+      "label": "Set several at once",
+      "items": [
+        {
+          "label": "Remakes only",
+          "bands": {
+            "h": { "low": 0, "high": 0 },
+            "m": { "low": 0, "high": 0 }
+          }
+        }
+      ]
+    },
+    "sliders": [
+      {
+        "id": "r",
+        "label": "Share of units that come back as remakes",
+        "format": "percent",
+        "min": 0,
+        "max": 8,
+        "step": 0.1,
+        "rest": {
+          "low": 1,
+          "high": 4
+        },
+        "presets": [
+          {
+            "label": "Digital intake",
+            "low": 1,
+            "high": 1
+          }
+        ],
+        "basis": "Against a national average near 4 percent, as published by dental laboratory trade sources [[BENCHMARK]]. Assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "c",
+        "label": "Fully loaded cost of one remake",
+        "format": "usd",
+        "min": 50,
+        "max": 600,
+        "step": 5,
+        "rest": {
+          "low": 120,
+          "high": 350
+        },
+        "basis": "Material, technician hours, and shipping. Assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "h",
+        "label": "Unbilled expert hours per thousand units",
+        "format": "hours",
+        "min": 0,
+        "max": 500,
+        "step": 5,
+        "rest": {
+          "low": 100,
+          "high": 300
+        },
+        "basis": "The minutes spent questioning a margin or requesting a try-in before a case proceeds; 100 to 300 hours is 6 to 18 minutes a unit. Assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "rate",
+        "label": "Loaded cost of one expert hour",
+        "format": "usd",
+        "min": 40,
+        "max": 120,
+        "step": 5,
+        "rest": {
+          "low": 55,
+          "high": 85
+        },
+        "basis": "Assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "m",
+        "label": "Share of units that still carry metal",
+        "format": "percent",
+        "min": 0,
+        "max": 50,
+        "step": 1,
+        "rest": {
+          "low": 5,
+          "high": 20
+        },
+        "presets": [
+          {
+            "label": "No metal",
+            "low": 0,
+            "high": 0
+          }
+        ],
+        "basis": "Zirconia and other metal-free units carry no drift. Assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "g",
+        "label": "Metal value in one metal-bearing unit",
+        "format": "usd",
+        "min": 0,
+        "max": 250,
+        "step": 5,
+        "rest": {
+          "low": 40,
+          "high": 120
+        },
+        "basis": "Assumed, printed to be corrected [[ASSUMED]]."
+      }
+    ],
+    "constants": [
+      {
+        "id": "d",
+        "value": 0.081,
+        "text": "Metal drift uses the public gold price, $4,177 on October 1, 2026 against $3,864 a year earlier (+8.1 percent) [[BENCHMARK]], applied only to metal-bearing units. Zirconia has no public curve and is charged nothing.",
+        "note": "Palladium: $1,190, down 4.7 percent in a year."
+      }
+    ],
+    "disclosure": "This model carries no federal index: none maps onto a ceramics laboratory.",
+    "terms": [
+      {
+        "id": "remakes",
+        "label": "Remakes absorbed",
+        "formula": "1000 * r * c"
+      },
+      {
+        "id": "hours",
+        "label": "Unbilled expert hours",
+        "formula": "h * rate"
+      },
+      {
+        "id": "metal",
+        "label": "Metal drift on metal-bearing units",
+        "formula": "1000 * m * g * d"
+      }
+    ],
+    "formulaText": "Moved per 1,000 units = 1,000 × remake share × remake cost + expert hours × loaded rate + 1,000 × metal share × metal value × 0.081",
+    "plainText": "In words, the remakes you absorb at their full cost, plus the expert hours given before cases proceed at their loaded rate, plus the slice of this year's gold rise carried by the units that still hold metal.",
+    "callout": "What nobody measures is the cost of the conversation a difficult case needs. Your remake policy already names seven circumstances where a remake is the doctor's doing rather than yours; nobody has counted how often each happens, or what the remakes you absorb free inside thirty days actually cost. Nobody prices the minutes spent questioning a margin or requesting a try-in before a case proceeds.",
+    "roundTo": 5000,
+    "letterRange": {
+      "low": 5000,
+      "high": 40000
+    }
+  },
+  "respect": {
+    "heading": "What you already show in the open",
+    "paragraphs": [
+      "A family laboratory since 1973 that chose to stay small on purpose and printed the reason in Latin: Non Multa Sed Multum, not many, but much [[OBSERVED]].",
+      "Technicians who sign every case [[OBSERVED]].",
+      "A forty-year vault of answers for doctors, given away [[OBSERVED]].",
+      "An owner who is always there for the conversation a difficult case needs [[OBSERVED]].",
+      "A promise most laboratories would not put in writing: work built to last decades, not years [[OBSERVED]]."
+    ]
+  },
+  "proposal": {
+    "heading": "What we propose",
+    "deliverablesHeading": "What we measure",
+    "deliverables": [
+      {
+        "title": "Remakes by cause, against your own seven circumstances"
+      },
+      {
+        "title": "Unbilled minutes per case, by product and by doctor"
+      },
+      {
+        "title": "Turnaround promised against turnaround delivered"
+      },
+      {
+        "title": "What your fee schedule absorbed since its last revision"
+      }
+    ],
+    "ledger": {
+      "dense": true,
+      "title": "What a page of the remake log looks like",
+      "label": "Illustrative, not Dental Ceramics LTD data",
+      "columns": ["Case", "Circumstance", "Cause", "Cost"],
+      "rows": [
+        {
+          "cells": ["Anterior", "No study model provided", "Doctor", "$240.00"]
+        },
+        {
+          "cells": [
+            "Posterior zirconia",
+            "Margin questioned, case proceeded",
+            "Doctor",
+            "$165.00"
+          ]
+        },
+        {
+          "cells": ["Implant crown", "Abutment modified", "Doctor", "$310.00"]
+        },
+        {
+          "cells": ["Posterior", "Shade mismatch", "Laboratory", "$150.00"]
+        },
+        {
+          "cells": ["Bridge", "Bite changed", "Doctor", "$385.00"]
+        }
+      ],
+      "total": {
+        "label": "Total, 5 remakes",
+        "value": "$1,250.00"
+      },
+      "note": "Four of five fall under your own seven circumstances; one was the laboratory's. Every case and figure is invented to show the format."
+    },
+    "feeHeading": "The fee",
+    "fee": "A fixed fee between $1,200 and $1,800.",
+    "promise": "If your records show our printed range overstated your exposure, our findings letter says so in those words."
+  },
+  "sources": [
+    "dentalceramicsltd.com, including the Policies and Resources pages, October 2026.",
+    "Gold and palladium spot prices, October 1, 2026, against one year earlier.",
+    "National remake-rate figures as published by dental laboratory trade sources.",
+    "No federal price index maps onto a ceramics laboratory, and none is used.",
+    "All other figures are Nahl Technologies assumptions, stated as ranges.",
+    "This page contains no client data of any kind; all figures are public or assumed; nothing here is protected health information."
+  ]
+}
