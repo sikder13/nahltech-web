@@ -50,6 +50,8 @@ MSP and Catalyst each gained their own golden gate (`npm run check:msp-frozen`, 
 
 Circle Beverage gained its own golden gate, `npm run check:circle-frozen`, when it shipped. Added with the Insects Limited page: `model.disclosure`, default-off, a short text block rendered in the slot the fixed benchmark badge normally occupies, for a page that deliberately carries no federal number and says why. The A&A page fit existing fields. `proposal.ledger.tight` (default off) tightens the log card's phone padding for an unusually wide log, added when the Insects five-column log needed the room; shipped ledger cards render exactly as before.
 
+Insects Limited and A&A Custom Automation each gained their own golden gate (`npm run check:insects-frozen`, `npm run check:aa-frozen`) when they shipped. Added with the Dental Ceramics LTD page, same additive default-off pattern: a sixth slider slot (the corner evaluation grows to 64 corners), and `model.presets`, a labelled row of one-tap settings that move several sliders together (Dental Ceramics' "Remakes only" closes expert hours and metal share on zero together). Every band a preset sets must sit inside its slider, which the schema checks. The page carries both a disclosure (no federal index) and a fixed public-price constant (gold), rendered together in the badge slot.
+
 ## Adding a company
 
 Copy `content/dashboards-v2/mursix.json` to `content/dashboards-v2/<slug>.json`, replace every field, run `npm run test:run` and `npm run build`, and open `/m2/<token>?preview`. The tests require that the model's full span at the letter's printed assumptions rounds to exactly the range printed in the letter.
