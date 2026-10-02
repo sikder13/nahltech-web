@@ -57,9 +57,11 @@ export function totalFormula(terms: readonly { formula: string }[]): string {
 
 /**
  * Lowest and highest model output across every corner of the chosen bands.
- * One evaluation per corner: at most 2^6 = 64 for six sliders, plus a
- * doubling per observed span, so it is cheap enough to run on every slider
- * movement.
+ * One evaluation per corner: at most 2^9 = 512 for nine sliders, plus a
+ * doubling per observed span, still cheap enough to run on every slider
+ * movement. Exact for any formula linear in each input taken alone (a
+ * product of inputs is), because such a function takes its extremes at the
+ * corners of the box.
  */
 export function rangeOverBands(
   tree: ExpressionNode,

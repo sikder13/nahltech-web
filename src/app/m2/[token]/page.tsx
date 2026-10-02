@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Fragment } from "react";
 import { notFound } from "next/navigation";
 
 import { CalibrationModel } from "@/components/dashboard/v2/CalibrationModel";
@@ -7,6 +6,7 @@ import {
   EvidenceLabel,
   Labelled,
 } from "@/components/dashboard/v2/EvidenceLabel";
+import { Ledger } from "@/components/dashboard/v2/Ledger";
 import { SeriesChart } from "@/components/dashboard/v2/SeriesChart";
 import { VisitBeacon } from "@/components/dashboard/v2/VisitBeacon";
 import { FooterBase } from "@/components/layout/FooterBase";
@@ -80,8 +80,6 @@ export default async function DashboardPage({ params }: Params) {
   if (!config) notFound();
   const shared = sharedCopy();
   const { company, model, market, findings, respect, proposal } = config;
-  // Ledger column gutter below the sm breakpoint; see the note at the table.
-  const gap = proposal.ledger?.dense ? "pe-3xs" : "pe-2xs";
   const bookHref = bookingUrl ?? `mailto:${shared.book.email}`;
   // The site footer, every link and the same structure, minus the newsletter
   // form: this page asks for one thing only.
@@ -280,120 +278,16 @@ export default async function DashboardPage({ params }: Params) {
             ))}
           </dl>
 
-          {/* Word cells wrap and figures never break; a wide ledger tightens
-              its phone gutters (config dense) instead of scrolling sideways.
-              Without the flag the class strings are byte-identical to what
-              shipped, which the Mursix golden gate proves. */}
           {proposal.ledger ? (
-            <figure
-              className={
-                proposal.ledger.tight
-                  ? "mt-lg rounded-lg border border-divider p-2xs pt-sm sm:p-md"
-                  : "mt-lg rounded-lg border border-divider p-md"
-              }
-            >
-              <div className="flex flex-wrap items-baseline justify-between gap-x-sm gap-y-2xs">
-                <h4 className="text-sm font-semibold text-text">
-                  {proposal.ledger.title}
-                </h4>
-                <span className="rounded-sm border border-dashed border-text px-[0.5em] py-[0.22em] text-[0.66rem] leading-none font-semibold tracking-[0.08em] text-text">
-                  {proposal.ledger.label}
-                </span>
-              </div>
-              <div
-                className="mt-sm overflow-x-auto"
-                tabIndex={0}
-                role="region"
-                aria-label={proposal.ledger.title}
-              >
-                <table className="w-full border-collapse text-xs tabular-nums sm:text-sm">
-                  <thead>
-                    <tr className="border-b border-border text-start text-text">
-                      {proposal.ledger.columns.map((c, col) => (
-                        <th
-                          key={c}
-                          scope="col"
-                          className={`py-2xs ${gap} font-semibold last:pe-0 sm:pe-sm ${proposal.ledger!.rows.every((r) => /^[$\d.,%]+$/.test(r.cells[col] ?? "")) ? "text-end" : "text-start"}`}
-                        >
-                          {c}
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {proposal.ledger.rows.map((row) => (
-                      <Fragment key={row.cells.join("|")}>
-                        <tr
-                          className={`${row.flag ? "bg-surface font-semibold text-text" : "border-b border-divider text-text-muted"}`}
-                        >
-                          {row.cells.map((cell, i) => (
-                            <td
-                              key={`${i}-${cell}`}
-                              // Figures never break across lines; words may,
-                              // so five columns still fit a 390px screen.
-                              className={`py-2xs ${gap} last:pe-0 sm:pe-sm ${/^[$\d.,%]+$/.test(cell) ? "text-end whitespace-nowrap" : ""}`}
-                            >
-                              {cell}
-                            </td>
-                          ))}
-                        </tr>
-                        {row.flag ? (
-                          /* The reason sits under its row, full width, so the
-                           outlier is explained without a sideways scroll. */
-                          <tr className="border-b border-divider bg-surface text-text">
-                            <td
-                              colSpan={row.cells.length}
-                              className="pe-sm pb-2xs text-xs"
-                            >
-                              <span className="me-2xs rounded-sm bg-text px-[0.4em] py-[0.1em] text-[0.66rem] font-semibold tracking-[0.08em] text-bg">
-                                {shared.flagLabel}
-                              </span>
-                              {row.flag}
-                            </td>
-                          </tr>
-                        ) : null}
-                      </Fragment>
-                    ))}
-                  </tbody>
-                  {proposal.ledger.total ? (
-                    <tfoot>
-                      <tr className="border-t border-border font-semibold text-text">
-                        <td
-                          colSpan={
-                            proposal.ledger.columns.length -
-                            (proposal.ledger.total.cells?.length ?? 1)
-                          }
-                          className={`py-2xs ${gap} last:pe-0 sm:pe-sm`}
-                        >
-                          {proposal.ledger.total.label}
-                        </td>
-                        {proposal.ledger.total.cells ? (
-                          proposal.ledger.total.cells.map((cell, i) => (
-                            <td
-                              key={i}
-                              className={`py-2xs ${gap} text-end whitespace-nowrap last:pe-0 sm:pe-sm`}
-                            >
-                              {cell}
-                            </td>
-                          ))
-                        ) : (
-                          <td
-                            className={`py-2xs ${gap} text-end whitespace-nowrap last:pe-0 sm:pe-sm`}
-                          >
-                            {proposal.ledger.total.value}
-                          </td>
-                        )}
-                      </tr>
-                    </tfoot>
-                  ) : null}
-                </table>
-              </div>
-              <figcaption className="mt-sm text-xs text-text-muted">
-                {proposal.ledger.note}
-              </figcaption>
-            </figure>
+            <Ledger ledger={proposal.ledger} flagLabel={shared.flagLabel} />
           ) : null}
-
+          {proposal.extraLedgers?.map((ledger) => (
+            <Ledger
+              key={ledger.title}
+              ledger={ledger}
+              flagLabel={shared.flagLabel}
+            />
+          ))}
           {proposal.weeksHeading && proposal.weeks ? (
             <>
               <h3 className="mt-xl text-lg font-semibold text-text">
