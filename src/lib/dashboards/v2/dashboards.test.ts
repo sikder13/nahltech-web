@@ -119,7 +119,7 @@ describe("Mursix model", () => {
     expect(mursix.respect?.paragraphs[0]?.replace(" [[OBSERVED]]", "")).toBe(
       "Your presses already report through SmartPAC, and your team built Murray Mentor to keep the floor's knowledge. This is the layer neither was built for: what the metal itself does to your margin, in dollars, by part.",
     );
-    expect(mursix.proposal.deliverables.map((d) => d.title)[2]).toBe(
+    expect(mursix.proposal.deliverables!.map((d) => d.title)[2]).toBe(
       "The measured number",
     );
   });
@@ -1664,7 +1664,7 @@ describe("Dental Ceramics LTD model", () => {
     expect(dc.model.callout).toContain(
       "Your remake policy already names seven circumstances where a remake is the doctor's doing rather than yours",
     );
-    expect(dc.proposal.deliverables[0]?.title).toBe(
+    expect(dc.proposal.deliverables![0]?.title).toBe(
       "Remakes by cause, against your own seven circumstances",
     );
     expect(dc.proposal.fee).toBe("A fixed fee between $1,200 and $1,800.");
