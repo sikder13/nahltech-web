@@ -1574,6 +1574,15 @@ describe("Dental Ceramics LTD model", () => {
     expect(dashboardSchema.safeParse(raw).success).toBe(false);
   });
 
+  it("requires a lead line when a proposal carries no deliverables", () => {
+    const raw = JSON.parse(JSON.stringify(dc)) as typeof dc;
+    delete raw.proposal.lead;
+    expect(dashboardSchema.safeParse(raw).success).toBe(false);
+    raw.proposal.lead = "x";
+    raw.proposal.deliverablesHeading = "What we measure";
+    expect(dashboardSchema.safeParse(raw).success).toBe(false);
+  });
+
   it("scales the EXACT range and rounds once, at the relay's locked volumes", () => {
     const exact = rangeOverBands(tree, dc.model, full);
     const locked: [number, string, string, number, number][] = [
@@ -1664,9 +1673,13 @@ describe("Dental Ceramics LTD model", () => {
     expect(dc.model.callout).toContain(
       "Your remake policy already names seven circumstances where a remake is the doctor's doing rather than yours",
     );
-    expect(dc.proposal.deliverables![0]?.title).toBe(
-      "Remakes by cause, against your own seven circumstances",
+    // The proposal strip, word for word from the redone letter's offer. It
+    // replaces the four measurements the first letter proposed.
+    expect(dc.proposal.lead).toBe(
+      "The proposal: the count, the gate at case receipt, and the thirty-day result; fixed fee between $1,200 and $1,800; nothing in your records is changed; no patient information leaves the building.",
     );
+    expect(dc.proposal.deliverables).toBeUndefined();
+    expect(JSON.stringify(dc)).not.toMatch(/four (numbers|measurements)/i);
     expect(dc.proposal.fee).toBe("A fixed fee between $1,200 and $1,800.");
     expect(dc.sources.at(-1)).toBe(
       "This page contains no client data of any kind; all figures are public or assumed; nothing here is protected health information.",
@@ -1712,7 +1725,17 @@ describe("Dental Ceramics LTD model", () => {
     expect(/\bAI\b/.test(text), "AI as a word").toBe(false);
     // The client is Dental Ceramics LTD; another company carries the Inc name.
     expect(/\bInc\b/.test(text), "Inc").toBe(false);
-    expect(/patient/i.test(text), "any patient term").toBe(false);
+    // "patient": exactly once, and only inside the proposal strip's privacy
+    // clause, which the relay supplies word for word. Nowhere else.
+    expect(text.match(/patient/gi)).toHaveLength(1);
+    expect(dc.proposal.lead).toContain("no patient information");
+    const elsewhere = JSON.stringify({
+      ...dc,
+      proposal: { ...dc.proposal, lead: undefined },
+    });
+    expect(/patient/i.test(elsewhere), "any patient term elsewhere").toBe(
+      false,
+    );
   });
 });
 
