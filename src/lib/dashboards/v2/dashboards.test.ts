@@ -20,6 +20,7 @@ import {
 } from "./model";
 import { isReaderAgent } from "./readers";
 import { allDashboards, dashboardRedirects, sharedCopy } from "./registry";
+import { dashboardSchema } from "./schema";
 
 describe("expression evaluator", () => {
   it("respects precedence, parentheses and unary minus", () => {
@@ -1501,6 +1502,217 @@ describe("A&A Custom Automation model", () => {
     );
     const elsewhere = JSON.stringify({ ...aa, respect: undefined });
     expect(elsewhere.includes("A&A Metal Products")).toBe(false);
+  });
+});
+
+describe("Dental Ceramics LTD model", () => {
+  const dc = allDashboards().find((d) => d.slug === "dentalceramics")!;
+  const tree = compileFormula(totalFormula(dc.model.terms));
+  const full = restBands(dc.model.sliders);
+  const term = (id: string, bands = full) =>
+    rangeOverBands(
+      compileFormula(dc.model.terms.find((t) => t.id === id)!.formula),
+      dc.model,
+      bands,
+    );
+
+  it("computes the locked endpoints to the cent at the letter's assumptions", () => {
+    expect(term("remakes").low).toBeCloseTo(1_200, 6);
+    expect(term("remakes").high).toBeCloseTo(14_000, 6);
+    expect(term("hours")).toEqual({ low: 5_500, high: 25_500 });
+    expect(formatUsdExact(term("metal").low)).toBe("$162");
+    expect(formatUsdExact(term("metal").high)).toBe("$1,944");
+    const total = rangeOverBands(tree, dc.model, full);
+    expect(total.low.toFixed(2)).toBe("6862.00");
+    expect(total.high.toFixed(2)).toBe("41444.00");
+    expect(roundTo(total.low, 5_000)).toBe(5_000);
+    expect(roundTo(total.high, 5_000)).toBe(40_000);
+  });
+
+  it("lands each preset on its locked figures", () => {
+    // Remakes only: the one preset that sets two sliders, h and m to zero.
+    const remakesOnly = dc.model.presets!.items.find(
+      (p) => p.label === "Remakes only",
+    )!;
+    expect(remakesOnly.bands).toEqual({
+      h: { low: 0, high: 0 },
+      m: { low: 0, high: 0 },
+    });
+    const only = rangeOverBands(tree, dc.model, {
+      ...full,
+      ...remakesOnly.bands,
+    });
+    expect(only.low).toBeCloseTo(1_200, 6);
+    expect(only.high).toBeCloseTo(14_000, 6);
+    // $1,200 sits below half a step, so the headline low reads $0 while the
+    // exact line beside it reads $1,200.
+    expect(
+      displayedRange(true, only, dc.model.letterRange, 5_000).range,
+    ).toEqual({ low: 0, high: 15_000 });
+    // Digital intake closes the remake share on 1 percent.
+    const r = dc.model.sliders.find((s) => s.id === "r")!;
+    expect(r.presets).toEqual([{ label: "Digital intake", low: 1, high: 1 }]);
+    const digital = { ...full, r: { low: 1, high: 1 } };
+    expect(term("remakes", digital).low).toBeCloseTo(1_200, 6);
+    expect(term("remakes", digital).high).toBeCloseTo(3_500, 6);
+    // No metal closes the metal share on zero.
+    const m = dc.model.sliders.find((s) => s.id === "m")!;
+    expect(m.presets).toEqual([{ label: "No metal", low: 0, high: 0 }]);
+    const noMetal = rangeOverBands(tree, dc.model, {
+      ...full,
+      m: { low: 0, high: 0 },
+    });
+    expect(noMetal.low).toBeCloseTo(6_700, 6);
+    expect(noMetal.high).toBeCloseTo(39_500, 6);
+  });
+
+  it("rejects a preset that sets a band outside its slider", () => {
+    const raw = JSON.parse(JSON.stringify(dc)) as typeof dc;
+    raw.model.presets!.items[0]!.bands.m = { low: 0, high: 60 };
+    expect(dashboardSchema.safeParse(raw).success).toBe(false);
+    raw.model.presets!.items[0]!.bands = { nope: { low: 0, high: 0 } };
+    expect(dashboardSchema.safeParse(raw).success).toBe(false);
+  });
+
+  it("scales the EXACT range and rounds once, at the relay's locked volumes", () => {
+    const exact = rangeOverBands(tree, dc.model, full);
+    const locked: [number, string, string, number, number][] = [
+      [2_000, "$13,724", "$82,888", 15_000, 85_000],
+      [3_500, "$24,017", "$145,054", 25_000, 145_000],
+      [5_000, "$34,310", "$207,220", 35_000, 205_000],
+    ];
+    for (const [n, low, high, shownLow, shownHigh] of locked) {
+      const scaled = scaleToVolume(exact, n, 1_000);
+      expect(formatUsdExact(scaled.low)).toBe(low);
+      expect(formatUsdExact(scaled.high)).toBe(high);
+      expect(displayedAtVolume(exact, n, 1_000, 5_000)).toEqual({
+        low: shownLow,
+        high: shownHigh,
+      });
+    }
+  });
+
+  it("displays round-to-step of the exact scaled value, for any volume, in every state", () => {
+    const bandSets = [
+      full,
+      { ...full, h: { low: 0, high: 0 }, m: { low: 0, high: 0 } },
+      { ...full, r: { low: 1, high: 1 } },
+      { ...full, m: { low: 0, high: 0 } },
+    ];
+    let seed = 61;
+    const rand = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    const volumes = [1, 500, 1_000, 2_000, 3_500, 5_000, 77_777];
+    for (let i = 0; i < 200; i += 1)
+      volumes.push(1 + Math.floor(rand() * 99_999));
+    for (const bands of bandSets) {
+      const exact = rangeOverBands(tree, dc.model, bands);
+      for (const n of volumes) {
+        const shown = displayedAtVolume(exact, n, 1_000, dc.model.roundTo);
+        expect(shown.low).toBe(
+          roundTo((exact.low * n) / 1_000, dc.model.roundTo),
+        );
+        expect(shown.high).toBe(
+          roundTo((exact.high * n) / 1_000, dc.model.roundTo),
+        );
+      }
+    }
+  });
+
+  it("keeps the remake log consistent: five remakes summing to the total row, to the cent", () => {
+    const ledger = dc.proposal.ledger!;
+    const cents = (t: string) =>
+      Math.round(Number(t.replace(/[$,]/g, "")) * 100);
+    expect(ledger.rows).toHaveLength(5);
+    const sum = ledger.rows.reduce((acc, row) => acc + cents(row.cells[3]!), 0);
+    expect(sum).toBe(cents(ledger.total!.value!));
+    expect(sum).toBe(125_000);
+    expect(ledger.total!.label).toBe("Total, 5 remakes");
+    expect(ledger.rows.map((r) => r.cells[2])).toEqual([
+      "Doctor",
+      "Doctor",
+      "Doctor",
+      "Laboratory",
+      "Doctor",
+    ]);
+    expect(ledger.label).toBe("Illustrative, not Dental Ceramics LTD data");
+  });
+
+  it("quotes the letter word for word where the page overlaps it, badge included", () => {
+    expect(dc.token).toBe("dental-ceramics-d24b353d0a");
+    expect(dc.company.name).toBe("Dental Ceramics LTD");
+    expect(dc.hero.heading).toBe(
+      "Dental Ceramics LTD, a cost model sent for correction",
+    );
+    expect(dc.model.letterRange).toEqual({ low: 5_000, high: 40_000 });
+    expect(dc.hero.subline).toContain("(exact: $6,862 and $41,444)");
+    expect(dc.model.disclosure).toBe(
+      "This model carries no federal index: none maps onto a ceramics laboratory.",
+    );
+    expect(dc.model.constants).toEqual([
+      {
+        id: "d",
+        value: 0.081,
+        text: "Metal drift uses the public gold price, $4,177 on October 1, 2026 against $3,864 a year earlier (+8.1 percent) [[BENCHMARK]], applied only to metal-bearing units. Zirconia has no public curve and is charged nothing.",
+        note: "Palladium: $1,190, down 4.7 percent in a year.",
+      },
+    ]);
+    // $4,177 against $3,864 is +8.10 percent, the published figure used.
+    expect(((4_177 / 3_864 - 1) * 100).toFixed(1)).toBe("8.1");
+    expect(dc.respect?.paragraphs[0]).toContain(
+      "printed the reason in Latin: Non Multa Sed Multum, not many, but much",
+    );
+    expect(dc.model.callout).toContain(
+      "Your remake policy already names seven circumstances where a remake is the doctor's doing rather than yours",
+    );
+    expect(dc.proposal.deliverables[0]?.title).toBe(
+      "Remakes by cause, against your own seven circumstances",
+    );
+    expect(dc.proposal.fee).toBe("A fixed fee between $1,200 and $1,800.");
+    expect(dc.sources.at(-1)).toBe(
+      "This page contains no client data of any kind; all figures are public or assumed; nothing here is protected health information.",
+    );
+  });
+
+  it("holds its heading's height through the font swap", () => {
+    // Fraunces sets the heading in three lines up to 416px, two up to 755px,
+    // one up to 969px and two again up to 1023px; the fallback face changes
+    // at 380 and 676 and stays on one line from there, so without the
+    // reservation the page moved when the font arrived.
+    expect(dc.hero.headingLines).toEqual([
+      { upTo: 416, lines: 3 },
+      { upTo: 755, lines: 2 },
+      { upTo: 969, lines: 1 },
+      { upTo: 1023, lines: 2 },
+    ]);
+  });
+
+  it("carries none of the kill-list terms anywhere in its copy", () => {
+    const text = JSON.stringify(dc);
+    for (const term of [
+      "–",
+      "—",
+      "artificial intelligence",
+      "machine learning",
+      "Glidewell",
+      "Dandy",
+      "3Shape",
+      "exocad",
+      "succession",
+      "Lavicka",
+      "Hansen",
+      "McCann",
+      "father",
+      "handed",
+      "part-time",
+      "Friday",
+      "employee",
+    ]) {
+      expect(text.toLowerCase().includes(term.toLowerCase()), term).toBe(false);
+    }
+    expect(/\bAI\b/.test(text), "AI as a word").toBe(false);
+    // The client is Dental Ceramics LTD; another company carries the Inc name.
+    expect(/\bInc\b/.test(text), "Inc").toBe(false);
+    expect(/patient/i.test(text), "any patient term").toBe(false);
   });
 });
 

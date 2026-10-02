@@ -158,8 +158,32 @@ export const dashboardSchema = z
     model: z.object({
       heading: z.string(),
       intro: z.string(),
-      sliders: z.array(sliderSchema).min(1).max(5),
+      sliders: z.array(sliderSchema).min(1).max(6),
       constants: z.array(constantSchema).default([]),
+      /**
+       * Named one-tap settings that move several sliders together, such as
+       * closing two bands on zero to leave one term standing. Rendered as a
+       * labelled row of buttons above the sliders. Every band must sit inside
+       * its slider's range. Default: absent, so every shipped page renders
+       * exactly as before.
+       */
+      presets: z
+        .object({
+          label: z.string(),
+          items: z
+            .array(
+              z.object({
+                label: z.string(),
+                bands: z.record(
+                  z.string(),
+                  z.object({ low: z.number(), high: z.number() }),
+                ),
+              }),
+            )
+            .min(1)
+            .max(3),
+        })
+        .optional(),
       /**
        * A short text block rendered in the slot the fixed benchmark badge
        * normally occupies, for a page that deliberately carries no federal
@@ -363,6 +387,22 @@ export const dashboardSchema = z
           ctx.addIssue({
             code: "custom",
             message: `term ${term.id} reads unknown input "${name}"`,
+          });
+        }
+      }
+    }
+    for (const preset of config.model.presets?.items ?? []) {
+      for (const [id, band] of Object.entries(preset.bands)) {
+        const slider = config.model.sliders.find((s) => s.id === id);
+        if (
+          !slider ||
+          band.low < slider.min ||
+          band.high > slider.max ||
+          band.low > band.high
+        ) {
+          ctx.addIssue({
+            code: "custom",
+            message: `preset "${preset.label}" sets ${id} outside any slider`,
           });
         }
       }

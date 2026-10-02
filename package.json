@@ -16,6 +16,8 @@
     "check:msp-frozen": "node scripts/check-msp-frozen.mjs",
     "check:catalyst-frozen": "node scripts/check-catalyst-frozen.mjs",
     "check:circle-frozen": "node scripts/check-circle-frozen.mjs",
+    "check:insects-frozen": "node scripts/check-insects-frozen.mjs",
+    "check:aa-frozen": "node scripts/check-aa-frozen.mjs",
     "check:no-github": "node scripts/check-no-github.mjs",
     "start": "next start",
     "lint": "eslint",

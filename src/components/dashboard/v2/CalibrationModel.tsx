@@ -121,6 +121,19 @@ export function CalibrationModel({
     setTouched(true);
   };
   const commit = () => setAnnounced(`${copy.nowLabel}: ${text} ${unit}`);
+  // A preset that moves several sliders announces the range it lands on,
+  // computed from its own bands rather than this render's.
+  const applyPreset = (preset: Record<string, Band>) => {
+    const next = { ...bands, ...preset };
+    setBands(next);
+    setTouched(true);
+    const exact = rangeOverBands(tree, model, next);
+    const landed =
+      model.volume && volume
+        ? displayedAtVolume(exact, volume, model.volume.per, model.roundTo)
+        : displayedRange(true, exact, model.letterRange, model.roundTo).range;
+    setAnnounced(`${copy.nowLabel}: ${rangeText(landed, formatUsd)} ${unit}`);
+  };
   const commitRef = useRef(commit);
   commitRef.current = commit;
   const reset = () => {
@@ -245,6 +258,38 @@ export function CalibrationModel({
                 </span>
               </p>
             </div>
+
+            {model.presets ? (
+              <div
+                role="group"
+                aria-labelledby="model-presets-label"
+                className="mt-sm flex flex-wrap items-center gap-xs print:hidden"
+              >
+                <span
+                  id="model-presets-label"
+                  className="text-sm text-text-muted"
+                >
+                  {model.presets.label}
+                </span>
+                {model.presets.items.map((preset) => {
+                  const active = Object.entries(preset.bands).every(
+                    ([id, b]) =>
+                      bands[id]?.low === b.low && bands[id]?.high === b.high,
+                  );
+                  return (
+                    <button
+                      key={preset.label}
+                      type="button"
+                      aria-pressed={active}
+                      onClick={() => applyPreset(preset.bands)}
+                      className={`min-h-11 rounded-md border px-sm text-sm font-semibold ${active ? "border-text bg-text text-bg" : "border-border text-text hover:bg-surface"}`}
+                    >
+                      {preset.label}
+                    </button>
+                  );
+                })}
+              </div>
+            ) : null}
 
             <div className="mt-sm space-y-lg">
               {model.sliders.map((slider) => (
