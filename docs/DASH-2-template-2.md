@@ -52,6 +52,8 @@ Circle Beverage gained its own golden gate, `npm run check:circle-frozen`, when 
 
 Insects Limited and A&A Custom Automation each gained their own golden gate (`npm run check:insects-frozen`, `npm run check:aa-frozen`) when they shipped. Added with the Dental Ceramics LTD page, same additive default-off pattern: a sixth slider slot (the corner evaluation grows to 64 corners), and `model.presets`, a labelled row of one-tap settings that move several sliders together (Dental Ceramics' "Remakes only" closes expert hours and metal share on zero together). Every band a preset sets must sit inside its slider, which the schema checks. The page carries both a disclosure (no federal index) and a fixed public-price constant (gold), rendered together in the badge slot.
 
+Added with the Dental Ceramics redone letter: `proposal.deliverables` and `proposal.deliverablesHeading` are optional, together. A page whose letter states the whole offer in one line carries it as `proposal.lead` and shows no measurement list; the schema then requires the lead. Every shipped page still carries its list and renders as before.
+
 Added with the Hunter Dental Laboratory page, same additive default-off pattern: room for nine sliders (corner evaluation stays exact for any formula linear in each input taken alone, which Hunter's coupled remake term is, and its test samples the full track to prove it), the log card as its own component (`Ledger.tsx`, unchanged markup), `proposal.extraLedgers` for a second log card (Hunter shows the promise log and the saves log), and figure cells that may carry a leading minus (a case that shipped a day early).
 
 ## Adding a company

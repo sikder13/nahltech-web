@@ -262,21 +262,25 @@ export default async function DashboardPage({ params }: Params) {
             </blockquote>
           ) : null}
 
-          <h3 className="mt-xl text-lg font-semibold text-text">
-            {proposal.deliverablesHeading}
-          </h3>
-          <dl className="mt-sm grid gap-sm lg:grid-cols-3 lg:gap-lg">
-            {proposal.deliverables.map((d) => (
-              <div key={d.title}>
-                <dt className="font-semibold text-text">{d.title}</dt>
-                {d.line ? (
-                  <dd className="mt-3xs max-w-prose text-text-muted">
-                    {d.line}
-                  </dd>
-                ) : null}
-              </div>
-            ))}
-          </dl>
+          {proposal.deliverablesHeading && proposal.deliverables ? (
+            <>
+              <h3 className="mt-xl text-lg font-semibold text-text">
+                {proposal.deliverablesHeading}
+              </h3>
+              <dl className="mt-sm grid gap-sm lg:grid-cols-3 lg:gap-lg">
+                {proposal.deliverables.map((d) => (
+                  <div key={d.title}>
+                    <dt className="font-semibold text-text">{d.title}</dt>
+                    {d.line ? (
+                      <dd className="mt-3xs max-w-prose text-text-muted">
+                        {d.line}
+                      </dd>
+                    ) : null}
+                  </div>
+                ))}
+              </dl>
+            </>
+          ) : null}
 
           {proposal.ledger ? (
             <Ledger ledger={proposal.ledger} flagLabel={shared.flagLabel} />

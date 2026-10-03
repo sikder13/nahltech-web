@@ -333,7 +333,12 @@ export const dashboardSchema = z
       heading: z.string(),
       /** The letter's proposal paragraph, verbatim. */
       lead: z.string().optional(),
-      deliverablesHeading: z.string(),
+      /**
+       * The measurements, under their own heading. A page whose proposal is
+       * carried whole by its lead line leaves both out, and the block does
+       * not render. Every shipped page carries them and renders as before.
+       */
+      deliverablesHeading: z.string().optional(),
       deliverables: z
         .array(
           z.object({
@@ -343,7 +348,8 @@ export const dashboardSchema = z
           }),
         )
         .min(1)
-        .max(4),
+        .max(4)
+        .optional(),
       weeksHeading: z.string().optional(),
       weeks: z
         .array(z.object({ when: z.string(), what: z.string() }))
@@ -397,6 +403,21 @@ export const dashboardSchema = z
           });
         }
       }
+    }
+    if (
+      Boolean(config.proposal.deliverables) !==
+      Boolean(config.proposal.deliverablesHeading)
+    ) {
+      ctx.addIssue({
+        code: "custom",
+        message: "deliverables and their heading come together or not at all",
+      });
+    }
+    if (!config.proposal.deliverables && !config.proposal.lead) {
+      ctx.addIssue({
+        code: "custom",
+        message: "a proposal without deliverables needs its lead line",
+      });
     }
     for (const preset of config.model.presets?.items ?? []) {
       for (const [id, band] of Object.entries(preset.bands)) {
