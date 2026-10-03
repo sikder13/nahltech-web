@@ -105,6 +105,51 @@ const pointsChartSchema = z.object({
   source: z.string(),
 });
 
+/** One illustrative log card in the proposal. */
+const ledgerSchema = z.object({
+  /**
+   * Tighter column gutters below the sm breakpoint, for ledgers whose
+   * word columns run wide. Absent, the original gutters render, so
+   * existing configs are untouched.
+   */
+  dense: z.boolean().optional(),
+  /**
+   * Every pixel at phone width for an unusually wide log: the card's
+   * padding tightens below sm. Default: off, so every shipped ledger
+   * card renders exactly as before.
+   */
+  tight: z.boolean().default(false),
+  title: z.string(),
+  label: z.string(),
+  columns: z.array(z.string()).min(2).max(6),
+  rows: z
+    .array(
+      z.object({
+        cells: z.array(z.string()),
+        /** Why the row is flagged, printed in the row, never colour alone. */
+        flag: z.string().optional(),
+      }),
+    )
+    .min(1)
+    .max(8),
+  note: z.string(),
+  /**
+   * A bold closing row, such as a total, checked by tests. `value`
+   * fills the last column; `cells` instead fills each column after
+   * the label, for a table whose total spans several columns.
+   */
+  total: z
+    .object({
+      label: z.string(),
+      value: z.string().optional(),
+      cells: z.array(z.string()).optional(),
+    })
+    .refine((t) => Boolean(t.value) !== Boolean(t.cells), {
+      message: "total takes value or cells, exactly one",
+    })
+    .optional(),
+});
+
 export const dashboardSchema = z
   .object({
     /** Template 2. Configs live in content/dashboards-v2 and render at /m2/<token>. */
@@ -158,7 +203,7 @@ export const dashboardSchema = z
     model: z.object({
       heading: z.string(),
       intro: z.string(),
-      sliders: z.array(sliderSchema).min(1).max(6),
+      sliders: z.array(sliderSchema).min(1).max(9),
       constants: z.array(constantSchema).default([]),
       /**
        * Named one-tap settings that move several sliders together, such as
@@ -317,51 +362,13 @@ export const dashboardSchema = z
       conversion: z.string().optional(),
       /** An optional standing promise printed under the conversion clause. */
       promise: z.string().optional(),
-      ledger: z
-        .object({
-          /**
-           * Tighter column gutters below the sm breakpoint, for ledgers whose
-           * word columns run wide. Absent, the original gutters render, so
-           * existing configs are untouched.
-           */
-          dense: z.boolean().optional(),
-          /**
-           * Every pixel at phone width for an unusually wide log: the card's
-           * padding tightens below sm. Default: off, so every shipped ledger
-           * card renders exactly as before.
-           */
-          tight: z.boolean().default(false),
-          title: z.string(),
-          label: z.string(),
-          columns: z.array(z.string()).min(2).max(6),
-          rows: z
-            .array(
-              z.object({
-                cells: z.array(z.string()),
-                /** Why the row is flagged, printed in the row, never colour alone. */
-                flag: z.string().optional(),
-              }),
-            )
-            .min(1)
-            .max(8),
-          note: z.string(),
-          /**
-           * A bold closing row, such as a total, checked by tests. `value`
-           * fills the last column; `cells` instead fills each column after
-           * the label, for a table whose total spans several columns.
-           */
-          total: z
-            .object({
-              label: z.string(),
-              value: z.string().optional(),
-              cells: z.array(z.string()).optional(),
-            })
-            .refine((t) => Boolean(t.value) !== Boolean(t.cells), {
-              message: "total takes value or cells, exactly one",
-            })
-            .optional(),
-        })
-        .optional(),
+      ledger: ledgerSchema.optional(),
+      /**
+       * Further log cards after the first, for a proposal that shows more
+       * than one record (Hunter: the promise log and the saves log). Default:
+       * absent, so every shipped page renders exactly as before.
+       */
+      extraLedgers: z.array(ledgerSchema).min(1).max(2).optional(),
     }),
     sources: z.array(z.string()).min(1),
   })
@@ -464,6 +471,7 @@ export const dashboardSchema = z
 export type DashboardConfig = z.infer<typeof dashboardSchema>;
 export type ModelConfig = DashboardConfig["model"];
 export type SliderConfig = ModelConfig["sliders"][number];
+export type LedgerConfig = z.infer<typeof ledgerSchema>;
 
 /** Chrome shared by every dashboard: legend, contact, privacy line. */
 export const sharedSchema = z.object({

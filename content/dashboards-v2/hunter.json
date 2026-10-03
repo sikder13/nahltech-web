@@ -1,0 +1,265 @@
+{
+  "template": 2,
+  "slug": "hunter",
+  "token": "hunter-dental-81beea1793",
+  "company": {
+    "name": "Hunter Dental Laboratory",
+    "short": "Hunter Dental",
+    "town": "Carmel, Indiana",
+    "prepared": "October 2026"
+  },
+  "hero": {
+    "heading": "Hunter Dental Laboratory, a cost model sent for correction",
+    "caption": "Built October 2, 2026, from hunterdentallaboratory.com, a 2026 Towne Post Carmel feature on the laboratory, and public metal prices. No federal index is used, and this page says why. Every number is labeled; the assumptions are sliders; move them and the number moves.",
+    "liveCaption": "The model's estimate, on the assumptions you have set below",
+    "subline": "(exact: $3,742 and $54,444) Rounding to the nearest $5,000 overstates the low end, so the exact figures govern.",
+    "headingLines": [
+      { "upTo": 371, "lines": 4 },
+      { "upTo": 440, "lines": 3 },
+      { "upTo": 1023, "lines": 2 }
+    ]
+  },
+  "model": {
+    "heading": "Move our assumptions",
+    "intro": "Each slider is one of the assumptions in our letter, set to the range we wrote down. If you know a figure, narrow its range, or close both handles on the exact number. The estimate above then follows your figures instead of ours. Tap a figure to type it exactly.",
+    "unit": "per thousand units",
+    "volume": {
+      "label": "Restorative units you ship in a year",
+      "caption": "Optional. Type your volume and every dollar figure on this page scales to your year. Leave it empty and the model stays per thousand units.",
+      "suffix": "a year, at {n} units",
+      "per": 1000,
+      "max": 100000
+    },
+    "presets": {
+      "label": "Set several at once",
+      "items": [
+        {
+          "label": "Remakes only",
+          "bands": {
+            "f": { "low": 0, "high": 0 },
+            "m": { "low": 0, "high": 0 }
+          }
+        },
+        {
+          "label": "Implants only",
+          "bands": {
+            "r": { "low": 0, "high": 0 },
+            "f": { "low": 0, "high": 0 },
+            "m": { "low": 0, "high": 0 }
+          }
+        }
+      ]
+    },
+    "sliders": [
+      {
+        "id": "s",
+        "label": "Share of units that are implant restorations",
+        "format": "percent",
+        "min": 0,
+        "max": 50,
+        "step": 1,
+        "rest": { "low": 10, "high": 25 },
+        "basis": "Assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "ri",
+        "label": "Implant units that come back as remakes",
+        "format": "percent",
+        "min": 0,
+        "max": 20,
+        "step": 0.5,
+        "rest": { "low": 4, "high": 12 },
+        "basis": "Against a national range of 8 to 12 percent for implant work, per trade sources [[BENCHMARK]]. Assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "ci",
+        "label": "Fully loaded cost of one implant remake",
+        "format": "usd",
+        "min": 100,
+        "max": 1000,
+        "step": 10,
+        "rest": { "low": 250, "high": 600 },
+        "basis": "Assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "r",
+        "label": "Other units that come back as remakes",
+        "format": "percent",
+        "min": 0,
+        "max": 8,
+        "step": 0.1,
+        "rest": { "low": 1, "high": 4 },
+        "basis": "Against a national average near 4 percent, per trade sources [[BENCHMARK]]. Assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "c",
+        "label": "Fully loaded cost of one other remake",
+        "format": "usd",
+        "min": 50,
+        "max": 600,
+        "step": 5,
+        "rest": { "low": 120, "high": 350 },
+        "basis": "Assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "f",
+        "label": "Share of cases that need a save to keep the promised date",
+        "format": "percent",
+        "min": 0,
+        "max": 40,
+        "step": 1,
+        "rest": { "low": 5, "high": 20 },
+        "basis": "Lateness caused by a remake is left out, so nothing is counted twice. Assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "save",
+        "label": "Cost of one save",
+        "format": "usd",
+        "min": 0,
+        "max": 300,
+        "step": 5,
+        "rest": { "low": 30, "high": 120 },
+        "basis": "An overnight box, a second driver run, a rush fee absorbed, a credit. Assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "m",
+        "label": "Share of units that still carry metal",
+        "format": "percent",
+        "min": 0,
+        "max": 50,
+        "step": 1,
+        "rest": { "low": 5, "high": 20 },
+        "presets": [{ "label": "No metal", "low": 0, "high": 0 }],
+        "basis": "Metal-free units, zirconia among them, carry no drift. Assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "g",
+        "label": "Metal value in one metal-bearing unit",
+        "format": "usd",
+        "min": 0,
+        "max": 250,
+        "step": 5,
+        "rest": { "low": 40, "high": 120 },
+        "basis": "Assumed, printed to be corrected [[ASSUMED]]."
+      }
+    ],
+    "constants": [
+      {
+        "id": "d",
+        "value": 0.081,
+        "text": "Metal drift uses the public gold price, $4,177 on October 1, 2026 against $3,864 a year earlier (+8.1 percent) [[BENCHMARK]], applied only to units that still carry metal. Zirconia has no public curve and is charged nothing.",
+        "note": "Palladium $1,190, down 4.7 percent in a year."
+      }
+    ],
+    "disclosure": "This model carries no federal index: none maps onto a ceramics laboratory.",
+    "terms": [
+      {
+        "id": "remakes",
+        "label": "Remakes, implants counted on their own",
+        "formula": "1000 * (s * ri * ci + (1 - s) * r * c)"
+      },
+      {
+        "id": "saves",
+        "label": "Saves that kept the promised date",
+        "formula": "1000 * f * save"
+      },
+      {
+        "id": "metal",
+        "label": "Metal drift on units that still carry metal",
+        "formula": "1000 * m * g * d"
+      }
+    ],
+    "formulaText": "Moved per 1,000 units = 1,000 × (implant share × implant remake rate × implant remake cost + (1 minus implant share) × other remake rate × other remake cost) + 1,000 × save share × cost per save + 1,000 × metal share × metal value × 0.081",
+    "plainText": "In words, implant remakes and other remakes, each at its own rate and full cost, plus what the saves that kept a promised date cost, plus the slice of this year's gold rise carried by the units that still hold metal.",
+    "callout": "What nobody measures is the promise. Your site says you make every effort to keep delivery time to a minimum; nobody records the date promised against the date delivered, by product, with dentist waiting separated from laboratory time. Nearly half of dentists changed their primary laboratory in five years, by survey, and late cases sit among the top three reasons. Your drivers, your calls, and your fifty years are invisible until the box arrives.",
+    "roundTo": 5000,
+    "letterRange": {
+      "low": 5000,
+      "high": 55000
+    }
+  },
+  "respect": {
+    "heading": "What you already show in the open",
+    "paragraphs": [
+      "Fifty years as a technician, and a family laboratory of twenty-five that designs and makes everything under its own roof [[OBSERVED]].",
+      "A counter on your site most laboratories would not dare print: more than 130,000 smiles restored, twenty-six master certifications [[OBSERVED]].",
+      "A dentist of forty years calls your work equal to any laboratory in the country [[OBSERVED]].",
+      "When the trade lost technicians in 2020, you did not lose one [[BENCHMARK]]."
+    ]
+  },
+  "proposal": {
+    "heading": "What we propose",
+    "lead": "The proposal: the promise ledger, a status loop that costs technicians nothing, and your on-time rate by product in thirty days; fixed fee between $1,200 and $1,800; nothing in your records is changed; no patient information in any note.",
+    "deliverablesHeading": "In three parts",
+    "deliverables": [
+      {
+        "title": "The ledger",
+        "line": "Promised against delivered for your last two quarters, by product, with dentist waiting separated, and implant remakes counted on their own."
+      },
+      {
+        "title": "The loop",
+        "line": "A plain status note to the doctor at receipt, at design, and when the box is on your truck, with the promised date on it, sent from what your front desk already records."
+      },
+      {
+        "title": "The result",
+        "line": "Thirty days on, your on-time rate by product, printable beside the 130,000."
+      }
+    ],
+    "ledger": {
+      "dense": true,
+      "tight": true,
+      "title": "What a page of the promise log looks like",
+      "label": "Illustrative, not Hunter Dental Laboratory data",
+      "columns": [
+        "Product",
+        "Promised day",
+        "Delivered day",
+        "Dentist wait, days",
+        "Lab days"
+      ],
+      "rows": [
+        { "cells": ["Zirconia", "7", "8", "1", "0"] },
+        { "cells": ["e.max", "10", "9", "0", "-1"] },
+        { "cells": ["Implant crown", "14", "17", "2", "1"] },
+        { "cells": ["Layered anterior", "12", "12", "0", "0"] },
+        { "cells": ["Bridge", "10", "13", "0", "3"] }
+      ],
+      "total": {
+        "label": "On time, dentist waiting set aside",
+        "value": "3 of 5"
+      },
+      "note": "Three of five arrived after the promised day; set the dentist's waiting aside and three of five were on time. Every case and figure is invented to show the format."
+    },
+    "extraLedgers": [
+      {
+        "dense": true,
+        "title": "What a page of the saves log looks like",
+        "label": "Illustrative, not Hunter Dental Laboratory data",
+        "columns": ["Save", "Cost"],
+        "rows": [
+          { "cells": ["Overnight box", "$38.00"] },
+          { "cells": ["Second driver run", "$45.00"] },
+          { "cells": ["Rush fee absorbed", "$60.00"] },
+          { "cells": ["Goodwill credit", "$84.00"] },
+          { "cells": ["Reroute", "$35.00"] }
+        ],
+        "total": {
+          "label": "Total, 5 saves",
+          "value": "$262.00"
+        },
+        "note": "Five saves that kept a promised date, none caused by a remake. Every save and figure is invented to show the format."
+      }
+    ],
+    "feeHeading": "The fee",
+    "fee": "A fixed fee between $1,200 and $1,800.",
+    "promise": "If your records show our printed range overstated your exposure, our findings letter says so in those words."
+  },
+  "sources": [
+    "hunterdentallaboratory.com and a 2026 Towne Post Carmel feature on the laboratory.",
+    "Gold and palladium spot prices, October 1, 2026, against a year earlier.",
+    "LMT and Dental Economics dentist survey; national remake rates per trade sources.",
+    "No federal price index maps onto a ceramics laboratory, and none is used.",
+    "All other figures are Nahl Technologies assumptions, stated as ranges.",
+    "This page contains no client data; all figures are public or assumed; nothing here is protected health information."
+  ]
+}

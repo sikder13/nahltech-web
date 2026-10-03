@@ -54,6 +54,8 @@ Insects Limited and A&A Custom Automation each gained their own golden gate (`np
 
 Added with the Dental Ceramics redone letter: `proposal.deliverables` and `proposal.deliverablesHeading` are optional, together. A page whose letter states the whole offer in one line carries it as `proposal.lead` and shows no measurement list; the schema then requires the lead. Every shipped page still carries its list and renders as before.
 
+Added with the Hunter Dental Laboratory page, same additive default-off pattern: room for nine sliders (corner evaluation stays exact for any formula linear in each input taken alone, which Hunter's coupled remake term is, and its test samples the full track to prove it), the log card as its own component (`Ledger.tsx`, unchanged markup), `proposal.extraLedgers` for a second log card (Hunter shows the promise log and the saves log), and figure cells that may carry a leading minus (a case that shipped a day early).
+
 ## Adding a company
 
 Copy `content/dashboards-v2/mursix.json` to `content/dashboards-v2/<slug>.json`, replace every field, run `npm run test:run` and `npm run build`, and open `/m2/<token>?preview`. The tests require that the model's full span at the letter's printed assumptions rounds to exactly the range printed in the letter.

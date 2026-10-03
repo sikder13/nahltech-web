@@ -1739,6 +1739,270 @@ describe("Dental Ceramics LTD model", () => {
   });
 });
 
+describe("Hunter Dental Laboratory model", () => {
+  const hu = allDashboards().find((d) => d.slug === "hunter")!;
+  const tree = compileFormula(totalFormula(hu.model.terms));
+  const full = restBands(hu.model.sliders);
+  const term = (id: string, bands = full) =>
+    rangeOverBands(
+      compileFormula(hu.model.terms.find((t) => t.id === id)!.formula),
+      hu.model,
+      bands,
+    );
+  const preset = (label: string) =>
+    hu.model.presets!.items.find((p) => p.label === label)!.bands;
+
+  it("computes the locked endpoints to the cent at the letter's assumptions", () => {
+    expect(term("remakes").low.toFixed(2)).toBe("2080.00");
+    expect(term("remakes").high.toFixed(2)).toBe("28500.00");
+    expect(term("saves").low.toFixed(2)).toBe("1500.00");
+    expect(term("saves").high.toFixed(2)).toBe("24000.00");
+    expect(formatUsdExact(term("metal").low)).toBe("$162");
+    expect(formatUsdExact(term("metal").high)).toBe("$1,944");
+    const total = rangeOverBands(tree, hu.model, full);
+    expect(total.low.toFixed(2)).toBe("3742.00");
+    expect(total.high.toFixed(2)).toBe("54444.00");
+    // Half up from the exacts, once: the low end displays above its exact.
+    expect(roundTo(total.low, 5_000)).toBe(5_000);
+    expect(roundTo(total.high, 5_000)).toBe(55_000);
+  });
+
+  it("keeps the corner range exact although the remake term couples its inputs", () => {
+    // s multiplies both remake rates, so the term is not monotone in s
+    // across the whole track; it is linear in each input taken alone, so
+    // its extremes still sit at corners. Sample the full track to prove it.
+    const remakes = compileFormula(hu.model.terms[0]!.formula);
+    const corners = rangeOverBands(
+      remakes,
+      hu.model,
+      extentBands(hu.model.sliders),
+    );
+    let seed = 67;
+    const rand = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    for (let i = 0; i < 2_000; i += 1) {
+      const point = Object.fromEntries(
+        hu.model.sliders.map((s) => [s.id, s.min + rand() * (s.max - s.min)]),
+      );
+      const v = valueAt(remakes, hu.model, point);
+      expect(v).toBeGreaterThanOrEqual(corners.low - 1e-6);
+      expect(v).toBeLessThanOrEqual(corners.high + 1e-6);
+    }
+  });
+
+  it("lands each preset on its locked figures", () => {
+    expect(preset("Remakes only")).toEqual({
+      f: { low: 0, high: 0 },
+      m: { low: 0, high: 0 },
+    });
+    const remakesOnly = rangeOverBands(tree, hu.model, {
+      ...full,
+      ...preset("Remakes only"),
+    });
+    expect(remakesOnly.low.toFixed(2)).toBe("2080.00");
+    expect(remakesOnly.high.toFixed(2)).toBe("28500.00");
+    // The implant part of the remake term alone: other remakes, saves and
+    // metal closed on zero.
+    const implantsOnly = rangeOverBands(tree, hu.model, {
+      ...full,
+      ...preset("Implants only"),
+    });
+    expect(implantsOnly.low.toFixed(2)).toBe("1000.00");
+    expect(implantsOnly.high.toFixed(2)).toBe("18000.00");
+    const m = hu.model.sliders.find((s) => s.id === "m")!;
+    expect(m.presets).toEqual([{ label: "No metal", low: 0, high: 0 }]);
+    const noMetal = rangeOverBands(tree, hu.model, {
+      ...full,
+      m: { low: 0, high: 0 },
+    });
+    expect(noMetal.high.toFixed(2)).toBe("52500.00");
+  });
+
+  it("scales the EXACT range and rounds once, at the relay's locked volumes", () => {
+    const exact = rangeOverBands(tree, hu.model, full);
+    const locked: [number, string, string, number, number][] = [
+      [4_000, "$14,968", "$217,776", 15_000, 220_000],
+      [6_000, "$22,452", "$326,664", 20_000, 325_000],
+      [8_000, "$29,936", "$435,552", 30_000, 435_000],
+    ];
+    for (const [n, low, high, shownLow, shownHigh] of locked) {
+      const scaled = scaleToVolume(exact, n, 1_000);
+      expect(formatUsdExact(scaled.low)).toBe(low);
+      expect(formatUsdExact(scaled.high)).toBe(high);
+      expect(displayedAtVolume(exact, n, 1_000, 5_000)).toEqual({
+        low: shownLow,
+        high: shownHigh,
+      });
+    }
+  });
+
+  it("displays round-to-step of the exact scaled value, for any volume, in every state", () => {
+    const bandSets = [
+      full,
+      { ...full, ...preset("Remakes only") },
+      { ...full, ...preset("Implants only") },
+      { ...full, m: { low: 0, high: 0 } },
+    ];
+    let seed = 71;
+    const rand = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    const volumes = [1, 500, 1_000, 4_000, 6_000, 8_000, 77_777];
+    for (let i = 0; i < 200; i += 1)
+      volumes.push(1 + Math.floor(rand() * 99_999));
+    for (const bands of bandSets) {
+      const exact = rangeOverBands(tree, hu.model, bands);
+      for (const n of volumes) {
+        const shown = displayedAtVolume(exact, n, 1_000, hu.model.roundTo);
+        expect(shown.low).toBe(
+          roundTo((exact.low * n) / 1_000, hu.model.roundTo),
+        );
+        expect(shown.high).toBe(
+          roundTo((exact.high * n) / 1_000, hu.model.roundTo),
+        );
+      }
+    }
+  });
+
+  it("keeps the promise log consistent: lab days, and three of five on time", () => {
+    const ledger = hu.proposal.ledger!;
+    let onTime = 0;
+    for (const row of ledger.rows) {
+      const [, promised, delivered, wait, lab] = row.cells.map(Number) as [
+        number,
+        number,
+        number,
+        number,
+        number,
+      ];
+      // Lab days: lateness left once the dentist's waiting is set aside.
+      expect(lab).toBe(delivered - promised - wait);
+      if (lab <= 0) onTime += 1;
+    }
+    expect(ledger.rows).toHaveLength(5);
+    expect(onTime).toBe(3);
+    expect(ledger.total).toEqual({
+      label: "On time, dentist waiting set aside",
+      value: "3 of 5",
+    });
+  });
+
+  it("keeps the saves log consistent: five saves summing to $262.00", () => {
+    const saves = hu.proposal.extraLedgers![0]!;
+    const cents = (t: string) =>
+      Math.round(Number(t.replace(/[$,]/g, "")) * 100);
+    expect(saves.rows.map((r) => r.cells)).toEqual([
+      ["Overnight box", "$38.00"],
+      ["Second driver run", "$45.00"],
+      ["Rush fee absorbed", "$60.00"],
+      ["Goodwill credit", "$84.00"],
+      ["Reroute", "$35.00"],
+    ]);
+    const sum = saves.rows.reduce((acc, row) => acc + cents(row.cells[1]!), 0);
+    expect(sum).toBe(cents(saves.total!.value!));
+    expect(sum).toBe(26_200);
+  });
+
+  it("quotes the letter and relay word for word where the page overlaps them", () => {
+    expect(hu.token).toBe("hunter-dental-81beea1793");
+    expect(hu.hero.heading).toBe(
+      "Hunter Dental Laboratory, a cost model sent for correction",
+    );
+    expect(hu.model.letterRange).toEqual({ low: 5_000, high: 55_000 });
+    // The exact figures lead, because the rounding overstates the low end.
+    expect(hu.hero.subline.startsWith("(exact: $3,742 and $54,444)")).toBe(
+      true,
+    );
+    expect(hu.model.disclosure).toBe(
+      "This model carries no federal index: none maps onto a ceramics laboratory.",
+    );
+    expect(hu.model.constants).toEqual([
+      {
+        id: "d",
+        value: 0.081,
+        text: "Metal drift uses the public gold price, $4,177 on October 1, 2026 against $3,864 a year earlier (+8.1 percent) [[BENCHMARK]], applied only to units that still carry metal. Zirconia has no public curve and is charged nothing.",
+        note: "Palladium $1,190, down 4.7 percent in a year.",
+      },
+    ]);
+    expect(hu.proposal.lead).toBe(
+      "The proposal: the promise ledger, a status loop that costs technicians nothing, and your on-time rate by product in thirty days; fixed fee between $1,200 and $1,800; nothing in your records is changed; no patient information in any note.",
+    );
+    expect(hu.respect?.paragraphs[1]).toContain(
+      "more than 130,000 smiles restored, twenty-six master certifications",
+    );
+    expect(hu.model.sliders.find((s) => s.id === "f")!.basis).toContain(
+      "Lateness caused by a remake is left out",
+    );
+    expect(hu.proposal.fee).toBe("A fixed fee between $1,200 and $1,800.");
+    // Required strings the relay lists, case as written.
+    for (const required of [
+      "130,000",
+      "no federal index",
+      "8.1 percent",
+      "zirconia",
+      "implant",
+      "status loop",
+    ])
+      expect(JSON.stringify(hu), required).toContain(required);
+    expect(hu.sources.at(-1)).toBe(
+      "This page contains no client data; all figures are public or assumed; nothing here is protected health information.",
+    );
+  });
+
+  it("holds its heading's height through the font swap", () => {
+    // Fraunces sets the heading in four lines up to 371px, three up to 440px
+    // and two up to 1023px; the fallback face changes at 336, 388 and 728,
+    // so without the reservation the page moved when the font arrived.
+    expect(hu.hero.headingLines).toEqual([
+      { upTo: 371, lines: 4 },
+      { upTo: 440, lines: 3 },
+      { upTo: 1023, lines: 2 },
+    ]);
+  });
+
+  it("carries none of the kill-list terms, with patient exactly once in the strip", () => {
+    const text = JSON.stringify(hu);
+    for (const term of [
+      "–",
+      "—",
+      "artificial intelligence",
+      "machine learning",
+      "Automate",
+      "3Shape",
+      "exocad",
+      "Dandy",
+      "Glidewell",
+      "nephew",
+      "uncle",
+      "forum",
+      "COVID",
+      "401K",
+      "retire",
+      "succession",
+      "Brett",
+      "Hansen",
+    ]) {
+      expect(text.toLowerCase().includes(term.toLowerCase()), term).toBe(false);
+    }
+    expect(/\bAI\b/.test(text), "AI as a word").toBe(false);
+    // Staff counts are never printed; the 14 in the promise log is a day.
+    expect(/\b1[46] (people|staff|employees)\b/i.test(text)).toBe(false);
+    expect(text.match(/patient/gi)).toHaveLength(1);
+    expect(hu.proposal.lead).toContain("no patient information in any note");
+    const elsewhere = JSON.stringify({
+      ...hu,
+      proposal: { ...hu.proposal, lead: undefined },
+    });
+    expect(/patient/i.test(elsewhere), "any patient term elsewhere").toBe(
+      false,
+    );
+  });
+
+  it("rejects a third extra log", () => {
+    const raw = JSON.parse(JSON.stringify(hu)) as typeof hu;
+    const extra = raw.proposal.extraLedgers![0]!;
+    raw.proposal.extraLedgers = [extra, extra, extra];
+    expect(dashboardSchema.safeParse(raw).success).toBe(false);
+  });
+});
+
 describe("every template 2 config", () => {
   const dashboards = allDashboards();
 
