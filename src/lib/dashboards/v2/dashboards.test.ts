@@ -18,7 +18,10 @@ import {
   roundTo,
   valueAt,
 } from "./model";
-import { patientTermsOutsideAllowlist } from "./kill-scan";
+import {
+  ALLOWED_PATIENT_PHRASE,
+  patientTermsOutsideAllowlist,
+} from "./kill-scan";
 import { isReaderAgent } from "./readers";
 import { allDashboards, dashboardRedirects, sharedCopy } from "./registry";
 import { dashboardSchema } from "./schema";
@@ -2586,10 +2589,20 @@ describe("Flaherty Dental Laboratory model", () => {
     ]);
     expect(contribution).toBe(13_170_000);
     expect(cents(ledger.total!.cells![3]!)).toBe(perHour(contribution, hours));
-    // The flags sit on exactly the two lowest lines per hour.
+    // The flags sit on exactly the two lowest lines per hour, and read as
+    // the shape of an invented example, never as a finding about the
+    // laboratory's new lines before anything has been counted.
     const lowest = [...rates].sort((a, b) => a[1] - b[1]).slice(0, 2);
     const flagged = ledger.rows.filter((r) => r.flag).map((r) => r.cells[0]);
     expect(flagged.sort()).toEqual(lowest.map(([line]) => line).sort());
+    for (const row of ledger.rows.filter((r) => r.flag))
+      expect(row.flag).toBe("One of the two lowest in this illustration.");
+    expect(ledger.flagLabel).toBe("LOWEST TWO");
+    expect(
+      ledger.note.startsWith(
+        "Illustrative only. The laboratory's own count may show the opposite.",
+      ),
+    ).toBe(true);
   });
 
   it("quotes the letter and relay word for word where the page overlaps them", () => {
@@ -2640,7 +2653,7 @@ describe("Flaherty Dental Laboratory model", () => {
     ]);
   });
 
-  it("carries none of the kill-list terms, with patient exactly once in the strip", () => {
+  it("carries none of the kill-list terms, patient only in our privacy phrase", () => {
     const text = JSON.stringify(fl);
     for (const term of [
       "–",
@@ -2673,15 +2686,9 @@ describe("Flaherty Dental Laboratory model", () => {
     // "Alex" only inside the testimonial's own words.
     expect(text.match(/\bAlex\b/g)).toHaveLength(1);
     expect(fl.respect!.paragraphs[2]).toContain("you and Alex communicate");
-    expect(text.match(/patient/gi)).toHaveLength(1);
-    expect(fl.proposal.lead).toContain("no patient information");
-    const elsewhere = JSON.stringify({
-      ...fl,
-      proposal: { ...fl.proposal, lead: undefined },
-    });
-    expect(/patient/i.test(elsewhere), "any patient term elsewhere").toBe(
-      false,
-    );
+    // "patient" only inside our own privacy phrase, per the standing rule.
+    expect(patientTermsOutsideAllowlist(text)).toEqual([]);
+    expect(fl.proposal.lead).toContain(ALLOWED_PATIENT_PHRASE);
   });
 });
 

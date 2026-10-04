@@ -172,6 +172,7 @@
       "tight": true,
       "title": "What a page of the line count looks like",
       "label": "Illustrative, not Flaherty Dental Laboratory data",
+      "flagLabel": "LOWEST TWO",
       "columns": ["Line", "Units", "Hours", "Contribution", "Per hour"],
       "rows": [
         {
@@ -209,7 +210,7 @@
             "$5,600.00",
             "$58.95"
           ],
-          "flag": "Second lowest per hour of the six lines."
+          "flag": "One of the two lowest in this illustration."
         },
         {
           "cells": [
@@ -228,14 +229,14 @@
             "$3,250.00",
             "$46.43"
           ],
-          "flag": "Lowest per hour of the six lines."
+          "flag": "One of the two lowest in this illustration."
         }
       ],
       "total": {
         "label": "Six lines",
         "cells": ["965", "1,095", "$131,700.00", "$120.27"]
       },
-      "note": "Contribution is units times fee less materials; per hour divides it by the hours the line took. Every line, price, and figure is invented to show the format."
+      "note": "Illustrative only. The laboratory's own count may show the opposite. Contribution is units times fee less materials; per hour divides it by the hours the line took. Every line, price, and figure is invented to show the format."
     },
     "feeHeading": "The fee",
     "fee": "A fixed fee between $1,200 and $1,800.",
