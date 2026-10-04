@@ -18,6 +18,7 @@ import {
   roundTo,
   valueAt,
 } from "./model";
+import { patientTermsOutsideAllowlist } from "./kill-scan";
 import { isReaderAgent } from "./readers";
 import { allDashboards, dashboardRedirects, sharedCopy } from "./registry";
 import { dashboardSchema } from "./schema";
@@ -2773,6 +2774,35 @@ describe("every template 2 config", () => {
       for (const row of ledger.rows)
         expect(row.cells.length).toBe(ledger.columns.length);
     }
+  });
+
+  it('uses "patient" only inside our own privacy phrase', () => {
+    // The standing rule lives in kill-scan.ts: "no patient information" is
+    // allowed; any other use of the word fails, on every page.
+    for (const d of dashboards)
+      expect({
+        slug: d.slug,
+        stray: patientTermsOutsideAllowlist(JSON.stringify(d)),
+      }).toEqual({ slug: d.slug, stray: [] });
+    expect(patientTermsOutsideAllowlist(JSON.stringify(sharedCopy()))).toEqual(
+      [],
+    );
+  });
+
+  it("allows the exact privacy phrase and nothing else", () => {
+    expect(
+      patientTermsOutsideAllowlist(
+        "read-only; no patient information leaves the building.",
+      ),
+    ).toEqual([]);
+    for (const stray of [
+      "patient names",
+      "Patient data",
+      "our patients",
+      "No patient information",
+      "no patient information and patient charts",
+    ])
+      expect(patientTermsOutsideAllowlist(stray), stray).not.toEqual([]);
   });
 
   it("uses no dashes as punctuation in any copy", () => {
