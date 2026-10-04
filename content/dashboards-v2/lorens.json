@@ -1,0 +1,227 @@
+{
+  "template": 2,
+  "slug": "lorens",
+  "token": "lorens-body-662f7fb5a7",
+  "company": {
+    "name": "Loren's Body Shop",
+    "short": "Loren's",
+    "town": "Bluffton, Indiana",
+    "prepared": "October 2026"
+  },
+  "hero": {
+    "heading": "Loren's Body Shop, a cost model sent for correction",
+    "caption": "Built October 4, 2026, from lorensbodyshop.com, the trade press, the industry's billing survey, and federal data. Every number is labeled: published, federal, or our assumption. The assumptions are sliders; move them and the number moves.",
+    "liveCaption": "The model's estimate, on the assumptions you have set below",
+    "subline": "(exact: $2,911 and $32,342) Under $5,000 a figure rounds to the nearest $1,000, above it to the nearest $5,000; the exact figures govern.",
+    "headingLines": [
+      { "upTo": 380, "lines": 3 },
+      { "upTo": 717, "lines": 2 }
+    ]
+  },
+  "model": {
+    "heading": "Move our assumptions",
+    "intro": "Each slider is one of the assumptions in our letter, set to the range we wrote down. If you know a figure, narrow its range, or close both handles on the exact number. The estimate above then follows your figures instead of ours. Tap a figure to type it exactly.",
+    "unit": "per hundred repairs",
+    "volume": {
+      "label": "Repairs you complete in a year",
+      "caption": "Optional. Type your volume and every dollar figure on this page scales to your year. Leave it empty and the model stays per hundred repairs.",
+      "suffix": "a year, at {n} repairs",
+      "per": 100,
+      "max": 50000
+    },
+    "presets": {
+      "label": "Set several at once",
+      "items": [
+        {
+          "label": "Unbilled lines only",
+          "bands": {
+            "s": { "low": 0, "high": 0 },
+            "lag": { "low": 0, "high": 0 }
+          }
+        },
+        {
+          "label": "Short pays only",
+          "bands": {
+            "u": { "low": 0, "high": 0 },
+            "lag": { "low": 0, "high": 0 }
+          }
+        }
+      ]
+    },
+    "sliders": [
+      {
+        "id": "u",
+        "label": "Not-included operations performed and never billed, per repair",
+        "format": "decimal",
+        "min": 0,
+        "max": 4,
+        "step": 0.25,
+        "rest": { "low": 0.5, "high": 2 },
+        "basis": "Assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "v",
+        "label": "Value of one unbilled operation",
+        "format": "usd",
+        "min": 0,
+        "max": 250,
+        "step": 5,
+        "rest": { "low": 40, "high": 110 },
+        "basis": "Assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "s",
+        "label": "Repairs short paid",
+        "format": "percent",
+        "min": 0,
+        "max": 60,
+        "step": 1,
+        "rest": { "low": 10, "high": 30 },
+        "basis": "Assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "a",
+        "label": "Amount of one short pay",
+        "format": "usd",
+        "min": 0,
+        "max": 600,
+        "step": 5,
+        "rest": { "low": 75, "high": 300 },
+        "basis": "Assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "p",
+        "label": "Parts on one repair",
+        "format": "usd",
+        "min": 0,
+        "max": 5000,
+        "step": 50,
+        "rest": { "low": 1200, "high": 2500 },
+        "basis": "Assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "lag",
+        "label": "Months between estimate and parts order",
+        "format": "months",
+        "min": 0,
+        "max": 4,
+        "step": 0.25,
+        "rest": { "low": 0.5, "high": 2 },
+        "presets": [{ "label": "No lag", "low": 0, "high": 0 }],
+        "basis": "Half a month to two months, about two to eight weeks. Assumed, printed to be corrected [[ASSUMED]]."
+      }
+    ],
+    "constants": [
+      {
+        "id": "dm",
+        "value": 0.0026832856671433424,
+        "text": "Federal series: BLS producer price index, motor vehicle parts (WPU1412), 145.456 in October 2025 to 149.359 in August 2026, its latest published month: up 2.7 percent over ten months, 0.27 percent per month [[BENCHMARK]]. The model applies it only across the weeks between estimate and parts order. Next release October 15, 2026; this page changes with it."
+      }
+    ],
+    "terms": [
+      {
+        "id": "unbilled",
+        "label": "Not-included operations never billed",
+        "formula": "100 * u * v"
+      },
+      {
+        "id": "short",
+        "label": "Short pays absorbed",
+        "formula": "100 * s * a"
+      },
+      {
+        "id": "parts",
+        "label": "Parts drift between estimate and order",
+        "formula": "100 * p * lag * dm"
+      }
+    ],
+    "formulaText": "Moved per 100 repairs = 100 × unbilled operations per repair × value per operation + 100 × short-paid share × short pay + 100 × parts per repair × months of lag × (149.359 ÷ 145.456 minus 1) ÷ 10",
+    "plainText": "In words, the not-included operations your shop performs and never writes, plus what insurers short pay, plus what parts prices add while an estimate waits for its parts order.",
+    "callout": "What nobody counts is the line you never wrote. The industry's own quarterly survey of 473 shops says it plainly: most shops that put a not-included operation on the estimate are paid for it most of the time, and one shop in five never asks at all. Nearly half never bill the final verification of measurements; two thirds never bill stall cure time. For a shop that works inside insurer programs, as yours does, those are not negotiations lost; they are lines that never existed.",
+    "roundTo": 5000,
+    "smallRound": {
+      "under": 5000,
+      "step": 1000,
+      "note": "Under $5,000, a figure rounds to the nearest $1,000."
+    },
+    "volumeFromCents": true,
+    "letterRange": {
+      "low": 3000,
+      "high": 30000
+    }
+  },
+  "respect": {
+    "heading": "What you already show in the open",
+    "paragraphs": [
+      "Your family opened the shop in 1951; the second generation took it in 1975; you started in 1985 and took the responsibility in 2000 [[OBSERVED]].",
+      "I-CAR Gold Class. A lifetime warranty on the repair. Seventeen bays, and five veterans with a hundred years of collision work between them [[OBSERVED]].",
+      "Nearly six hundred customers rating you five stars [[OBSERVED]].",
+      "You told a trade paper the thing most owners will not say aloud: that you are the dominant shop in a town of ten thousand, that you never take it for granted, and that a consolidator could show up any day [[BENCHMARK]]."
+    ]
+  },
+  "proposal": {
+    "heading": "What we propose",
+    "lead": "The proposal: the count (operations performed against billed, by insurer, with every short pay), the line (your not-included operations and the proof each needs, on every estimate), and the thirty-day result; fixed fee between $1,500 and $2,500; read-only; no customer or vehicle identity leaves the building.",
+    "ledger": {
+      "dense": true,
+      "tight": true,
+      "title": "What one repair's unbilled lines look like",
+      "label": "Illustrative, not Loren's Body Shop data",
+      "columns": ["Operation", "Hours", "Cost", "Never asked, survey"],
+      "rows": [
+        {
+          "cells": [
+            "Final verification of measurements",
+            "0.5",
+            "$36.00",
+            "A little under half"
+          ]
+        },
+        {
+          "cells": [
+            "Feather, prime and block",
+            "1.0",
+            "$72.00",
+            "Not published"
+          ]
+        },
+        {
+          "cells": ["Stall cure time", "0.5", "$36.00", "About two thirds"]
+        },
+        {
+          "cells": [
+            "Test drive and post-repair scan",
+            "0.75",
+            "$54.00",
+            "Not published"
+          ]
+        },
+        {
+          "cells": [
+            "Pinch-weld coating removal",
+            "0.6875",
+            "$49.50",
+            "One in five"
+          ]
+        }
+      ],
+      "total": {
+        "label": "Five operations",
+        "cells": ["3.4375", "$247.50", ""]
+      },
+      "note": "Priced at an illustrative $72 door rate. The never-asked shares are the survey's, where it publishes one; every hour and dollar is invented to show the format."
+    },
+    "feeHeading": "The fee",
+    "fee": "A fixed fee between $1,500 and $2,500.",
+    "promise": "If your records show our printed range overstated your exposure, our findings letter says so in those words."
+  },
+  "sources": [
+    "lorensbodyshop.com, October 2026.",
+    "Autobody News, June 2025.",
+    "Carwise ratings.",
+    "Collision Advice and CRASH Network, Who Pays for What? surveys, 2026.",
+    "BLS producer price index, motor vehicle parts, WPU1412, October 2025 to August 2026; next release October 15, 2026.",
+    "All other figures are Nahl Technologies assumptions, stated as ranges.",
+    "This page contains no client data, and no customer or vehicle identity."
+  ]
+}

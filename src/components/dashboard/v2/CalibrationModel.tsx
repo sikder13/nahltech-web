@@ -12,6 +12,7 @@ import {
   scaleToVolume,
   restBands,
   rangeOverBands,
+  toCents,
   totalFormula,
   type Band,
 } from "@/lib/dashboards/v2/model";
@@ -86,16 +87,23 @@ export function CalibrationModel({
   const [volumeDraft, setVolumeDraft] = useState("");
 
   const computedBase = rangeOverBands(tree, model, bands);
+  const small = model.smallRound;
   const shownBase = displayedRange(
     touched,
     computedBase,
     model.letterRange,
     model.roundTo,
+    small,
   );
+  // What volume scaling starts from: the exact range, or, on a page that
+  // sets volumeFromCents, the exact range to the cent.
+  const forVolume = (r: Band) => (model.volumeFromCents ? toCents(r) : r);
   // With a volume set, every figure on the page scales to the reader's year:
   // the displayed range rescaled and re-rounded, the exact line rescaled.
   const scale = (r: Band) =>
-    model.volume && volume ? scaleToVolume(r, volume, model.volume.per) : r;
+    model.volume && volume
+      ? scaleToVolume(forVolume(r), volume, model.volume.per)
+      : r;
   const computed = scale(computedBase);
   // At a volume, the display is the EXACT range scaled, rounded once, last.
   const shown =
@@ -103,10 +111,11 @@ export function CalibrationModel({
       ? {
           ...shownBase,
           range: displayedAtVolume(
-            computedBase,
+            forVolume(computedBase),
             volume,
             model.volume.per,
             model.roundTo,
+            small,
           ),
         }
       : shownBase;
@@ -130,8 +139,15 @@ export function CalibrationModel({
     const exact = rangeOverBands(tree, model, next);
     const landed =
       model.volume && volume
-        ? displayedAtVolume(exact, volume, model.volume.per, model.roundTo)
-        : displayedRange(true, exact, model.letterRange, model.roundTo).range;
+        ? displayedAtVolume(
+            forVolume(exact),
+            volume,
+            model.volume.per,
+            model.roundTo,
+            small,
+          )
+        : displayedRange(true, exact, model.letterRange, model.roundTo, small)
+            .range;
     setAnnounced(`${copy.nowLabel}: ${rangeText(landed, formatUsd)} ${unit}`);
   };
   const commitRef = useRef(commit);
@@ -141,7 +157,13 @@ export function CalibrationModel({
     setTouched(false);
     const back =
       model.volume && volume
-        ? displayedAtVolume(restExact, volume, model.volume.per, model.roundTo)
+        ? displayedAtVolume(
+            forVolume(restExact),
+            volume,
+            model.volume.per,
+            model.roundTo,
+            small,
+          )
         : model.letterRange;
     setAnnounced(`${copy.nowLabel}: ${rangeText(back, formatUsd)} ${unit}`);
   };

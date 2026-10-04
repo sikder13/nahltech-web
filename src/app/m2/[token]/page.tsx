@@ -397,6 +397,7 @@ export default async function DashboardPage({ params }: Params) {
                   "{step}",
                   formatUsd(model.roundTo),
                 )}
+                {model.smallRound ? ` ${model.smallRound.note}` : null}
               </p>
             </div>
           </div>
