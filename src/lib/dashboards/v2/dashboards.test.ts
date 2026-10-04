@@ -3584,6 +3584,227 @@ describe("Generations Custom Auto & Collision model", () => {
   });
 });
 
+describe("Burnside Express Collision model", () => {
+  const bu = allDashboards().find((d) => d.slug === "burnside")!;
+  const tree = compileFormula(totalFormula(bu.model.terms));
+  const full = restBands(bu.model.sliders);
+  const small = bu.model.smallRound;
+  const term = (id: string, bands = full) =>
+    rangeOverBands(
+      compileFormula(bu.model.terms.find((t) => t.id === id)!.formula),
+      bu.model,
+      bands,
+    );
+  const preset = (label: string) =>
+    bu.model.presets!.items.find((p) => p.label === label)!.bands;
+  const shown = (b: { low: number; high: number }) => ({
+    low: roundForDisplay(b.low, 5_000, small),
+    high: roundForDisplay(b.high, 5_000, small),
+  });
+
+  it("carries the federal monthly constant as the exact WPU1412 fraction", () => {
+    const dm = bu.model.constants.find((c) => c.id === "dm")!;
+    expect(dm.value).toBe((149.359 - 145.456) / 145.456 / 10);
+    expect(bu.model.formulaText).toContain("(149.359 ÷ 145.456 minus 1) ÷ 10");
+  });
+
+  it("computes the locked endpoints to the cent at the letter's assumptions", () => {
+    expect(term("gap").low.toFixed(2)).toBe("1650.00");
+    expect(term("gap").high.toFixed(2)).toBe("11250.00");
+    expect(term("unbilled").low.toFixed(2)).toBe("2000.00");
+    expect(term("unbilled").high.toFixed(2)).toBe("22000.00");
+    expect(term("parts").low.toFixed(2)).toBe("161.00");
+    expect(term("parts").high.toFixed(2)).toBe("1341.64");
+    const total = rangeOverBands(tree, bu.model, full);
+    expect(total.low.toFixed(2)).toBe("3811.00");
+    expect(total.high.toFixed(2)).toBe("34591.64");
+    expect(formatUsdExact(total.low)).toBe("$3,811");
+    expect(Math.round(total.high)).toBe(34_592);
+    expect(shown(total)).toEqual({ low: 4_000, high: 35_000 });
+  });
+
+  it("lands each preset on its locked figures", () => {
+    const gap = rangeOverBands(tree, bu.model, {
+      ...full,
+      ...preset("Location gap only"),
+    });
+    expect(gap.low.toFixed(2)).toBe("1650.00");
+    expect(gap.high.toFixed(2)).toBe("11250.00");
+    expect(shown(gap)).toEqual({ low: 2_000, high: 10_000 });
+    const unbilled = rangeOverBands(tree, bu.model, {
+      ...full,
+      ...preset("Unbilled lines only"),
+    });
+    expect(unbilled.low.toFixed(2)).toBe("2000.00");
+    expect(unbilled.high.toFixed(2)).toBe("22000.00");
+    expect(shown(unbilled)).toEqual({ low: 2_000, high: 20_000 });
+    const lag = bu.model.sliders.find((s) => s.id === "lag")!;
+    expect(lag.presets).toEqual([{ label: "No lag", low: 0, high: 0 }]);
+    const noLag = rangeOverBands(tree, bu.model, {
+      ...full,
+      lag: { low: 0, high: 0 },
+    });
+    expect(noLag.low.toFixed(2)).toBe("3650.00");
+    expect(noLag.high.toFixed(2)).toBe("33250.00");
+  });
+
+  it("scales the cent-rounded range at the relay's locked volumes, to the cent", () => {
+    expect(bu.model.volumeFromCents).toBe(true);
+    const exact = toCents(rangeOverBands(tree, bu.model, full));
+    const locked: [number, string, string, number, number][] = [
+      [2_400, "$91,464", "$830,199.36", 90_000, 830_000],
+      [3_600, "$137,196", "$1,245,299.04", 135_000, 1_245_000],
+      [4_800, "$182,928", "$1,660,398.72", 185_000, 1_660_000],
+    ];
+    for (const [n, low, high, shownLow, shownHigh] of locked) {
+      const scaled = scaleToVolume(exact, n, 100);
+      expect(formatUsdExact(scaled.low)).toBe(low);
+      expect(formatUsdExact(scaled.high)).toBe(high);
+      expect(displayedAtVolume(exact, n, 100, 5_000, small)).toEqual({
+        low: shownLow,
+        high: shownHigh,
+      });
+    }
+  });
+
+  it("displays the rounding rules applied to the scaled exact, for any volume, in every state", () => {
+    const bandSets = [
+      full,
+      { ...full, ...preset("Location gap only") },
+      { ...full, ...preset("Unbilled lines only") },
+      { ...full, lag: { low: 0, high: 0 } },
+    ];
+    let seed = 107;
+    const rand = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    const volumes = [1, 50, 100, 2_400, 3_600, 4_800, 77_777];
+    for (let i = 0; i < 200; i += 1)
+      volumes.push(1 + Math.floor(rand() * 99_999));
+    for (const bands of bandSets) {
+      const exact = toCents(rangeOverBands(tree, bu.model, bands));
+      for (const n of volumes) {
+        const got = displayedAtVolume(exact, n, 100, bu.model.roundTo, small);
+        expect(got.low).toBe(
+          roundForDisplay((exact.low * n) / 100, bu.model.roundTo, small),
+        );
+        expect(got.high).toBe(
+          roundForDisplay((exact.high * n) / 100, bu.model.roundTo, small),
+        );
+      }
+    }
+  });
+
+  it("computes each shop's gap against the best shop: $7,140.00 combined", () => {
+    const ledger = bu.proposal.ledger!;
+    const cents = (t: string) =>
+      Math.round(Number(t.replace(/[$,%]/g, "")) * 100);
+    expect(ledger.rows.map((r) => r.cells.slice(0, 5))).toEqual([
+      ["One", "48", "9.2", "1.6", "94%"],
+      ["Two", "61", "11.4", "0.9", "87%"],
+      ["Three", "57", "10.6", "1.1", "90%"],
+    ]);
+    // The best shop is marked, and every gap is measured against it at the
+    // note's two illustrative costs: $90 a supplement, $43 a line.
+    expect(ledger.rows[0]!.flag).toBeDefined();
+    expect(ledger.flagLabel).toBe("BEST SHOP");
+    expect(
+      ledger.note.startsWith(
+        "Illustrative costs. The count prices the real gap from the company's own records.",
+      ),
+    ).toBe(true);
+    expect(ledger.note).toContain("$90 for each extra supplement");
+    expect(ledger.note).toContain("$43 for each not-included line");
+    const [best] = ledger.rows;
+    const bestSup = Number(best!.cells[1]);
+    const bestLines = Math.round(Number(best!.cells[3]) * 100);
+    let combined = 0;
+    for (const row of ledger.rows) {
+      const extraSupplements = Number(row.cells[1]) - bestSup;
+      const unwrittenPer100 =
+        bestLines - Math.round(Number(row.cells[3]) * 100);
+      const gap = extraSupplements * 9_000 + unwrittenPer100 * 4_300;
+      expect(cents(row.cells[5]!)).toBe(gap);
+      combined += gap;
+    }
+    expect(combined).toBe(714_000);
+    expect(ledger.total).toEqual({
+      label: "Two and three combined",
+      value: "$7,140.00",
+    });
+  });
+
+  it("quotes the letter and relay word for word where the page overlaps them", () => {
+    expect(bu.token).toBe("burnside-collision-35f699795b");
+    expect(bu.hero.heading).toBe(
+      "Burnside Express Collision, a cost model sent for correction",
+    );
+    expect(bu.model.letterRange).toEqual({ low: 4_000, high: 35_000 });
+    expect(bu.hero.subline.startsWith("(exact: $3,811 and $34,592)")).toBe(
+      true,
+    );
+    expect(bu.model.constants[0]!.text).toBe(
+      "Federal series: BLS producer price index, motor vehicle parts (WPU1412), 145.456 in October 2025 to 149.359 in August 2026, its latest published month: up 2.7 percent over ten months, 0.27 percent per month [[BENCHMARK]]. The model applies it only across the weeks between estimate and parts order. Next release October 15, 2026; this page changes with it.",
+    );
+    expect(bu.proposal.lead).toBe(
+      "The proposal: the count by shop (supplements, days, rework, lines written and paid), the best shop's page written in its people's words as the standard for the other two and the fourth, and the thirty-day result; fixed fee between $1,500 and $2,500; read-only; no customer or vehicle identity leaves the buildings.",
+    );
+    expect(bu.proposal.fee).toBe("A fixed fee between $1,500 and $2,500.");
+    for (const required of [
+      "WPU1412",
+      "2.7 percent",
+      "October 15",
+      "473 shops",
+      "three shops",
+      "best shop",
+    ])
+      expect(JSON.stringify(bu), required).toContain(required);
+    expect(bu.sources.at(-1)).toBe(
+      "This page contains no client data, and no customer or vehicle identity.",
+    );
+  });
+
+  it("holds its heading's height through the font swap", () => {
+    // Fraunces sets the heading in four lines up to 340px, three up to 440px
+    // and two up to 1023px; the fallback face changes at 305, 388 and 734,
+    // so without the reservation the page moved when the font arrived.
+    expect(bu.hero.headingLines).toEqual([
+      { upTo: 340, lines: 4 },
+      { upTo: 440, lines: 3 },
+      { upTo: 1023, lines: 2 },
+    ]);
+  });
+
+  it("carries none of the kill-list terms", () => {
+    const text = JSON.stringify(bu);
+    for (const term of [
+      "–",
+      "—",
+      "artificial intelligence",
+      "machine learning",
+      "Caliber",
+      "Gerber",
+      "Crash Champions",
+      "ABRA",
+      "CollisionRight",
+      "Service King",
+      "Classic Collision",
+      "Jessica",
+    ]) {
+      expect(text.toLowerCase().includes(term.toLowerCase()), term).toBe(false);
+    }
+    expect(/\bAI\b/.test(text), "AI as a word").toBe(false);
+    expect(/\bDRP\b/.test(text), "DRP as an acronym").toBe(false);
+    expect(/\bMSOs?\b/.test(text), "MSO as an acronym").toBe(false);
+    expect(/\bVIN\b|\bplates?\b/i.test(text), "vehicle identity").toBe(false);
+    expect(
+      /\b(\d+|one|two|three|four|five|six|seven|eight|nine|ten|twelve|twenty|thirty) (people|employees|staff|technicians)\b/i.test(
+        text,
+      ),
+      "employee count",
+    ).toBe(false);
+    expect(patientTermsOutsideAllowlist(text)).toEqual([]);
+  });
+});
+
 describe("every template 2 config", () => {
   const dashboards = allDashboards();
 
