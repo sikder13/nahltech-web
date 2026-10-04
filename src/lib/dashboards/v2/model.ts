@@ -34,6 +34,7 @@ export const sliderFormats = [
   "count",
   "minutes",
   "usdCents",
+  "decimal",
 ] as const;
 export type SliderFormat = (typeof sliderFormats)[number];
 
@@ -118,9 +119,43 @@ export function displayedAtVolume(
   volume: number,
   per: number,
   step: number,
+  small?: SmallRound,
 ): Band {
   const scaled = scaleToVolume(exact, volume, per);
-  return { low: roundTo(scaled.low, step), high: roundTo(scaled.high, step) };
+  return {
+    low: roundForDisplay(scaled.low, step, small),
+    high: roundForDisplay(scaled.high, step, small),
+  };
+}
+
+/**
+ * A page's small-dollar rule: an exact figure under `under` displays to the
+ * nearest `step` instead of the page's usual step, so a low end of $2,911
+ * reads $3,000 rather than $5,000. Pages without the rule never pass one.
+ */
+export type SmallRound = { under: number; step: number };
+
+/** One figure as the headline shows it, under the page's rounding rules. */
+export function roundForDisplay(
+  value: number,
+  step: number,
+  small?: SmallRound,
+): number {
+  return small && Math.abs(value) < small.under
+    ? roundTo(value, small.step)
+    : roundTo(value, step);
+}
+
+/**
+ * A range to the cent, half up on the true decimal value. A page that sets
+ * `volumeFromCents` scales this instead of the unrounded range, so a reader
+ * who multiplies the printed exact figure by their volume gets the page's
+ * figure to the cent.
+ */
+export function toCents(b: Band): Band {
+  const cents = (v: number) =>
+    Math.round(parseFloat((v * 100).toFixed(4))) / 100;
+  return { low: cents(b.low), high: cents(b.high) };
 }
 
 /** The model at one exact point. Used by the monotonicity test. */
@@ -203,6 +238,9 @@ export function formatSliderValue(format: SliderFormat, value: number): string {
       return `$${value.toFixed(2)}`;
     case "minutes":
       return `${Math.round(value)} min`;
+    case "decimal":
+      // A plain number such as operations per repair; the label names it.
+      return `${Number(value.toFixed(2))}`;
   }
 }
 
@@ -242,12 +280,13 @@ export function displayedRange(
   computed: Band,
   letter: Band,
   step: number,
+  small?: SmallRound,
 ): { range: Band; live: boolean } {
   if (!touched) return { range: letter, live: false };
   return {
     range: {
-      low: roundTo(computed.low, step),
-      high: roundTo(computed.high, step),
+      low: roundForDisplay(computed.low, step, small),
+      high: roundForDisplay(computed.high, step, small),
     },
     live: true,
   };

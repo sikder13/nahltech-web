@@ -15,7 +15,9 @@ import {
   restBands,
   extentBands,
   rangeOverBands,
+  roundForDisplay,
   roundTo,
+  toCents,
   valueAt,
 } from "./model";
 import {
@@ -37,6 +39,32 @@ describe("expression evaluator", () => {
     for (const bad of ["a; b", "fetch(1)", "a ** 2", "2 +", "(a"]) {
       expect(() => parse(bad)).toThrow();
     }
+  });
+});
+
+describe("small-dollar rounding and cent-first volume scaling", () => {
+  const small = { under: 5_000, step: 1_000 };
+
+  it("rounds an exact figure under the threshold to the finer step, half up", () => {
+    expect(roundForDisplay(2_911, 5_000, small)).toBe(3_000);
+    expect(roundForDisplay(750, 5_000, small)).toBe(1_000);
+    expect(roundForDisplay(2_500, 5_000, small)).toBe(3_000);
+    expect(roundForDisplay(4_999, 5_000, small)).toBe(5_000);
+    expect(roundForDisplay(5_000, 5_000, small)).toBe(5_000);
+    expect(roundForDisplay(32_341.64, 5_000, small)).toBe(30_000);
+  });
+
+  it("leaves every page without the rule exactly as it rounded before", () => {
+    for (const v of [750, 2_911, 3_742, 4_112, 22_500, 32_341.64])
+      expect(roundForDisplay(v, 5_000)).toBe(roundTo(v, 5_000));
+  });
+
+  it("scales the cent-rounded range when a page asks for it", () => {
+    const exact = { low: 2_910.9970029, high: 32_341.6428357 };
+    expect(toCents(exact)).toEqual({ low: 2_911, high: 32_341.64 });
+    const scaled = scaleToVolume(toCents(exact), 600, 100);
+    expect(formatUsdExact(scaled.low)).toBe("$17,466");
+    expect(formatUsdExact(scaled.high)).toBe("$194,049.84");
   });
 });
 
@@ -2984,8 +3012,8 @@ describe("every template 2 config", () => {
       const span = rangeOverBands(tree, d.model, restBands(d.model.sliders));
       expect({
         slug: d.slug,
-        low: roundTo(span.low, d.model.roundTo),
-        high: roundTo(span.high, d.model.roundTo),
+        low: roundForDisplay(span.low, d.model.roundTo, d.model.smallRound),
+        high: roundForDisplay(span.high, d.model.roundTo, d.model.smallRound),
       }).toEqual({ slug: d.slug, ...d.model.letterRange });
     }
   });

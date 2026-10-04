@@ -300,6 +300,25 @@ export const dashboardSchema = z
       formulaText: z.string(),
       plainText: z.string(),
       roundTo: z.number().positive(),
+      /**
+       * The small-dollar display rule: an exact figure under `under` shows
+       * to the nearest `step`; `note` is the sentence added to the page's
+       * rounding line. Default: absent, so every shipped page rounds as it
+       * always has.
+       */
+      smallRound: z
+        .object({
+          under: z.number().positive(),
+          step: z.number().positive(),
+          note: z.string(),
+        })
+        .optional(),
+      /**
+       * Scales the per-unit range rounded to the cent, not the unrounded
+       * one, so the page's figure at a reader's volume equals the printed
+       * exact figure times that volume, to the cent. Default: off.
+       */
+      volumeFromCents: z.boolean().optional(),
       /** The range printed in the letter. Shown, exactly, until a slider moves. */
       letterRange: z.object({ low: z.number(), high: z.number() }),
     }),
