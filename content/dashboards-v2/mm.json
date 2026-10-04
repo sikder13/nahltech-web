@@ -1,0 +1,203 @@
+{
+  "template": 2,
+  "slug": "mm",
+  "token": "mm-body-d5ff5864f7",
+  "company": {
+    "name": "M&M Body Shop",
+    "short": "M&M",
+    "town": "Brownsburg, Indiana",
+    "prepared": "October 2026"
+  },
+  "hero": {
+    "heading": "M&M Body Shop, a cost model sent for correction",
+    "caption": "Built October 4, 2026, from mandmbodyshop.com, the industry's billing survey, and federal data. Every number is labeled: published, federal, or our assumption. The assumptions are sliders; move them and the number moves.",
+    "liveCaption": "The model's estimate, on the assumptions you have set below",
+    "subline": "(exact: $3,361 and $37,842) Under $5,000 a figure rounds to the nearest $1,000, above it to the nearest $5,000; the exact figures govern.",
+    "headingLines": [
+      { "upTo": 380, "lines": 3 },
+      { "upTo": 693, "lines": 2 }
+    ]
+  },
+  "model": {
+    "heading": "Move our assumptions",
+    "intro": "Each slider is one of the assumptions in our letter, set to the range we wrote down. If you know a figure, narrow its range, or close both handles on the exact number. The estimate above then follows your figures instead of ours. Tap a figure to type it exactly.",
+    "unit": "per hundred repairs",
+    "volume": {
+      "label": "Repairs you complete in a year",
+      "caption": "Optional. Type your volume and every dollar figure on this page scales to your year. Leave it empty and the model stays per hundred repairs.",
+      "suffix": "a year, at {n} repairs",
+      "per": 100,
+      "max": 50000
+    },
+    "presets": {
+      "label": "Set several at once",
+      "items": [
+        {
+          "label": "Second estimates only",
+          "bands": {
+            "o": { "low": 0, "high": 0 },
+            "lag": { "low": 0, "high": 0 }
+          }
+        },
+        {
+          "label": "Unpaid required lines only",
+          "bands": {
+            "s": { "low": 0, "high": 0 },
+            "lag": { "low": 0, "high": 0 }
+          }
+        }
+      ]
+    },
+    "sliders": [
+      {
+        "id": "s",
+        "label": "Repairs that need a second estimate after teardown",
+        "format": "percent",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "rest": { "low": 40, "high": 70 },
+        "basis": "Assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "c",
+        "label": "Cost of one second estimate, in days, paperwork, and rental",
+        "format": "usd",
+        "min": 0,
+        "max": 500,
+        "step": 5,
+        "rest": { "low": 60, "high": 200 },
+        "basis": "Assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "o",
+        "label": "Manufacturer-required operations per repair",
+        "format": "decimal",
+        "min": 0,
+        "max": 6,
+        "step": 0.25,
+        "rest": { "low": 1, "high": 3 },
+        "basis": "Scans, calibrations, one-time-use parts, and procedure steps. Assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "w",
+        "label": "Value of one required operation",
+        "format": "usd",
+        "min": 0,
+        "max": 300,
+        "step": 5,
+        "rest": { "low": 40, "high": 150 },
+        "basis": "Assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "f",
+        "label": "Required operations performed and never paid",
+        "format": "percent",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "rest": { "low": 20, "high": 50 },
+        "basis": "Assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "p",
+        "label": "Parts on one repair",
+        "format": "usd",
+        "min": 0,
+        "max": 5000,
+        "step": 50,
+        "rest": { "low": 1200, "high": 2500 },
+        "basis": "Assumed, printed to be corrected [[ASSUMED]]."
+      },
+      {
+        "id": "lag",
+        "label": "Months between estimate and parts order",
+        "format": "months",
+        "min": 0,
+        "max": 4,
+        "step": 0.25,
+        "rest": { "low": 0.5, "high": 2 },
+        "presets": [{ "label": "No lag", "low": 0, "high": 0 }],
+        "basis": "Half a month to two months, about two to eight weeks. Assumed, printed to be corrected [[ASSUMED]]."
+      }
+    ],
+    "constants": [
+      {
+        "id": "dm",
+        "value": 0.0026832856671433424,
+        "text": "Federal series: BLS producer price index, motor vehicle parts (WPU1412), 145.456 in October 2025 to 149.359 in August 2026, its latest published month: up 2.7 percent over ten months, 0.27 percent per month [[BENCHMARK]]. The model applies it only across the weeks between estimate and parts order. Next release October 15, 2026; this page changes with it."
+      }
+    ],
+    "terms": [
+      {
+        "id": "second",
+        "label": "Second estimates after teardown",
+        "formula": "100 * s * c"
+      },
+      {
+        "id": "unpaid",
+        "label": "Required operations performed and never paid",
+        "formula": "100 * o * w * f"
+      },
+      {
+        "id": "parts",
+        "label": "Parts drift between estimate and order",
+        "formula": "100 * p * lag * dm"
+      }
+    ],
+    "formulaText": "Moved per 100 repairs = 100 × second-estimate share × cost per second estimate + 100 × required operations per repair × value per operation × unpaid share + 100 × parts per repair × months of lag × (149.359 ÷ 145.456 minus 1) ÷ 10",
+    "plainText": "In words, the second estimates written once a vehicle is apart, at their cost in days and paperwork, plus the manufacturer-required operations performed and never paid, plus what parts prices add while an estimate waits for its parts order.",
+    "callout": "What nobody counts is what the certifications cost to keep. A certified repair means scans, calibrations, one-time-use parts, and the manufacturer's procedure, whether or not the first estimate saw them. Nobody counts how many of your repairs needed a second estimate once the vehicle was apart, what each cost in days and rental, or how many required operations were performed and never paid. The industry's own survey of 473 shops says insurers pay most of the time when a documented line is on the estimate; shops that never ask lose.",
+    "roundTo": 5000,
+    "smallRound": {
+      "under": 5000,
+      "step": 1000,
+      "note": "Under $5,000, a figure rounds to the nearest $1,000."
+    },
+    "volumeFromCents": true,
+    "letterRange": {
+      "low": 3000,
+      "high": 40000
+    }
+  },
+  "respect": {
+    "heading": "What you already show in the open",
+    "paragraphs": [
+      "You and your family built the shop from the ground up in 1983 and kept earning what most shops never attempt: certification by Ford, by General Motors, by Honda and Acura, and I-CAR Gold Class [[OBSERVED]].",
+      "Voted the county's best body shop six years running. A lifetime warranty on your craftsmanship [[OBSERVED]].",
+      "A line on your site that explains the rest: you follow the manufacturer's procedures so a vehicle's safety systems come back restored and recalibrated [[OBSERVED]]."
+    ]
+  },
+  "proposal": {
+    "heading": "What we propose",
+    "lead": "The proposal: the count (first estimate against final, supplements by cause, required operations performed against paid), the repair plan after teardown with the manufacturer's procedure attached to every required line, and the thirty-day result; fixed fee between $1,500 and $2,500; read-only; no customer or vehicle identity leaves the building.",
+    "ledger": {
+      "dense": true,
+      "title": "What one repair's second estimate looks like",
+      "label": "Illustrative, not M&M Body Shop data",
+      "columns": ["Line added after teardown", "Cost", "Procedure attached"],
+      "rows": [
+        { "cells": ["Pre-repair scan", "$85.00", "yes"] },
+        { "cells": ["Post-repair scan", "$85.00", "yes"] },
+        { "cells": ["One-time-use fastener kit", "$42.00", "yes"] },
+        { "cells": ["ADAS camera calibration", "$150.00", "yes"] },
+        { "cells": ["Seam sealer per procedure", "$50.00", "yes"] }
+      ],
+      "total": {
+        "label": "Five lines",
+        "cells": ["$412.00", ""]
+      },
+      "note": "In the repair plan, every required line carries the manufacturer's procedure before the estimate leaves. Every line and figure is invented to show the format."
+    },
+    "feeHeading": "The fee",
+    "fee": "A fixed fee between $1,500 and $2,500.",
+    "promise": "If your records show our printed range overstated your exposure, our findings letter says so in those words."
+  },
+  "sources": [
+    "mandmbodyshop.com, October 2026.",
+    "Collision Advice and CRASH Network, Who Pays for What? surveys, 2026.",
+    "BLS producer price index, motor vehicle parts, WPU1412, October 2025 to August 2026; next release October 15, 2026.",
+    "All other figures are Nahl Technologies assumptions, stated as ranges.",
+    "This page contains no client data, and no customer or vehicle identity."
+  ]
+}
