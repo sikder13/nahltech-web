@@ -196,7 +196,7 @@ export const dashboardSchema = z
         .array(
           z.object({
             upTo: z.number().int().positive(),
-            lines: z.number().int().min(1).max(4),
+            lines: z.number().int().min(1).max(5),
           }),
         )
         .min(1)
