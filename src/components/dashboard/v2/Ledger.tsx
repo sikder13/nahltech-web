@@ -87,7 +87,7 @@ export function Ledger({
                       className="pe-sm pb-2xs text-xs"
                     >
                       <span className="me-2xs rounded-sm bg-text px-[0.4em] py-[0.1em] text-[0.66rem] font-semibold tracking-[0.08em] text-bg">
-                        {flagLabel}
+                        {ledger.flagLabel ?? flagLabel}
                       </span>
                       {row.flag}
                     </td>
