@@ -3157,6 +3157,206 @@ describe("Loren's Body Shop model", () => {
   });
 });
 
+describe("M&M Body Shop model", () => {
+  const mm = allDashboards().find((d) => d.slug === "mm")!;
+  const tree = compileFormula(totalFormula(mm.model.terms));
+  const full = restBands(mm.model.sliders);
+  const small = mm.model.smallRound;
+  const term = (id: string, bands = full) =>
+    rangeOverBands(
+      compileFormula(mm.model.terms.find((t) => t.id === id)!.formula),
+      mm.model,
+      bands,
+    );
+  const preset = (label: string) =>
+    mm.model.presets!.items.find((p) => p.label === label)!.bands;
+  const shown = (b: { low: number; high: number }) => ({
+    low: roundForDisplay(b.low, 5_000, small),
+    high: roundForDisplay(b.high, 5_000, small),
+  });
+
+  it("carries the same federal monthly constant as the exact WPU1412 fraction", () => {
+    const dm = mm.model.constants.find((c) => c.id === "dm")!;
+    expect(dm.value).toBe((149.359 - 145.456) / 145.456 / 10);
+    expect(mm.model.formulaText).toContain("(149.359 ÷ 145.456 minus 1) ÷ 10");
+  });
+
+  it("computes the locked endpoints to the cent at the letter's assumptions", () => {
+    expect(term("second").low.toFixed(2)).toBe("2400.00");
+    expect(term("second").high.toFixed(2)).toBe("14000.00");
+    expect(term("unpaid").low.toFixed(2)).toBe("800.00");
+    expect(term("unpaid").high.toFixed(2)).toBe("22500.00");
+    expect(term("parts").low.toFixed(2)).toBe("161.00");
+    expect(term("parts").high.toFixed(2)).toBe("1341.64");
+    const total = rangeOverBands(tree, mm.model, full);
+    expect(total.low.toFixed(2)).toBe("3361.00");
+    expect(total.high.toFixed(2)).toBe("37841.64");
+    expect(formatUsdExact(total.low)).toBe("$3,361");
+    expect(Math.round(total.high)).toBe(37_842);
+    expect(shown(total)).toEqual({ low: 3_000, high: 40_000 });
+  });
+
+  it("lands each preset on its locked figures, half up at the $22,500 tie", () => {
+    const second = rangeOverBands(tree, mm.model, {
+      ...full,
+      ...preset("Second estimates only"),
+    });
+    expect(second.low.toFixed(2)).toBe("2400.00");
+    expect(second.high.toFixed(2)).toBe("14000.00");
+    expect(shown(second)).toEqual({ low: 2_000, high: 15_000 });
+    const unpaid = rangeOverBands(tree, mm.model, {
+      ...full,
+      ...preset("Unpaid required lines only"),
+    });
+    expect(unpaid.low.toFixed(2)).toBe("800.00");
+    expect(unpaid.high.toFixed(2)).toBe("22500.00");
+    // $22,500 sits exactly halfway between $20,000 and $25,000. Half up,
+    // one mechanical rule everywhere: it displays $25,000.
+    expect(shown(unpaid)).toEqual({ low: 1_000, high: 25_000 });
+    const lag = mm.model.sliders.find((s) => s.id === "lag")!;
+    expect(lag.presets).toEqual([{ label: "No lag", low: 0, high: 0 }]);
+    const noLag = rangeOverBands(tree, mm.model, {
+      ...full,
+      lag: { low: 0, high: 0 },
+    });
+    expect(noLag.low.toFixed(2)).toBe("3200.00");
+    expect(noLag.high.toFixed(2)).toBe("36500.00");
+  });
+
+  it("scales the cent-rounded range at the relay's locked volumes, to the cent", () => {
+    expect(mm.model.volumeFromCents).toBe(true);
+    const exact = toCents(rangeOverBands(tree, mm.model, full));
+    const locked: [number, string, string, number, number][] = [
+      [800, "$26,888", "$302,733.12", 25_000, 305_000],
+      [1_200, "$40,332", "$454,099.68", 40_000, 455_000],
+      [1_800, "$60,498", "$681,149.52", 60_000, 680_000],
+    ];
+    for (const [n, low, high, shownLow, shownHigh] of locked) {
+      const scaled = scaleToVolume(exact, n, 100);
+      expect(formatUsdExact(scaled.low)).toBe(low);
+      expect(formatUsdExact(scaled.high)).toBe(high);
+      expect(displayedAtVolume(exact, n, 100, 5_000, small)).toEqual({
+        low: shownLow,
+        high: shownHigh,
+      });
+    }
+  });
+
+  it("displays the rounding rules applied to the scaled exact, for any volume, in every state", () => {
+    const bandSets = [
+      full,
+      { ...full, ...preset("Second estimates only") },
+      { ...full, ...preset("Unpaid required lines only") },
+      { ...full, lag: { low: 0, high: 0 } },
+    ];
+    let seed = 101;
+    const rand = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    const volumes = [1, 50, 100, 800, 1_200, 1_800, 7_777];
+    for (let i = 0; i < 200; i += 1)
+      volumes.push(1 + Math.floor(rand() * 49_999));
+    for (const bands of bandSets) {
+      const exact = toCents(rangeOverBands(tree, mm.model, bands));
+      for (const n of volumes) {
+        const got = displayedAtVolume(exact, n, 100, mm.model.roundTo, small);
+        expect(got.low).toBe(
+          roundForDisplay((exact.low * n) / 100, mm.model.roundTo, small),
+        );
+        expect(got.high).toBe(
+          roundForDisplay((exact.high * n) / 100, mm.model.roundTo, small),
+        );
+      }
+    }
+  });
+
+  it("keeps the second-estimate log consistent: five lines, $412.00", () => {
+    const ledger = mm.proposal.ledger!;
+    const cents = (t: string) =>
+      Math.round(Number(t.replace(/[$,]/g, "")) * 100);
+    expect(ledger.rows.map((r) => r.cells)).toEqual([
+      ["Pre-repair scan", "$85.00", "yes"],
+      ["Post-repair scan", "$85.00", "yes"],
+      ["One-time-use fastener kit", "$42.00", "yes"],
+      ["ADAS camera calibration", "$150.00", "yes"],
+      ["Seam sealer per procedure", "$50.00", "yes"],
+    ]);
+    const sum = ledger.rows.reduce((acc, row) => acc + cents(row.cells[1]!), 0);
+    expect(sum).toBe(41_200);
+    expect(ledger.total!.cells).toEqual(["$412.00", ""]);
+  });
+
+  it("quotes the letter and relay word for word where the page overlaps them", () => {
+    expect(mm.token).toBe("mm-body-d5ff5864f7");
+    expect(mm.hero.heading).toBe(
+      "M&M Body Shop, a cost model sent for correction",
+    );
+    expect(mm.model.letterRange).toEqual({ low: 3_000, high: 40_000 });
+    expect(mm.hero.subline.startsWith("(exact: $3,361 and $37,842)")).toBe(
+      true,
+    );
+    expect(mm.model.constants[0]!.text).toBe(
+      "Federal series: BLS producer price index, motor vehicle parts (WPU1412), 145.456 in October 2025 to 149.359 in August 2026, its latest published month: up 2.7 percent over ten months, 0.27 percent per month [[BENCHMARK]]. The model applies it only across the weeks between estimate and parts order. Next release October 15, 2026; this page changes with it.",
+    );
+    expect(mm.proposal.lead).toBe(
+      "The proposal: the count (first estimate against final, supplements by cause, required operations performed against paid), the repair plan after teardown with the manufacturer's procedure attached to every required line, and the thirty-day result; fixed fee between $1,500 and $2,500; read-only; no customer or vehicle identity leaves the building.",
+    );
+    expect(mm.proposal.fee).toBe("A fixed fee between $1,500 and $2,500.");
+    for (const required of [
+      "WPU1412",
+      "2.7 percent",
+      "October 15",
+      "473 shops",
+      "teardown",
+      "repair plan",
+    ])
+      expect(JSON.stringify(mm), required).toContain(required);
+    expect(mm.sources.at(-1)).toBe(
+      "This page contains no client data, and no customer or vehicle identity.",
+    );
+  });
+
+  it("holds its heading's height through the font swap", () => {
+    // Fraunces sets the heading in three lines up to 380px and two up to
+    // 693px; the fallback face changes at 337 and 629, so without the
+    // reservation the page moved when the font arrived.
+    expect(mm.hero.headingLines).toEqual([
+      { upTo: 380, lines: 3 },
+      { upTo: 693, lines: 2 },
+    ]);
+  });
+
+  it("carries none of the kill-list terms", () => {
+    const text = JSON.stringify(mm);
+    for (const term of [
+      "–",
+      "—",
+      "artificial intelligence",
+      "machine learning",
+      "Caliber",
+      "Missy",
+      "Drew",
+      "Andrew",
+      "Cookson",
+      "1984",
+      "1989",
+      "father",
+      "handed",
+    ]) {
+      expect(text.toLowerCase().includes(term.toLowerCase()), term).toBe(false);
+    }
+    expect(/\bAI\b/.test(text), "AI as a word").toBe(false);
+    expect(/\bDRP\b/.test(text), "DRP as an acronym").toBe(false);
+    expect(/\bsons?\b/i.test(text), "son or sons as a word").toBe(false);
+    expect(/\bVIN\b|\bplates?\b/i.test(text), "vehicle identity").toBe(false);
+    expect(
+      /\b(\d+|one|two|three|four|five|six|seven|eight|nine|ten|twelve|twenty) (people|employees|staff|technicians)\b/i.test(
+        text,
+      ),
+      "employee count",
+    ).toBe(false);
+    expect(patientTermsOutsideAllowlist(text)).toEqual([]);
+  });
+});
+
 describe("every template 2 config", () => {
   const dashboards = allDashboards();
 
