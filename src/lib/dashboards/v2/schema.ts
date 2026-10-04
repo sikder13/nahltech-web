@@ -134,6 +134,13 @@ const ledgerSchema = z.object({
     .max(8),
   note: z.string(),
   /**
+   * The chip printed beside a flagged row's reason. Absent, the shared
+   * label renders, so every shipped log card is unchanged. Set it where
+   * the shared word would read as a verdict, such as an illustrative log
+   * whose flags only mark the lowest rows of an invented example.
+   */
+  flagLabel: z.string().optional(),
+  /**
    * A bold closing row, such as a total, checked by tests. `value`
    * fills the last column; `cells` instead fills each column after
    * the label, for a table whose total spans several columns.
