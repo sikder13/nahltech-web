@@ -3706,6 +3706,11 @@ describe("Burnside Express Collision model", () => {
     // note's two illustrative costs: $90 a supplement, $43 a line.
     expect(ledger.rows[0]!.flag).toBeDefined();
     expect(ledger.flagLabel).toBe("BEST SHOP");
+    expect(
+      ledger.note.startsWith(
+        "Illustrative costs. The count prices the real gap from the company's own records.",
+      ),
+    ).toBe(true);
     expect(ledger.note).toContain("$90 for each extra supplement");
     expect(ledger.note).toContain("$43 for each not-included line");
     const [best] = ledger.rows;
