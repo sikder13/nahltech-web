@@ -2215,6 +2215,237 @@ describe("CC Dental Studio model", () => {
   });
 });
 
+describe("Stoller Dental Laboratory model", () => {
+  const st = allDashboards().find((d) => d.slug === "stoller")!;
+  const tree = compileFormula(totalFormula(st.model.terms));
+  const full = restBands(st.model.sliders);
+  const term = (id: string, bands = full) =>
+    rangeOverBands(
+      compileFormula(st.model.terms.find((t) => t.id === id)!.formula),
+      st.model,
+      bands,
+    );
+  const cents = (t: string) => Math.round(Number(t.replace(/[$,]/g, "")) * 100);
+  // Gold per gram, in cents, from the badge's own prices per troy ounce.
+  const TROY_OUNCE_GRAMS = 31.1034768;
+  const nowPerGram = Math.round((4_177 / TROY_OUNCE_GRAMS) * 100);
+  const thenPerGram = Math.round((3_864 / TROY_OUNCE_GRAMS) * 100);
+  // Milligrams times cents per gram, to the cent, half up.
+  const atPrice = (mg: number, perGram: number) =>
+    Math.round((mg * perGram) / 1_000);
+
+  it("computes the locked endpoints to the cent at the letter's assumptions", () => {
+    expect(term("metal").low.toFixed(2)).toBe("7290.00");
+    expect(term("metal").high.toFixed(2)).toBe("70875.00");
+    expect(term("remakes").low.toFixed(2)).toBe("12000.00");
+    expect(term("remakes").high.toFixed(2)).toBe("140000.00");
+    expect(term("reclaim").low.toFixed(2)).toBe("450.00");
+    expect(term("reclaim").high.toFixed(2)).toBe("17500.00");
+    const total = rangeOverBands(tree, st.model, full);
+    expect(total.low.toFixed(2)).toBe("19740.00");
+    expect(total.high.toFixed(2)).toBe("228375.00");
+    expect(roundTo(total.low, 5_000)).toBe(20_000);
+    expect(roundTo(total.high, 5_000)).toBe(230_000);
+  });
+
+  it("lands each preset on its locked figures", () => {
+    const metalOnlyBands = st.model.presets!.items.find(
+      (p) => p.label === "Metal only",
+    )!.bands;
+    expect(metalOnlyBands).toEqual({
+      r: { low: 0, high: 0 },
+      s: { low: 0, high: 0 },
+    });
+    const metalOnly = rangeOverBands(tree, st.model, {
+      ...full,
+      ...metalOnlyBands,
+    });
+    expect(metalOnly.low.toFixed(2)).toBe("7290.00");
+    expect(metalOnly.high.toFixed(2)).toBe("70875.00");
+    const m = st.model.sliders.find((s) => s.id === "m")!;
+    expect(m.presets).toEqual([{ label: "No metal", low: 0, high: 0 }]);
+    const noMetal = rangeOverBands(tree, st.model, {
+      ...full,
+      m: { low: 0, high: 0 },
+    });
+    expect(noMetal.low.toFixed(2)).toBe("12000.00");
+    expect(noMetal.high.toFixed(2)).toBe("140000.00");
+  });
+
+  it("scales the EXACT range and rounds once, at the relay's locked volumes", () => {
+    const exact = rangeOverBands(tree, st.model, full);
+    const locked: [number, string, string, number, number][] = [
+      [10_000, "$19,740", "$228,375", 20_000, 230_000],
+      [15_000, "$29,610", "$342,562.50", 30_000, 345_000],
+      [20_000, "$39,480", "$456,750", 40_000, 455_000],
+    ];
+    for (const [n, low, high, shownLow, shownHigh] of locked) {
+      const scaled = scaleToVolume(exact, n, 10_000);
+      expect(formatUsdExact(scaled.low)).toBe(low);
+      expect(formatUsdExact(scaled.high)).toBe(high);
+      expect(displayedAtVolume(exact, n, 10_000, 5_000)).toEqual({
+        low: shownLow,
+        high: shownHigh,
+      });
+    }
+  });
+
+  it("displays round-to-step of the exact scaled value, for any volume, in every state", () => {
+    const bandSets = [
+      full,
+      { ...full, r: { low: 0, high: 0 }, s: { low: 0, high: 0 } },
+      { ...full, m: { low: 0, high: 0 } },
+    ];
+    let seed = 79;
+    const rand = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    const volumes = [1, 1_000, 10_000, 15_000, 20_000, 77_777];
+    for (let i = 0; i < 200; i += 1)
+      volumes.push(1 + Math.floor(rand() * 199_999));
+    for (const bands of bandSets) {
+      const exact = rangeOverBands(tree, st.model, bands);
+      for (const n of volumes) {
+        const shown = displayedAtVolume(exact, n, 10_000, st.model.roundTo);
+        expect(shown.low).toBe(
+          roundTo((exact.low * n) / 10_000, st.model.roundTo),
+        );
+        expect(shown.high).toBe(
+          roundTo((exact.high * n) / 10_000, st.model.roundTo),
+        );
+      }
+    }
+  });
+
+  it("computes the metal line from each unit's alloy at the badge's gold prices", () => {
+    expect(nowPerGram).toBe(13_429);
+    expect(thenPerGram).toBe(12_423);
+    const ledger = st.proposal.ledger!;
+    const totals = [0, 0, 0];
+    for (const row of ledger.rows) {
+      const [unit, today, allows, absorbed] = row.cells as [
+        string,
+        string,
+        string,
+        string,
+      ];
+      // Only gold is priced; base alloy and titanium carry no public curve.
+      const gold = /([\d.]+) g at (\d+) percent gold/.exec(unit);
+      const mg = gold
+        ? Math.round((Number(gold[1]) * 1_000 * Number(gold[2])) / 100)
+        : 0;
+      expect(cents(today)).toBe(atPrice(mg, nowPerGram));
+      expect(cents(allows)).toBe(atPrice(mg, thenPerGram));
+      expect(cents(absorbed)).toBe(cents(today) - cents(allows));
+      totals[0] += cents(today);
+      totals[1] += cents(allows);
+      totals[2] += cents(absorbed);
+    }
+    expect(ledger.rows).toHaveLength(5);
+    expect(ledger.total!.cells!.map(cents)).toEqual(totals);
+    expect(totals).toEqual([45_659, 42_239, 3_420]);
+    expect(ledger.note).toContain("$134.29 a gram");
+    expect(ledger.note).toContain("$124.23 a gram");
+  });
+
+  it("computes the settlement check: 31.0 g gross, the gap after stated fees", () => {
+    const check = st.proposal.extraLedgers![0]!;
+    const fineMg = Math.round(31_000 * 0.4);
+    const fees = 4_500 + 2_500;
+    const atPublic = atPrice(fineMg, nowPerGram);
+    const paid = atPrice(fineMg, 13_000) - fees;
+    const [gross, less, supports, paidRow] = check.rows.map((r) =>
+      cents(r.cells[1]!),
+    ) as [number, number, number, number];
+    expect(check.rows[0]!.cells[0]).toContain("31.0 g gross");
+    expect(gross).toBe(atPublic);
+    expect(less).toBe(-fees);
+    expect(supports).toBe(atPublic - fees);
+    expect(paidRow).toBe(paid);
+    expect(cents(check.total!.value!)).toBe(supports - paidRow);
+    expect(check.total!.value).toBe("$53.20");
+  });
+
+  it("quotes the letter and relay word for word where the page overlaps them", () => {
+    expect(st.token).toBe("stoller-dental-0012d95297");
+    expect(st.hero.heading).toBe(
+      "Stoller Dental Laboratory, a cost model sent for correction",
+    );
+    expect(st.model.letterRange).toEqual({ low: 20_000, high: 230_000 });
+    expect(st.hero.subline).toContain("(exact: $19,740 and $228,375)");
+    expect(st.model.disclosure).toBe(
+      "This model carries no federal index: none maps onto a dental laboratory.",
+    );
+    expect(st.model.constants[0]!.text).toBe(
+      "Metal uses the public gold price, $4,177 on October 1, 2026 against $3,864 a year earlier (+8.1 percent) [[BENCHMARK]]; gold's record in January 2026 is shown, not charged. Palladium $1,190, down 4.7 percent in a year. Zirconia has no public curve and is charged nothing.",
+    );
+    expect(st.model.constants[0]!.value).toBe(0.081);
+    expect(st.model.constants[0]!.note).toBe(
+      "Gold's January 2026 record: $5,608 an ounce.",
+    );
+    expect(st.proposal.lead).toBe(
+      "The proposal: the count (four quarters of metal against the public prices and your settlements), the metal line in your own fee schedule, and the first month billed at the line, counted; fixed fee between $1,200 and $1,800; read-only; no patient information leaves the building.",
+    );
+    expect(st.proposal.deliverables).toBeUndefined();
+    expect(st.proposal.fee).toBe("A fixed fee between $1,200 and $1,800.");
+    for (const required of [
+      "metal line",
+      "no federal index",
+      "8.1 percent",
+      "4.7 percent",
+      "settlement",
+      "zirconia",
+    ])
+      expect(JSON.stringify(st), required).toContain(required);
+    expect(st.sources.at(-1)).toBe(
+      "This page contains no client data; nothing here is protected health information.",
+    );
+  });
+
+  it("holds its heading's height through the font swap", () => {
+    // Fraunces sets the heading in four lines up to 371px, three up to 440px
+    // and two up to 1023px; the fallback face changes at 336, 388 and 720,
+    // so without the reservation the page moved when the font arrived.
+    expect(st.hero.headingLines).toEqual([
+      { upTo: 371, lines: 4 },
+      { upTo: 440, lines: 3 },
+      { upTo: 1023, lines: 2 },
+    ]);
+  });
+
+  it("carries none of the kill-list terms, with patient exactly once in the strip", () => {
+    const text = JSON.stringify(st);
+    for (const term of [
+      "–",
+      "—",
+      "artificial intelligence",
+      "machine learning",
+      "Glidewell",
+      "Dandy",
+      "3Shape",
+      "exocad",
+      "brother",
+      "Larry",
+      "DDX",
+      "retire",
+      "succession",
+      "father",
+      "handed",
+    ]) {
+      expect(text.toLowerCase().includes(term.toLowerCase()), term).toBe(false);
+    }
+    expect(/\bAI\b/.test(text), "AI as a word").toBe(false);
+    expect(/\bsons?\b/i.test(text), "son or sons as a word").toBe(false);
+    expect(text.match(/patient/gi)).toHaveLength(1);
+    expect(st.proposal.lead).toContain("no patient information");
+    const elsewhere = JSON.stringify({
+      ...st,
+      proposal: { ...st.proposal, lead: undefined },
+    });
+    expect(/patient/i.test(elsewhere), "any patient term elsewhere").toBe(
+      false,
+    );
+  });
+});
+
 describe("every template 2 config", () => {
   const dashboards = allDashboards();
 
