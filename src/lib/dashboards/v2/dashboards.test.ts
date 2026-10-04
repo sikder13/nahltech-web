@@ -2003,6 +2003,218 @@ describe("Hunter Dental Laboratory model", () => {
   });
 });
 
+describe("CC Dental Studio model", () => {
+  const cc = allDashboards().find((d) => d.slug === "ccdental")!;
+  const tree = compileFormula(totalFormula(cc.model.terms));
+  const full = restBands(cc.model.sliders);
+  const term = (id: string, bands = full) =>
+    rangeOverBands(
+      compileFormula(cc.model.terms.find((t) => t.id === id)!.formula),
+      cc.model,
+      bands,
+    );
+  const preset = (label: string) =>
+    cc.model.presets!.items.find((p) => p.label === label)!.bands;
+
+  it("computes the locked endpoints to the cent at the letter's assumptions", () => {
+    expect(term("returned").low.toFixed(2)).toBe("1200.00");
+    expect(term("returned").high.toFixed(2)).toBe("14000.00");
+    expect(term("inside").low.toFixed(2)).toBe("2000.00");
+    expect(term("inside").high.toFixed(2)).toBe("18000.00");
+    expect(formatUsdExact(term("metal").low)).toBe("$162");
+    expect(formatUsdExact(term("metal").high)).toBe("$1,944");
+    const total = rangeOverBands(tree, cc.model, full);
+    expect(total.low.toFixed(2)).toBe("3362.00");
+    expect(total.high.toFixed(2)).toBe("33944.00");
+    expect(roundTo(total.low, 5_000)).toBe(5_000);
+    expect(roundTo(total.high, 5_000)).toBe(35_000);
+  });
+
+  it("lands each preset on its locked figures", () => {
+    expect(preset("Returned remakes only")).toEqual({
+      a: { low: 0, high: 0 },
+      m: { low: 0, high: 0 },
+    });
+    const returned = rangeOverBands(tree, cc.model, {
+      ...full,
+      ...preset("Returned remakes only"),
+    });
+    expect(returned.low.toFixed(2)).toBe("1200.00");
+    expect(returned.high.toFixed(2)).toBe("14000.00");
+    expect(preset("Inside redos only")).toEqual({
+      r: { low: 0, high: 0 },
+      m: { low: 0, high: 0 },
+    });
+    const inside = rangeOverBands(tree, cc.model, {
+      ...full,
+      ...preset("Inside redos only"),
+    });
+    expect(inside.low.toFixed(2)).toBe("2000.00");
+    expect(inside.high.toFixed(2)).toBe("18000.00");
+    const m = cc.model.sliders.find((s) => s.id === "m")!;
+    expect(m.presets).toEqual([{ label: "No metal", low: 0, high: 0 }]);
+    const noMetal = rangeOverBands(tree, cc.model, {
+      ...full,
+      m: { low: 0, high: 0 },
+    });
+    expect(noMetal.low.toFixed(2)).toBe("3200.00");
+    expect(noMetal.high.toFixed(2)).toBe("32000.00");
+  });
+
+  it("scales the EXACT range and rounds once, at the relay's locked volumes", () => {
+    const exact = rangeOverBands(tree, cc.model, full);
+    const locked: [number, string, string, number, number][] = [
+      [3_000, "$10,086", "$101,832", 10_000, 100_000],
+      [5_000, "$16,810", "$169,720", 15_000, 170_000],
+      [8_000, "$26,896", "$271,552", 25_000, 270_000],
+    ];
+    for (const [n, low, high, shownLow, shownHigh] of locked) {
+      const scaled = scaleToVolume(exact, n, 1_000);
+      expect(formatUsdExact(scaled.low)).toBe(low);
+      expect(formatUsdExact(scaled.high)).toBe(high);
+      expect(displayedAtVolume(exact, n, 1_000, 5_000)).toEqual({
+        low: shownLow,
+        high: shownHigh,
+      });
+    }
+  });
+
+  it("displays round-to-step of the exact scaled value, for any volume, in every state", () => {
+    const bandSets = [
+      full,
+      { ...full, ...preset("Returned remakes only") },
+      { ...full, ...preset("Inside redos only") },
+      { ...full, m: { low: 0, high: 0 } },
+    ];
+    let seed = 73;
+    const rand = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    const volumes = [1, 500, 1_000, 3_000, 5_000, 8_000, 77_777];
+    for (let i = 0; i < 200; i += 1)
+      volumes.push(1 + Math.floor(rand() * 99_999));
+    for (const bands of bandSets) {
+      const exact = rangeOverBands(tree, cc.model, bands);
+      for (const n of volumes) {
+        const shown = displayedAtVolume(exact, n, 1_000, cc.model.roundTo);
+        expect(shown.low).toBe(
+          roundTo((exact.low * n) / 1_000, cc.model.roundTo),
+        );
+        expect(shown.high).toBe(
+          roundTo((exact.high * n) / 1_000, cc.model.roundTo),
+        );
+      }
+    }
+  });
+
+  it("keeps the inside redo log consistent: five redos summing to $380.00", () => {
+    const ledger = cc.proposal.ledger!;
+    const cents = (t: string) =>
+      Math.round(Number(t.replace(/[$,]/g, "")) * 100);
+    expect(ledger.rows.map((r) => r.cells)).toEqual([
+      ["Contact too tight (doctor profile)", "$60.00"],
+      ["Shade a half step off (profile)", "$85.00"],
+      ["Margin reset at design (build standard)", "$95.00"],
+      ["Occlusion adjusted after model check", "$70.00"],
+      ["Stain and glaze repeat", "$70.00"],
+    ]);
+    const sum = ledger.rows.reduce((acc, row) => acc + cents(row.cells[1]!), 0);
+    expect(sum).toBe(cents(ledger.total!.value!));
+    expect(sum).toBe(38_000);
+    // The note's "three of five": the rows the file would have caught.
+    expect(
+      ledger.rows.filter((r) =>
+        /\((doctor profile|profile|build standard)\)/.test(r.cells[0]!),
+      ),
+    ).toHaveLength(3);
+  });
+
+  it("quotes the letter and relay word for word where the page overlaps them", () => {
+    expect(cc.token).toBe("cc-dental-a1b5fc0a24");
+    expect(cc.hero.heading).toBe(
+      "CC Dental Studio, a cost model sent for correction",
+    );
+    expect(cc.model.letterRange).toEqual({ low: 5_000, high: 35_000 });
+    // The exact figures lead, because the rounding overstates the low end.
+    expect(cc.hero.subline.startsWith("(exact: $3,362 and $33,944)")).toBe(
+      true,
+    );
+    expect(cc.model.disclosure).toBe(
+      "This model carries no federal index: none maps onto a ceramics laboratory.",
+    );
+    expect(cc.model.constants).toEqual([
+      {
+        id: "d",
+        value: 0.081,
+        text: "Metal drift uses the public gold price, $4,177 on October 1, 2026 against $3,864 a year earlier (+8.1 percent) [[BENCHMARK]], applied only to units that still carry metal. Zirconia has no public curve and is charged nothing.",
+      },
+    ]);
+    expect(cc.proposal.lead).toBe(
+      "The proposal: the count, the consistency file (a build standard per product and a preference profile per doctor, in your technicians' words), and the thirty-day result; fixed fee between $1,200 and $1,800; read-only; no patient information leaves the building.",
+    );
+    expect(cc.proposal.deliverables).toBeUndefined();
+    expect(cc.respect?.paragraphs[0]).toContain(
+      "with one stated intent, consistent quality",
+    );
+    expect(cc.proposal.fee).toBe("A fixed fee between $1,200 and $1,800.");
+    for (const required of [
+      "consistent quality",
+      "no federal index",
+      "8.1 percent",
+      "zirconia",
+      "preference profile",
+    ])
+      expect(JSON.stringify(cc), required).toContain(required);
+    expect(cc.sources.at(-1)).toBe(
+      "This page contains no client data; nothing here is protected health information.",
+    );
+  });
+
+  it("holds its heading's height through the font swap", () => {
+    // Fraunces sets the heading in three lines up to 380px and two up to
+    // 698px; the fallback face changes at 337 and 627, so without the
+    // reservation the page moved when the font arrived.
+    expect(cc.hero.headingLines).toEqual([
+      { upTo: 380, lines: 3 },
+      { upTo: 698, lines: 2 },
+    ]);
+  });
+
+  it("carries none of the kill-list terms, with patient exactly once in the strip", () => {
+    const text = JSON.stringify(cc);
+    for (const term of [
+      "–",
+      "—",
+      "artificial intelligence",
+      "machine learning",
+      "Glidewell",
+      "Dandy",
+      "3Shape",
+      "exocad",
+      "retire",
+      "succession",
+      "NDX",
+    ]) {
+      expect(text.toLowerCase().includes(term.toLowerCase()), term).toBe(false);
+    }
+    expect(/\bAI\b/.test(text), "AI as a word").toBe(false);
+    // "age" and "old" are scanned as words: "page", "average" and "hold"
+    // are different words. "leave" is kept out too, per the playbook.
+    expect(/\bage\b/i.test(text), "age as a word").toBe(false);
+    expect(/\bold\b/i.test(text), "old as a word").toBe(false);
+    expect(/\bleave\b/i.test(text), "leave as a word").toBe(false);
+    // The president is Ms. Curtis in copy, never her first name alone.
+    expect(/\bChris\b/.test(text), "Chris").toBe(false);
+    expect(text.match(/patient/gi)).toHaveLength(1);
+    expect(cc.proposal.lead).toContain("no patient information");
+    const elsewhere = JSON.stringify({
+      ...cc,
+      proposal: { ...cc.proposal, lead: undefined },
+    });
+    expect(/patient/i.test(elsewhere), "any patient term elsewhere").toBe(
+      false,
+    );
+  });
+});
+
 describe("Stoller Dental Laboratory model", () => {
   const st = allDashboards().find((d) => d.slug === "stoller")!;
   const tree = compileFormula(totalFormula(st.model.terms));
