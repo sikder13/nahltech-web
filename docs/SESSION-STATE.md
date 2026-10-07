@@ -795,6 +795,14 @@ or gtag.js is blocked while the dataLayer keeps accepting pushes** — every
 event looks like it fired and GA receives nothing. Covered by two tests in
 `src/middleware.test.ts`; do not "tidy" those origins out.
 
+No consent mode is configured (no banner exists), so gtag runs with its
+defaults and reports `user_engagement` and `engagement_time_msec` itself. The
+three key events are `cal_click` (`link_domain`, `link_url`),
+`contact_submit` (`form_source`) and `calculator_use` (`calculator`); the
+full list is the `AnalyticsEvent` union in `src/lib/analytics.ts`.
+`calculator_use` has a hook, `useCalculatorUse`, and no caller yet — the only
+sliders today are on the prospect dashboards, which carry no analytics.
+
 - **Resend sending domain is verified.** Confirmed 12 Aug 2026 by a probe lead
   through the deployed `/api/lead`: `notification_log` recorded `status='sent'`,
   no error. It was unverified and logging `failed` earlier in this session, so

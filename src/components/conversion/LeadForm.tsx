@@ -127,6 +127,7 @@ export function LeadForm({
 
       setStatus("sent");
       track({ name: "lead_submit", source });
+      track({ name: "contact_submit", form_source: source });
     } catch {
       setStatus("networkError");
     }
