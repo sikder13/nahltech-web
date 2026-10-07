@@ -4,8 +4,11 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { LeadForm } from "./LeadForm";
 
+import { track } from "@/lib/analytics";
 import en from "@/lib/i18n/dictionaries/en.json";
 import { bookingUrl } from "@/lib/routes";
+
+vi.mock("@/lib/analytics", () => ({ track: vi.fn() }));
 
 const cta = { callLabel: en.cta.callLabel, bookCall: en.cta.bookCall };
 
@@ -19,6 +22,7 @@ beforeEach(() => {
   fetchSpy = vi.fn().mockResolvedValue(ok());
   vi.stubGlobal("fetch", fetchSpy);
   vi.spyOn(console, "info").mockImplementation(() => {});
+  vi.mocked(track).mockClear();
 });
 
 afterEach(() => {
@@ -123,6 +127,34 @@ describe("LeadForm", () => {
 
     expect(await screen.findByRole("status")).toHaveTextContent(
       en.leadForm.successTitle,
+    );
+  });
+
+  it("reports contact_submit once the lead is accepted", async () => {
+    const user = userEvent.setup();
+    renderForm();
+
+    await fillValid(user);
+    await submit(user);
+    await screen.findByRole("status");
+
+    expect(track).toHaveBeenCalledWith({
+      name: "contact_submit",
+      form_source: "contact_form",
+    });
+  });
+
+  it("reports no contact_submit when the submission is refused", async () => {
+    fetchSpy.mockResolvedValue(ok(429));
+    const user = userEvent.setup();
+    renderForm();
+
+    await fillValid(user);
+    await submit(user);
+    await screen.findByRole("alert");
+
+    expect(track).not.toHaveBeenCalledWith(
+      expect.objectContaining({ name: "contact_submit" }),
     );
   });
 

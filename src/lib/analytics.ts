@@ -5,7 +5,7 @@ import { sendGAEvent } from "@next/third-parties/google";
 /**
  * GA4 event reporting.
  *
- * The six events the site reports are enumerated here as a closed union rather
+ * The nine events the site reports are enumerated here as a closed union rather
  * than passed as loose strings. An analytics property is only as good as the
  * consistency of its event names, and a typo in a string literal produces a
  * silently separate event that nobody notices until a report is wrong.
@@ -32,7 +32,19 @@ export type AnalyticsEvent =
   /** A visitor followed a booking link off-site. */
   | { name: "booking_click" }
   /** A visitor followed a link to Crawlmouse. */
-  | { name: "crawlmouse_click" };
+  | { name: "crawlmouse_click" }
+  /**
+   * A visitor followed a link to any Cal.com host. `link_url` carries no
+   * query string or fragment.
+   */
+  | { name: "cal_click"; link_domain: string; link_url: string }
+  /** The lead form reached its success state. Never fired by the chat widget. */
+  | { name: "contact_submit"; form_source: "contact_form" | "service_page" }
+  /**
+   * First slider interaction of the browser session — see
+   * `useCalculatorUse`. `calculator` names the page's calculator.
+   */
+  | { name: "calculator_use"; calculator: string };
 
 export function track(event: AnalyticsEvent): void {
   if (!measurementId) return;
