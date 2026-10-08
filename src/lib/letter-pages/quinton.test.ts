@@ -116,7 +116,7 @@ const approved = {
     },
     {
       text: "A Medicaid-funded agency cut after-hours scheduling labor by 82 percent with the same shape of software (published case, 2025).",
-      href: "https://claude.com/customers/zingage",
+      href: "https://zingage.com/case-studies",
     },
     {
       text: "Those products sell to agencies on large scheduling platforms. Quinton runs AccelTrax and forms. We build the small version inside what you have, and if a product you already own does it, we say so.",
