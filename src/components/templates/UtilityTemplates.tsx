@@ -9,6 +9,7 @@ import {
   CredentialsRow,
   DiscountsBlock,
   FoundingBanner,
+  LetterCallout,
   PricingTable,
   StorySection,
   TeamGrid,
@@ -193,6 +194,11 @@ export function PricingTemplate({ t }: { t: Dictionary }) {
     <>
       <PageHeader title={t.pricing.headline} intro={t.pricing.intro} />
 
+      <LetterCallout
+        heading={t.pricing.letter.heading}
+        body={t.pricing.letter.body}
+      />
+
       <FoundingBanner
         heading={t.pricing.founding.heading}
         body={t.pricing.founding.body}
@@ -212,6 +218,7 @@ export function PricingTemplate({ t }: { t: Dictionary }) {
         items={t.pricing.discounts.items}
         community={t.pricing.discounts.community}
         footnote={t.pricing.discounts.footnote}
+        documents={t.pricing.discounts.documents}
       />
 
       <CtaBlock

@@ -245,4 +245,52 @@ describe("PricingTemplate", () => {
       screen.getByText(en.pricing.discounts.community),
     ).toBeInTheDocument();
   });
+  it("tells a reader holding a letter that its fee band is their price", () => {
+    const { container } = render(<PricingTemplate t={en} />);
+
+    const heading = screen.getByRole("heading", {
+      level: 2,
+      name: "If we sent you a letter",
+    });
+    const body = screen.getByText(
+      "If we sent you a letter with a fee band, that band is your price. We do not raise it, and the free scan is free either way. Every measured engagement is read-only on your records, and the full fee is credited toward any further work within ninety days.",
+    );
+
+    // Directly below the intro and above the founding-clients section.
+    const headings = [...container.querySelectorAll("h1, h2")];
+    expect(headings.map((h) => h.textContent).slice(0, 3)).toEqual([
+      en.pricing.headline,
+      "If we sent you a letter",
+      en.pricing.founding.heading,
+    ]);
+    const intro = screen.getByText(en.pricing.intro);
+    expect(
+      intro.compareDocumentPosition(heading) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+    expect(heading.closest("section")).toContainElement(body);
+  });
+
+  it("names nonprofits, community organizations and houses of worship together", () => {
+    render(<PricingTemplate t={en} />);
+
+    expect(
+      screen.getByText(
+        "Nonprofits, community organizations, and houses of worship, 30% off, always.",
+      ),
+    ).toBeInTheDocument();
+    expect(en.pricing.discounts.items).toHaveLength(4);
+  });
+
+  it("states the one document each discount asks for, right after the one-discount rule", () => {
+    render(<PricingTemplate t={en} />);
+
+    const footnote = screen.getByText(
+      "One discount per engagement; we'll apply whichever is largest.",
+    );
+    const documents = screen.getByText(
+      "We ask for one document: a DD-214 or VA verification letter for veteran-owned; a government ID showing the owner is 60 or older for senior-owned; a Secretary of State registration dated within the last two years and an address in our Greater Indianapolis service area for new businesses; an IRS determination letter or equivalent registration for nonprofits, community organizations, and houses of worship.",
+    );
+
+    expect(footnote.nextElementSibling).toBe(documents);
+  });
 });
