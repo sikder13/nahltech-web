@@ -241,6 +241,34 @@ export type ProjectService = { name: string; price: string; note: string };
  * a live counter and deliberately not a timer: the copy says it is not a
  * countdown gimmick, so the implementation must not make it one.
  */
+/**
+ * For a reader who arrived holding a letter from us.
+ *
+ * Sits directly under the page intro, ahead of the founding-client terms and
+ * the rate card, because that reader's price is already settled by the letter
+ * and nothing further down the page changes it.
+ */
+export function LetterCallout({
+  heading,
+  body,
+}: {
+  heading: string;
+  body: string;
+}) {
+  return (
+    <section>
+      <div className="mx-auto max-w-(--container-page) px-sm pb-xl">
+        <FadeIn>
+          <div className="border-s-4 border-accent ps-md">
+            <h2 className="text-xl font-semibold text-text">{heading}</h2>
+            <p className="mt-2xs max-w-prose text-text">{body}</p>
+          </div>
+        </FadeIn>
+      </div>
+    </section>
+  );
+}
+
 export function FoundingBanner({
   heading,
   body,
@@ -369,11 +397,14 @@ export function DiscountsBlock({
   items,
   community,
   footnote,
+  documents,
 }: {
   heading: string;
   items: readonly string[];
   community: string;
   footnote: string;
+  /** What each discount asks the client to show. Follows the footnote. */
+  documents: string;
 }) {
   return (
     <section className="bg-surface">
@@ -392,6 +423,9 @@ export function DiscountsBlock({
             {community}
           </p>
           <p className="mt-md text-xs text-text-muted">{footnote}</p>
+          <p className="mt-2xs max-w-prose text-xs text-text-muted">
+            {documents}
+          </p>
         </FadeIn>
       </div>
     </section>

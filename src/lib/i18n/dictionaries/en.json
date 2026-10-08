@@ -943,6 +943,10 @@
   "pricing": {
     "headline": "Straight answers on pricing.",
     "intro": "Every number below is real and published on purpose. Engagements are scoped to your situation, so builds show starting points — but you will never hear \"it depends\" without a number attached.",
+    "letter": {
+      "heading": "If we sent you a letter",
+      "body": "If we sent you a letter with a fee band, that band is your price. We do not raise it, and the free scan is free either way. Every measured engagement is read-only on your records, and the full fee is credited toward any further work within ninety days."
+    },
     "founding": {
       "spotsOpen": "7",
       "heading": "Founding clients — 7 of 10 spots open.",
@@ -1012,10 +1016,11 @@
         "Veteran-owned businesses — 25% off",
         "Senior-owned businesses — 25% off",
         "New businesses (under 2 years) in Greater Indianapolis — 25% off",
-        "Nonprofits & community organizations — 30% off, always"
+        "Nonprofits, community organizations, and houses of worship, 30% off, always."
       ],
       "community": "Indiana houses of worship and community orgs: we build one free project every quarter. Ask about the next open slot.",
-      "footnote": "One discount per engagement; we'll apply whichever is largest."
+      "footnote": "One discount per engagement; we'll apply whichever is largest.",
+      "documents": "We ask for one document: a DD-214 or VA verification letter for veteran-owned; a government ID showing the owner is 60 or older for senior-owned; a Secretary of State registration dated within the last two years and an address in our Greater Indianapolis service area for new businesses; an IRS determination letter or equivalent registration for nonprofits, community organizations, and houses of worship."
     },
     "featuredLabel": "Most chosen"
   },

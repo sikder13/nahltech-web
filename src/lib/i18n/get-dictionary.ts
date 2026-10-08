@@ -222,6 +222,18 @@ export type Dictionary = typeof enDictionary;
  * It sits with the builds, not the tiers, because it does not cover audits —
  * which the page's third FAQ states out loud.
  *
+ * ── Founder-supplied, verbatim, 8 October 2026 ────────────────────────────
+ *
+ *   pricing.letter.heading  ·  pricing.letter.body
+ *   pricing.discounts.items[3]
+ *   pricing.discounts.documents
+ *
+ * Three additions to /pricing. The callout speaks to a reader who arrived
+ * with a letter quoting a fee band, and sits directly under the intro. The
+ * nonprofit discount line is reworded to name houses of worship. The
+ * documents sentence follows the one-discount footnote and says what each
+ * discount asks the client to show.
+ *
  * ── Founder-supplied, verbatim, 3 September 2026 (DRAFTS-market-pages-
  *    batch1 + NZ addendum Part B) ────────────────────────────────────────
  *
