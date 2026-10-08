@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 
 import { dashboardRedirects } from "./src/lib/dashboards/registry";
 import { dashboardRedirects as dashboardRedirectsV2 } from "./src/lib/dashboards/v2/registry";
+import { letterPageRedirects } from "./src/lib/letter-pages/registry";
 
 const isProduction = process.env.NODE_ENV === "production";
 
@@ -49,6 +50,9 @@ const nextConfig: NextConfig = {
   outputFileTracingIncludes: {
     "/api/visit": ["./content/dashboards/**/*.json"],
     "/api/visit2": ["./content/dashboards-v2/**/*.json"],
+    // The letter pages' two endpoints read their configs the same way.
+    "/api/visit3": ["./content/letter-pages/**/*.json"],
+    "/api/reply": ["./content/letter-pages/**/*.json"],
   },
 
   /**
@@ -72,6 +76,8 @@ const nextConfig: NextConfig = {
       ...dashboardRedirects(),
       // Template 2 pages, at /m2/<token>; template 1 above is frozen.
       ...dashboardRedirectsV2(),
+      // Letter pages, at /m3/<token>.
+      ...letterPageRedirects(),
       {
         // Local SEO folded into AI Search Visibility & SEO. Permanent, so the
         // old URL's authority transfers rather than being dropped.

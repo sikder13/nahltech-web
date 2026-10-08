@@ -1,0 +1,28 @@
+{
+  "topLine": "Nahl Technologies Inc. · Indianapolis",
+  "contact": {
+    "heading": "Tell me where this is wrong",
+    "line": "Whichever route is easiest. I keep seven to eight in the morning open for these calls.",
+    "book": "Book fifteen minutes",
+    "call": {
+      "label": "Call or text (317) 507-4303",
+      "href": "tel:+13175074303"
+    },
+    "text": {
+      "label": "Text Udaay",
+      "number": "+13175074303",
+      "body": "Read your letter. Call me at "
+    },
+    "email": {
+      "address": "udaay@nahltech.com",
+      "subject": "Your letter"
+    },
+    "form": {
+      "placeholder": "Your phone or email, and one line if you like",
+      "send": "Send",
+      "success": "Got it. I will reply within one business day.",
+      "failure": "That did not go through. Text me at (317) 507-4303."
+    }
+  },
+  "closing": "No one will call you because you visited this page."
+}
