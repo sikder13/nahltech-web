@@ -43,3 +43,16 @@ have not been recorded yet; that does not mean nothing links them.
 /services/ai-automation: "a fixed-price automation project"; "AI automation"; "AI automation for business workflows"; "AI automation work we do"; "builds we deliver at fixed price"; "the automation we design"; "the build that follows"; "We design every regulated workflow"; "workflow automation"
 
 /services/ai-consultancy: "a measured baseline for your application"; "a measured quoting audit"; "AI consulting and implementation"; "AI opportunity audit"; "AI Opportunity Audit"; "how we scope"; "the audit that produces that documentation"; "what building this well actually demands"
+
+## Prospect page tokens
+
+Tokens for the letter pages at `/m3/<token>`, one line per short address.
+A token is fixed once it is listed here and is never regenerated.
+
+/arrow: arrow-services-3054120467
+
+/dayafterday: dayafterday-homecare-e7102e9628
+
+/integritycare: integrity-care-ed133386b7
+
+/quinton: quinton-residential-2419d6c0f8
