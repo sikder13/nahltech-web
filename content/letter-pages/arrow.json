@@ -221,6 +221,10 @@
     "columns": ["Applied", "Screened", "Interview booked", "Registry checked"],
     "cards": [
       {
+        "column": 0,
+        "text": "Jordan, applied 10:02 AM, screen in progress"
+      },
+      {
         "column": 1,
         "text": "Priya, applied 8:12 AM, screened 8:15"
       },
