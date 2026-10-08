@@ -40,11 +40,17 @@ const RESEARCH_DIR = path.join(process.cwd(), "content", "research");
 /**
  * What kind of artifact this is. Drives the badge on the hub and nothing else
  * — it is a label for the reader, not a routing decision.
+ *
+ * A `report` is sourced analysis of something outside our own data: rules,
+ * bulletins, published surveys. It is not a `data-report`, which publishes a
+ * dataset of ours and carries Dataset markup, and not a `sample-engagement`,
+ * which walks a fictional client through the method under a banner.
  */
 export const researchKinds = [
   "sample-engagement",
   "methodology",
   "data-report",
+  "report",
 ] as const;
 export type ResearchKind = (typeof researchKinds)[number];
 
@@ -252,9 +258,11 @@ export function getResearchBySlug(slug: string): ResearchArticle | undefined {
  * Hub order, by kind rather than by date.
  *
  * Original data leads: a report built from our own production database is the
- * strongest thing in the section and the one a stranger should meet first. The
- * methodology follows, because it is the spine every other artifact points at
- * and the document that makes them checkable. The engagements come last —
+ * strongest thing in the section and the one a stranger should meet first.
+ * Reports follow it: real, sourced analysis, but of other people's rules and
+ * figures rather than our own corpus. The methodology comes next, because it
+ * is the spine every other artifact points at and the document that makes
+ * them checkable. The engagements come last —
  * they are illustrations of the method, and they describe fictional clients.
  *
  * Within a kind, the loader's newest-first-then-slug order carries through —
@@ -274,6 +282,7 @@ export function getResearchBySlug(slug: string): ResearchArticle | undefined {
  */
 const KIND_ORDER: readonly ResearchKind[] = [
   "data-report",
+  "report",
   "methodology",
   "sample-engagement",
 ];

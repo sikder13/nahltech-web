@@ -1432,7 +1432,8 @@
     "kinds": {
       "sample-engagement": "Sample engagement",
       "methodology": "Methodology",
-      "data-report": "Data report"
+      "data-report": "Data report",
+      "report": "Report"
     },
     "sampleLabel": "Sample engagement",
     "sampleLead": "Sample engagement."

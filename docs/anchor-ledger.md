@@ -30,7 +30,7 @@ have not been recorded yet; that does not mean nothing links them.
 
 /manufacturing: "AI and automation for manufacturers"; "AI for manufacturers"; "manufacturers"
 
-/pricing: "$2,500, fully credited"; "Details on the pricing page"; "free 30-minute scan"; "from $1,200/month"; "openly"; "our pricing page"; "pricing page"; "pricing published here"; "The full breakdown is on our pricing page"; "web development from $6,000"
+/pricing: "$2,500, fully credited"; "Details on the pricing page"; "free 30 minute scan and the published pricing"; "free 30-minute scan"; "from $1,200/month"; "openly"; "our pricing page"; "pricing page"; "pricing published here"; "The full breakdown is on our pricing page"; "web development from $6,000"
 
 /research/how-we-measure: "here"; "how we measure"; "how we run every engagement"; "measurement methodology"; "our published method"; "published in full"; "The method behind every number above"
 
