@@ -47,7 +47,7 @@ have not been recorded yet; that does not mean nothing links them.
 ## Prospect page tokens
 
 Tokens for the letter pages at `/m3/<token>`, one line per short address.
-A token is fixed once it is listed here and is never regenerated.
+A token is fixed once it is listed here and is never replaced.
 
 /arrow: arrow-services-3054120467
 

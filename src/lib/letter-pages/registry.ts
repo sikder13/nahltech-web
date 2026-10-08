@@ -18,7 +18,7 @@ import {
  * fails the build with the file name in the error.
  *
  * Free of `server-only` for the same reason the dashboard loaders are:
- * `next.config.ts` imports this to generate the short-address redirects.
+ * `next.config.ts` imports this to build the short-address redirects.
  */
 
 const DIR = path.join(process.cwd(), "content", "letter-pages");
