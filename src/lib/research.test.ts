@@ -6,7 +6,8 @@ import {
   getResearchForHub,
   validateResearch,
 } from "./research";
-import { datasetSchema, researchArticleSchema } from "./schema-org";
+import { internalLinks } from "./mdx";
+import { datasetSchema, faqSchema, researchArticleSchema } from "./schema-org";
 
 const ENGAGEMENTS = [
   // Newest first: the hub orders engagements by date, then by slug where
@@ -19,27 +20,33 @@ const ENGAGEMENTS = [
   "sample-engagement-kestrel-beverage",
 ];
 
+/** The waiver-billing report: real rules, one fictional composite example. */
+const EVV_REPORT = "unbillable-regardless-of-evv";
+
 describe("the research collection", () => {
   const articles = getPublishedResearch();
 
-  it("publishes all nine artifacts", () => {
+  it("publishes all ten artifacts", () => {
     expect(articles.map((a) => a.slug).sort()).toEqual(
       [
         "crawlmouse-dataset-report",
         "gulf-smb-websites-ai-search-study",
         "how-we-measure",
+        EVV_REPORT,
         ...ENGAGEMENTS,
       ].sort(),
     );
   });
 
-  it("orders the hub by kind: data, then method, then engagements", () => {
-    // Original data leads — it is the strongest thing in the section. The
-    // methodology follows as the spine every other artifact points at, and the
-    // engagements last, since they illustrate the method on fictional clients.
+  it("orders the hub by kind: data, then reports, then method, then engagements", () => {
+    // Original data leads — it is the strongest thing in the section. Reports
+    // follow: sourced analysis, but not our own dataset. The methodology comes
+    // next as the spine every other artifact points at, and the engagements
+    // last, since they illustrate the method on fictional clients.
     expect(getResearchForHub().map((a) => a.kind)).toEqual([
       "data-report",
       "data-report",
+      "report",
       "methodology",
       "sample-engagement",
       "sample-engagement",
@@ -96,6 +103,10 @@ describe("the research collection", () => {
     expect(
       getResearchBySlug("crawlmouse-dataset-report")?.sampleBanner,
     ).toBeUndefined();
+    // The report is not an engagement. Its one composite example is disclosed
+    // in the prose, where it is introduced.
+    expect(getResearchBySlug(EVV_REPORT)?.kind).toBe("report");
+    expect(getResearchBySlug(EVV_REPORT)?.sampleBanner).toBeUndefined();
   });
 
   it("says the client is fictional in every banner", () => {
@@ -122,6 +133,37 @@ describe("the research collection", () => {
     for (const article of articles) {
       expect(article.body, article.slug).not.toMatch(/^#\s+/m);
     }
+  });
+});
+
+describe("the waiver-billing report", () => {
+  const report = getResearchBySlug(EVV_REPORT)!;
+
+  it("links to /pricing and nowhere else on the site", () => {
+    // Loading it at all means the validator accepted the link; this pins
+    // that it is the only one.
+    expect(internalLinks(report.body)).toEqual(["/pricing"]);
+  });
+
+  it("keeps its description within the 165 characters a result shows", () => {
+    expect(report.description.length).toBeLessThanOrEqual(165);
+  });
+
+  it("dates its revision from updatedAt", () => {
+    expect(report.updatedAt).toBe("2026-10-07");
+    expect(researchArticleSchema(report).dateModified).toBe(
+      "2026-10-07T00:00:00+00:00",
+    );
+  });
+
+  it("emits its four questions as FAQPage markup", () => {
+    expect(report.faq.map((entry) => entry.question)).toEqual([
+      "Does EVV compliance mean a service is billable?",
+      "What happened to Behavior Management Basic in Indiana?",
+      "Can we recover services we delivered but never billed?",
+      "Where does a provider start?",
+    ]);
+    expect(faqSchema(report)).not.toBeNull();
   });
 });
 
@@ -184,7 +226,8 @@ Body.
 
 describe("research schema", () => {
   it("never asserts that a fictional company exists", () => {
-    // Redbud, Kestrel, Osprey, Limestone, Juniper and Merlin are invented. Emitting
+    // Redbud, Kestrel, Osprey, Limestone, Juniper, Merlin and Sycamore are
+    // invented. Emitting
     // an Organization or a Review for any of them would tell a search engine
     // that a real company was really measured — the exact claim the on-page
     // banner exists to prevent. The only Organization in the graph is ours,
@@ -198,6 +241,7 @@ describe("research schema", () => {
         "Limestone",
         "Juniper",
         "Merlin",
+        "Sycamore",
       ]) {
         expect(json, `${article.slug} names ${name}`).not.toContain(name);
       }

@@ -1,0 +1,110 @@
+---
+title: "Unbillable Regardless of EVV: Where Waiver Providers Lose Documented Services"
+description: "EVV proves a visit happened. It does not make it billable. Where Indiana HCBS providers lose documented services in 2026, with a worked example and dated sources."
+date: 2026-10-07
+updatedAt: 2026-10-07
+author: "Udaay Sikder"
+kind: "report"
+targetKeyword: "unbillable services evv waiver provider"
+draft: false
+---
+
+# Unbillable regardless of EVV: where waiver providers lose documented services
+
+**Short answer.** Electronic Visit Verification confirms four things: which worker, which member, what time, and where. It does not confirm that the service was authorized, that it matches the current service plan, that the worker was eligible to deliver it on that date, or that the member had units left under the cap. A visit can pass EVV and still be unbillable for any of those four reasons. For a mid sized Indiana waiver provider, the services that fall through those four gaps add up to roughly five percent of delivered hours. In the worked example below, that is about $156,000 a year on $3.06 million of billings. Last verified October 7, 2026.
+
+This page is for executive directors, finance leads, and compliance officers at Indiana providers delivering Family Supports Waiver and Community Integration and Habilitation Waiver services, and for their counterparts in other states where the same four gaps apply with different names.
+
+## What changed in Indiana on January 1, 2026
+
+Indiana's Division of Disability and Rehabilitative Services issued a set of bulletins in late 2025 that took effect at the start of 2026. Three of them change what is billable, and all three create new ways for a documented service to become unbillable.
+
+**Behavior Management Basic ended on December 31, 2025.** IHCP bulletin BT2025169, dated November 26, 2025, end dated the Behavior Management Basic service and replaced it with Behavioral Support Services. The new service has three direct components, each authorized separately, on a quarterly authorization cycle. A Functional Behavior Assessment is capped at 20 hours within a 60 day window, and the state's own templates are required for the assessment and the plan. A provider that keeps delivering and documenting behavior support under the old service code, or that exceeds the FBA cap, or that submits a plan on its own template, has documented work that will not pay.
+
+**Self directed services got a defined budget.** BT202613 set out how the budget works for members who direct their own care: hours multiplied by the rate, minus the 10 percent that goes to the Financial Management Services vendor. Services delivered beyond that budget are not billable even when every visit is verified.
+
+**Direct Support Professionals must be registered.** From January 1, 2026, DSPs delivering waiver services must appear in Indiana's Home and Community Support Professional registry. A visit delivered by a worker who is not yet registered, or whose registration has lapsed, passes EVV and fails the eligibility check.
+
+**Paid caregivers are capped at 40 hours a week.** The same bulletin set a 40 hour weekly limit per paid caregiver. Hour 41 is documented, verified, and unbillable.
+
+Two later changes matter for the rest of 2026. BT202673 reduced the live in caregiver rate from August 1, 2026, and removed the separate travel and mileage component, so any claim still carrying mileage after that date is overbilled. And House Enrolled Act 1277 requires providers to produce service accounting records on request from July 1, 2026, which turns the gaps below from a revenue question into an audit question.
+
+## The four gaps
+
+### Gap one: incomplete verification
+
+EVV records can be partial. The worker clocked in and the clock out never happened. The GPS reading failed. The visit was entered manually after the fact. Indiana's aggregator accepts many of these records with an exception flag. Whether the payer accepts them at claim time is a different matter, and manual entries above a certain share of total visits invite a records request. Most providers do not know their manual entry rate because nobody reports it to them.
+
+### Gap two: plan mismatch
+
+Service plans were amended across December 2025 to move members from Behavior Management Basic to Behavioral Support Services and to carry the new self directed budgets. If the EVV record says one service and the plan says another, the claim fails. If the plan in the case management system and the plan in the provider's EHR fell out of sync during the amendment wave, the provider is billing against a plan the state no longer holds. A mismatch between EVV, plan, and billing is the pattern auditors look for first.
+
+### Gap three: worker eligibility
+
+Registration in the new registry, required training, and background check renewal each have a date. A worker whose background check expired on the fifteenth and was renewed on the twentieth delivered five days of visits that verify and do not pay. Across sixty DSPs with staggered renewal dates, a few of these windows are open at any given moment.
+
+### Gap four: caps and authorizations
+
+Behavioral Support Services carries a monthly cap of 12 hours in one of its categories. Paid caregivers carry the 40 hour weekly cap. The Family Supports Waiver carries an annual budget cap, set at $26,482 for the current year. Quarterly authorizations expire and renew. Each of these is a line the provider can cross without any visit level signal, because EVV does not know about the cap.
+
+## A worked example
+
+Sycamore Community Supports is a fictional composite of Indiana waiver providers, built to be realistic rather than to describe any one organization. It employs about 90 people, 60 of them DSPs, and delivers Family Supports and Community Integration and Habilitation services across three counties. It delivers roughly 1,900 service hours a week, about 98,800 a year, at a blended rate near $31 an hour, for annual billings of about $3.06 million.
+
+Here is where its documented hours leak.
+
+| Gap | Share of delivered hours | Annual value |
+|---|---|---|
+| Partial or manual EVV records rejected at claim | 2.1% | about $64,000 |
+| Plan mismatch after the December 2025 amendments | 1.0% | about $31,000 |
+| Lapsed registration, training, or background check | 0.8% | about $24,000 |
+| Caps and expired authorizations | 1.2% | about $37,000 |
+| **Total** | **5.1%** | **about $156,000** |
+
+The shares are estimates built from the bulletin structure, from provider association survey data on administrative burden, and from the typical exception rates aggregators report. A provider that pulls its own numbers will find different shares in each row. The total is what matters, and five percent of delivered hours is a conservative figure for a provider that has not reconciled these four sources against each other.
+
+**The negative row.** If Sycamore's EVV aggregator already rejects partial records before they reach billing, and its EHR already blocks a service entry that does not match the current plan, the first two rows shrink toward zero and the total leak drops below one percent. In that case the right answer is a monthly reconciliation report, not a system build. We would say so in the free scan and the engagement would end there.
+
+## What fixing it looks like
+
+The fix is not more EVV. The fix is a nightly reconciliation that reads four sources the provider already has and reports every service that passes EVV and fails one of the other three checks: the EVV aggregator export, the EHR service plan, the HR system's credential dates, and the billing system's cap and authorization counters. The output is a short list each morning of visits that will not pay and why, early enough to fix the record, request the authorization, or renew the credential before the claim goes out.
+
+The pressure to do this is rising from both directions. ANCOR's 2025 State of America's Direct Support Workforce Crisis report found 88 percent of providers facing moderate or severe staffing shortages and 62 percent turning away new referrals, which means every lost billable hour is harder to replace. HHAeXchange's 2026 homecare survey found 57 percent of agencies evaluating AI tools, with compliance named as the top priority. Providers are already looking for this. Most are being shown EVV dashboards, which answer a question they have already answered.
+
+## What this costs
+
+We publish our prices and we do not quote above them. Every engagement starts with a free 30 minute scan, where we look at your EVV export and your plan data and tell you whether the leak is likely above or below one percent. If it is worth going further, the AI Opportunity Audit is $2,500 and is credited in full toward any build within 90 days. Every measured engagement is read only on your records. Nonprofit providers receive 30 percent off, always.
+
+Start with the [free 30 minute scan and the published pricing](/pricing).
+
+## Frequently asked questions
+
+### Does EVV compliance mean a service is billable?
+
+No. EVV confirms the worker, the member, the time, and the location of a visit. Billability also requires a current authorization, a match to the service plan, an eligible worker on that date, and remaining units under the applicable cap. A visit can satisfy EVV and fail any of the other four.
+
+### What happened to Behavior Management Basic in Indiana?
+
+IHCP bulletin BT2025169 end dated Behavior Management Basic on December 31, 2025. It was replaced by Behavioral Support Services, which has three direct components authorized quarterly, a Functional Behavior Assessment capped at 20 hours in 60 days, and required state templates.
+
+### Can we recover services we delivered but never billed?
+
+Sometimes. Indiana's timely filing limit and the terms of the specific authorization decide whether a corrected claim can still be submitted. The reconciliation described above identifies the candidates. Whether to pursue them is a billing and compliance decision for the provider, not a technical one.
+
+### Where does a provider start?
+
+Pull one month of EVV aggregator exports, the service plans in force for that month, credential dates for every DSP who worked, and the authorization and cap counters from billing. Match them visit by visit. The visits that pass EVV and fail one other check are your leak. If that is more than you want to do by hand, the free scan does the first pass.
+
+## Sources
+
+- Indiana Health Coverage Programs, BT2025169, Behavior Management Basic end dated and Behavioral Support Services introduced, November 26, 2025.
+- Indiana Health Coverage Programs, BT202613, self directed services budget methodology and DSP registry requirement, effective January 1, 2026.
+- Indiana Health Coverage Programs, BT2025168 and BT2025173, Family Supports Waiver and Community Integration and Habilitation Waiver amendments, late 2025.
+- Indiana Health Coverage Programs, BT202666, Family Supports Waiver annual budget cap of $26,482.
+- Indiana Health Coverage Programs, BT202673, live in caregiver rate change effective August 1, 2026.
+- Indiana Division of Disability and Rehabilitative Services, HCBS Waiver Provider Reference Module, current edition.
+- Indiana General Assembly, House Enrolled Act 1277 (2026), service accounting records provision effective July 1, 2026.
+- ANCOR, The State of America's Direct Support Workforce Crisis 2025.
+- HHAeXchange, 2026 Homecare Industry Survey.
+
+Last verified October 7, 2026. Program rules change. If a figure above has moved, the free scan uses the current one.
