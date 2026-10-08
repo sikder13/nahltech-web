@@ -67,12 +67,12 @@ describe.each(allLetterPages())("the rendered $slug page", (config) => {
     );
     expect(numbers).toEqual([
       "01 · Where it goes wrong today",
-      "02",
+      "02 · Why now",
       "03 · What the state does when it fails",
       "04 · The software",
-      "05",
-      "06",
-      "07",
+      "05 · Proof",
+      "06 · An example, not a claim",
+      "07 · The morning list",
       "08 · How the pilot runs",
       "09 · Two people, both in Indianapolis",
       "10",

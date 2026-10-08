@@ -193,6 +193,7 @@ describe("the copy every letter page shares", () => {
         },
         whyNow: {
           name: "Why this is a problem now",
+          eyebrow: "Why now",
         },
         rule: {
           name: "The rule",
@@ -204,12 +205,15 @@ describe("the copy every letter page shares", () => {
         },
         whyItWorks: {
           name: "Why it works",
+          eyebrow: "Proof",
         },
         example: {
           name: "A worked example",
+          eyebrow: "An example, not a claim",
         },
         morning: {
           name: "What the morning looks like",
+          eyebrow: "The morning list",
         },
         thirtyDays: {
           name: "Thirty days",
@@ -289,6 +293,7 @@ describe("the copy every letter page shares", () => {
             lines: [
               "PhD in mechanical engineering; Six Sigma trained.",
               "Built the voice and text agent stack that the call-off line and the funnel run on.",
+              "Ten years of test and diagnostics discipline; the person who checks the count.",
             ],
           },
         ],
