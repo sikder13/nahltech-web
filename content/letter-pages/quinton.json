@@ -1,0 +1,43 @@
+{
+  "slug": "quinton",
+  "token": "quinton-residential-2419d6c0f8",
+  "company": {
+    "name": "Quinton Residential Living"
+  },
+  "tabTitle": "Quinton Residential Living: the call-off line",
+  "title": "The hour after a call-off at Quinton",
+  "subtitle": "A thirty-day pilot on one region's night and weekend shifts.",
+  "blocks": [
+    {
+      "heading": "The handoff",
+      "body": "A call-off at nine at night goes to a supervisor with a list. The substitute must clear the state's HCSP registry before working. Overtime goes to whoever answers. An open shift is unbilled hours and an incident report. Nobody counts the hour, the overtime, or the shifts left open."
+    },
+    {
+      "heading": "The rule",
+      "body": "Indiana providers lost 37.5 percent of their direct support staff last year, and one in five had been there under six months (National Core Indicators, State of the Workforce 2024, Indiana data from 170 agencies). Every DSP serving under the CIH or FSW must hold HCSP certification, checked on the state's public registry. Since August 1, 2026 providers cannot add counties or services for six months (Indiana Medicaid bulletin BT2026124).",
+      "links": [
+        {
+          "text": "National Core Indicators, State of the Workforce 2024",
+          "href": "https://idd.nationalcoreindicators.org/wp-content/uploads/2025/12/2024-NCI-IDD-SoTW_Final-Tagged.pdf"
+        },
+        {
+          "text": "the state's public registry",
+          "href": "https://www.in.gov/fssa/ddars/bds/hcsp-training-registry"
+        },
+        {
+          "text": "Indiana Medicaid bulletin BT2026124",
+          "href": "https://www.in.gov/medicaid/providers/files/bulletins/BT2026124.pdf"
+        }
+      ]
+    },
+    {
+      "heading": "What we build",
+      "body": "A call-off line. Staff text or call one number. It finds eligible people by certification, distance and hours worked, offers the shift by text and voice, confirms, writes it back to the schedule, and logs every step. It holds names, certifications and times, never a clinical record. It lives inside what you already run."
+    },
+    {
+      "heading": "Thirty days",
+      "body": "Week one is the count from your on-call log: time to fill, overtime, open shifts. Then the line runs for the rest of the month, and you read the same three numbers against the count. Fixed fee $1,950. Stop any time. If AccelTrax already does this well for you, we say so on the first call."
+    }
+  ],
+  "sources": "Sources: qrlcares.com and intrinsicbehavioral.com, October 2026. CARF listings. National Core Indicators, State of the Workforce 2024. Indiana FSSA, HCSP training registry. Indiana Medicaid bulletin BT2026124."
+}
