@@ -150,9 +150,9 @@ describe("the waiver-billing report", () => {
   });
 
   it("dates its revision from updatedAt", () => {
-    expect(report.updatedAt).toBe("2026-10-07");
+    expect(report.updatedAt).toBe("2026-10-08");
     expect(researchArticleSchema(report).dateModified).toBe(
-      "2026-10-07T00:00:00+00:00",
+      "2026-10-08T00:00:00+00:00",
     );
   });
 
