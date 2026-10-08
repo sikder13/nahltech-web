@@ -1,5 +1,117 @@
 {
-  "topLine": "Nahl Technologies Inc. · Indianapolis",
+  "firm": "Nahl Technologies",
+  "topLine": "Nahl Technologies Inc. · Indianapolis · Prepared for {provider}",
+  "chips": [
+    "Two to three minutes to read",
+    "Nothing about you is recorded here",
+    "A no is a fair answer"
+  ],
+  "sections": {
+    "handoff": {
+      "name": "The handoff",
+      "eyebrow": "Where it goes wrong today"
+    },
+    "whyNow": {
+      "name": "Why this is a problem now"
+    },
+    "rule": {
+      "name": "The rule",
+      "eyebrow": "What the state does when it fails"
+    },
+    "build": {
+      "name": "What we build",
+      "eyebrow": "The software"
+    },
+    "whyItWorks": {
+      "name": "Why it works"
+    },
+    "example": {
+      "name": "A worked example"
+    },
+    "morning": {
+      "name": "What the morning looks like"
+    },
+    "thirtyDays": {
+      "name": "Thirty days",
+      "eyebrow": "How the pilot runs"
+    },
+    "team": {
+      "name": "Who you would work with",
+      "eyebrow": "Two people, both in Indianapolis"
+    },
+    "contact": {
+      "name": "Tell me where this is wrong"
+    }
+  },
+  "failLabel": "Failure point",
+  "neverTouchesTitle": "What it never touches",
+  "example": {
+    "disclaimer": "This is an example, not a claim about your business. Every input is ours until you move it. Your records in week one replace all of it.",
+    "lowLabel": "low end",
+    "highLabel": "high end",
+    "typeLabel": "Type an exact figure for {label}",
+    "typeHint": "Enter one figure. Both handles close on it."
+  },
+  "illustrationLabel": "Illustration with made-up names. Your version uses your staff and your records.",
+  "timeline": [
+    {
+      "when": "Day 1 to 7",
+      "what": "The count",
+      "days": 7
+    },
+    {
+      "when": "Day 8 to 30",
+      "what": "It runs",
+      "days": 23
+    },
+    {
+      "when": "Day 30",
+      "what": "The readout",
+      "days": 0
+    }
+  ],
+  "metric": {
+    "placeholder": "Your number, from your records, week one",
+    "again": "read again at day thirty"
+  },
+  "receive": {
+    "title": "What you receive",
+    "eyebrow": "Deliverables"
+  },
+  "fee": {
+    "title": "The fee",
+    "eyebrow": "Fixed, in writing",
+    "terms": [
+      "Fixed fee, agreed before we start.",
+      "Stop any time; you keep the count and everything built to that day.",
+      "Nothing clinical leaves your systems; a business associate agreement is signed before any file that could contain it.",
+      "If a tool you already own does this, we say so on the first call and go home."
+    ]
+  },
+  "team": {
+    "people": [
+      {
+        "name": "Udaay Sikder",
+        "role": "Co-Founder and Chief Executive Officer",
+        "initials": "US",
+        "lines": [
+          "Builds the software.",
+          "Master's in cloud computing; years in regulated health software before Nahl.",
+          "Reads every log himself."
+        ]
+      },
+      {
+        "name": "Mohieminul Khan",
+        "role": "Co-Founder",
+        "initials": "MK",
+        "lines": [
+          "PhD in mechanical engineering; Six Sigma trained.",
+          "Built the voice and text agent stack that the call-off line and the funnel run on."
+        ]
+      }
+    ],
+    "line": "Two people, no sales team, no subcontractors. The person you call is the person who builds it."
+  },
   "contact": {
     "heading": "Tell me where this is wrong",
     "line": "Whichever route is easiest. I keep seven to eight in the morning open for these calls.",

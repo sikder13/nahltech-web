@@ -14,7 +14,7 @@ import {
   letterPageRedirects,
   letterSharedCopy,
 } from "./registry";
-import { letterPageSchema } from "./schema";
+import { letterPageSchema, letterSectionKeys } from "./schema";
 
 describe("letter pages", () => {
   const pages = allLetterPages();
@@ -74,21 +74,79 @@ describe("letter pages", () => {
     const [page] = pages;
     const broken = {
       ...page,
-      blocks: page.blocks.map((block, index) =>
-        index === 1
-          ? {
-              ...block,
-              links: [
-                {
-                  text: "a phrase the body never says",
-                  href: "https://example.com/",
-                },
-              ],
-            }
-          : block,
-      ),
+      rule: {
+        ...page.rule,
+        links: [
+          ...page.rule.links,
+          {
+            text: "a phrase the body never says",
+            href: "https://example.com/",
+          },
+        ],
+      },
     };
     expect(letterPageSchema.safeParse(broken).success).toBe(false);
+  });
+
+  it("rejects a figure card that says anything the rule does not", () => {
+    const [page] = pages;
+    const withCard = (card: { figure: string; line: string; source: string }) =>
+      letterPageSchema.safeParse({
+        ...page,
+        rule: { ...page.rule, figures: [card] },
+      }).success;
+    const [real] = page.rule.figures;
+
+    expect(withCard(real)).toBe(true);
+    expect(withCard({ ...real, line: "A sentence of our own." })).toBe(false);
+    expect(withCard({ ...real, figure: "99 percent" })).toBe(false);
+    expect(withCard({ ...real, source: "A source we did not cite" })).toBe(
+      false,
+    );
+  });
+
+  it("rejects a result line that names a figure the model does not compute", () => {
+    const [page] = pages;
+    const broken = {
+      ...page,
+      example: { ...page.example, result: "{usd} ({exact}) and {made} up" },
+    };
+    expect(letterPageSchema.safeParse(broken).success).toBe(false);
+  });
+
+  it("never fills in a provider's own number", () => {
+    // A metric is a name and nothing else: the schema has no field for a
+    // value, so the page cannot print one.
+    for (const page of pages) {
+      for (const metric of page.thirtyDays.metrics) {
+        expect(metric, page.slug).not.toMatch(/\d/);
+      }
+    }
+  });
+
+  it("uses only invented first names in its illustration", () => {
+    const real = [
+      "Kendall",
+      "Coleman",
+      "Alex",
+      "March",
+      "Crussana",
+      "Hill",
+      "Oluranti",
+      "Ladapo",
+      "Udaay",
+      "Sikder",
+      "Mohieminul",
+      "Khan",
+    ];
+    for (const page of pages) {
+      const words = JSON.stringify(page.morning);
+      for (const name of real) {
+        expect(words, `${page.slug} names ${name}`).not.toMatch(
+          new RegExp(`\\b${name}\\b`),
+        );
+      }
+    }
   });
 });
 
@@ -114,46 +172,169 @@ describe("the first wave of letter pages", () => {
   });
 });
 
-describe("the shared contact block", () => {
-  const shared = letterSharedCopy();
-
-  it("keeps the top line, the heading and the line under it", () => {
-    expect(shared.topLine).toBe("Nahl Technologies Inc. · Indianapolis");
-    expect(shared.contact.heading).toBe("Tell me where this is wrong");
-    expect(shared.contact.line).toBe(
-      "Whichever route is easiest. I keep seven to eight in the morning open for these calls.",
-    );
+describe("the copy every letter page shares", () => {
+  it("matches the approved copy exactly", () => {
+    // The section names and eyebrows, the three chips, the timeline, the
+    // metric placeholder, the fee terms, who the reader would work with, the
+    // contact block and the promise.
+    expect(letterSharedCopy()).toEqual({
+      firm: "Nahl Technologies",
+      topLine:
+        "Nahl Technologies Inc. · Indianapolis · Prepared for {provider}",
+      chips: [
+        "Two to three minutes to read",
+        "Nothing about you is recorded here",
+        "A no is a fair answer",
+      ],
+      sections: {
+        handoff: {
+          name: "The handoff",
+          eyebrow: "Where it goes wrong today",
+        },
+        whyNow: {
+          name: "Why this is a problem now",
+        },
+        rule: {
+          name: "The rule",
+          eyebrow: "What the state does when it fails",
+        },
+        build: {
+          name: "What we build",
+          eyebrow: "The software",
+        },
+        whyItWorks: {
+          name: "Why it works",
+        },
+        example: {
+          name: "A worked example",
+        },
+        morning: {
+          name: "What the morning looks like",
+        },
+        thirtyDays: {
+          name: "Thirty days",
+          eyebrow: "How the pilot runs",
+        },
+        team: {
+          name: "Who you would work with",
+          eyebrow: "Two people, both in Indianapolis",
+        },
+        contact: {
+          name: "Tell me where this is wrong",
+        },
+      },
+      failLabel: "Failure point",
+      neverTouchesTitle: "What it never touches",
+      example: {
+        disclaimer:
+          "This is an example, not a claim about your business. Every input is ours until you move it. Your records in week one replace all of it.",
+        lowLabel: "low end",
+        highLabel: "high end",
+        typeLabel: "Type an exact figure for {label}",
+        typeHint: "Enter one figure. Both handles close on it.",
+      },
+      illustrationLabel:
+        "Illustration with made-up names. Your version uses your staff and your records.",
+      timeline: [
+        {
+          when: "Day 1 to 7",
+          what: "The count",
+          days: 7,
+        },
+        {
+          when: "Day 8 to 30",
+          what: "It runs",
+          days: 23,
+        },
+        {
+          when: "Day 30",
+          what: "The readout",
+          days: 0,
+        },
+      ],
+      metric: {
+        placeholder: "Your number, from your records, week one",
+        again: "read again at day thirty",
+      },
+      receive: {
+        title: "What you receive",
+        eyebrow: "Deliverables",
+      },
+      fee: {
+        title: "The fee",
+        eyebrow: "Fixed, in writing",
+        terms: [
+          "Fixed fee, agreed before we start.",
+          "Stop any time; you keep the count and everything built to that day.",
+          "Nothing clinical leaves your systems; a business associate agreement is signed before any file that could contain it.",
+          "If a tool you already own does this, we say so on the first call and go home.",
+        ],
+      },
+      team: {
+        people: [
+          {
+            name: "Udaay Sikder",
+            role: "Co-Founder and Chief Executive Officer",
+            initials: "US",
+            lines: [
+              "Builds the software.",
+              "Master's in cloud computing; years in regulated health software before Nahl.",
+              "Reads every log himself.",
+            ],
+          },
+          {
+            name: "Mohieminul Khan",
+            role: "Co-Founder",
+            initials: "MK",
+            lines: [
+              "PhD in mechanical engineering; Six Sigma trained.",
+              "Built the voice and text agent stack that the call-off line and the funnel run on.",
+            ],
+          },
+        ],
+        line: "Two people, no sales team, no subcontractors. The person you call is the person who builds it.",
+      },
+      contact: {
+        heading: "Tell me where this is wrong",
+        line: "Whichever route is easiest. I keep seven to eight in the morning open for these calls.",
+        book: "Book fifteen minutes",
+        call: {
+          label: "Call or text (317) 507-4303",
+          href: "tel:+13175074303",
+        },
+        text: {
+          label: "Text Udaay",
+          number: "+13175074303",
+          body: "Read your letter. Call me at ",
+        },
+        email: {
+          address: "udaay@nahltech.com",
+          subject: "Your letter",
+        },
+        form: {
+          placeholder: "Your phone or email, and one line if you like",
+          send: "Send",
+          success: "Got it. I will reply within one business day.",
+          failure: "That did not go through. Text me at (317) 507-4303.",
+        },
+      },
+      closing: "No one will call you because you visited this page.",
+    });
   });
 
-  it("keeps the four routes as written", () => {
-    expect(shared.contact.book).toBe("Book fifteen minutes");
-    expect(shared.contact.call).toEqual({
-      label: "Call or text (317) 507-4303",
-      href: "tel:+13175074303",
-    });
-    expect(shared.contact.text).toEqual({
-      label: "Text Udaay",
-      number: "+13175074303",
-      body: "Read your letter. Call me at ",
-    });
-    expect(shared.contact.email).toEqual({
-      address: "udaay@nahltech.com",
-      subject: "Your letter",
-    });
-  });
-
-  it("keeps the reply box's four strings", () => {
-    expect(shared.contact.form).toEqual({
-      placeholder: "Your phone or email, and one line if you like",
-      send: "Send",
-      success: "Got it. I will reply within one business day.",
-      failure: "That did not go through. Text me at (317) 507-4303.",
-    });
-  });
-
-  it("keeps the promise", () => {
-    expect(shared.closing).toBe(
-      "No one will call you because you visited this page.",
-    );
+  it("numbers ten sections, in the order the page shows them", () => {
+    const shared = letterSharedCopy();
+    expect(letterSectionKeys.map((key) => shared.sections[key].name)).toEqual([
+      "The handoff",
+      "Why this is a problem now",
+      "The rule",
+      "What we build",
+      "Why it works",
+      "A worked example",
+      "What the morning looks like",
+      "Thirty days",
+      "Who you would work with",
+      "Tell me where this is wrong",
+    ]);
   });
 });

@@ -15,8 +15,8 @@ import type { Metadata } from "next";
 /**
  * A letter page, at the address its letter prints.
  *
- * Unlisted by construction, the same way the dashboards are: statically
- * generated only for known tokens (`dynamicParams = false`, so any other
+ * Unlisted by construction, the same way the dashboards are: built ahead
+ * of time only for known tokens (`dynamicParams = false`, so any other
  * token is a plain 404), absent from the sitemap, `noindex` in the head and
  * in an `X-Robots-Tag` header from the middleware, and linked from nowhere
  * on the site.
@@ -54,7 +54,11 @@ export default async function Page({ params }: Params) {
         shared={letterSharedCopy()}
         bookingUrl={letterBookingUrl}
       />
-      <FooterBase t={t} hideSocial={["github"]} />
+      {/* Room under the footer for the phone action bar, so it never covers
+          the last line. */}
+      <div className="pb-20 lg:pb-0">
+        <FooterBase t={t} hideSocial={["github"]} />
+      </div>
     </>
   );
 }
