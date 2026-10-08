@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
 
 import { Honeypot } from "@/components/conversion/Honeypot";
-import { leadFieldLimits } from "@/lib/lead-schema";
 
 type Status = "idle" | "sending" | "sent" | "failed";
 
@@ -23,8 +22,11 @@ type Status = "idle" | "sending" | "sent" | "failed";
 export function ReplyForm({
   token,
   labels,
+  maxLength,
 }: {
   token: string;
+  /** The longest reply the endpoint accepts. */
+  maxLength: number;
   labels: {
     placeholder: string;
     send: string;
@@ -81,7 +83,7 @@ export function ReplyForm({
         name="reply"
         required
         rows={2}
-        maxLength={leadFieldLimits.message}
+        maxLength={maxLength}
         autoComplete="off"
         aria-label={labels.placeholder}
         placeholder={labels.placeholder}

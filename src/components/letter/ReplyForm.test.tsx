@@ -24,7 +24,11 @@ afterEach(() => {
 
 function renderForm() {
   return render(
-    <ReplyForm token="quinton-residential-2419d6c0f8" labels={labels} />,
+    <ReplyForm
+      token="quinton-residential-2419d6c0f8"
+      labels={labels}
+      maxLength={2000}
+    />,
   );
 }
 

@@ -3,6 +3,8 @@ import { Fragment, type ReactNode } from "react";
 import { LetterVisitBeacon } from "./LetterVisitBeacon";
 import { ReplyForm } from "./ReplyForm";
 
+import { leadFieldLimits } from "@/lib/lead-schema";
+
 import type {
   LetterBlock,
   LetterPageConfig,
@@ -132,7 +134,11 @@ export function LetterPage({
             </a>
           </li>
         </ul>
-        <ReplyForm token={config.token} labels={contact.form} />
+        <ReplyForm
+          token={config.token}
+          labels={contact.form}
+          maxLength={leadFieldLimits.message}
+        />
       </section>
 
       <p className="mt-xl text-base text-text">{shared.closing}</p>
