@@ -1,0 +1,43 @@
+{
+  "slug": "arrow",
+  "token": "arrow-services-3054120467",
+  "company": {
+    "name": "Arrow Services Indiana"
+  },
+  "tabTitle": "Arrow Services Indiana: the applicant funnel",
+  "title": "The first five minutes after a DSP applies to Arrow",
+  "subtitle": "A thirty-day pilot on the applicant funnel.",
+  "blocks": [
+    {
+      "heading": "The handoff",
+      "body": "An applicant who hears nothing for a day takes the other job at the same fifteen dollars. Half of booked interviews do not show. Every hire must clear the state's HCSP registry before a first shift. The recruiter's week goes to texting and chasing."
+    },
+    {
+      "heading": "The rule",
+      "body": "Home care agencies hire about 13 percent of the people who apply (Activated Insights, Home Care Benchmarking 2024). Indiana providers lost 37.5 percent of their direct support staff last year (National Core Indicators, State of the Workforce 2024, Indiana data). Since August 1, 2026 providers cannot add counties or services for six months (Indiana Medicaid bulletin BT2026124).",
+      "links": [
+        {
+          "text": "Activated Insights, Home Care Benchmarking 2024",
+          "href": "https://homehealthcarenews.com/2024/07/home-cares-industry-wide-turnover-rate-reaches-nearly-80"
+        },
+        {
+          "text": "National Core Indicators, State of the Workforce 2024",
+          "href": "https://idd.nationalcoreindicators.org/wp-content/uploads/2025/12/2024-NCI-IDD-SoTW_Final-Tagged.pdf"
+        },
+        {
+          "text": "Indiana Medicaid bulletin BT2026124",
+          "href": "https://www.in.gov/medicaid/providers/files/bulletins/BT2026124.pdf"
+        }
+      ]
+    },
+    {
+      "heading": "What we build",
+      "body": "The funnel. An applicant arrives from Indeed or your site. Within five minutes a text screen starts. The qualified ones book an interview on your calendar. The registry is checked. Onboarding drives itself. Your team sees one board of who is where. Names and certifications only, nothing clinical."
+    },
+    {
+      "heading": "Thirty days",
+      "body": "Week one is the count from your current flow: time to first contact, interview show rate, days from application to first shift. Then the funnel runs for the rest of the month, and you read the same three numbers against the count. Fixed fee $1,950. Stop any time. If your recruiter already has tools that do this, we say so on the first call."
+    }
+  ],
+  "sources": "Sources: arrow-in.com and Indeed postings, October 2026. Activated Insights, Home Care Benchmarking 2024, via Home Health Care News. National Core Indicators, State of the Workforce 2024. Indiana Medicaid bulletin BT2026124."
+}
