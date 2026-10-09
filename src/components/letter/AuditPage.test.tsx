@@ -15,6 +15,19 @@ import { sheetById } from "@/lib/sheets";
 const shared = letterSharedCopy();
 const bookingUrl = "https://cal.com/example/fifteen";
 
+/** What each page was told it must never say. */
+const ruledOut: Record<string, readonly string[]> = {
+  integritycare: ["$7,500", "$450", "guarantee", "monthly support", "a month"],
+  quinton: [
+    "$4,150",
+    "$9,500",
+    "$450",
+    "guarantee",
+    "monthly support",
+    "a month",
+  ],
+};
+
 describe.each(allAuditPages())("the rendered $slug audit page", (config) => {
   const sheets = config.sheets.cards.map((card) => sheetById(card.sheet)!);
   const boardHtml = auditBoardHtml(config.slug);
@@ -55,13 +68,14 @@ describe.each(allAuditPages())("the rendered $slug audit page", (config) => {
     expect(
       screen.getAllByRole("heading", { level: 2 }).map((h) => h.textContent),
     ).toEqual([
-      "Your two sheets, yours to keep",
-      "What changed this year",
-      "What your office could see each morning",
-      "Where the money usually is",
-      "What agencies like yours are doing",
-      "The audit, step by step",
-      "What you will ask me",
+      config.sheets.title,
+      config.changed.title,
+      config.preview.title,
+      config.money.title,
+      config.proof.title,
+      config.audit.title,
+      config.questions.title,
+      // The reply block's heading carries its full stop.
       "Tell me where this is wrong.",
     ]);
     expect(
@@ -149,24 +163,36 @@ describe.each(allAuditPages())("the rendered $slug audit page", (config) => {
     ).toHaveAttribute("href", `/${config.slug}/sheets`);
   });
 
-  it("sources each of the three changes and each proof card, in a new tab", () => {
+  it("sources each change and each proof card, in a new tab where it has an address", () => {
     const { container } = renderPage();
 
     for (const item of [...config.changed.cards, ...config.proof.cards]) {
+      expect(screen.getByText(item.line)).toBeInTheDocument();
+      if (!item.href) {
+        // Named, not linked: there is no address to send the reader to.
+        expect(screen.getByText(item.source).closest("a")).toBeNull();
+        continue;
+      }
       const anchor = screen.getByRole("link", { name: item.source });
       expect(anchor).toHaveAttribute("href", item.href);
       expect(anchor).toHaveAttribute("target", "_blank");
       expect(anchor).toHaveAttribute("rel", "noopener noreferrer");
-      expect(screen.getByText(item.line)).toBeInTheDocument();
+    }
+    if (config.changed.bodyLink) {
+      expect(
+        screen.getByRole("link", { name: config.changed.bodyLink.text }),
+      ).toHaveAttribute("href", config.changed.bodyLink.href);
     }
     for (const item of config.changed.cards) {
       expect(screen.getByText(item.figure)).toBeInTheDocument();
     }
-    // A public figure carries its label: three changes, three proofs.
+    // A public figure carries its label: one per change, one per proof.
     const labels = [...container.querySelectorAll("span")].filter(
       (span) => span.textContent === "BENCHMARK" && span.children.length === 0,
     );
-    expect(labels).toHaveLength(6);
+    expect(labels).toHaveLength(
+      config.changed.cards.length + config.proof.cards.length,
+    );
     expect(container.textContent).toContain(config.changed.body);
     expect(container.textContent).toContain(config.proof.after);
   });
@@ -209,7 +235,7 @@ describe.each(allAuditPages())("the rendered $slug audit page", (config) => {
     expect(section.textContent).toContain(config.money.after);
   });
 
-  it("lays out the audit: eight steps, three folded boxes, step zero and the price", () => {
+  it("lays out the audit: its steps, three folded boxes, step zero and the price", () => {
     const { container } = renderPage();
 
     const section = sectionOf("audit", container);
@@ -217,20 +243,25 @@ describe.each(allAuditPages())("the rendered $slug audit page", (config) => {
       expect(within(section).getAllByText(step.label)[0]).toBeInTheDocument();
       expect(section.textContent).toContain(step.text);
     }
-    expect(config.audit.steps).toHaveLength(8);
+    expect(section.querySelectorAll("ol > li")).toHaveLength(
+      config.audit.steps.length,
+    );
     const boxes = [...section.querySelectorAll("details")];
-    expect(boxes.map((d) => d.querySelector("summary")?.textContent)).toEqual([
-      "What we need from you",
-      "What you receive",
-      "What the audit is likely to find",
-    ]);
+    expect(boxes.map((d) => d.querySelector("summary")?.textContent)).toEqual(
+      config.audit.boxes.map((box) => box.title),
+    );
+    expect([0, 3]).toContain(boxes.length);
     boxes.forEach((box, index) => {
       expect(box).not.toHaveAttribute("open");
       expect(box.textContent).toContain(config.audit.boxes[index].text);
     });
     expect(section.textContent).toContain(config.audit.stepZero.text);
-    expect(within(section).getByText("$2,500")).toBeInTheDocument();
-    expect(within(section).getByText("Ten business days")).toBeInTheDocument();
+    expect(
+      within(section).getByText(config.audit.price.amount),
+    ).toBeInTheDocument();
+    expect(
+      within(section).getByText(config.audit.price.term),
+    ).toBeInTheDocument();
     for (const line of config.audit.price.lines) {
       expect(within(section).getByText(line)).toBeInTheDocument();
     }
@@ -277,17 +308,18 @@ describe.each(allAuditPages())("the rendered $slug audit page", (config) => {
     ).toBe(true);
   });
 
+  it("shows no placeholder text", () => {
+    const { container } = renderPage();
+
+    expect(container.textContent).not.toContain("PLACEHOLDER");
+  });
+
   it("says nothing that was ruled out, on the page or in the prototype", () => {
     const { container } = renderPage();
 
     const words = (container.textContent ?? "") + boardHtml;
-    for (const banned of [
-      "$7,500",
-      "$450",
-      "guarantee",
-      "monthly support",
-      "a month",
-    ]) {
+    expect(ruledOut[config.slug]).toBeDefined();
+    for (const banned of ruledOut[config.slug]) {
       expect(words, banned).not.toContain(banned);
     }
   });

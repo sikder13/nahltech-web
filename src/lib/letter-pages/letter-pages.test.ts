@@ -212,9 +212,11 @@ describe("the first wave of letter pages", () => {
     expect(allLetterPages().map((page) => page.slug)).toEqual([
       "arrow",
       "dayafterday",
+    ]);
+    expect(allAuditPages().map((page) => page.slug)).toEqual([
+      "integritycare",
       "quinton",
     ]);
-    expect(allAuditPages().map((page) => page.slug)).toEqual(["integritycare"]);
   });
 
   it("has every token recorded in the ledger, against its short address", () => {

@@ -65,11 +65,15 @@ export const auditPageSchema = z
             figure: text,
             line: text,
             source: text,
-            href: https,
+            /** A source with no address is named, not linked. */
+            href: https.optional(),
           }),
         )
-        .length(3),
+        .min(3)
+        .max(4),
       body: text,
+      /** A sentence of the body that links to its source. */
+      bodyLink: z.strictObject({ text, href: https }).optional(),
     }),
     preview: z.strictObject({
       ...sectionHead,
@@ -77,6 +81,13 @@ export const auditPageSchema = z
       /** The accessible name of the embedded prototype. */
       frameTitle: text,
       open: text,
+      /** The phone picture's own size, when it differs from the default. */
+      shot: z
+        .strictObject({
+          width: z.number().int().positive(),
+          height: z.number().int().positive(),
+        })
+        .optional(),
       captions: z.array(text).length(4),
     }),
     money: z.strictObject({
@@ -95,8 +106,17 @@ export const auditPageSchema = z
     }),
     audit: z.strictObject({
       ...sectionHead,
-      steps: z.array(z.strictObject({ label: text, text })).min(1),
-      boxes: z.array(z.strictObject({ title: text, text })).length(3),
+      /**
+       * The audit's steps and the three boxes beside them, quoted from the
+       * printed audit sheet. Either may be empty while that sheet is
+       * awaited: a page shows nothing there, never a paraphrase.
+       */
+      steps: z.array(z.strictObject({ label: text, text })),
+      boxes: z
+        .array(z.strictObject({ title: text, text }))
+        .refine((boxes) => boxes.length === 0 || boxes.length === 3, {
+          message: "takes all three boxes or none",
+        }),
       stepZero: z.strictObject({ title: text, text }),
       price: z.strictObject({
         amount: z.string().regex(/^\$\d{1,3}(,\d{3})*$/),
@@ -124,6 +144,16 @@ export const auditPageSchema = z
         code: "custom",
         path: ["sheets", "address"],
         message: "must appear in the line that prints it",
+      });
+    }
+    if (
+      page.changed.bodyLink &&
+      !page.changed.body.includes(page.changed.bodyLink.text)
+    ) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["changed", "bodyLink", "text"],
+        message: "must be a sentence of the body, word for word",
       });
     }
     if (page.sheets.address !== `nahltech.com/${page.slug}/sheets`) {

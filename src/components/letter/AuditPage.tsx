@@ -174,6 +174,11 @@ export function AuditPage({
   const [alwaysBefore, alwaysAfter] = config.sheets.always.split(
     config.sheets.address,
   );
+  const changedLink = config.changed.bodyLink;
+  const [changedBefore, changedAfter] = changedLink
+    ? config.changed.body.split(changedLink.text)
+    : [config.changed.body, ""];
+  const shot = config.preview.shot ?? { width: 465, height: 3885 };
 
   return (
     <div className={GROUND}>
@@ -256,7 +261,9 @@ export function AuditPage({
             eyebrow={config.changed.eyebrow}
           >
             <p className={`mt-md ${body}`}>{config.changed.lead}</p>
-            <ul className="mt-lg grid gap-sm lg:grid-cols-3">
+            <ul
+              className={`mt-lg grid gap-sm ${config.changed.cards.length === 4 ? "sm:grid-cols-2" : "lg:grid-cols-3"}`}
+            >
               {config.changed.cards.map((item) => (
                 <li key={item.figure} className={card}>
                   <p className="font-display text-[1.75rem] leading-tight font-semibold text-text">
@@ -266,13 +273,34 @@ export function AuditPage({
                     <EvidenceLabel label="BENCHMARK" />
                   </p>
                   <p className="mt-xs text-base text-text">{item.line}</p>
-                  <p className="mt-xs text-sm">
-                    <SourceLink href={item.href}>{item.source}</SourceLink>
+                  <p className="mt-xs text-sm text-text-muted">
+                    {item.href ? (
+                      <SourceLink href={item.href}>{item.source}</SourceLink>
+                    ) : (
+                      item.source
+                    )}
                   </p>
                 </li>
               ))}
             </ul>
-            <p className={`mt-lg ${body}`}>{config.changed.body}</p>
+            <p className={`mt-lg ${body}`}>
+              {changedLink ? (
+                <>
+                  {changedBefore}
+                  <a
+                    href={changedLink.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={link}
+                  >
+                    {changedLink.text}
+                  </a>
+                  {changedAfter}
+                </>
+              ) : (
+                config.changed.body
+              )}
+            </p>
           </Section>
 
           <Section
@@ -307,8 +335,8 @@ export function AuditPage({
                 <img
                   src={`/letter/${config.slug}-board-phone.webp`}
                   alt={config.preview.frameTitle}
-                  width={465}
-                  height={3885}
+                  width={shot.width}
+                  height={shot.height}
                   loading="lazy"
                   decoding="async"
                   className="h-auto w-full"
@@ -387,36 +415,38 @@ export function AuditPage({
             title={config.audit.title}
             eyebrow={config.audit.eyebrow}
           >
-            <div className="mt-lg lg:grid lg:grid-cols-[minmax(0,1fr)_19rem] lg:items-start lg:gap-lg">
-              <ol className="border-s-2 border-text">
-                {config.audit.steps.map((step) => (
-                  <li
-                    key={step.label}
-                    className="relative ps-md pb-md last:pb-0"
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="absolute top-[0.45em] -left-[7px] size-3 rounded-full bg-text"
-                    />
-                    <p className="font-semibold text-text">{step.label}</p>
-                    <p className="mt-3xs text-base leading-[1.6] text-text">
-                      {step.text}
-                    </p>
-                  </li>
-                ))}
-              </ol>
-              <ul className="mt-lg space-y-xs lg:mt-0">
-                {config.audit.boxes.map((box) => (
-                  <li key={box.title} className={`${card} py-0 lg:py-0`}>
-                    <Fold summary={box.title}>
-                      <p className="text-base leading-[1.6] text-text">
-                        {box.text}
+            {config.audit.steps.length > 0 || config.audit.boxes.length > 0 ? (
+              <div className="mt-lg lg:grid lg:grid-cols-[minmax(0,1fr)_19rem] lg:items-start lg:gap-lg">
+                <ol className="border-s-2 border-text">
+                  {config.audit.steps.map((step) => (
+                    <li
+                      key={step.label}
+                      className="relative ps-md pb-md last:pb-0"
+                    >
+                      <span
+                        aria-hidden="true"
+                        className="absolute top-[0.45em] -left-[7px] size-3 rounded-full bg-text"
+                      />
+                      <p className="font-semibold text-text">{step.label}</p>
+                      <p className="mt-3xs text-base leading-[1.6] text-text">
+                        {step.text}
                       </p>
-                    </Fold>
-                  </li>
-                ))}
-              </ul>
-            </div>
+                    </li>
+                  ))}
+                </ol>
+                <ul className="mt-lg space-y-xs lg:mt-0">
+                  {config.audit.boxes.map((box) => (
+                    <li key={box.title} className={`${card} py-0 lg:py-0`}>
+                      <Fold summary={box.title}>
+                        <p className="text-base leading-[1.6] text-text">
+                          {box.text}
+                        </p>
+                      </Fold>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
 
             <div className={`mt-lg ${card}`}>
               <h3 className="font-display text-2xl text-text">
