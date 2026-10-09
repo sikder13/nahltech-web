@@ -64,6 +64,9 @@ export const routes = {
   hafsaSastho: "/products/hafsa-sastho",
   pricing: "/pricing",
   research: "/research",
+  // Free reference sheets for Indiana Medicaid providers. Public and indexed;
+  // each provider's own copy lives at /<slug>/sheets, which is not.
+  sheets: "/sheets",
   blog: "/blog",
   about: "/about",
   contact: "/contact",

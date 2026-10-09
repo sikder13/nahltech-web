@@ -108,6 +108,10 @@
       "metaTitle": "Pricing — AI Consulting, Automation & Search Visibility | Nahl Technologies",
       "description": "Published pricing, no maze. Free AI opportunity scan, $2,500 fully-credited audit, retainers from $1,200/month. Founding-client rates for our first ten."
     },
+    "sheets": {
+      "title": "Reference sheets",
+      "description": "Free reference sheets for Indiana Medicaid providers, built from the state's and the plans' own documents and kept current."
+    },
     "research": {
       "title": "Research",
       "description": "Original data and open methods from Nahl Technologies. When we publish a number, we show where it came from."
@@ -1427,6 +1431,12 @@
         "after": "."
       }
     }
+  },
+  "sheets": {
+    "intro": "Free reference sheets for Indiana Medicaid providers, built from the state's and the plans' own documents and kept current.",
+    "footerLabel": "Reference sheets",
+    "download": "Download PDF",
+    "previousVersions": "Previous versions"
   },
   "research": {
     "kinds": {

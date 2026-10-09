@@ -1,5 +1,7 @@
 import { NewsletterForm } from "@/components/conversion/NewsletterForm";
 
+import { routes } from "@/lib/routes";
+
 import { FooterBase } from "./FooterBase";
 
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
@@ -9,6 +11,7 @@ export function Footer({ t }: { t: Dictionary }) {
   return (
     <FooterBase
       t={t}
+      companyLinks={[{ href: routes.sheets, label: t.sheets.footerLabel }]}
       newsletter={
         <NewsletterForm
           labels={{

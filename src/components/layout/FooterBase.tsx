@@ -30,9 +30,15 @@ export function FooterBase({
   t,
   newsletter,
   hideSocial = [],
+  companyLinks = [],
 }: {
   t: Dictionary;
   newsletter?: ReactNode;
+  /**
+   * Further links for the Company column. Left empty, the footer renders
+   * exactly as it always has, which the pages that must not change rely on.
+   */
+  companyLinks?: readonly { href: string; label: string }[];
   hideSocial?: readonly SocialKey[];
 }) {
   const columns = [
@@ -59,6 +65,7 @@ export function FooterBase({
         { href: routes.blog, label: t.nav.blog },
         { href: routes.pricing, label: t.nav.pricing },
         { href: routes.contact, label: t.nav.contact },
+        ...companyLinks,
       ],
     },
     {
