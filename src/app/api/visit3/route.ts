@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import { isReaderAgent } from "@/lib/dashboards/v2/readers";
-import { letterPageByToken } from "@/lib/letter-pages/registry";
+import { letterIdentityByToken } from "@/lib/letter-pages/registry";
 import { checkLimit, clientIpFrom } from "@/lib/rate-limit";
 import { supabaseAdmin } from "@/lib/supabase/server";
 
@@ -44,7 +44,7 @@ export async function POST(request: Request) {
 
   const parsed = visitSchema.safeParse(body);
   const page = parsed.success
-    ? letterPageByToken(parsed.data.token)
+    ? letterIdentityByToken(parsed.data.token)
     : undefined;
   if (!parsed.success || !page) return noContent();
 

@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 
 import { leadFieldLimits } from "@/lib/lead-schema";
-import { letterPageByToken } from "@/lib/letter-pages/registry";
+import { letterIdentityByToken } from "@/lib/letter-pages/registry";
 import { createLetterReply } from "@/lib/letter-pages/reply";
 import { checkLimit, clientIpFrom } from "@/lib/rate-limit";
 
@@ -56,7 +56,7 @@ export async function POST(request: Request) {
 
   const parsed = replySchema.safeParse(body);
   const page = parsed.success
-    ? letterPageByToken(parsed.data.token)
+    ? letterIdentityByToken(parsed.data.token)
     : undefined;
   if (!parsed.success || !page) {
     return NextResponse.json({ ok: false }, { status: 400 });

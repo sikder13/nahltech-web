@@ -23,8 +23,14 @@ export function ReplyForm({
   token,
   labels,
   maxLength,
+  quiet = false,
 }: {
   token: string;
+  /**
+   * Draws Send as an outlined button, for a page that keeps the solid
+   * style for its one primary action.
+   */
+  quiet?: boolean;
   /** The longest reply the endpoint accepts. */
   maxLength: number;
   labels: {
@@ -99,7 +105,7 @@ export function ReplyForm({
       <button
         type="submit"
         disabled={status === "sending"}
-        className="mt-xs min-h-12 w-full rounded-md bg-cta px-lg text-lg font-semibold text-on-cta hover:bg-cta-hover disabled:opacity-60 sm:w-auto"
+        className={`mt-xs min-h-12 w-full rounded-md px-lg text-lg font-semibold disabled:opacity-60 sm:w-auto ${quiet ? "border border-text text-text hover:bg-surface" : "bg-cta text-on-cta hover:bg-cta-hover"}`}
       >
         {labels.send}
       </button>

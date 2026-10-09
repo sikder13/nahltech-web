@@ -7,7 +7,7 @@ import { supabaseAdmin } from "@/lib/supabase/server";
 
 import { parseReply } from "./parse-reply";
 
-import type { LetterPageConfig } from "./schema";
+import type { LetterPageIdentity } from "./registry";
 import type { LeadInsert } from "@/lib/supabase/types";
 
 /**
@@ -23,7 +23,7 @@ import type { LeadInsert } from "@/lib/supabase/types";
  * instead.
  */
 export async function createLetterReply(
-  page: LetterPageConfig,
+  page: LetterPageIdentity,
   text: string,
 ): Promise<{ ok: true; id: string } | { ok: false }> {
   const { email, phone } = parseReply(text);

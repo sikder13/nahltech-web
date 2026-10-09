@@ -7,9 +7,13 @@ import sitemap from "@/app/sitemap";
 import { allDashboards as templateOne } from "@/lib/dashboards/registry";
 import { allDashboards as templateTwo } from "@/lib/dashboards/v2/registry";
 import { allRoutePaths } from "@/lib/routes";
+import { sheetById } from "@/lib/sheets";
 
 import {
+  allAuditPages,
   allLetterPages,
+  auditBoardHtml,
+  letterIdentityByToken,
   letterPageByToken,
   letterPageRedirects,
   letterSharedCopy,
@@ -25,7 +29,7 @@ describe("letter pages", () => {
   });
 
   it("has slugs and tokens no other prospect page uses", () => {
-    const others = [...templateOne(), ...templateTwo()];
+    const others = [...templateOne(), ...templateTwo(), ...allAuditPages()];
     const slugs = [...pages, ...others].map((p) => p.slug);
     const tokens = [...pages, ...others].map((p) => p.token);
     expect(new Set(slugs).size).toBe(slugs.length);
@@ -45,7 +49,8 @@ describe("letter pages", () => {
 
   it("redirects each short address to its tokenized page, temporarily", () => {
     const redirects = letterPageRedirects();
-    expect(redirects).toHaveLength(pages.length);
+    // An audit page also redirects its sheets and its preview.
+    expect(redirects).toHaveLength(pages.length + allAuditPages().length * 3);
     for (const page of pages) {
       expect(redirects).toContainEqual({
         source: `/${page.slug}`,
@@ -62,10 +67,22 @@ describe("letter pages", () => {
     expect(letterPageByToken("not-a-token-0000000000")).toBeUndefined();
   });
 
+  it("identifies a page of either kind by its token, for the visit count and the reply box", () => {
+    for (const page of [...pages, ...allAuditPages()]) {
+      expect(letterIdentityByToken(page.token)).toMatchObject({
+        slug: page.slug,
+        company: { name: page.company.name },
+      });
+    }
+    expect(letterIdentityByToken("not-a-token-0000000000")).toBeUndefined();
+  });
+
   it("stays out of the sitemap", () => {
     const paths = sitemap().map((entry) => new URL(entry.url).pathname);
-    for (const page of pages) {
-      expect(paths).not.toContain(`/${page.slug}`);
+    for (const page of [...pages, ...allAuditPages()]) {
+      expect(paths.filter((path) => path.startsWith(`/${page.slug}`))).toEqual(
+        [],
+      );
     }
     expect(paths.filter((path) => path.startsWith("/m3"))).toEqual([]);
   });
@@ -150,14 +167,54 @@ describe("letter pages", () => {
   });
 });
 
+describe("audit pages", () => {
+  const audits = allAuditPages();
+
+  it("never shadows a real site route with its short address", () => {
+    const taken = new Set(allRoutePaths.map((p) => p.split("/")[1]));
+    for (const page of audits) expect(taken.has(page.slug)).toBe(false);
+  });
+
+  it("redirects the page, its sheets and its preview, temporarily", () => {
+    const redirects = letterPageRedirects();
+    for (const page of audits) {
+      for (const rest of ["", "/sheets", "/preview"]) {
+        expect(redirects).toContainEqual({
+          source: `/${page.slug}${rest}`,
+          destination: `/m3/${page.token}${rest}`,
+          permanent: false,
+        });
+      }
+    }
+  });
+
+  it("names only sheets that exist", () => {
+    for (const page of audits) {
+      for (const card of page.sheets.cards) {
+        expect(sheetById(card.sheet), card.sheet).toBeDefined();
+      }
+    }
+  });
+
+  it("ships the prototype it embeds, with no script and nothing fetched", () => {
+    for (const page of audits) {
+      const html = auditBoardHtml(page.slug);
+      expect(html).toContain("<!doctype html>");
+      expect(html).not.toMatch(/<script/i);
+      expect(html).not.toMatch(/(?:src|href)\s*=\s*["']?https?:/i);
+      expect(html).toContain('name="robots" content="noindex,nofollow"');
+    }
+  });
+});
+
 describe("the first wave of letter pages", () => {
   it("is exactly the four providers the letters name", () => {
     expect(allLetterPages().map((page) => page.slug)).toEqual([
       "arrow",
       "dayafterday",
-      "integritycare",
       "quinton",
     ]);
+    expect(allAuditPages().map((page) => page.slug)).toEqual(["integritycare"]);
   });
 
   it("has every token recorded in the ledger, against its short address", () => {
@@ -166,7 +223,7 @@ describe("the first wave of letter pages", () => {
       "utf8",
     );
     expect(ledger).toContain("## Prospect page tokens");
-    for (const page of allLetterPages()) {
+    for (const page of [...allLetterPages(), ...allAuditPages()]) {
       expect(ledger).toContain(`\n/${page.slug}: ${page.token}\n`);
     }
   });
