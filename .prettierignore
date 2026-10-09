@@ -10,3 +10,4 @@ package-lock.json
 docs/
 supabase/
 README.md
+content/letter-audits/*.html

@@ -1,0 +1,32 @@
+{
+  "groups": [
+    {
+      "id": "home-care-billing",
+      "title": "Home care billing"
+    }
+  ],
+  "sheets": [
+    {
+      "id": "evv-denial-decoder",
+      "group": "home-care-billing",
+      "title": "EVV denial decoder",
+      "line": "Every EVV denial code your office can receive, with the cause and the fix, on one page.",
+      "file": "/sheets/evv-denial-decoder-2026-10.pdf",
+      "thumb": "/sheets/thumbs/evv-denial-decoder-2026-10.webp",
+      "pages": 1,
+      "updated": "October 2026",
+      "previous": []
+    },
+    {
+      "id": "indiana-medicaid-payer-reference",
+      "group": "home-care-billing",
+      "title": "Indiana Medicaid payer reference",
+      "line": "Portals, filing clocks, contacts, denial names and rates for Anthem, Humana, UnitedHealthcare and fee for service, on one page.",
+      "file": "/sheets/indiana-medicaid-payer-reference-2026-10.pdf",
+      "thumb": "/sheets/thumbs/indiana-medicaid-payer-reference-2026-10.webp",
+      "pages": 1,
+      "updated": "October 2026",
+      "previous": []
+    }
+  ]
+}

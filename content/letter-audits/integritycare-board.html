@@ -1,0 +1,74 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Integrity Care morning board (prototype)</title>
+<style>
+:root{--ink:#161616;--mute:#5c5c5c;--line:#e3e0d9;--bg:#faf9f6;--card:#fff;--ok:#1f6f43;--warn:#b25b00;--bad:#9b1c1c;--acc:#1b3a5b}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;font-weight:600;margin:0}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 16px 48px}
+.top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px;border-bottom:2px solid var(--ink);padding-bottom:12px;margin-bottom:18px}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+h1{font-size:30px}.sub{color:var(--mute);margin-top:4px}
+.tag{display:inline-block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border:1px solid var(--ink);border-radius:999px}
+.proto{background:#fff7e6;border:1px solid #e8c88a;padding:10px 14px;border-radius:8px;margin:0 0 18px;font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;grid-column:span 12}
+@media(min-width:900px){.c4{grid-column:span 4}.c6{grid-column:span 6}.c8{grid-column:span 8}}
+.card h2{font-size:20px;margin-bottom:4px}.card .why{color:var(--mute);font-size:13px;margin-bottom:12px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:8px 0 12px}
+.kpi{border:1px solid var(--line);border-radius:10px;padding:10px 12px}.kpi b{display:block;font-family:Fraunces,Georgia,serif;font-size:28px;line-height:1.1}.kpi span{font-size:12px;color:var(--mute)}
+table{width:100%;border-collapse:collapse;font-size:13.5px}th{text-align:left;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--mute);border-bottom:1px solid var(--ink);padding:6px 8px 6px 0}td{padding:8px 8px 8px 0;border-bottom:1px solid var(--line);vertical-align:top}
+.ok{color:var(--ok);font-weight:600}.warn{color:var(--warn);font-weight:600}.bad{color:var(--bad);font-weight:600}
+.bar{height:10px;background:#eee;border-radius:5px;overflow:hidden}.bar i{display:block;height:100%;background:var(--acc)}
+.row{display:grid;grid-template-columns:120px 1fr 90px;gap:10px;align-items:center;font-size:13.5px;margin:6px 0}
+.pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;border:1px solid var(--line)}
+.foot{color:var(--mute);font-size:12.5px;margin-top:20px;border-top:1px solid var(--line);padding-top:10px}
+</style></head><body><div class="wrap">
+<div class="top"><div><div class="eyebrow">Integrity Care LLC · Lafayette · Tuesday, 6:40 AM</div><h1>Morning board</h1><div class="sub">What your office manager sees before the first claim batch leaves. One screen, four payers, nothing to hunt for.</div></div><div><span class="tag">Prototype</span></div></div>
+<div class="proto"><b>Prototype with made-up names and numbers.</b> This is what Integrity Care would have after the audit, if the recommended pieces are built. Every number here comes from your own exports in the real version; nothing here is a claim about your business today.</div>
+
+<div class="grid">
+<div class="card c8"><h2>Tonight's pre-bill check: 214 claim lines, 9 need attention before submit</h2><div class="why">Your EVV export and schedule matched against the draft batch at 2:00 AM. Lines that would deny are listed by cause, with the fix. The other 205 are clean.</div>
+<table><tr><th>Visit</th><th>Payer</th><th>Would deny as</th><th>Cause</th><th>Fix before submit</th></tr>
+<tr><td>Mon 2:00 PM, L. Hart</td><td>Anthem</td><td class="bad">ZIH</td><td>Billed 4 units, verified 3 (52 min)</td><td>Correct to 3 units</td></tr>
+<tr><td>Mon 9:00 AM, R. Okafor</td><td>Humana</td><td class="bad">86E</td><td>Visit Incomplete, no clock out</td><td>Caregiver confirms, clear exception, then bill</td></tr>
+<tr><td>Sep 30 to Oct 1, M. Diaz</td><td>IHCP</td><td class="bad">0952</td><td>Visit crosses the month boundary on one line</td><td>Split into two claim details</td></tr>
+<tr><td>Mon 8:00 AM, T. Nguyen</td><td>UnitedHealthcare</td><td class="bad">OK5</td><td>Client record carries INFSSA payer ID; member is UHC</td><td>Change EVV payer ID to INUHC, rebill</td></tr>
+<tr><td>Mon 4:00 PM, A. Brooks</td><td>Anthem</td><td class="bad">ZII</td><td>Alternate vendor upload for Monday not yet in the Aggregator</td><td>Hold one day</td></tr>
+<tr><td>SFC week, J. Patel</td><td>IHCP</td><td class="bad">4405</td><td>Claim note missing NAME: REL:</td><td>Add note in NTE segment</td></tr>
+<tr><td>Mon 10:00 AM, K. Lee</td><td>IHCP</td><td class="warn">Authorization</td><td>Units this month 112 of 108 authorized</td><td>Hold 4 units; call case manager</td></tr>
+<tr><td>Fri 3:00 PM, S. Green</td><td>Humana</td><td class="warn">Profile</td><td>Batch addressed to medical NPI profile</td><td>Resend under atypical profile</td></tr>
+<tr><td>Thu 1:30 PM, D. Moore</td><td>UnitedHealthcare</td><td class="warn">Timely filing</td><td>Date of service 84 days ago</td><td>Submit today</td></tr>
+</table></div>
+
+<div class="card c4"><h2>The 90-day clock</h2><div class="why">Every PathWays claim has 90 days from the date of service. These are the ones closest to the edge.</div>
+<div class="kpis"><div class="kpi"><b>3</b><span>lines past 75 days, unbilled</span></div><div class="kpi"><b>$412</b><span>at risk this week</span></div></div>
+<div class="row"><span>D. Moore, UHC</span><div class="bar"><i style="width:93%"></i></div><span class="bad">84 days</span></div>
+<div class="row"><span>P. Walsh, Anthem</span><div class="bar"><i style="width:86%"></i></div><span class="warn">77 days</span></div>
+<div class="row"><span>E. Kim, Humana</span><div class="bar"><i style="width:84%"></i></div><span class="warn">76 days</span></div>
+<div class="row"><span>Everything else</span><div class="bar"><i style="width:35%"></i></div><span class="ok">under 32</span></div></div>
+
+<div class="card c6"><h2>Cash by payer, last 90 days</h2><div class="why">Days from submission to payment, denial rate and dollars still open past 60 days, from your remittances.</div>
+<table><tr><th>Payer</th><th>Days to pay</th><th>Denied first pass</th><th>Open past 60 days</th></tr>
+<tr><td>Anthem</td><td>11</td><td>4.1%</td><td class="warn">$2,180</td></tr>
+<tr><td>Humana</td><td>9</td><td>2.6%</td><td class="ok">$0</td></tr>
+<tr><td>UnitedHealthcare</td><td>16</td><td>5.3%</td><td class="warn">$1,340</td></tr>
+<tr><td>IHCP fee for service</td><td>13</td><td>3.0%</td><td class="ok">$290</td></tr>
+</table></div>
+
+<div class="card c6"><h2>Caregiver files, audit view</h2><div class="why">The five items the state checked in its April 2026 attendant care audit, for every caregiver who worked this month. Dated before the first shift, or it is a finding.</div>
+<div class="kpis"><div class="kpi"><b>31</b><span>caregivers active</span></div><div class="kpi"><b>28</b><span>complete</span></div><div class="kpi"><b class="bad">3</b><span>with a gap</span></div></div>
+<table><tr><th>Caregiver</th><th>Background check</th><th>Training hours</th><th>Consent on file</th><th>Service plan current</th></tr>
+<tr><td>B. Turner</td><td class="ok">Dated</td><td class="bad">6 of 8</td><td class="ok">Yes</td><td class="ok">Yes</td></tr>
+<tr><td>C. Reyes</td><td class="warn">Renewal due Nov 3</td><td class="ok">8</td><td class="ok">Yes</td><td class="ok">Yes</td></tr>
+<tr><td>N. Ali</td><td class="ok">Dated</td><td class="ok">8</td><td class="bad">Missing</td><td class="ok">Yes</td></tr>
+</table></div>
+
+<div class="card c6"><h2>Structured family caregiving</h2><div class="why">Every SFC claim this month, with the two things that deny it: the NAME and REL note, and attendant care billed in the same month.</div>
+<div class="kpis"><div class="kpi"><b>14</b><span>SFC members</span></div><div class="kpi"><b>13</b><span>notes correct</span></div><div class="kpi"><b class="bad">1</b><span>same-month conflict</span></div></div>
+<p style="margin:0;font-size:13.5px">J. Patel: claim note missing. H. Osei: attendant care billed Oct 2 in an SFC month; hold the ATTC line or it recoups under 6492. Daily caregiver notes: 14 of 14 logged this week.</p></div>
+
+<div class="card c6"><h2>Inquiries and applicants, this week</h2><div class="why">Agencies that track every inquiry report more than double the revenue of those that do not. Here is yours, counted.</div>
+<div class="kpis"><div class="kpi"><b>7</b><span>client inquiries</span></div><div class="kpi"><b>4</b><span>called back same day</span></div><div class="kpi"><b>11</b><span>caregiver applicants</span></div><div class="kpi"><b>2h 40m</b><span>median time to first contact</span></div></div>
+<p style="margin:0;font-size:13.5px">Sources this week: Area IV 3, hospital discharge 2, website 1, word of mouth 1.</p></div>
+</div>
+<div class="foot">Prototype built by Nahl Technologies Inc. for Integrity Care LLC. Names, numbers and dates are invented. In the real version the board reads your EVV export, schedule, remittances and roster every night; your exports go into a private database under a business associate agreement and are deleted thirty days after the report.</div>
+</div></body></html>

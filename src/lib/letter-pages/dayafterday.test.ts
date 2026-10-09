@@ -1,0 +1,241 @@
+import { describe, expect, it } from "vitest";
+
+import { computeExample, openingBands, resultSentence } from "./model";
+import { allLetterPages } from "./registry";
+
+/**
+ * The page for A Day After Day Home Care Agency, pinned word for word.
+ *
+ * Everything below is approved text: the letter's own blocks, the new
+ * sections, every diagram label, every metric name, every line of the
+ * illustration, and the worked example's inputs. Any change to the config
+ * that is not also made here, on purpose, fails.
+ */
+const approved = {
+  slug: "dayafterday",
+  token: "dayafterday-homecare-e7102e9628",
+  company: {
+    name: "A Day After Day Home Care Agency",
+  },
+  tabTitle: "A Day After Day: the intake gate",
+  title: "Waiver intake at A Day After Day, before the first unpaid visit",
+  subtitle:
+    "The checklist before the first unpaid visit, proven in thirty days.",
+  handoff: {
+    body: "A waiver case can start before eligibility, the notice of action, the authorized units and the EVV enrollment are all in place. Every day of service before the authorization is active is a visit given away, or a client turned down.",
+    diagram: {
+      title: "Today",
+      steps: [
+        {
+          label: "Referral",
+        },
+        {
+          label: "First visit scheduled",
+        },
+        {
+          label:
+            "Eligibility, notice of action, units, EVV enrollment: one is missing",
+          fail: true,
+        },
+        {
+          label: "Visit delivered",
+        },
+        {
+          label: "Claim denied, 0950 or 0952, or client turned down",
+        },
+      ],
+    },
+  },
+  whyNow: {
+    body: "A Day After Day is building a waiver intake desk, with a bonus of three hundred dollars per enrolled client, inside a private-pay sitter business that runs on trust and speed. Waiver cases do not run on trust; they run on four documents being in place before the first visit. Since 2024 a visit without an EVV match is denied outright, and the new assessment process is denying more cases than ever. The cost of a missing document is a visit you gave away, and it is invisible until the remittance.",
+  },
+  rule: {
+    body: "Since 2024 Indiana denies a claim with no matching EVV record outright, codes 0950 and 0952, with no grace period on PathWays (Indiana FSSA, EVV frequently asked questions). Under the new assessments the state's denial rate rose from about one percent to between five and sixteen (Indiana House statement, 2026). Since August 1, 2026 providers cannot add services for six months (Indiana Medicaid bulletin BT2026124).",
+    links: [
+      {
+        text: "Indiana FSSA, EVV frequently asked questions",
+        href: "https://www.in.gov/medicaid/providers/files/Electronic_Visit_Verification_FAQs.pdf",
+      },
+      {
+        text: "Indiana House statement, 2026",
+        href: "https://www.indianahousedemocrats.org/news/shackleford-demands-immediate-pause-on-medicaid-waiver-denials-following-sharp-spike-in-care-cuts-for-hoosiers-with-special-needs",
+      },
+      {
+        text: "Indiana Medicaid bulletin BT2026124",
+        href: "https://www.in.gov/medicaid/providers/files/bulletins/BT2026124.pdf",
+      },
+    ],
+    figures: [
+      {
+        figure: "0950 and 0952",
+        line: "Since 2024 Indiana denies a claim with no matching EVV record outright, codes 0950 and 0952, with no grace period on PathWays",
+        source: "Indiana FSSA, EVV frequently asked questions",
+      },
+      {
+        figure: "five and sixteen",
+        line: "the state's denial rate rose from about one percent to between five and sixteen",
+        source: "Indiana House statement, 2026",
+      },
+      {
+        figure: "six months",
+        line: "Since August 1, 2026 providers cannot add services for six months",
+        source: "Indiana Medicaid bulletin BT2026124",
+      },
+    ],
+  },
+  build: {
+    body: "The intake gate. One tracker from referral to first billable visit: eligibility, notice of action, authorized units, EVV enrollment, caregiver assigned, with a hold and a call before any unpaid visit. It lives in the forms you already use. Names and dates, no clinical record.",
+    diagram: {
+      title: "With the intake gate",
+      steps: [
+        {
+          label: "Referral",
+        },
+        {
+          label:
+            "One tracker: eligibility, notice of action, units, EVV enrollment, caregiver",
+        },
+        {
+          label: "Hold and a call if anything is missing",
+        },
+        {
+          label: "First billable visit",
+        },
+        {
+          label: "Nothing given away",
+        },
+      ],
+    },
+    neverTouches:
+      "Care notes and assessments. It holds names, dates and the status of each item on the checklist.",
+  },
+  whyItWorks: [
+    {
+      text: "Intake automation for home care is a product category now; one such service reports more than 100 minutes of staff time saved per prospect (published claim, 2024).",
+      href: "https://www.ycombinator.com/companies/sagecare",
+    },
+    {
+      text: "The gate is a checklist with a hold. The state's rule gives it teeth: if the four items are not in place, the visit will not be paid, so the hold costs nothing that was not already lost.",
+    },
+    {
+      text: "It lives inside the forms you already use, which is why it is thirty days and not six months.",
+    },
+  ],
+  example: {
+    title: "What a hundred waiver intakes give away today",
+    inputs: [
+      {
+        id: "early",
+        label: "Cases where service starts before the authorization is active",
+        stated: "20 to 40 of every hundred.",
+        tag: "ASSUMED",
+        format: "count",
+        min: 0,
+        max: 100,
+        step: 1,
+        low: 20,
+        high: 40,
+        reason:
+          "Eligibility, notice of action, authorized units or EVV enrollment: one is missing.",
+      },
+      {
+        id: "days",
+        label: "Days of service before it is active",
+        stated: "3 to 10.",
+        tag: "ASSUMED",
+        format: "count",
+        min: 0,
+        max: 30,
+        step: 1,
+        low: 3,
+        high: 10,
+      },
+      {
+        id: "perDay",
+        label: "Value of a day of service",
+        stated: "$80 to $120.",
+        tag: "ASSUMED",
+        format: "usd",
+        min: 40,
+        max: 200,
+        step: 5,
+        low: 80,
+        high: 120,
+        reason:
+          "A few hours of attendant care at Indiana waiver rates; your rate sheet replaces this.",
+      },
+    ],
+    constants: [],
+    spans: [],
+    formula: "early * days * perDay",
+    outputs: [],
+    result:
+      "Per hundred waiver intakes, service given away before the authorization: {usd} (exact: {exact}). The range is wide because we do not know your intake count yet. Week one closes it.",
+    context:
+      "No EVV match, no payment: codes 0950 and 0952, no grace period on PathWays (Indiana FSSA). Denial rates under the new assessments: 5 to 16 percent, up from about 1 (Indiana House statement, 2026).",
+  },
+  morning: {
+    kind: "checklist",
+    title: "New waiver case, referred Monday",
+    rows: [
+      {
+        text: "Eligibility verified: yes",
+      },
+      {
+        text: "Notice of action on file: yes",
+      },
+      {
+        text: "Authorized units entered: yes",
+      },
+      {
+        text: "EVV enrollment confirmed: no",
+        hold: true,
+      },
+      {
+        text: "Caregiver assigned: yes",
+      },
+    ],
+    footer:
+      "Hold. Call the case manager before the first visit. Nothing is given away.",
+  },
+  thirtyDays: {
+    body: "Week one is the count from your last two quarters of intakes: days to first billable visit, visits never billed. Then the gate runs for the rest of the month, and you read the same two numbers against the count. Fixed fee $1,450. Stop any time. If your office runs on ChatGPT and Google today, a half-day review of that setup may be the better first step, and we say so on the call.",
+    metrics: [
+      "Days from referral to first billable visit",
+      "Visits never billed",
+    ],
+    receive: [
+      "The count: one sheet from your last two quarters of intakes, week one.",
+      "The intake gate, built in the forms you already use.",
+      "The hold and the call before any unpaid visit.",
+      "The day-thirty readout: the same two numbers against the count.",
+      "If your office runs on ChatGPT and Google today, a half-day review of that setup instead, and we say so on the call.",
+    ],
+    fee: "$1,450",
+  },
+  sources:
+    "Sources: dayafterdayhomecare.com and the agency's postings, October 2026. Better Business Bureau. IAHHC directory. Indiana FSSA, EVV frequently asked questions and Gainwell EVV training, 2024. Indiana House statement on waiver denials, 2026. Indiana Medicaid bulletin BT2026124.",
+};
+
+describe("the dayafterday letter page", () => {
+  const page = allLetterPages().find((p) => p.slug === "dayafterday")!;
+
+  it("matches the approved copy exactly", () => {
+    expect(page).toEqual(approved);
+  });
+
+  it("computes the worked example to the proposal's exact figures", () => {
+    const result = computeExample(page.example, openingBands(page.example));
+
+    expect(result.exact).toEqual({ low: 4800, high: 48000 });
+    expect(result.display).toEqual({ low: 5000, high: 50000 });
+  });
+
+  it("states the result line as written", () => {
+    const result = computeExample(page.example, openingBands(page.example));
+
+    expect(resultSentence(page.example.result, result)).toBe(
+      "Per hundred waiver intakes, service given away before the authorization: $5,000 to $50,000 (exact: $4,800 and $48,000). The range is wide because we do not know your intake count yet. Week one closes it.",
+    );
+  });
+});

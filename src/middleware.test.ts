@@ -43,6 +43,15 @@ describe("middleware routing", () => {
     );
   });
 
+  it("serves letter pages at /m3 the same way, marked noindex", () => {
+    const response = middleware(request("/m3/quinton-residential-2419d6c0f8"));
+    expect(response.headers.get("x-middleware-rewrite")).toBeNull();
+    expect(response.headers.get("location")).toBeNull();
+    expect(response.headers.get("X-Robots-Tag")).toBe(
+      "noindex, nofollow, noarchive",
+    );
+  });
+
   it("still puts the security headers on API responses", () => {
     const response = middleware(request("/api/lead"));
 
