@@ -106,8 +106,17 @@ export const auditPageSchema = z
     }),
     audit: z.strictObject({
       ...sectionHead,
-      steps: z.array(z.strictObject({ label: text, text })).min(1),
-      boxes: z.array(z.strictObject({ title: text, text })).length(3),
+      /**
+       * The audit's steps and the three boxes beside them, quoted from the
+       * printed audit sheet. Either may be empty while that sheet is
+       * awaited: a page shows nothing there, never a paraphrase.
+       */
+      steps: z.array(z.strictObject({ label: text, text })),
+      boxes: z
+        .array(z.strictObject({ title: text, text }))
+        .refine((boxes) => boxes.length === 0 || boxes.length === 3, {
+          message: "takes all three boxes or none",
+        }),
       stepZero: z.strictObject({ title: text, text }),
       price: z.strictObject({
         amount: z.string().regex(/^\$\d{1,3}(,\d{3})*$/),

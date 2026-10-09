@@ -415,36 +415,38 @@ export function AuditPage({
             title={config.audit.title}
             eyebrow={config.audit.eyebrow}
           >
-            <div className="mt-lg lg:grid lg:grid-cols-[minmax(0,1fr)_19rem] lg:items-start lg:gap-lg">
-              <ol className="border-s-2 border-text">
-                {config.audit.steps.map((step) => (
-                  <li
-                    key={step.label}
-                    className="relative ps-md pb-md last:pb-0"
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="absolute top-[0.45em] -left-[7px] size-3 rounded-full bg-text"
-                    />
-                    <p className="font-semibold text-text">{step.label}</p>
-                    <p className="mt-3xs text-base leading-[1.6] text-text">
-                      {step.text}
-                    </p>
-                  </li>
-                ))}
-              </ol>
-              <ul className="mt-lg space-y-xs lg:mt-0">
-                {config.audit.boxes.map((box) => (
-                  <li key={box.title} className={`${card} py-0 lg:py-0`}>
-                    <Fold summary={box.title}>
-                      <p className="text-base leading-[1.6] text-text">
-                        {box.text}
+            {config.audit.steps.length > 0 || config.audit.boxes.length > 0 ? (
+              <div className="mt-lg lg:grid lg:grid-cols-[minmax(0,1fr)_19rem] lg:items-start lg:gap-lg">
+                <ol className="border-s-2 border-text">
+                  {config.audit.steps.map((step) => (
+                    <li
+                      key={step.label}
+                      className="relative ps-md pb-md last:pb-0"
+                    >
+                      <span
+                        aria-hidden="true"
+                        className="absolute top-[0.45em] -left-[7px] size-3 rounded-full bg-text"
+                      />
+                      <p className="font-semibold text-text">{step.label}</p>
+                      <p className="mt-3xs text-base leading-[1.6] text-text">
+                        {step.text}
                       </p>
-                    </Fold>
-                  </li>
-                ))}
-              </ul>
-            </div>
+                    </li>
+                  ))}
+                </ol>
+                <ul className="mt-lg space-y-xs lg:mt-0">
+                  {config.audit.boxes.map((box) => (
+                    <li key={box.title} className={`${card} py-0 lg:py-0`}>
+                      <Fold summary={box.title}>
+                        <p className="text-base leading-[1.6] text-text">
+                          {box.text}
+                        </p>
+                      </Fold>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
 
             <div className={`mt-lg ${card}`}>
               <h3 className="font-display text-2xl text-text">

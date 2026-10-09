@@ -247,11 +247,10 @@ describe.each(allAuditPages())("the rendered $slug audit page", (config) => {
       config.audit.steps.length,
     );
     const boxes = [...section.querySelectorAll("details")];
-    expect(boxes.map((d) => d.querySelector("summary")?.textContent)).toEqual([
-      "What we need from you",
-      "What you receive",
-      "What the audit is likely to find",
-    ]);
+    expect(boxes.map((d) => d.querySelector("summary")?.textContent)).toEqual(
+      config.audit.boxes.map((box) => box.title),
+    );
+    expect([0, 3]).toContain(boxes.length);
     boxes.forEach((box, index) => {
       expect(box).not.toHaveAttribute("open");
       expect(box.textContent).toContain(config.audit.boxes[index].text);
@@ -307,6 +306,12 @@ describe.each(allAuditPages())("the rendered $slug audit page", (config) => {
     expect(
       container.querySelector("main")?.textContent?.endsWith(config.sources),
     ).toBe(true);
+  });
+
+  it("shows no placeholder text", () => {
+    const { container } = renderPage();
+
+    expect(container.textContent).not.toContain("PLACEHOLDER");
   });
 
   it("says nothing that was ruled out, on the page or in the prototype", () => {

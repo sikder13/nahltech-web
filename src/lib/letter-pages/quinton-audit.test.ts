@@ -5,9 +5,9 @@ import { allAuditPages } from "./registry";
 /**
  * The audit page for Quinton Residential Living, pinned word for word.
  *
- * Everything below is approved text, with one exception that is marked: the
- * nine steps of the audit and the three boxes beside them quote the printed
- * audit sheet, and hold a placeholder until that sheet's text is supplied.
+ * Everything below is approved text. The steps of the audit and the three
+ * boxes beside them quote the printed audit sheet word for word, so they are
+ * left out, not paraphrased, until that sheet's text is supplied.
  * Any change to the config that is not also made here, on purpose, fails.
  */
 const approved = {
@@ -179,58 +179,8 @@ const approved = {
   audit: {
     title: "The audit, step by step",
     eyebrow: "The roadmap and the price",
-    steps: [
-      {
-        label: "Day 0",
-        text: "[PLACEHOLDER: How it runs, Day 0, verbatim from Quinton-Audit-Sheet-v1]",
-      },
-      {
-        label: "Days 1 to 3",
-        text: "[PLACEHOLDER: How it runs, Days 1 to 3, verbatim from Quinton-Audit-Sheet-v1]",
-      },
-      {
-        label: "Days 2 to 6",
-        text: "[PLACEHOLDER: How it runs, Days 2 to 6, verbatim from Quinton-Audit-Sheet-v1]",
-      },
-      {
-        label: "Days 3 to 7",
-        text: "[PLACEHOLDER: How it runs, Days 3 to 7, verbatim from Quinton-Audit-Sheet-v1]",
-      },
-      {
-        label: "Days 4 to 6",
-        text: "[PLACEHOLDER: How it runs, Days 4 to 6, verbatim from Quinton-Audit-Sheet-v1]",
-      },
-      {
-        label: "Day 7",
-        text: "[PLACEHOLDER: How it runs, Day 7, verbatim from Quinton-Audit-Sheet-v1]",
-      },
-      {
-        label: "Days 8 to 11",
-        text: "[PLACEHOLDER: How it runs, Days 8 to 11, verbatim from Quinton-Audit-Sheet-v1]",
-      },
-      {
-        label: "Days 10 to 12 and Days 12 to 15",
-        text: "[PLACEHOLDER: How it runs, Days 10 to 12 and Days 12 to 15, verbatim from Quinton-Audit-Sheet-v1]",
-      },
-      {
-        label: "Day 15",
-        text: "[PLACEHOLDER: How it runs, Day 15, verbatim from Quinton-Audit-Sheet-v1]",
-      },
-    ],
-    boxes: [
-      {
-        title: "What we need from you",
-        text: "[PLACEHOLDER: What we need from you, verbatim from Quinton-Audit-Sheet-v1]",
-      },
-      {
-        title: "What you receive",
-        text: "[PLACEHOLDER: What you receive, verbatim from Quinton-Audit-Sheet-v1]",
-      },
-      {
-        title: "What the audit is likely to find",
-        text: "[PLACEHOLDER: What the audit is likely to find, verbatim from Quinton-Audit-Sheet-v1]",
-      },
-    ],
+    steps: [],
+    boxes: [],
     stepZero: {
       title: "Step zero, free",
       text: "Send your DSP roster with HCSP certification dates under a signed business associate agreement. Within two business days you get an expiry calendar for every DSP for six months. No charge, no obligation.",
@@ -333,6 +283,10 @@ describe("the quinton audit page", () => {
       expect(words, banned).not.toContain(banned);
     }
     expect(page.audit.price.amount).toBe("$3,000");
+  });
+
+  it("carries no placeholder text", () => {
+    expect(JSON.stringify(page)).not.toContain("PLACEHOLDER");
   });
 
   it("prints its own permanent sheets address", () => {
