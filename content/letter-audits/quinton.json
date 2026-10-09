@@ -153,8 +153,58 @@
   "audit": {
     "title": "The audit, step by step",
     "eyebrow": "The roadmap and the price",
-    "steps": [],
-    "boxes": [],
+    "steps": [
+      {
+        "label": "Day 0",
+        "text": "a 45 minute kickoff, in person at Washington Pointe if you prefer, the inputs agreed."
+      },
+      {
+        "label": "Days 1 to 3",
+        "text": "schedule, timekeeping, roster and claims exports loaded into a private, access logged database built for this audit alone; residents appear only as counts. Shift notes and incident reports are never exported: we read them on your screens, on site, or your staff redact names before we see them."
+      },
+      {
+        "label": "Days 2 to 6",
+        "text": "a random sample of shifts across homes, nights and weekends, each checked for staff present as scheduled, certified and trained on the date, a complete note within 24 hours, EVV where required, and units billed against hours worked and the authorization, with a cited rule for every pass or failure."
+      },
+      {
+        "label": "Days 3 to 7",
+        "text": "call-offs, fill times, overtime and open shifts from your logs, and a map of the call-off process as it runs today."
+      },
+      {
+        "label": "Days 4 to 6",
+        "text": "every active DSP against the HCSP registry, with an expiry calendar for six months."
+      },
+      {
+        "label": "Day 7",
+        "text": "a 30 minute call with your staffing manager to correct what we misread."
+      },
+      {
+        "label": "Days 8 to 11",
+        "text": "incidents against the 24 hour rule and the state categories, read on site, and the interviews."
+      },
+      {
+        "label": "Days 10 to 12 and Days 12 to 15",
+        "text": "Days 10 to 12: the opportunities sized from your numbers. Days 12 to 15: the written report."
+      },
+      {
+        "label": "Day 15",
+        "text": "a ninety minute walkthrough with both founders, in person."
+      }
+    ],
+    "boxes": [
+      {
+        "title": "What we need from you",
+        "text": "Schedule and timekeeping exports from AccelTrax for 90 days; the on-call log in whatever form your office keeps it, nothing from anyone's personal phone; an hours summary; a DSP roster with hire, HCSP, Core A/B, background check and training dates; the incident log for twelve months, categories and dates only; claims and remittances for 90 days; the Notices of Action by home. One hour of your staffing manager, thirty minutes each from two house supervisors and a QIDP, with you in the room if you wish, and 45 minutes of yours at the start and 90 at the end. Pulling the exports is about a day of office time. No pay data beyond the posted rate, no resident names."
+      },
+      {
+        "title": "What you receive",
+        "text": "A written findings report of fifteen to twenty pages: the sampled shift results by the inspector general's categories; call-offs, fill times, overtime and open shifts by home; the registry and training expiry calendar; incident timeliness and trends; the call-off process map; your supervisors' manual hours; three to five opportunities with the money, the cost and the payback for each, the recommended order, what we would not build, and your readiness for a state review. Every rule cited."
+      },
+      {
+        "title": "What the audit is likely to find",
+        "text": "A tight operation with a small leak, in which case the audit is half price. A staffing leak: long fills, most fills on overtime, open shifts, supervisors on the phone nightly. A compliance leak: certifications or trainings lapsing, notes late or missing an element, incidents filed late. A billing leak: units or modifiers off the authorization, the October 28 edit, hourly and daily confusion. Usually staffing and one other."
+      }
+    ],
     "stepZero": {
       "title": "Step zero, free",
       "text": "Send your DSP roster with HCSP certification dates under a signed business associate agreement. Within two business days you get an expiry calendar for every DSP for six months. No charge, no obligation."
@@ -230,7 +280,7 @@
   },
   "sources": "Sources: IHCP bulletins BT2026124, BT2026154, BT2026155, BT202613, BT202378. Indiana Administrative Code 460 IAC 6-9-5, 6-10-5, 6-14-4. HHS Office of Inspector General A-05-24-00013. FSSA HCSP registry FAQs. National Core Indicators 2024. OnShift Marklund case study. NASDDDS November 2025. qrlcares.com, CARF, Better Business Bureau, Indeed, October 2026.",
   "sheetsPage": {
-    "heading": "Reference sheets for Quinton Residential Living",
+    "heading": "Reference sheets for Quinton Residential Living's on-call desk",
     "line": "These stay here. When a rule changes, the sheet changes and the date changes; older versions stay linked below."
   }
 }
