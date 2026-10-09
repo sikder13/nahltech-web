@@ -6,8 +6,8 @@ import { allAuditPages } from "./registry";
  * The audit page for Quinton Residential Living, pinned word for word.
  *
  * Everything below is approved text. The steps of the audit and the three
- * boxes beside them quote the printed audit sheet word for word, so they are
- * left out, not paraphrased, until that sheet's text is supplied.
+ * boxes beside them quote the printed audit sheet word for word, and are
+ * pinned a second time against the sheet's own paragraphs further down.
  * Any change to the config that is not also made here, on purpose, fails.
  */
 const approved = {
@@ -179,8 +179,58 @@ const approved = {
   audit: {
     title: "The audit, step by step",
     eyebrow: "The roadmap and the price",
-    steps: [],
-    boxes: [],
+    steps: [
+      {
+        label: "Day 0",
+        text: "a 45 minute kickoff, in person at Washington Pointe if you prefer, the inputs agreed.",
+      },
+      {
+        label: "Days 1 to 3",
+        text: "schedule, timekeeping, roster and claims exports loaded into a private, access logged database built for this audit alone; residents appear only as counts. Shift notes and incident reports are never exported: we read them on your screens, on site, or your staff redact names before we see them.",
+      },
+      {
+        label: "Days 2 to 6",
+        text: "a random sample of shifts across homes, nights and weekends, each checked for staff present as scheduled, certified and trained on the date, a complete note within 24 hours, EVV where required, and units billed against hours worked and the authorization, with a cited rule for every pass or failure.",
+      },
+      {
+        label: "Days 3 to 7",
+        text: "call-offs, fill times, overtime and open shifts from your logs, and a map of the call-off process as it runs today.",
+      },
+      {
+        label: "Days 4 to 6",
+        text: "every active DSP against the HCSP registry, with an expiry calendar for six months.",
+      },
+      {
+        label: "Day 7",
+        text: "a 30 minute call with your staffing manager to correct what we misread.",
+      },
+      {
+        label: "Days 8 to 11",
+        text: "incidents against the 24 hour rule and the state categories, read on site, and the interviews.",
+      },
+      {
+        label: "Days 10 to 12 and Days 12 to 15",
+        text: "Days 10 to 12: the opportunities sized from your numbers. Days 12 to 15: the written report.",
+      },
+      {
+        label: "Day 15",
+        text: "a ninety minute walkthrough with both founders, in person.",
+      },
+    ],
+    boxes: [
+      {
+        title: "What we need from you",
+        text: "Schedule and timekeeping exports from AccelTrax for 90 days; the on-call log in whatever form your office keeps it, nothing from anyone's personal phone; an hours summary; a DSP roster with hire, HCSP, Core A/B, background check and training dates; the incident log for twelve months, categories and dates only; claims and remittances for 90 days; the Notices of Action by home. One hour of your staffing manager, thirty minutes each from two house supervisors and a QIDP, with you in the room if you wish, and 45 minutes of yours at the start and 90 at the end. Pulling the exports is about a day of office time. No pay data beyond the posted rate, no resident names.",
+      },
+      {
+        title: "What you receive",
+        text: "A written findings report of fifteen to twenty pages: the sampled shift results by the inspector general's categories; call-offs, fill times, overtime and open shifts by home; the registry and training expiry calendar; incident timeliness and trends; the call-off process map; your supervisors' manual hours; three to five opportunities with the money, the cost and the payback for each, the recommended order, what we would not build, and your readiness for a state review. Every rule cited.",
+      },
+      {
+        title: "What the audit is likely to find",
+        text: "A tight operation with a small leak, in which case the audit is half price. A staffing leak: long fills, most fills on overtime, open shifts, supervisors on the phone nightly. A compliance leak: certifications or trainings lapsing, notes late or missing an element, incidents filed late. A billing leak: units or modifiers off the authorization, the October 28 edit, hourly and daily confusion. Usually staffing and one other.",
+      },
+    ],
     stepZero: {
       title: "Step zero, free",
       text: "Send your DSP roster with HCSP certification dates under a signed business associate agreement. Within two business days you get an expiry calendar for every DSP for six months. No charge, no obligation.",
@@ -257,7 +307,7 @@ const approved = {
   sources:
     "Sources: IHCP bulletins BT2026124, BT2026154, BT2026155, BT202613, BT202378. Indiana Administrative Code 460 IAC 6-9-5, 6-10-5, 6-14-4. HHS Office of Inspector General A-05-24-00013. FSSA HCSP registry FAQs. National Core Indicators 2024. OnShift Marklund case study. NASDDDS November 2025. qrlcares.com, CARF, Better Business Bureau, Indeed, October 2026.",
   sheetsPage: {
-    heading: "Reference sheets for Quinton Residential Living",
+    heading: "Reference sheets for Quinton Residential Living's on-call desk",
     line: "These stay here. When a rule changes, the sheet changes and the date changes; older versions stay linked below.",
   },
 };
@@ -287,6 +337,148 @@ describe("the quinton audit page", () => {
 
   it("carries no placeholder text", () => {
     expect(JSON.stringify(page)).not.toContain("PLACEHOLDER");
+  });
+
+  describe("the audit, as the printed audit sheet states it", () => {
+    // The sheet's "How it runs" paragraph, whole. The page splits it into
+    // stops at each "Day" or "Days" sentence and must lose no word of it.
+    const howItRuns =
+      "Day 0: a 45 minute kickoff, in person at Washington Pointe if you prefer, the inputs agreed. Days 1 to 3: schedule, timekeeping, roster and claims exports loaded into a private, access logged database built for this audit alone; residents appear only as counts. Shift notes and incident reports are never exported: we read them on your screens, on site, or your staff redact names before we see them. Days 2 to 6: a random sample of shifts across homes, nights and weekends, each checked for staff present as scheduled, certified and trained on the date, a complete note within 24 hours, EVV where required, and units billed against hours worked and the authorization, with a cited rule for every pass or failure. Days 3 to 7: call-offs, fill times, overtime and open shifts from your logs, and a map of the call-off process as it runs today. Days 4 to 6: every active DSP against the HCSP registry, with an expiry calendar for six months. Day 7: a 30 minute call with your staffing manager to correct what we misread. Days 8 to 11: incidents against the 24 hour rule and the state categories, read on site, and the interviews. Days 10 to 12: the opportunities sized from your numbers. Days 12 to 15: the written report. Day 15: a ninety minute walkthrough with both founders, in person.";
+
+    it("splits How it runs into nine stops and keeps every word", () => {
+      expect(page.audit.steps.map((step) => step.label)).toEqual([
+        "Day 0",
+        "Days 1 to 3",
+        "Days 2 to 6",
+        "Days 3 to 7",
+        "Days 4 to 6",
+        "Day 7",
+        "Days 8 to 11",
+        "Days 10 to 12 and Days 12 to 15",
+        "Day 15",
+      ]);
+      // The combined stop keeps both of its sentences as the sheet has
+      // them, day ranges included; every other stop drops only its label.
+      const rebuilt = page.audit.steps
+        .map((step) =>
+          step.label === "Days 10 to 12 and Days 12 to 15"
+            ? step.text
+            : `${step.label}: ${step.text}`,
+        )
+        .join(" ");
+      expect(rebuilt).toBe(howItRuns);
+    });
+
+    it("pins the stop for Day 0", () => {
+      expect(
+        page.audit.steps.find((step) => step.label === "Day 0")?.text,
+      ).toBe(
+        "a 45 minute kickoff, in person at Washington Pointe if you prefer, the inputs agreed.",
+      );
+    });
+
+    it("pins the stop for Days 1 to 3", () => {
+      expect(
+        page.audit.steps.find((step) => step.label === "Days 1 to 3")?.text,
+      ).toBe(
+        "schedule, timekeeping, roster and claims exports loaded into a private, access logged database built for this audit alone; residents appear only as counts. Shift notes and incident reports are never exported: we read them on your screens, on site, or your staff redact names before we see them.",
+      );
+    });
+
+    it("pins the stop for Days 2 to 6", () => {
+      expect(
+        page.audit.steps.find((step) => step.label === "Days 2 to 6")?.text,
+      ).toBe(
+        "a random sample of shifts across homes, nights and weekends, each checked for staff present as scheduled, certified and trained on the date, a complete note within 24 hours, EVV where required, and units billed against hours worked and the authorization, with a cited rule for every pass or failure.",
+      );
+    });
+
+    it("pins the stop for Days 3 to 7", () => {
+      expect(
+        page.audit.steps.find((step) => step.label === "Days 3 to 7")?.text,
+      ).toBe(
+        "call-offs, fill times, overtime and open shifts from your logs, and a map of the call-off process as it runs today.",
+      );
+    });
+
+    it("pins the stop for Days 4 to 6", () => {
+      expect(
+        page.audit.steps.find((step) => step.label === "Days 4 to 6")?.text,
+      ).toBe(
+        "every active DSP against the HCSP registry, with an expiry calendar for six months.",
+      );
+    });
+
+    it("pins the stop for Day 7", () => {
+      expect(
+        page.audit.steps.find((step) => step.label === "Day 7")?.text,
+      ).toBe(
+        "a 30 minute call with your staffing manager to correct what we misread.",
+      );
+    });
+
+    it("pins the stop for Days 8 to 11", () => {
+      expect(
+        page.audit.steps.find((step) => step.label === "Days 8 to 11")?.text,
+      ).toBe(
+        "incidents against the 24 hour rule and the state categories, read on site, and the interviews.",
+      );
+    });
+
+    it("pins the stop for Days 10 to 12 and Days 12 to 15", () => {
+      expect(
+        page.audit.steps.find(
+          (step) => step.label === "Days 10 to 12 and Days 12 to 15",
+        )?.text,
+      ).toBe(
+        "Days 10 to 12: the opportunities sized from your numbers. Days 12 to 15: the written report.",
+      );
+    });
+
+    it("pins the stop for Day 15", () => {
+      expect(
+        page.audit.steps.find((step) => step.label === "Day 15")?.text,
+      ).toBe("a ninety minute walkthrough with both founders, in person.");
+    });
+
+    it("pins the box What we need from you", () => {
+      expect(
+        page.audit.boxes.find((box) => box.title === "What we need from you")
+          ?.text,
+      ).toBe(
+        "Schedule and timekeeping exports from AccelTrax for 90 days; the on-call log in whatever form your office keeps it, nothing from anyone's personal phone; an hours summary; a DSP roster with hire, HCSP, Core A/B, background check and training dates; the incident log for twelve months, categories and dates only; claims and remittances for 90 days; the Notices of Action by home. One hour of your staffing manager, thirty minutes each from two house supervisors and a QIDP, with you in the room if you wish, and 45 minutes of yours at the start and 90 at the end. Pulling the exports is about a day of office time. No pay data beyond the posted rate, no resident names.",
+      );
+    });
+
+    it("pins the box What you receive", () => {
+      expect(
+        page.audit.boxes.find((box) => box.title === "What you receive")?.text,
+      ).toBe(
+        "A written findings report of fifteen to twenty pages: the sampled shift results by the inspector general's categories; call-offs, fill times, overtime and open shifts by home; the registry and training expiry calendar; incident timeliness and trends; the call-off process map; your supervisors' manual hours; three to five opportunities with the money, the cost and the payback for each, the recommended order, what we would not build, and your readiness for a state review. Every rule cited.",
+      );
+    });
+
+    it("pins the box What the audit is likely to find", () => {
+      expect(
+        page.audit.boxes.find(
+          (box) => box.title === "What the audit is likely to find",
+        )?.text,
+      ).toBe(
+        "A tight operation with a small leak, in which case the audit is half price. A staffing leak: long fills, most fills on overtime, open shifts, supervisors on the phone nightly. A compliance leak: certifications or trainings lapsing, notes late or missing an element, incidents filed late. A billing leak: units or modifiers off the authorization, the October 28 edit, hourly and daily confusion. Usually staffing and one other.",
+      );
+    });
+
+    it("keeps the note about shift notes and incident reports with Days 1 to 3", () => {
+      expect(page.audit.steps[1].text).toContain(
+        "Shift notes and incident reports are never exported: we read them on your screens, on site, or your staff redact names before we see them.",
+      );
+    });
+  });
+
+  it("heads its sheets page for the on-call desk", () => {
+    expect(page.sheetsPage.heading).toBe(
+      "Reference sheets for Quinton Residential Living's on-call desk",
+    );
   });
 
   it("prints its own permanent sheets address", () => {
