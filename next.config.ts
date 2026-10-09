@@ -51,8 +51,14 @@ const nextConfig: NextConfig = {
     "/api/visit": ["./content/dashboards/**/*.json"],
     "/api/visit2": ["./content/dashboards-v2/**/*.json"],
     // The letter pages' two endpoints read their configs the same way.
-    "/api/visit3": ["./content/letter-pages/**/*.json"],
-    "/api/reply": ["./content/letter-pages/**/*.json"],
+    "/api/visit3": [
+      "./content/letter-pages/**/*.json",
+      "./content/letter-audits/**/*.json",
+    ],
+    "/api/reply": [
+      "./content/letter-pages/**/*.json",
+      "./content/letter-audits/**/*.json",
+    ],
   },
 
   /**
