@@ -174,6 +174,11 @@ export function AuditPage({
   const [alwaysBefore, alwaysAfter] = config.sheets.always.split(
     config.sheets.address,
   );
+  const changedLink = config.changed.bodyLink;
+  const [changedBefore, changedAfter] = changedLink
+    ? config.changed.body.split(changedLink.text)
+    : [config.changed.body, ""];
+  const shot = config.preview.shot ?? { width: 465, height: 3885 };
 
   return (
     <div className={GROUND}>
@@ -256,7 +261,9 @@ export function AuditPage({
             eyebrow={config.changed.eyebrow}
           >
             <p className={`mt-md ${body}`}>{config.changed.lead}</p>
-            <ul className="mt-lg grid gap-sm lg:grid-cols-3">
+            <ul
+              className={`mt-lg grid gap-sm ${config.changed.cards.length === 4 ? "sm:grid-cols-2" : "lg:grid-cols-3"}`}
+            >
               {config.changed.cards.map((item) => (
                 <li key={item.figure} className={card}>
                   <p className="font-display text-[1.75rem] leading-tight font-semibold text-text">
@@ -266,13 +273,34 @@ export function AuditPage({
                     <EvidenceLabel label="BENCHMARK" />
                   </p>
                   <p className="mt-xs text-base text-text">{item.line}</p>
-                  <p className="mt-xs text-sm">
-                    <SourceLink href={item.href}>{item.source}</SourceLink>
+                  <p className="mt-xs text-sm text-text-muted">
+                    {item.href ? (
+                      <SourceLink href={item.href}>{item.source}</SourceLink>
+                    ) : (
+                      item.source
+                    )}
                   </p>
                 </li>
               ))}
             </ul>
-            <p className={`mt-lg ${body}`}>{config.changed.body}</p>
+            <p className={`mt-lg ${body}`}>
+              {changedLink ? (
+                <>
+                  {changedBefore}
+                  <a
+                    href={changedLink.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={link}
+                  >
+                    {changedLink.text}
+                  </a>
+                  {changedAfter}
+                </>
+              ) : (
+                config.changed.body
+              )}
+            </p>
           </Section>
 
           <Section
@@ -307,8 +335,8 @@ export function AuditPage({
                 <img
                   src={`/letter/${config.slug}-board-phone.webp`}
                   alt={config.preview.frameTitle}
-                  width={465}
-                  height={3885}
+                  width={shot.width}
+                  height={shot.height}
                   loading="lazy"
                   decoding="async"
                   className="h-auto w-full"

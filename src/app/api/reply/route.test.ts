@@ -42,7 +42,7 @@ vi.mock("@/lib/after-response", () => ({
   deliverAfterResponse: (work: Promise<void>) => work,
 }));
 
-const page = allLetterPages().find((p) => p.slug === "quinton")!;
+const page = allLetterPages().find((p) => p.slug === "arrow")!;
 
 function post(body: unknown) {
   return new Request("https://nahltech.com/api/reply", {
@@ -79,10 +79,10 @@ describe("POST /api/reply", () => {
       name: null,
       email: null,
       phone: "317-555-0142",
-      company: "Quinton Residential Living",
+      company: "Arrow Services Indiana",
       message: text,
       source: "outreach",
-      landing_page: "/quinton",
+      landing_page: "/arrow",
       locale: "en",
     });
   });
@@ -117,7 +117,7 @@ describe("POST /api/reply", () => {
     await POST(post({ token: page.token, text: "317-555-0142" }));
 
     expect(sendLeadAlertMock).toHaveBeenCalledWith(
-      expect.objectContaining({ company: "Quinton Residential Living" }),
+      expect.objectContaining({ company: "Arrow Services Indiana" }),
       { leadId: "lead-1" },
     );
     expect(eventInsertMock).toHaveBeenCalledWith({
@@ -140,7 +140,7 @@ describe("POST /api/reply", () => {
     );
 
     const row = leadInsertMock.mock.calls[0][0] as Record<string, unknown>;
-    expect(row.company).toBe("Quinton Residential Living");
+    expect(row.company).toBe("Arrow Services Indiana");
     expect(row.source).toBe("outreach");
     expect(row).not.toHaveProperty("vertical");
   });
