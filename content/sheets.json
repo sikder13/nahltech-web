@@ -3,6 +3,10 @@
     {
       "id": "home-care-billing",
       "title": "Home care billing"
+    },
+    {
+      "id": "residential-providers",
+      "title": "Residential providers"
     }
   ],
   "sheets": [
@@ -24,6 +28,28 @@
       "line": "Portals, filing clocks, contacts, denial names and rates for Anthem, Humana, UnitedHealthcare and fee for service, on one page.",
       "file": "/sheets/indiana-medicaid-payer-reference-2026-10.pdf",
       "thumb": "/sheets/thumbs/indiana-medicaid-payer-reference-2026-10.webp",
+      "pages": 1,
+      "updated": "October 2026",
+      "previous": []
+    },
+    {
+      "id": "indiana-residential-provider-calendar",
+      "group": "residential-providers",
+      "title": "Indiana residential provider calendar, October 2026 to March 2027",
+      "line": "Every dated obligation and change for a CIH and FS residential provider, with its source, on one page.",
+      "file": "/sheets/indiana-residential-provider-calendar-2026-10.pdf",
+      "thumb": "/sheets/thumbs/indiana-residential-provider-calendar-2026-10.webp",
+      "pages": 1,
+      "updated": "October 2026",
+      "previous": []
+    },
+    {
+      "id": "substitute-dsp-shift-checklist",
+      "group": "residential-providers",
+      "title": "Before a substitute DSP takes a residential shift",
+      "line": "Ten checks a house supervisor makes after a call-off, each with the rule behind it, on one page.",
+      "file": "/sheets/substitute-dsp-shift-checklist-2026-10.pdf",
+      "thumb": "/sheets/thumbs/substitute-dsp-shift-checklist-2026-10.webp",
       "pages": 1,
       "updated": "October 2026",
       "previous": []

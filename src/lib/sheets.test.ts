@@ -14,14 +14,26 @@ const inPublic = (file: string) => path.join(process.cwd(), "public", file);
 describe("reference sheets", () => {
   const sheets = allSheets();
 
-  it("lists the two home care billing sheets", () => {
-    expect(sheets.map((sheet) => sheet.id)).toEqual([
-      "evv-denial-decoder",
-      "indiana-medicaid-payer-reference",
+  it("lists the four sheets of this wave, in two groups", () => {
+    expect(
+      sheetGroups().map((group) => [
+        group.title,
+        group.sheets.map((sheet) => sheet.id),
+      ]),
+    ).toEqual([
+      [
+        "Home care billing",
+        ["evv-denial-decoder", "indiana-medicaid-payer-reference"],
+      ],
+      [
+        "Residential providers",
+        [
+          "indiana-residential-provider-calendar",
+          "substitute-dsp-shift-checklist",
+        ],
+      ],
     ]);
-    expect(sheetGroups().map((group) => group.title)).toEqual([
-      "Home care billing",
-    ]);
+    expect(sheets).toHaveLength(4);
   });
 
   it("ships every file it links, each under 2 MB", () => {
