@@ -4,7 +4,11 @@ import { describe, expect, it } from "vitest";
 import { MarketTemplate } from "./MarketTemplate";
 
 import en from "@/lib/i18n/dictionaries/en.json";
-import { canadaFundingGuidePath } from "@/lib/routes";
+import {
+  canadaFundingGuidePath,
+  gulfGuidePaths,
+  gulfStudyPath,
+} from "@/lib/routes";
 
 /**
  * The concentration passage is stored split around its link, so what has to
@@ -117,6 +121,49 @@ describe("MarketTemplate — the Canada currency note and open-programs paragrap
     );
     expect(paragraph.textContent).toBe(
       "Funding changes monthly. As of October 2026 the open doors are NRC IRAP, BDC LIFT for businesses over $1 million in revenue, Mitacs AI Advantage placements, and the Regional AI Initiative in the Prairies and Quebec. Our guide to AI funding for Canadian small businesses is re verified every month and dates every claim.",
+    );
+  });
+});
+
+describe("MarketTemplate — the Gulf page's Saudi guides paragraph", () => {
+  function renderGulf() {
+    return render(
+      <MarketTemplate
+        t={en}
+        market="marketGulf"
+        content={en.markets.gulf}
+        trailingLinkHref={gulfStudyPath}
+        hrefs={gulfGuidePaths}
+      />,
+    );
+  }
+
+  it("renders the approved paragraph with both links, after the research sentence", () => {
+    renderGulf();
+
+    const paragraph = screen.getByText(/^Two things decide a Saudi project/);
+    expect(paragraph.textContent).toBe(
+      "Two things decide a Saudi project's budget in 2026 that have nothing to do with us: the ZATCA e invoicing wave your business falls into, and the PDPL rules that apply to the data your site collects. We wrote both up for small businesses: funding and support for digital and AI projects in Saudi Arabia and PDPL compliance for a small business website.",
+    );
+    expect(
+      within(paragraph)
+        .getAllByRole("link")
+        .map((link) => link.getAttribute("href")),
+    ).toEqual([gulfGuidePaths.saudiFunding, gulfGuidePaths.pdpl]);
+
+    const research = screen.getByText(/^We also publish original research/);
+    expect(
+      research.compareDocumentPosition(paragraph) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+  });
+
+  it("renders the currency note directly after the price anchor line", () => {
+    renderGulf();
+
+    const anchor = screen.getByText(/^For context: our full audit typically/);
+    expect(anchor.nextElementSibling?.textContent).toBe(
+      "Prices are in US dollars. A $2,500 audit is about SAR 9,400 or AED 9,200; a $15,000 build is about SAR 56,000 or AED 55,000. We invoice in USD.",
     );
   });
 });

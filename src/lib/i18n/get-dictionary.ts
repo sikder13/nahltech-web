@@ -410,6 +410,16 @@ export type Dictionary = typeof enDictionary;
  * two territory sentences to carry the frozen identity phrase exactly, and
  * the cost sentence so its two anchors are not ones a post already uses.
  *
+ * ── Founder-supplied, verbatim, 10 October 2026 (Saudi guides) ─────────────
+ *
+ *   markets.gulf.sections[].linkedClosing
+ *   markets.gulf.sections[].priceNote
+ *
+ * The pointer at the two Saudi guides, under the regional research sentence,
+ * and the currency note after the price anchor. Inserted without rewording;
+ * the paragraph is stored cut at its two anchors and `markets.test.ts`
+ * asserts the joined text.
+ *
  * ── Not yet written ───────────────────────────────────────────────────────
  *
  * 0 `[PLACEHOLDER: …]` strings remain. Every string in en.json is approved

@@ -1,6 +1,6 @@
 import { MarketTemplate } from "@/components/templates/MarketTemplate";
 import { requireDictionary } from "@/lib/i18n/require-dictionary";
-import { gulfStudyPath, routes } from "@/lib/routes";
+import { gulfGuidePaths, gulfStudyPath, routes } from "@/lib/routes";
 import {
   breadcrumbSchema,
   dictionaryFaqSchema,
@@ -48,6 +48,7 @@ export default async function Page({
         market="marketGulf"
         content={content}
         trailingLinkHref={gulfStudyPath}
+        hrefs={gulfGuidePaths}
       />
     </>
   );

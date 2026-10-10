@@ -1,12 +1,12 @@
-import Link from "next/link";
-
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { FadeIn } from "@/components/ui/FadeIn";
 import { Icon } from "@/components/ui/Icon";
+import { LinkedText } from "@/components/ui/LinkedText";
 import { Prose } from "@/components/ui/Prose";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
 import type { CtaAction } from "./CtaBlock";
+import type { TextSegment } from "@/components/ui/LinkedText";
 
 const shell = "mx-auto max-w-(--container-page) px-sm py-2xl";
 
@@ -169,16 +169,6 @@ export function MeasurementBlock({
 }
 
 /**
- * One run of a paragraph: plain text, or text that is a link.
- *
- * Approved copy with links mid-sentence is stored as the sentence cut at each
- * anchor, so the segments rejoin to the approved paragraph character for
- * character. `link` is a key, not an href: the destination comes from the
- * route registry through `hrefs`, so an anchor cannot outlive its target.
- */
-export type TextSegment = { text: string; link?: string };
-
-/**
  * A titled band of prose on a service page: a paragraph, a list, or both.
  *
  * For sections a page's approved copy adds beyond the shared anatomy. A
@@ -207,26 +197,7 @@ export function ServiceProseSection({
           <Prose className="mt-md">
             {body ? (
               <p>
-                {body.map((segment) => {
-                  const href = segment.link ? hrefs[segment.link] : undefined;
-                  if (!href) return segment.text;
-                  // Internal hrefs go through next/link; anything else is a
-                  // plain anchor, the same split the article routes make.
-                  return href.startsWith("/") ? (
-                    <Link key={segment.text} href={href}>
-                      {segment.text}
-                    </Link>
-                  ) : (
-                    <a
-                      key={segment.text}
-                      href={href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {segment.text}
-                    </a>
-                  );
-                })}
+                <LinkedText segments={body} hrefs={hrefs} />
               </p>
             ) : null}
             {items ? (

@@ -18,13 +18,13 @@ have not been recorded yet; that does not mean nothing links them.
 
 /blog/ai-injection-molding-scrap-reduction: "our plastics scrap analysis"; "process-data work where models must learn your presses' behavior"; "reading the process data you already collect"; "The Scrap Data You Already Collect"
 
-/blog/ai-opportunity-audit-worked-example: "how a full audit runs, number by number"; "our worked audit example"; "our worked example of an AI opportunity audit"; "published audit walkthrough"; "the counting stage is published in full"; "the worked example of a full audit"; "We opened one up, numbers included"; "worked example of an AI opportunity audit"
+/blog/ai-opportunity-audit-worked-example: "a worked example of what an audit produces"; "how a full audit runs, number by number"; "our worked audit example"; "our worked example of an AI opportunity audit"; "published audit walkthrough"; "the counting stage is published in full"; "the worked example of a full audit"; "We opened one up, numbers included"; "worked example of an AI opportunity audit"
 
-/blog/build-vs-buy-software-small-business: "custom software vs off the shelf for a small business"; "its own write up"; "whether to build or buy at all"
+/blog/build-vs-buy-software-small-business: "custom software vs off the shelf for a small business"; "its own write up"; "the build or buy decision for a small business"; "whether to build or buy at all"
 
 /blog/chrome-extension-vs-web-app-cost: "Chrome extension vs web app"; "when an extension beats a web app"
 
-/blog/custom-software-development-cost-2026: "custom software development cost in 2026"; "our 2026 software cost breakdown"; "what a web app costs to build in 2026"
+/blog/custom-software-development-cost-2026: "custom software development cost in 2026"; "our 2026 software cost breakdown"; "what a web app costs to build in 2026"; "what moves the price of a custom build"
 
 /blog/how-custom-manufacturers-quote-faster: "How Custom Manufacturers Quote Faster"
 
@@ -34,9 +34,17 @@ have not been recorded yet; that does not mean nothing links them.
 
 /blog/manufacturing-readiness-grants-indiana: "what Indiana's grant-funded floors keep discovering"; "what Indiana's Manufacturing Readiness Grants actually fund"
 
+/blog/pdpl-compliance-small-business-website-saudi-arabia: "PDPL compliance for a small business website"; "PDPL compliance for small business websites in Saudi Arabia"
+
+/blog/saudi-arabia-small-business-funding-digital-ai-2026: "funding and support for digital and AI projects in Saudi Arabia"; "small business funding in Saudi Arabia for digital projects"
+
 /manufacturing: "AI and automation for manufacturers"; "AI for manufacturers"; "manufacturers"
 
+/markets/gulf: "works with businesses in the Gulf region remotely"
+
 /pricing: "$2,500, fully credited"; "Book the scan or read the full price list"; "Details on the pricing page"; "free 30-minute scan"; "from $1,200/month"; "openly"; "our pricing page"; "pricing page"; "pricing published here"; "published"; "published prices"; "see what the scan and the audit cost"; "The full breakdown is on our pricing page"; "web development from $6,000"
+
+/research/gulf-smb-websites-ai-search-study: "Gulf small business website study"; "Gulf SMB website study"; "study of 44 Gulf small-business websites"
 
 /research/how-we-measure: "here"; "how we measure"; "how we run every engagement"; "measurement methodology"; "our published method"; "published in full"; "The method behind every number above"
 
@@ -51,6 +59,10 @@ have not been recorded yet; that does not mean nothing links them.
 /services/ai-automation: "a fixed-price automation project"; "AI automation"; "AI automation builds"; "AI automation for business workflows"; "AI automation work we do"; "builds we deliver at fixed price"; "the automation we design"; "the build that follows"; "We design every regulated workflow"; "workflow automation"
 
 /services/ai-consultancy: "a measured baseline for your application"; "a measured quoting audit"; "AI consulting and implementation"; "AI opportunity audit"; "AI Opportunity Audit"; "how we scope"; "the audit that produces that documentation"; "what building this well actually demands"
+
+/services/software-development: "custom software"; "software builds"
+
+/services/web-development: "web development starts at $6,000"
 
 ## Prospect page tokens
 

@@ -4,11 +4,13 @@ import { CtaBlock } from "@/components/blocks/CtaBlock";
 import { FaqBlock } from "@/components/blocks/FaqBlock";
 import { PageHeader } from "@/components/blocks/PageHeader";
 import { FadeIn } from "@/components/ui/FadeIn";
+import { LinkedText } from "@/components/ui/LinkedText";
 import { Prose } from "@/components/ui/Prose";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { bookingCta, contactDetails } from "@/lib/routes";
 
 import type { FaqItem } from "@/components/blocks/FaqBlock";
+import type { TextSegment } from "@/components/ui/LinkedText";
 import type { Dictionary } from "@/lib/i18n/get-dictionary";
 import type { MarketKey } from "@/lib/routes";
 
@@ -79,6 +81,15 @@ export type MarketSection = {
    * destination comes from `trailingLinkHref`.
    */
   trailingSentence?: { lead: string; anchor: string };
+  /**
+   * A paragraph after the closing sentence, with more than one link in it.
+   *
+   * The fields above all share the page's single `trailingLinkHref`. The Gulf
+   * page's pointer at the two Saudi guides needs two destinations in one
+   * paragraph, so it is stored cut at each anchor and each segment names its
+   * destination by key; the hrefs come from the page through `hrefs`.
+   */
+  linkedClosing?: readonly TextSegment[];
 };
 
 export type MarketContent = {
@@ -105,8 +116,8 @@ export type MarketContent = {
  * mirrored, so it is asserted instead.
  *
  * A section renders in one fixed order — paragraphs, then the linked
- * paragraph, then bullets, then any closing paragraphs, then the
- * price-anchoring line and its note — because that
+ * paragraph, then bullets, then any closing paragraphs, the closing sentence
+ * and a linked closing paragraph, then the price-anchoring line and its note — because that
  * order *is* the approved copy: the
  * anchor sentence was written to land immediately after the block quoting the
  * numbers, and moving it changes what "for context" refers to.
@@ -119,6 +130,7 @@ export function MarketTemplate({
   market,
   content,
   trailingLinkHref,
+  hrefs,
 }: {
   t: Dictionary;
   market: MarketKey;
@@ -132,6 +144,8 @@ export function MarketTemplate({
    * has no business knowing which document that is.
    */
   trailingLinkHref?: string;
+  /** Destinations for a `linkedClosing` paragraph, by segment key. */
+  hrefs?: Readonly<Record<string, string>>;
 }) {
   return (
     <>
@@ -210,6 +224,17 @@ export function MarketTemplate({
                       {section.trailingSentence.anchor}
                     </Link>
                     .
+                  </p>
+                </Prose>
+              ) : null}
+
+              {section.linkedClosing ? (
+                <Prose className="mt-md">
+                  <p>
+                    <LinkedText
+                      segments={section.linkedClosing}
+                      hrefs={hrefs}
+                    />
                   </p>
                 </Prose>
               ) : null}
