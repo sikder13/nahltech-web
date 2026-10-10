@@ -42,6 +42,17 @@ export type MarketSection = {
   linkedParagraph?: { before: string; anchor: string; after: string };
   items?: readonly string[];
   /**
+   * A numbered list, for approved copy whose order is the point: the
+   * tourism package page's four steps from preview to launch.
+   */
+  steps?: readonly string[];
+  /**
+   * A list whose every entry is a link: the tourism package page's guides.
+   * `link` is a key, not an href; the destinations come from the page
+   * through `hrefs`, and an entry without one renders as plain text.
+   */
+  linkItems?: readonly TextSegment[];
+  /**
    * Paragraphs that follow the bullets.
    *
    * `paragraphs` renders above the list, so approved copy written to sit
@@ -90,22 +101,43 @@ export type MarketSection = {
    * destination by key; the hrefs come from the page through `hrefs`.
    */
   linkedClosing?: readonly TextSegment[];
+  /**
+   * A paragraph after the price anchor, stored cut at each anchor like
+   * `linkedClosing`.
+   *
+   * For copy approved to follow the section as a whole. `linkedClosing`
+   * renders above the price anchor, and a paragraph placed there would come
+   * between the anchor's "for context" and the figures it comments on.
+   */
+  linkedAfterword?: readonly TextSegment[];
 };
 
 export type MarketContent = {
-  anchor: string;
+  /** The territory's name in the markets sentence. Unused by this template. */
+  anchor?: string;
   lead: string;
   sections: readonly MarketSection[];
   faq: { heading: string; items: readonly FaqItem[] };
-  cta: { heading: string; body?: string; primaryLabel: string };
+  /**
+   * `body` is a string, or segments when the approved line carries a link:
+   * the tourism package page's "Email us". Destinations come from `hrefs`.
+   */
+  cta: {
+    heading: string;
+    body?: string | readonly TextSegment[];
+    primaryLabel: string;
+  };
 };
 
 /**
  * T8 — market landing page.
  *
- * Four pages use this (`/markets/canada`, `/markets/gulf`,
+ * Four market pages use this (`/markets/canada`, `/markets/gulf`,
  * `/markets/central-asia`, `/markets/new-zealand`); a fifth market would be a
- * route, a dictionary slice, and nothing else.
+ * route, a dictionary slice, and nothing else. `/nz`, the New Zealand tourism
+ * package page, renders through it too: the same shape, sold to one trade
+ * rather than a territory, which is why `market` admits its key without it
+ * joining `marketRouteKeys`.
  *
  * It is deliberately thinner than `LocalLandingTemplate`. That page builds a
  * mirrored rate-card table because its approved copy asked for one; these
@@ -116,8 +148,9 @@ export type MarketContent = {
  * mirrored, so it is asserted instead.
  *
  * A section renders in one fixed order — paragraphs, then the linked
- * paragraph, then bullets, then any closing paragraphs, the closing sentence
- * and a linked closing paragraph, then the price-anchoring line and its note — because that
+ * paragraph, then bullets, numbered steps and a list of links, then any
+ * closing paragraphs, the closing sentence and a linked closing paragraph,
+ * then the price-anchoring line and its note, then an afterword — because that
  * order *is* the approved copy: the
  * anchor sentence was written to land immediately after the block quoting the
  * numbers, and moving it changes what "for context" refers to.
@@ -133,7 +166,8 @@ export function MarketTemplate({
   hrefs,
 }: {
   t: Dictionary;
-  market: MarketKey;
+  /** The page whose title heads it: a market, or the tourism package page. */
+  market: MarketKey | "nzTourism";
   content: MarketContent;
   /**
    * Destination for every link the page's sections declare — a
@@ -144,7 +178,10 @@ export function MarketTemplate({
    * has no business knowing which document that is.
    */
   trailingLinkHref?: string;
-  /** Destinations for a `linkedClosing` paragraph, by segment key. */
+  /**
+   * Destinations for a `linkedClosing` or `linkedAfterword` paragraph, for
+   * `linkItems` and for a linked CTA line, by segment key.
+   */
   hrefs?: Readonly<Record<string, string>>;
 }) {
   return (
@@ -206,6 +243,22 @@ export function MarketTemplate({
                     })}
                   </ul>
                 ) : null}
+                {section.steps ? (
+                  <ol>
+                    {section.steps.map((step) => (
+                      <li key={step.slice(0, 40)}>{step}</li>
+                    ))}
+                  </ol>
+                ) : null}
+                {section.linkItems ? (
+                  <ul>
+                    {section.linkItems.map((item) => (
+                      <li key={item.text}>
+                        <LinkedText segments={[item]} hrefs={hrefs} />
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
                 {section.closingParagraphs?.map((paragraph) => (
                   <p key={paragraph.slice(0, 40)}>{paragraph}</p>
                 ))}
@@ -251,6 +304,17 @@ export function MarketTemplate({
                   ) : null}
                 </div>
               ) : null}
+
+              {section.linkedAfterword ? (
+                <Prose className="mt-md">
+                  <p>
+                    <LinkedText
+                      segments={section.linkedAfterword}
+                      hrefs={hrefs}
+                    />
+                  </p>
+                </Prose>
+              ) : null}
             </FadeIn>
           </div>
         </section>
@@ -260,7 +324,14 @@ export function MarketTemplate({
 
       <CtaBlock
         heading={content.cta.heading}
-        body={content.cta.body}
+        body={
+          typeof content.cta.body === "string" ||
+          content.cta.body === undefined ? (
+            content.cta.body
+          ) : (
+            <LinkedText segments={content.cta.body} hrefs={hrefs} />
+          )
+        }
         primary={{
           label: content.cta.primaryLabel,
           href: bookingCta.href,

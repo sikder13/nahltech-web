@@ -20,6 +20,8 @@ have not been recorded yet; that does not mean nothing links them.
 
 /blog/ai-opportunity-audit-worked-example: "a worked example of what an audit produces"; "how a full audit runs, number by number"; "our worked audit example"; "our worked example of an AI opportunity audit"; "published audit walkthrough"; "the counting stage is published in full"; "the worked example of a full audit"; "We opened one up, numbers included"; "worked example of an AI opportunity audit"
 
+/blog/ai-search-new-zealand-tourism-operators: "getting named in AI travel answers"; "How NZ operators get recommended by ChatGPT and Google AI"; "how to get named in AI travel answers"; "how to show up when travellers ask ChatGPT"; "the newzealand.com listing and AI search"
+
 /blog/build-vs-buy-software-small-business: "custom software vs off the shelf for a small business"; "its own write up"; "the build or buy decision for a small business"; "whether to build or buy at all"
 
 /blog/chrome-extension-vs-web-app-cost: "Chrome extension vs web app"; "when an extension beats a web app"
@@ -36,13 +38,21 @@ have not been recorded yet; that does not mean nothing links them.
 
 /blog/pdpl-compliance-small-business-website-saudi-arabia: "PDPL compliance for a small business website"; "PDPL compliance for small business websites in Saudi Arabia"
 
+/blog/qualmark-worth-it-small-tourism-operator: "Is Qualmark worth it for a small operator"; "Qualmark fees and what they buy"; "whether Qualmark is worth the fee"
+
 /blog/saudi-arabia-small-business-funding-digital-ai-2026: "funding and support for digital and AI projects in Saudi Arabia"; "small business funding in Saudi Arabia for digital projects"
+
+/blog/tourism-website-design-nz-tour-operators: "checklist for the page travellers land on"; "The tour operator homepage checklist"; "tourism website checklist"; "what a tour operator homepage needs"
+
+/blog/viator-getyourguide-commission-nz-tour-operators: "OTA commission in NZ dollars"; "Viator and GetYourGuide commission for NZ operators"; "what booking platforms charge NZ operators"; "what Viator and GetYourGuide actually charge"
 
 /manufacturing: "AI and automation for manufacturers"; "AI for manufacturers"; "manufacturers"
 
 /markets/gulf: "works with businesses in the Gulf region remotely"
 
-/pricing: "$2,500, fully credited"; "Book the scan or read the full price list"; "Details on the pricing page"; "free 30-minute scan"; "from $1,200/month"; "openly"; "our pricing page"; "pricing page"; "pricing published here"; "published"; "published prices"; "see what the scan and the audit cost"; "The full breakdown is on our pricing page"; "web development from $6,000"
+/nz: "Details"; "fixed NZ$1,490 price"; "fixed price homepage rebuild for NZ operators"; "homepage rebuild for operators"; "NZ$1,490 rebuild"; "the tourism operator package"
+
+/pricing: "$2,500, fully credited"; "Book the scan or read the full price list"; "Details on the pricing page"; "free 30-minute scan"; "from $1,200/month"; "full price list"; "openly"; "our pricing page"; "pricing page"; "pricing published here"; "published"; "published prices"; "see what the scan and the audit cost"; "The full breakdown is on our pricing page"; "web development from $6,000"
 
 /research/gulf-smb-websites-ai-search-study: "Gulf small business website study"; "Gulf SMB website study"; "study of 44 Gulf small-business websites"
 

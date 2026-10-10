@@ -55,9 +55,15 @@ export type Cluster = (typeof clusters)[number];
  */
 const SIBLING_GATE_MIN_CLUSTER_SIZE = 3;
 
-/** Pages a post may cite to satisfy the "link to something we sell" gate. */
+/**
+ * Pages a post may cite to satisfy the "link to something we sell" gate.
+ *
+ * `/nz` is the New Zealand tourism package page: one package at one
+ * published price, and the offer the tourism guides were written to send a
+ * reader to. It counts for the same reason `/pricing` does.
+ */
 const OFFER_PREFIXES = ["/services/", "/products/"] as const;
-const OFFER_EXACT = ["/pricing"] as const;
+const OFFER_EXACT = ["/pricing", "/nz"] as const;
 
 function isOfferLink(href: string): boolean {
   return (
@@ -221,7 +227,7 @@ export function validatePost(
     if (offerLinks.length < 1) {
       throw new BlogContentError(
         file,
-        `cluster "${frontmatter.cluster}" requires at least one link to a /services/*, /products/* or /pricing page; found none`,
+        `cluster "${frontmatter.cluster}" requires at least one link to a /services/*, /products/*, /pricing or /nz page; found none`,
       );
     }
 

@@ -1,10 +1,13 @@
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { FadeIn } from "@/components/ui/FadeIn";
 import { Icon } from "@/components/ui/Icon";
+import { LinkedText } from "@/components/ui/LinkedText";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Prose } from "@/components/ui/Prose";
 import { markScriptRuns } from "@/components/ui/ScriptText";
 import { getTeamPhoto } from "@/lib/team-photos";
+
+import type { TextSegment } from "@/components/ui/LinkedText";
 
 const shell = "mx-auto max-w-(--container-page) px-sm py-2xl";
 
@@ -389,6 +392,40 @@ export function PricingTable({
         </FadeIn>
       </section>
     </>
+  );
+}
+
+/**
+ * Packages priced outside the US rate card, one line each.
+ *
+ * Sits under the ladder rather than in it: the cards and the builds list are
+ * the US dollar prices every other page mirrors, and a package sold in
+ * another currency to another market is a pointer to its own page, not a
+ * sixth row. Shares the ladder's page ground and closes up to it, so it
+ * reads as the ladder's last note.
+ */
+export function OtherMarketsNote({
+  heading,
+  note,
+  hrefs,
+}: {
+  heading: string;
+  note: readonly TextSegment[];
+  hrefs: Readonly<Record<string, string>>;
+}) {
+  return (
+    <section>
+      <div className="mx-auto max-w-(--container-page) px-sm pb-2xl">
+        <FadeIn>
+          <h2 className="text-xl font-semibold text-text">{heading}</h2>
+          <Prose className="mt-2xs">
+            <p>
+              <LinkedText segments={note} hrefs={hrefs} />
+            </p>
+          </Prose>
+        </FadeIn>
+      </div>
+    </section>
   );
 }
 

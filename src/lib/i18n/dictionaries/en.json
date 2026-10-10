@@ -176,6 +176,11 @@
       "metaTitle": "AI Consulting for New Zealand Businesses | US Firm, NZ Hours | Nahl Technologies",
       "description": "US-based AI consulting for New Zealand businesses — your morning is our afternoon. Published prices, free 30-minute scan, builds in 75 days or your money back."
     },
+    "nzTourism": {
+      "title": "Websites and AI visibility for New Zealand tourism operators",
+      "metaTitle": "Tourism Websites and AI Visibility for NZ Operators | Nahl Technologies",
+      "description": "A homepage rebuild and AI visibility setup for New Zealand tour and activity operators. NZ$1,490 fixed, and you see the new homepage before you pay."
+    },
     "manufacturing": {
       "title": "AI and automation for manufacturers",
       "metaTitle": "AI and Automation for Manufacturers | Nahl Technologies",
@@ -1082,6 +1087,21 @@
       }
     ],
     "guarantee": "Scoped automation and software builds go live in 75 days, or your money back.",
+    "otherMarkets": {
+      "heading": "Other markets",
+      "note": [
+        {
+          "text": "New Zealand tourism operators: homepage rebuild and AI visibility setup, NZ$1,490 fixed, preview before payment; optional care NZ$149 a month. "
+        },
+        {
+          "text": "Details",
+          "link": "nzTourism"
+        },
+        {
+          "text": "."
+        }
+      ]
+    },
     "discounts": {
       "heading": "Priced for the people we want to work with.",
       "items": [
@@ -1386,7 +1406,33 @@
             "Contracting: we bill as a US Delaware corporation in USD; standard international card or wire, the same as any US software vendor Kiwi firms already use.",
             "What we don't pretend: no Auckland office, no local entity today. If your engagement genuinely needs on-the-ground presence, we'll tell you in the first call."
           ],
-          "priceAnchor": "For context: a full audit costs less than one week of a local AI specialist's salary — for firms that can find one to hire at all."
+          "priceAnchor": "For context: a full audit costs less than one week of a local AI specialist's salary — for firms that can find one to hire at all.",
+          "linkedAfterword": [
+            {
+              "text": "For tour, activity and cellar door operators we offer one fixed price package: a homepage rebuild and AI visibility setup for NZ$1,490, with a private preview before you pay. See "
+            },
+            {
+              "text": "the tourism operator package",
+              "link": "nzTourism"
+            },
+            {
+              "text": ". Our guides cover "
+            },
+            {
+              "text": "what booking platforms charge NZ operators",
+              "link": "commission"
+            },
+            {
+              "text": " and "
+            },
+            {
+              "text": "how to get named in AI travel answers",
+              "link": "aiSearch"
+            },
+            {
+              "text": "."
+            }
+          ]
         }
       ],
       "faq": {
@@ -1522,6 +1568,117 @@
         "anchor": "AI and automation for manufacturers",
         "after": "."
       }
+    }
+  },
+  "nzTourism": {
+    "lead": "We rebuild the homepage of owner run tour, activity and cellar door businesses so travellers can see what you offer, what it costs and how to book on a phone, and so AI assistants and Google can read it. One fixed price, NZ$1,490. You see your new homepage before you pay anything.",
+    "sections": [
+      {
+        "heading": "What you get for NZ$1,490",
+        "items": [
+          "A new homepage in your colours, logo, words and photos. We keep what makes your business yours.",
+          "Your existing booking system wired in at the top of the page: Rezdy, FareHarbor, Bookeo, Checkfront or your own.",
+          "Prices, duration, meeting point and a plain answer FAQ, written as text that people and AI tools can read.",
+          "Structured data that matches what the page shows.",
+          "A checklist for your newzealand.com listing and Google Business Profile, so every listing says the same thing.",
+          "A before and after check of what ChatGPT, Google and Perplexity say about your region and activity. A snapshot, not a promise."
+        ]
+      },
+      {
+        "heading": "How it works",
+        "steps": [
+          "We look at your current site, listings and reviews, and build a private preview of your new homepage.",
+          "You open the preview. If you do not want it, ignore it and it comes down within 14 days. You owe nothing.",
+          "If you want it, 50 percent starts the work. We finish the build and the AI visibility setup within ten business days.",
+          "You approve it, we put it live, and the remaining 50 percent is due at launch."
+        ]
+      },
+      {
+        "heading": "Prices, plainly",
+        "items": [
+          "Homepage rebuild and AI visibility setup: NZ$1,490, fixed.",
+          "Optional monthly care: NZ$149 a month for an AI answer check and one content update. Cancel any time.",
+          "Invoiced in New Zealand dollars. No GST is added; we are an overseas supplier."
+        ]
+      },
+      {
+        "heading": "Why now",
+        "paragraphs": [
+          "Summer is when your website does the most work, and two things have changed. Booking platforms are now the largest booking channel for experiences in Australia and New Zealand, and they keep 20 to 30 percent of each booking, including bookings from travellers who already knew your name. And travellers increasingly ask an AI assistant before they search: Air New Zealand's chief executive told TRENZ 2026 that travellers 'will start with the prompt', and in July the Government funded work to make Tourism New Zealand's information readable by AI tools. A homepage that states your facts plainly helps with both."
+        ]
+      },
+      {
+        "heading": "What we do not promise",
+        "paragraphs": [
+          "Nobody can guarantee a place in ChatGPT's or Google's answers, and we do not. We can make your business easier for them to find, read and confirm, and show you what they said before and after."
+        ]
+      },
+      {
+        "heading": "Who we are",
+        "paragraphs": [
+          "Nahl Technologies is a small software firm in Indianapolis, in the United States. We have no New Zealand office. We work your mornings, which are our afternoons, and we answer email the same day. We built and run our own website auditing product, Crawlmouse, and we publish every price we charge."
+        ]
+      },
+      {
+        "heading": "Guides for New Zealand operators",
+        "linkItems": [
+          {
+            "text": "Viator and GetYourGuide commission for NZ operators",
+            "link": "commission"
+          },
+          {
+            "text": "How NZ operators get recommended by ChatGPT and Google AI",
+            "link": "aiSearch"
+          },
+          {
+            "text": "Is Qualmark worth it for a small operator",
+            "link": "qualmark"
+          },
+          {
+            "text": "The tour operator homepage checklist",
+            "link": "checklist"
+          }
+        ]
+      }
+    ],
+    "faq": {
+      "heading": "FAQ",
+      "items": [
+        {
+          "question": "How much does a tourism website cost with you?",
+          "answer": "NZ$1,490 fixed for a homepage rebuild and AI visibility setup, with optional care at NZ$149 a month. You see the new homepage before you pay."
+        },
+        {
+          "question": "Do I pay anything before I see the new homepage?",
+          "answer": "No. You see a private preview first. If you want it, 50 percent starts the work and the rest is due at launch."
+        },
+        {
+          "question": "Can you guarantee my business will appear in ChatGPT?",
+          "answer": "No one can. We make your business easier for AI tools to find and read, and show you what they said before and after."
+        },
+        {
+          "question": "Will my booking system still work?",
+          "answer": "Yes. We wire in the system you already use, such as Rezdy, FareHarbor, Bookeo or Checkfront, so bookings carry on as they do now."
+        },
+        {
+          "question": "Is GST added?",
+          "answer": "No. We are an overseas supplier and invoice in New Zealand dollars without GST."
+        }
+      ]
+    },
+    "cta": {
+      "body": [
+        {
+          "text": "Questions first? "
+        },
+        {
+          "text": "Email us",
+          "link": "email"
+        },
+        {
+          "text": " and we will reply within one New Zealand business day."
+        }
+      ]
     }
   },
   "sheets": {

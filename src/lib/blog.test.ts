@@ -101,7 +101,7 @@ describe("validatePost — link gates", () => {
   it("fails a non-exempt post with no service, product or pricing link", () => {
     const body = `Prose linking [one](/blog/sibling-one) and [two](/blog/sibling-two).`;
     expect(() => validatePost("post.mdx", build({}, body), SIBLINGS)).toThrow(
-      /at least one link to a \/services\/\*, \/products\/\* or \/pricing page/,
+      /at least one link to a \/services\/\*, \/products\/\*, \/pricing or \/nz page/,
     );
   });
 
@@ -298,6 +298,13 @@ describe("validatePost — sibling gate threshold", () => {
 
   it("accepts /pricing as an offer link", () => {
     const body = `[pricing](/pricing) [one](/blog/sibling-one) [two](/blog/sibling-two)`;
+    expect(validatePost("post.mdx", build({}, body), SIBLINGS).slug).toBe(
+      "post",
+    );
+  });
+
+  it("accepts /nz, the tourism package page, as an offer link", () => {
+    const body = `[package](/nz) [one](/blog/sibling-one) [two](/blog/sibling-two)`;
     expect(validatePost("post.mdx", build({}, body), SIBLINGS).slug).toBe(
       "post",
     );

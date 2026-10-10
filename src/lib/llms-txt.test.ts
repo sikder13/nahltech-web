@@ -58,6 +58,14 @@ describe("llms.txt", () => {
     }
   });
 
+  it("lists the New Zealand tourism package with its approved line", () => {
+    // The one key page whose description is not its meta description: the
+    // founder supplied this line for the file, so it is pinned as written.
+    expect(txt).toContain(
+      `- [${en.pages.nzTourism.title}](${siteUrl}${routes.nzTourism}) — Homepage rebuild and AI visibility setup for New Zealand tourism operators, NZ$1,490 fixed.`,
+    );
+  });
+
   it("links the dataset report under Research", () => {
     expect(txt).toContain("## Research");
     expect(txt).toContain(
@@ -67,7 +75,7 @@ describe("llms.txt", () => {
 
   it("uses absolute https URLs and nothing else", () => {
     const hrefs = [...txt.matchAll(/\]\(([^)]+)\)/g)].map((m) => m[1]);
-    expect(hrefs.length).toBe(keyPages.length + 1);
+    expect(hrefs.length).toBe(keyPages.length + 2);
     for (const href of hrefs) {
       expect(href, href).toMatch(new RegExp(`^${siteUrl}/`));
     }

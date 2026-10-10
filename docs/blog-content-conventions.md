@@ -44,8 +44,8 @@ in an essay that does not want them, not that we tolerate broken ones.
 
 Enforced at build time for `field-notes`, `decision` and `international`:
 
-1. **At least one offer link** — to `/services/*`, `/products/*` or
-   `/pricing`.
+1. **At least one offer link** — to `/services/*`, `/products/*`,
+   `/pricing` or `/nz`, the New Zealand tourism package page.
 2. **At least two sibling-post links**, but only once the post's cluster holds
    three or more published posts. The first post in a cluster has no siblings
    and the second has one, so enforcing the rule from the start would either

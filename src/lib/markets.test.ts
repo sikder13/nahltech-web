@@ -50,15 +50,20 @@ function copyOf(key: (typeof marketRouteKeys)[number]): string {
   });
 }
 
-/** Every dollar figure the rate card publishes, as it publishes it. */
+/**
+ * Every dollar figure the rate card publishes, as it publishes it. The other
+ * markets note is part of the card: the New Zealand page quotes the tourism
+ * package price, and /pricing publishes that figure there.
+ */
 const publishedFigures = new Set(
   [
     ...t.pricing.tiers.map((tier) => tier.price),
     ...t.pricing.projects.map((project) => project.price),
     ...t.pricing.projects.map((project) => project.note),
+    ...t.pricing.otherMarkets.note.map((segment) => segment.text),
   ]
     .join(" ")
-    .match(/\$[\d,]+/g) ?? [],
+    .match(/\$\d+(?:,\d{3})*/g) ?? [],
 );
 
 /**
@@ -87,7 +92,7 @@ describe("market pages quote only published prices", () => {
       // card says $6,000 — which is exactly what the Indianapolis draft did
       // in four places, and the reason that page reads its table from
       // `t.pricing` instead of carrying one.
-      const figures = copyOf(routeKey).match(/\$[\d,]+/g) ?? [];
+      const figures = copyOf(routeKey).match(/\$\d+(?:,\d{3})*/g) ?? [];
       expect(figures.length).toBeGreaterThan(0);
       for (const figure of figures) {
         if (notPrices[routeKey]?.includes(figure)) continue;

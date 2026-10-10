@@ -8,6 +8,10 @@ import {
   canadaFundingGuidePath,
   gulfGuidePaths,
   gulfStudyPath,
+  contactDetails,
+  nzGuidePaths,
+  nzTourismLinkPaths,
+  nzTourismPageLinkPaths,
 } from "@/lib/routes";
 
 /**
@@ -165,5 +169,119 @@ describe("MarketTemplate — the Gulf page's Saudi guides paragraph", () => {
     expect(anchor.nextElementSibling?.textContent).toBe(
       "Prices are in US dollars. A $2,500 audit is about SAR 9,400 or AED 9,200; a $15,000 build is about SAR 56,000 or AED 55,000. We invoice in USD.",
     );
+  });
+});
+
+describe("MarketTemplate — the New Zealand tourism package page", () => {
+  function renderNz() {
+    return render(
+      <MarketTemplate
+        t={en}
+        market="nzTourism"
+        content={{
+          ...en.nzTourism,
+          cta: {
+            heading: en.ctaBlock.heading,
+            body: en.nzTourism.cta.body,
+            primaryLabel: en.cta.bookCall,
+          },
+        }}
+        hrefs={nzTourismPageLinkPaths}
+      />,
+    );
+  }
+
+  it("heads the page with the approved h1 and intro", () => {
+    renderNz();
+
+    expect(screen.getByRole("heading", { level: 1 }).textContent).toBe(
+      "Websites and AI visibility for New Zealand tourism operators",
+    );
+    expect(
+      screen.getByText(/^We rebuild the homepage of owner run tour/),
+    ).toBeTruthy();
+  });
+
+  it("numbers the four steps and bullets the rest", () => {
+    renderNz();
+
+    const steps = screen
+      .getByRole("heading", { name: "How it works" })
+      .closest("section")!;
+    const ordered = within(steps).getAllByRole("list");
+    expect(ordered).toHaveLength(1);
+    expect(ordered[0].tagName).toBe("OL");
+    expect(within(ordered[0]).getAllByRole("listitem")).toHaveLength(4);
+
+    const included = screen
+      .getByRole("heading", { name: "What you get for NZ$1,490" })
+      .closest("section")!;
+    expect(within(included).getByRole("list").tagName).toBe("UL");
+    expect(within(included).getAllByRole("listitem")).toHaveLength(6);
+  });
+
+  it("links the four guides and nothing beneath /nz", () => {
+    const { container } = renderNz();
+
+    const guides = screen
+      .getByRole("heading", { name: "Guides for New Zealand operators" })
+      .closest("section")!;
+    expect(
+      within(guides)
+        .getAllByRole("link")
+        .map((link) => link.getAttribute("href")),
+    ).toEqual(Object.values(nzGuidePaths));
+
+    for (const link of container.querySelectorAll("a")) {
+      expect(link.getAttribute("href")).not.toMatch(/^\/nz\//);
+    }
+  });
+
+  it("closes on the site's booking block with the approved line", () => {
+    renderNz();
+
+    expect(
+      screen.getByRole("heading", { name: en.ctaBlock.heading }),
+    ).toBeTruthy();
+    const line = screen.getByText(/^Questions first\?/);
+    expect(line.textContent).toBe(
+      "Questions first? Email us and we will reply within one New Zealand business day.",
+    );
+    // The address the footer and /contact use, opened in the visitor's own
+    // mail app rather than a new tab.
+    const email = within(line).getByRole("link", { name: "Email us" });
+    expect(email.getAttribute("href")).toBe(contactDetails.emailHref);
+    expect(email.getAttribute("href")).toBe(`mailto:${en.footer.email}`);
+    expect(email.hasAttribute("target")).toBe(false);
+    expect(screen.getByRole("link", { name: en.cta.bookCall })).toBeTruthy();
+  });
+});
+
+describe("MarketTemplate — the New Zealand page's tourism paragraph", () => {
+  it("renders the approved paragraph after the price anchor, with its three links", () => {
+    render(
+      <MarketTemplate
+        t={en}
+        market="marketNewZealand"
+        content={en.markets.newZealand}
+        hrefs={nzTourismLinkPaths}
+      />,
+    );
+
+    const paragraph = screen.getByText(/^For tour, activity and cellar door/);
+    expect(paragraph.textContent).toBe(
+      "For tour, activity and cellar door operators we offer one fixed price package: a homepage rebuild and AI visibility setup for NZ$1,490, with a private preview before you pay. See the tourism operator package. Our guides cover what booking platforms charge NZ operators and how to get named in AI travel answers.",
+    );
+    expect(
+      within(paragraph)
+        .getAllByRole("link")
+        .map((link) => link.getAttribute("href")),
+    ).toEqual(["/nz", nzGuidePaths.commission, nzGuidePaths.aiSearch]);
+
+    const anchor = screen.getByText(/^For context: a full audit costs less/);
+    expect(
+      anchor.compareDocumentPosition(paragraph) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
   });
 });

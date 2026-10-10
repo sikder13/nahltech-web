@@ -635,6 +635,34 @@ export function marketServiceSchema(
 }
 
 /**
+ * Service for the New Zealand tourism operator package page.
+ *
+ * `areaServed` is New Zealand alone, the country `/markets/new-zealand`
+ * claims and a subset of `AREA_SERVED` like every market page's. No
+ * `offers`, for the reason `marketServiceSchema` gives: the package price is
+ * inside approved prose, and `nz-tourism.test.ts` holds it to /pricing
+ * instead.
+ */
+export function nzTourismServiceSchema(t: Dictionary): JsonLdObject {
+  const url = absolute(routes.nzTourism);
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": `${url}#service`,
+    name: t.pages.nzTourism.title,
+    serviceType: t.pages.webDevelopment.title,
+    description: t.pages.nzTourism.description,
+    url,
+    provider: { "@id": ORGANIZATION_ID },
+    areaServed: MARKET_COUNTRIES.marketNewZealand.map((name) => ({
+      "@type": "Country",
+      name,
+    })),
+  };
+}
+
+/**
  * Service for the manufacturers landing page.
  *
  * `areaServed` is the shared `AREA_SERVED`, by reference rather than by copy:

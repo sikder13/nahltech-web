@@ -14,7 +14,8 @@ export type TextSegment = { text: string; link?: string };
  * Renders segments in order. A segment whose key has no destination renders
  * as plain text: the words stay, an anchor with nowhere to go does not.
  * Internal hrefs go through next/link; anything else is a plain anchor, the
- * same split the article routes make.
+ * same split the article routes make. A `mailto:` or `tel:` href opens the
+ * visitor's own mail or phone app, so it gets no new tab.
  */
 export function LinkedText({
   segments,
@@ -26,10 +27,17 @@ export function LinkedText({
   return segments.map((segment) => {
     const href = segment.link ? hrefs[segment.link] : undefined;
     if (!href) return segment.text;
-    return href.startsWith("/") ? (
-      <Link key={segment.text} href={href}>
+    if (href.startsWith("/")) {
+      return (
+        <Link key={segment.text} href={href}>
+          {segment.text}
+        </Link>
+      );
+    }
+    return /^(mailto|tel):/.test(href) ? (
+      <a key={segment.text} href={href}>
         {segment.text}
-      </Link>
+      </a>
     ) : (
       <a
         key={segment.text}

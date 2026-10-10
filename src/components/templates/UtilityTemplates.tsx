@@ -10,6 +10,7 @@ import {
   DiscountsBlock,
   FoundingBanner,
   LetterCallout,
+  OtherMarketsNote,
   PricingTable,
   StorySection,
   TeamGrid,
@@ -211,6 +212,12 @@ export function PricingTemplate({ t }: { t: Dictionary }) {
         featuredLabel={t.pricing.featuredLabel}
         ctaHref={routes.contact}
         guarantee={t.pricing.guarantee}
+      />
+
+      <OtherMarketsNote
+        heading={t.pricing.otherMarkets.heading}
+        note={t.pricing.otherMarkets.note}
+        hrefs={{ nzTourism: routes.nzTourism }}
       />
 
       <DiscountsBlock

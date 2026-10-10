@@ -49,6 +49,22 @@ export const routes = {
   marketCentralAsia: "/markets/central-asia",
   marketNewZealand: "/markets/new-zealand",
   /**
+   * Landing page for the New Zealand tourism operator package.
+   *
+   * Rendered through the market template but not a fifth market:
+   * `marketRouteKeys` stays four, so the markets sentence, the identity
+   * phrase and the graph's territories gain nothing. It sells one fixed
+   * price package to one trade in a territory `/markets/new-zealand` already
+   * covers.
+   *
+   * **This entry is `/nz` and nothing beneath it.** Per-prospect previews
+   * live under `/nz/<business>/preview`, are private, and must never be
+   * registered here: this registry feeds the sitemap, and a preview belongs
+   * in neither the sitemap nor `llms.txt`. `nz-tourism.test.ts` fails if a
+   * path under `/nz/` reaches either.
+   */
+  nzTourism: "/nz",
+  /**
    * Industry landing page for manufacturers.
    *
    * The same limits as the city and market pages, for the same reason: not a
@@ -188,6 +204,31 @@ export const gulfGuidePaths = {
 } as const;
 
 /**
+ * The four guides `/nz` lists, in the order its approved copy lists them.
+ *
+ * Same arrangement as the constants above: blog posts are files resolved by
+ * slug, so the page takes each href from here and `nz-tourism.test.ts`
+ * checks each still resolves to a published post. The keys are the `link`
+ * values on the list's entries in the dictionary. `/markets/new-zealand`
+ * links two of the four from its tourism paragraph, by the same keys.
+ */
+export const nzGuidePaths = {
+  commission: `${routes.blog}/viator-getyourguide-commission-nz-tour-operators`,
+  aiSearch: `${routes.blog}/ai-search-new-zealand-tourism-operators`,
+  qualmark: `${routes.blog}/qualmark-worth-it-small-tourism-operator`,
+  checklist: `${routes.blog}/tourism-website-design-nz-tour-operators`,
+} as const;
+
+/**
+ * Destinations for the tourism paragraph on `/markets/new-zealand`: the
+ * package page and the guides, keyed as the paragraph's segments name them.
+ */
+export const nzTourismLinkPaths = {
+  nzTourism: routes.nzTourism,
+  ...nzGuidePaths,
+} as const;
+
+/**
  * The documents `/services/software-development` links from its prose.
  *
  * Same arrangement as the constants above: two blog posts are files resolved
@@ -251,6 +292,15 @@ export const contactDetails = {
   region: "IN",
   postalCode: "46250",
   country: "US",
+} as const;
+
+/**
+ * Every destination `/nz` links from its own copy: the four guides, and the
+ * contact address behind "Email us" in its closing line.
+ */
+export const nzTourismPageLinkPaths = {
+  ...nzGuidePaths,
+  email: contactDetails.emailHref,
 } as const;
 
 export const siteUrl = "https://nahltech.com";
