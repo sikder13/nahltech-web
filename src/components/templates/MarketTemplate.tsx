@@ -40,11 +40,25 @@ export type MarketSection = {
   linkedParagraph?: { before: string; anchor: string; after: string };
   items?: readonly string[];
   /**
+   * Paragraphs that follow the bullets.
+   *
+   * `paragraphs` renders above the list, so approved copy written to sit
+   * directly under a bullet needs its own field. The Canada page has one: the
+   * dated list of open programs under the funding bullet.
+   */
+  closingParagraphs?: readonly string[];
+  /**
    * The price-anchoring line, which is separately approved copy and belongs
    * immediately after whichever block quotes the figures — see the ordering
    * note on the component.
    */
   priceAnchor?: string;
+  /**
+   * A line that follows the price anchor inside the same aside: the Canada
+   * page's note on currency. It qualifies the figures the anchor comments on,
+   * so it renders only where there is an anchor to follow.
+   */
+  priceNote?: string;
   /**
    * Anchor text for a link appended to this section's last bullet.
    *
@@ -91,7 +105,8 @@ export type MarketContent = {
  * mirrored, so it is asserted instead.
  *
  * A section renders in one fixed order — paragraphs, then the linked
- * paragraph, then bullets, then the price-anchoring line — because that
+ * paragraph, then bullets, then any closing paragraphs, then the
+ * price-anchoring line and its note — because that
  * order *is* the approved copy: the
  * anchor sentence was written to land immediately after the block quoting the
  * numbers, and moving it changes what "for context" refers to.
@@ -177,6 +192,9 @@ export function MarketTemplate({
                     })}
                   </ul>
                 ) : null}
+                {section.closingParagraphs?.map((paragraph) => (
+                  <p key={paragraph.slice(0, 40)}>{paragraph}</p>
+                ))}
               </Prose>
 
               {/* The section's closing sentence, when its approved copy has
@@ -201,9 +219,12 @@ export function MarketTemplate({
                   the figures rather than continuing the argument, and reads
                   as the aside it is. */}
               {section.priceAnchor ? (
-                <p className="mt-md max-w-prose border-s-4 border-accent ps-md text-text">
-                  {section.priceAnchor}
-                </p>
+                <div className="mt-md max-w-prose border-s-4 border-accent ps-md text-text">
+                  <p>{section.priceAnchor}</p>
+                  {section.priceNote ? (
+                    <p className="mt-sm">{section.priceNote}</p>
+                  ) : null}
+                </div>
               ) : null}
             </FadeIn>
           </div>

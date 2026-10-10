@@ -38,6 +38,7 @@ export const clusters = [
   "brand",
   "archive",
   "decision",
+  "international",
 ] as const;
 export type Cluster = (typeof clusters)[number];
 

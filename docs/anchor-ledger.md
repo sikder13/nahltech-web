@@ -22,7 +22,7 @@ have not been recorded yet; that does not mean nothing links them.
 
 /blog/how-custom-manufacturers-quote-faster: "How Custom Manufacturers Quote Faster"
 
-/blog/irap-funding-for-manufacturers: "our IRAP guide for manufacturers"; "the Canadian counterpart to this guide"
+/blog/irap-funding-for-manufacturers: "IRAP funding for manufacturers"; "our IRAP guide for manufacturers"; "the Canadian counterpart to this guide"
 
 /blog/iso-13485-documentation-ai: "ISO 13485 and AI: What Can Be Automated, and What Cannot"; "the honest map of AI under a 13485 system"
 

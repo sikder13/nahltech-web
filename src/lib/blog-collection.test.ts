@@ -177,5 +177,9 @@ describe("a post's revision date", () => {
     expect(guide).toBeDefined();
     expect(guide!.updatedAt).toBeTruthy();
     expect(articleSchema(guide!)).toHaveProperty("dateModified");
+    // A refresh revises the guide; it does not republish it.
+    expect(guide!.date).toBe("2026-09-03");
+    expect(guide!.updatedAt! > guide!.date).toBe(true);
+    expect(guide!.description.length).toBeLessThanOrEqual(165);
   });
 });
