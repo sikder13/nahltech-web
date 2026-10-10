@@ -26,10 +26,13 @@ const EVV_REPORT = "unbillable-regardless-of-evv";
 /** The dated guide to the 2026 waiver changes. Real bulletins, no example client. */
 const WAIVER_GUIDE = "indiana-medicaid-waiver-changes-2026-providers";
 
+/** How Crawlmouse was built and what it runs on. Our own product, real figures. */
+const CRAWLMOUSE_BUILD = "building-crawlmouse";
+
 describe("the research collection", () => {
   const articles = getPublishedResearch();
 
-  it("publishes all eleven artifacts", () => {
+  it("publishes all twelve artifacts", () => {
     expect(articles.map((a) => a.slug).sort()).toEqual(
       [
         "crawlmouse-dataset-report",
@@ -37,6 +40,7 @@ describe("the research collection", () => {
         "how-we-measure",
         EVV_REPORT,
         WAIVER_GUIDE,
+        CRAWLMOUSE_BUILD,
         ...ENGAGEMENTS,
       ].sort(),
     );
@@ -50,6 +54,7 @@ describe("the research collection", () => {
     expect(getResearchForHub().map((a) => a.kind)).toEqual([
       "data-report",
       "data-report",
+      "report",
       "report",
       "report",
       "methodology",
@@ -70,6 +75,13 @@ describe("the research collection", () => {
     const evv = hub.indexOf(EVV_REPORT);
     expect(evv).toBeGreaterThan(0);
     expect(hub[evv + 1]).toBe(WAIVER_GUIDE);
+  });
+
+  it("places the Crawlmouse build report after the two Indiana reports", () => {
+    // It shares the guide's date and sorts ahead of it by slug, so without
+    // a place in the sequence it would sit between the pair.
+    const hub = getResearchForHub().map((a) => a.slug);
+    expect(hub[hub.indexOf(WAIVER_GUIDE) + 1]).toBe(CRAWLMOUSE_BUILD);
   });
 
   it("orders deterministically when dates tie", () => {
@@ -224,6 +236,59 @@ describe("the 2026 waiver changes guide", () => {
       "What changed for Family Supports waiver documentation on January 1, 2026?",
     ]);
     expect(faqSchema(guide)).not.toBeNull();
+  });
+});
+
+describe("the Crawlmouse build report", () => {
+  const report = getResearchBySlug(CRAWLMOUSE_BUILD)!;
+
+  it("is a published report with no disclosure banner and no Dataset node", () => {
+    expect(report.kind).toBe("report");
+    expect(report.draft).toBe(false);
+    expect(report.author).toBe("Udaay Sikder");
+    // The product and its figures are ours and real; nothing is fictional.
+    expect(report.sampleBanner).toBeUndefined();
+    // It quotes the production database but publishes no dataset of its own.
+    expect(datasetSchema(report)).toBeNull();
+  });
+
+  it("links the 187-site study by its real slug", () => {
+    expect(internalLinks(report.body)).toEqual([
+      "/pricing",
+      "/pricing",
+      "/research/crawlmouse-dataset-report",
+      "/research/gulf-smb-websites-ai-search-study",
+      "/services/software-development",
+    ]);
+  });
+
+  it("keeps its description within the 165 characters a result shows", () => {
+    expect(report.description.length).toBeLessThanOrEqual(165);
+  });
+
+  it("dates its revision from updatedAt", () => {
+    expect(report.updatedAt).toBe("2026-10-09");
+    expect(researchArticleSchema(report).dateModified).toBe(
+      "2026-10-09T00:00:00+00:00",
+    );
+  });
+
+  it("emits its four questions as FAQPage markup", () => {
+    expect(report.faq.map((entry) => entry.question)).toEqual([
+      "Is Crawlmouse a real product or a demo?",
+      "What does Crawlmouse run on?",
+      "Can you build something like this for my business?",
+      "Why does Crawlmouse read static HTML instead of rendering JavaScript?",
+    ]);
+    expect(faqSchema(report)).not.toBeNull();
+  });
+
+  it("keeps the closing dateline out of the last answer", () => {
+    // The line follows the last answer, and without the rule above it the
+    // parser read it as part of that answer and put it in the markup.
+    expect(report.body).toContain("Numbers last pulled October 9, 2026");
+    expect(report.faq.at(-1)!.answer).not.toContain("Numbers last pulled");
+    expect(report.faq.at(-1)!.answer).toMatch(/can cite you\.$/);
   });
 });
 

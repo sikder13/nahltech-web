@@ -10,7 +10,7 @@
 - [AI Search Visibility & SEO](https://nahltech.com/services/ai-search-visibility) — Get found on Google and recommended by ChatGPT, Gemini, and Perplexity.
 - [AI Automation](https://nahltech.com/services/ai-automation) — Workflows and agents that take real work off your team's plate, integrated with the systems you already run.
 - [Web Development](https://nahltech.com/services/web-development) — Fast, accessible, search-ready websites.
-- [Software Development](https://nahltech.com/services/software-development) — Custom software and AI applications, built to production standard and owned by you.
+- [Software Development](https://nahltech.com/services/software-development) — Custom software, web apps, SaaS first versions, desktop apps, and browser extensions, built by a team that runs its own live SaaS.
 - [Pricing](https://nahltech.com/pricing) — Published pricing, no maze.
 - [Crawlmouse](https://nahltech.com/products/crawlmouse) — Paste a URL, get an honest A–F grade on your internal links and what AI crawlers actually see.
 - [Hafsa Sastho](https://nahltech.com/products/hafsa-sastho) — A Bengali-language AI health companion for new mothers — vaccine schedules, growth tracking, and Hafsa Apa, an AI guide that speaks her language.

@@ -1,0 +1,101 @@
+---
+title: "Chrome Extension vs Web App: Which to Build and What Each Costs (2026)"
+description: "Chrome extension or web app? When each fits, published build prices ($7,500 to $45,000), and the 2026 Chrome Web Store rules: Manifest V3 only, August data policy."
+date: 2026-10-09
+updatedAt: 2026-10-09
+author: "Udaay Sikder"
+cluster: "decision"
+targetKeyword: "chrome extension vs web app"
+serviceLinks: ["/services/software-development", "/services/ai-automation"]
+draft: false
+---
+
+Search for "Chrome extension vs web app" and the top results are from 2011 and 2016. The question is current, the answers are not. Here is the 2026 version, with the Chrome Web Store rules now in force, what each option costs to build, and the one question that decides it.
+
+**The short answer.** Build an extension when the work happens inside pages your team already has open: a CRM, a supplier portal, a booking system, an email client. Build a web app when the product needs a home of its own: accounts, data, dashboards, things people come back to. Build both when the extension is the capture point and the web app is where the captured work lives. An extension from us is typically $7,500 to $18,000; a web app is $15,000 to $45,000; both are [published prices](/pricing). Since July 2025 every extension must be Manifest V3, and since August 1, 2026 the Web Store enforces stricter data collection and disclosure rules, which changes what an extension is allowed to do.
+
+## The core difference
+
+A web app is a website with state: users sign in, data persists, the app is the destination. A Chrome extension is a small program that runs inside the browser and can act on other websites: read a page, add a button, fill a form, capture data, call your API. The extension has no home of its own beyond a popup and an options page; the web app has nothing but a home.
+
+That difference decides cost, distribution, maintenance, and permissions.
+
+## When an extension is the right build
+
+- **The work already happens on a specific site.** Your estimators live in a parts supplier's portal. Your coordinators live in a scheduling system. Your sales team lives in LinkedIn. An extension puts your logic where they already are, with no new tab and no new login.
+- **Capture is the product.** Clip a quote, log a call, save a lead, pull a part number. Extensions are excellent at taking something from a page and sending it somewhere.
+- **You cannot change the other system.** A vendor portal with no API and no interest in your feature request is the classic extension case.
+- **Adoption has to be instant.** One click install from the Web Store or a managed deployment through Google Workspace for the whole company.
+
+## When a web app is the right build
+
+- **The product needs its own data.** Customers, orders, history, reports. An extension can call an API, but the API and the database are a web app whether you call it that or not.
+- **People outside your team use it.** Customers, suppliers, auditors. You cannot ask them to install an extension.
+- **It must work on phones.** Chrome extensions do not run on mobile Chrome.
+- **It must survive the other site changing.** An extension that reads a vendor's page breaks when the vendor redesigns. A web app does not care.
+- **It is the business.** If this is the SaaS product you intend to sell, it is a web app. [Our own product](/research/building-crawlmouse) is one.
+
+## When you build both
+
+The pattern that works for a lot of small businesses: an extension as the capture point, a web app as the system of record. The estimator clips the supplier's price into the extension; the quote is assembled, stored, and tracked in the web app. The extension stays thin, which keeps it cheap to maintain and easy to pass Web Store review. Start with the smallest workflow that proves the value and add the second half when the first is used daily.
+
+## What each costs
+
+Public price guides for extensions run from $150 on Fiverr to $80,000 from enterprise agencies, which tells you nothing. Here is what we charge, from the pricing page.
+
+- **Browser extension**: priced as an AI automation or software build depending on what it does. A capture or form filling extension that talks to one API is typically $7,500 to $18,000. An extension with its own backend, accounts, and billing is a software build at $15,000 to $45,000, because the backend is the bulk of the work.
+- **Web app**: $15,000 to $45,000 for a scoped build.
+- **Both**: usually the web app price plus $5,000 to $10,000 for the extension, if scoped together, because they share the API.
+- **Guarantee**: 75 days to live for scoped builds, or your money back.
+
+Ongoing cost for an extension is the part people miss. Chrome ships a new version roughly monthly, the site your extension reads changes without notice, and the Web Store policy changes once or twice a year. Budget for a small maintenance retainer; ours starts at $1,200 a month for care and maintenance.
+
+## The 2026 Chrome Web Store rules you must build to
+
+- **Manifest V3 only.** Chrome stopped accepting new MV2 extensions in 2022, disabled MV2 by default in March 2025, removed the enterprise override in July 2025, and removed the remaining MV2 extensions from the store on August 31, 2026. Any extension you commission today is MV3, which means service workers instead of persistent background pages and declarative network rules instead of blocking request interception. Some older "scraper" designs simply cannot be built the old way.
+- **Data policy enforcement from August 1, 2026.** The July 2026 policy update tightened Limited Use (data collection must be strictly necessary to the single disclosed purpose), requires prominent disclosure of all data collection with notice when it changes after install, and bans extensions that bypass AI service guardrails. An extension that quietly reads every page is no longer reviewable.
+- **Review time.** Google's own guidance: most extensions are reviewed within a few days, some take up to a few weeks, and new developers, broad host permissions, and significant code changes take longer. Plan the launch date around it.
+- **Developer account**: a one time $5 registration fee, two step verification required, up to 20 extensions per account. From February 2026 you can publish privately to specific organizations, and from April 2026 there is an in dashboard appeals process.
+
+Permissions are a product decision, not a technical one. Every host permission you request is a line in the install prompt and a question from the reviewer. Scope the extension to the one or two sites it actually needs.
+
+## A decision checklist
+
+1. Where does the work happen today: on someone else's site, or nowhere yet? Someone else's site points to an extension.
+2. Who uses it: your team, or people outside it? Outside points to a web app.
+3. Does it need its own data that outlives the browser session? Yes points to a web app, or both.
+4. Does it need to work on a phone? Yes rules out extension only.
+5. Can you tolerate the other site breaking your tool once or twice a year? No points away from a pure extension.
+
+If you want the numbers behind the web app side, read [what a web app costs to build in 2026](/blog/custom-software-development-cost-2026). If you are not sure you should build at all, read our take on [whether to build or buy at all](/blog/build-vs-buy-software-small-business). Either way, the first step with us is a free 30 minute scan, and the price is fixed inside the published range before work starts.
+
+## Frequently asked questions
+
+### Is a Chrome extension cheaper to build than a web app?
+
+A thin extension that talks to one existing API is cheaper, typically $7,500 to $18,000 from us against $15,000 to $45,000 for a web app. An extension that needs its own backend costs about the same as a web app, because the backend is most of the work.
+
+### Do Chrome extensions still work in 2026?
+
+Yes, if they are Manifest V3. Manifest V2 extensions were removed from the Chrome Web Store on August 31, 2026. All new extensions must be MV3.
+
+### How long does Chrome Web Store review take?
+
+Google says most reviews complete within a few days but can take up to a few weeks, longer for new developers, broad permissions, or large code changes. Contact support if a review passes three weeks.
+
+### Can a Chrome extension work on mobile?
+
+No. Chrome on Android and iOS does not run extensions. If phone access matters, you need a web app.
+
+### What is the Chrome Web Store developer fee?
+
+A one time $5 registration fee per developer account, with two step verification required.
+
+## Sources
+
+- Chrome for Developers, Manifest V2 support timeline.
+- Chrome for Developers, Chrome Web Store review process.
+- Chrome for Developers blog, Chrome Web Store policy updates 2026, July 1, 2026 (enforcement August 1, 2026).
+- Chrome for Developers, What's new in extensions (publisher accounts, private publishing, appeals), 2026.
+- Chrome for Developers, Register as a Chrome Web Store developer.
+- Nahl Technologies pricing page, checked October 9, 2026.

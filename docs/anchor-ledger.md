@@ -20,6 +20,12 @@ have not been recorded yet; that does not mean nothing links them.
 
 /blog/ai-opportunity-audit-worked-example: "how a full audit runs, number by number"; "our worked audit example"; "our worked example of an AI opportunity audit"; "published audit walkthrough"; "the counting stage is published in full"; "the worked example of a full audit"; "We opened one up, numbers included"; "worked example of an AI opportunity audit"
 
+/blog/build-vs-buy-software-small-business: "custom software vs off the shelf for a small business"; "its own write up"; "whether to build or buy at all"
+
+/blog/chrome-extension-vs-web-app-cost: "Chrome extension vs web app"; "when an extension beats a web app"
+
+/blog/custom-software-development-cost-2026: "custom software development cost in 2026"; "our 2026 software cost breakdown"; "what a web app costs to build in 2026"
+
 /blog/how-custom-manufacturers-quote-faster: "How Custom Manufacturers Quote Faster"
 
 /blog/irap-funding-for-manufacturers: "IRAP funding for manufacturers"; "our IRAP guide for manufacturers"; "the Canadian counterpart to this guide"
@@ -30,7 +36,13 @@ have not been recorded yet; that does not mean nothing links them.
 
 /manufacturing: "AI and automation for manufacturers"; "AI for manufacturers"; "manufacturers"
 
-/pricing: "$2,500, fully credited"; "Book the scan or read the full price list"; "Details on the pricing page"; "free 30-minute scan"; "from $1,200/month"; "openly"; "our pricing page"; "pricing page"; "pricing published here"; "see what the scan and the audit cost"; "The full breakdown is on our pricing page"; "web development from $6,000"
+/pricing: "$2,500, fully credited"; "AI Opportunity Audit is $2,500, credited in full toward the build"; "Book the scan or read the full price list"; "Details on the pricing page"; "free 30-minute scan"; "from $1,200/month"; "openly"; "our pricing page"; "pricing page"; "pricing published here"; "published"; "published prices"; "published software range of $15,000 to $45,000"; "see what the scan and the audit cost"; "The full breakdown is on our pricing page"; "web development from $6,000"
+
+/research/building-crawlmouse: "Our own product"; "our own product, Crawlmouse"; "Read how it was built and what it runs on"
+
+/research/crawlmouse-dataset-report: "We audited 187 small business websites"
+
+/research/gulf-smb-websites-ai-search-study: "Readable but unreachable: 44 Gulf small business websites"
 
 /research/how-we-measure: "here"; "how we measure"; "how we run every engagement"; "measurement methodology"; "our published method"; "published in full"; "The method behind every number above"
 
@@ -42,9 +54,11 @@ have not been recorded yet; that does not mean nothing links them.
 
 /research/unbillable-regardless-of-evv: "where waiver providers lose documented services even when EVV passes"
 
-/services/ai-automation: "a fixed-price automation project"; "AI automation"; "AI automation for business workflows"; "AI automation work we do"; "builds we deliver at fixed price"; "the automation we design"; "the build that follows"; "We design every regulated workflow"; "workflow automation"
+/services/ai-automation: "a fixed-price automation project"; "AI automation"; "AI automation builds"; "AI automation for business workflows"; "AI automation work we do"; "builds we deliver at fixed price"; "the automation we design"; "the build that follows"; "We design every regulated workflow"; "workflow automation"
 
 /services/ai-consultancy: "a measured baseline for your application"; "a measured quoting audit"; "AI consulting and implementation"; "AI opportunity audit"; "AI Opportunity Audit"; "how we scope"; "the audit that produces that documentation"; "what building this well actually demands"
+
+/services/software-development: "Custom software development"
 
 ## Prospect page tokens
 

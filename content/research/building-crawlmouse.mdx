@@ -1,0 +1,105 @@
+---
+title: "Building Crawlmouse: A Live SaaS Product, Its Stack, and Its Numbers"
+description: "How a two person firm built and runs Crawlmouse, a live auditing SaaS on Next.js, Supabase, and Vercel: 145 audits, 20,573 pages crawled, 1.3 million links mapped."
+date: 2026-10-09
+updatedAt: 2026-10-09
+author: "Udaay Sikder"
+kind: "report"
+targetKeyword: "saas mvp development case study"
+draft: false
+---
+
+# Building Crawlmouse: a live SaaS product, the stack, the numbers, and what it cost to ship
+
+**Short answer.** Crawlmouse is a website auditing product we built and operate ourselves. It crawls a site, maps every internal link, grades the structure, and reports what AI crawlers can and cannot reach. Since its public launch on June 15, 2026 it has run 145 audits across 122 distinct sites, crawled 20,573 pages, mapped 1,318,736 links, logged 10,723 findings, and published 92 public reports. It runs on Next.js 15, Supabase, Inngest, Stripe, and Vercel, and it was built by the same two people who will build your software. This page exists because "we build SaaS" is a claim and a live product with a database you can query is proof. Numbers pulled October 9, 2026.
+
+## Why we built it
+
+Every website engagement we quoted in 2025 started with the same forty minutes: crawl the prospect's site, work out which pages were orphaned, which were buried, which anchors were stuffed, and whether a plain crawler (the kind behind ChatGPT, Claude, and Perplexity) could see what a browser could. We were doing it by hand with a desktop crawler and a spreadsheet. The product is that forty minutes, automated, with a grade a business owner can read and a findings list a developer can act on.
+
+It also gave us something no agency portfolio provides: a product in production, with users we do not know, breaking in ways we did not predict, and a database that tells the truth about whether it works.
+
+## What it does
+
+A visitor pastes a URL. Crawlmouse fetches the site's pages the way a non rendering crawler does, reading the static HTML the server returns rather than running JavaScript. It builds the internal link graph, computes a structure score and an A to F grade, and lists the problems behind the grade: orphan pages, pages too deep to reach in a few clicks, anchors over optimized for one phrase, pages only reachable after JavaScript runs. A second module scores AI readiness: whether an llms.txt exists, which AI user agents the robots file allows or blocks, and how much of the site a plain crawler can actually read.
+
+The result is a report the owner can keep private or claim and publish. A report becomes public and indexable only after the domain owner claims it, which is a deliberate consent gate and the reason there are 92 public reports from 123 completed audits.
+
+## The numbers, from the production database
+
+| Measure | Value (October 9, 2026) |
+|---|---|
+| Audits started since June 15, 2026 | 145 |
+| Audits completed | 123 |
+| Distinct sites audited | 122 |
+| Pages crawled | 20,573 |
+| Internal links mapped | 1,318,736 |
+| Findings logged | 10,723 |
+| Public reports (owner claimed) | 92 |
+| Sites detected as WordPress | 45 |
+| Sites on custom or framework builds | 67 |
+| Sites on Shopify, Squarespace, Webflow, Wix | 11 |
+
+What the findings say about small business websites: over optimized anchor text is the most common problem (4,949 findings), followed by orphan pages (2,992) and pages buried too deep (2,279). Only 11 findings were pages visible only after JavaScript, which is lower than most AI readiness commentary implies, and 421 pages were unreachable outright. The grade distribution clusters at B and B minus (46 of 102 graded audits), with 12 sites at D or below and 6 at A minus. Nobody has scored an A.
+
+We have published two studies from this corpus: the 187 site small business audit (CC BY 4.0) and the Gulf small business study of 44 regional sites. Both are linked at the end.
+
+## The stack, and why
+
+- **Next.js 15 in a pnpm monorepo**: one repository with the web app (`apps/web`) and the crawl engine (`packages/engine`) as separate packages, so the engine can be tested and versioned without touching the UI.
+- **Supabase** (Postgres, Auth, Row Level Security): audits, pages, findings, and public reports are relational data with an owner, and RLS enforces that a user sees only their own audits. The AI readiness result is a JSONB column on the audit row so the schema can evolve without migrations for every new check.
+- **Inngest** for background jobs: a crawl can take minutes and must survive a browser tab closing, so each audit is a durable, retryable job with progress written back to the row.
+- **Stripe** for billing.
+- **Vercel** for hosting, previews on every pull request, and edge delivery.
+- **IndexNow, llms.txt, and explicit AI crawler allows** on the product's own site, because a tool that grades AI readiness should pass its own test.
+
+None of this is exotic. That is the point. A small business SaaS does not need a novel architecture; it needs a boring, well tested one that two people can operate.
+
+## What it cost, and what that tells you about your project
+
+We built Crawlmouse at our own expense, so there is no invoice to show. What we can show is the shape of the work, because it is the same shape as a client build in our [published software range of $15,000 to $45,000](/pricing):
+
+- A scoped first version with one job done well (crawl, graph, grade) rather than a feature list.
+- A data model designed before the UI, so later features (AI readiness, public reports, claim flow) were columns and jobs, not rewrites.
+- Production from week one: real users, real failures, logged and fixed. The product has shipped a canonical tag fix, a per page metadata pass, and an AI first results view since launch, each as a small clean release.
+- Monthly running cost close to zero at this scale, because the stack runs on the free and entry tiers of the services above and there is no paid marketing; growth has come from organic search. A client product with similar traffic should expect the same before it has paying users.
+
+The 75 day delivery guarantee on our scoped builds comes from this experience. A first version that cannot ship in 75 days is scoped wrong.
+
+## What we would do differently
+
+Two things. We would have built the public report claim flow earlier, because unclaimed reports are value sitting in a table where nobody sees it. And we would have put the crawler politeness controls (honoring a robots rule aimed at our own bot) in the first release instead of the backlog; a tool that audits other people's sites should be the best behaved visitor they get, and that fix is next on the list.
+
+## What this means for a business considering custom software
+
+If you are deciding whether to commission a web app, a SaaS product, or an internal tool, the honest lessons from running one are these. Scope the first version to one job. Design the data before the screens. Ship to production early and read the logs. Expect the second and third releases to matter more than the first. And ask any firm you are considering to show you something it runs in production, not just something it delivered.
+
+We start every build conversation with a free 30 minute scan. If the project is real, the [AI Opportunity Audit is $2,500, credited in full toward the build](/pricing), and the build itself is priced inside the published range before work begins.
+
+## Related reading
+
+- [We audited 187 small business websites](/research/crawlmouse-dataset-report)
+- [Readable but unreachable: 44 Gulf small business websites](/research/gulf-smb-websites-ai-search-study)
+- [Custom software development](/services/software-development)
+
+## Frequently asked questions
+
+### Is Crawlmouse a real product or a demo?
+
+A real product with its own domain, billing, users we do not know, and a production database. The figures on this page are queried from that database on the date shown.
+
+### What does Crawlmouse run on?
+
+Next.js 15 in a pnpm monorepo, Supabase for Postgres and auth with row level security, Inngest for durable background crawl jobs, Stripe for billing, and Vercel for hosting.
+
+### Can you build something like this for my business?
+
+Yes. Scoped software builds are priced at $15,000 to $45,000, published on our pricing page, with a 75 day delivery guarantee on scoped builds. The first step is a free 30 minute scan.
+
+### Why does Crawlmouse read static HTML instead of rendering JavaScript?
+
+Because that is what a non rendering AI crawler sees. A browser based audit shows you the site your visitors see; Crawlmouse shows you the site a plain crawler sees, which is the one that decides whether an AI assistant can cite you.
+
+---
+
+Numbers last pulled October 9, 2026 from the Crawlmouse production database. They go up.

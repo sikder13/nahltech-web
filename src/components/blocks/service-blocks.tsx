@@ -1,6 +1,9 @@
+import Link from "next/link";
+
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { FadeIn } from "@/components/ui/FadeIn";
 import { Icon } from "@/components/ui/Icon";
+import { Prose } from "@/components/ui/Prose";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
 import type { CtaAction } from "./CtaBlock";
@@ -161,6 +164,71 @@ export function MeasurementBlock({
           </p>
         </div>
       </FadeIn>
+    </section>
+  );
+}
+
+/**
+ * One run of a paragraph: plain text, or text that is a link.
+ *
+ * Approved copy with links mid-sentence is stored as the sentence cut at each
+ * anchor, so the segments rejoin to the approved paragraph character for
+ * character. `link` is a key, not an href: the destination comes from the
+ * route registry through `hrefs`, so an anchor cannot outlive its target.
+ */
+export type TextSegment = { text: string; link?: string };
+
+/**
+ * A titled band of prose on a service page: a paragraph, a list, or both.
+ *
+ * For sections a page's approved copy adds beyond the shared anatomy. A
+ * segment whose key has no destination renders as plain text, the same rule
+ * the market pages follow: the words stay, an anchor with nowhere to go does
+ * not.
+ */
+export function ServiceProseSection({
+  heading,
+  body,
+  items,
+  hrefs = {},
+  tinted = false,
+}: {
+  heading: string;
+  body?: readonly TextSegment[];
+  items?: readonly string[];
+  hrefs?: Readonly<Record<string, string>>;
+  tinted?: boolean;
+}) {
+  return (
+    <section className={tinted ? "bg-surface" : undefined}>
+      <div className={shell}>
+        <FadeIn>
+          <SectionHeading>{heading}</SectionHeading>
+          <Prose className="mt-md">
+            {body ? (
+              <p>
+                {body.map((segment) => {
+                  const href = segment.link ? hrefs[segment.link] : undefined;
+                  return href ? (
+                    <Link key={segment.text} href={href}>
+                      {segment.text}
+                    </Link>
+                  ) : (
+                    segment.text
+                  );
+                })}
+              </p>
+            ) : null}
+            {items ? (
+              <ul>
+                {items.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            ) : null}
+          </Prose>
+        </FadeIn>
+      </div>
     </section>
   );
 }

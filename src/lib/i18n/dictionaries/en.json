@@ -148,8 +148,8 @@
     },
     "softwareDevelopment": {
       "title": "Software Development",
-      "metaTitle": "Custom Software & AI Application Development | Nahl Technologies",
-      "description": "Custom software and AI applications, built to production standard and owned by you. Quoted after an audit."
+      "metaTitle": "Custom Software Development, Priced and Published | Nahl Technologies",
+      "description": "Custom software, web apps, SaaS first versions, desktop apps, and browser extensions, built by a team that runs its own live SaaS. From $15,000, prices published."
     },
     "aiConsultingIndianapolis": {
       "title": "AI Consulting in Indianapolis",
@@ -586,7 +586,62 @@
       "headline": "You're reading our portfolio right now."
     },
     "softwareDevelopment": {
-      "problem": "We design and build custom software and AI applications to production standard — specced against your workflow, integrated with your stack, and owned by you when it ships. No per-seat ransom, no black boxes.",
+      "problem": "We build web apps, SaaS first versions, internal tools, desktop apps, and browser extensions, and we run a live SaaS product of our own, so you can check our work in production rather than in a portfolio. Scoped builds are $15,000 to $45,000, published before we talk, with a 75 day delivery guarantee. Based in Indianapolis and serving businesses across North America, the Gulf region, Central Asia, and New Zealand, we work in English and Bengali.",
+      "proof": {
+        "heading": "Proof you can check",
+        "body": [
+          {
+            "text": "Crawlmouse is a website auditing SaaS we built and operate. Since June 2026 it has run 145 audits, crawled 20,573 pages, and mapped 1.3 million links, on Next.js, Supabase, Inngest, Stripe, and Vercel. "
+          },
+          {
+            "text": "Read how it was built and what it runs on",
+            "link": "crawlmouseBuild"
+          },
+          {
+            "text": ". Hafsa Sastho is a Bengali language AI health companion we built for mothers in Bangladesh, now in beta, with the Android release on Google Play planned for the first week of November 2026."
+          }
+        ]
+      },
+      "builds": {
+        "heading": "What we build",
+        "items": [
+          "Web apps and customer portals: accounts, documents, booking, billing, dashboards.",
+          "SaaS first versions: multi tenant accounts, billing, background jobs, the admin tools to support early customers.",
+          "Internal tools: quoting, intake, scheduling, reconciliation, the spreadsheet that became a business process.",
+          "Desktop apps: when the work is offline, on a shop floor, or needs the file system.",
+          "Browser extensions: Manifest V3, built to the August 2026 Chrome Web Store policy, usually as the capture point for a web app.",
+          "Multilingual and regional builds: PDPL, PIPEDA, and HIPAA requirements scoped in from day one, not retrofitted."
+        ]
+      },
+      "cost": {
+        "heading": "What it costs",
+        "body": [
+          {
+            "text": "Software development runs $15,000 to $45,000 for a scoped build; AI automation builds from $7,500; web development from $6,000. Every figure is on the "
+          },
+          {
+            "text": "pricing page",
+            "link": "pricing"
+          },
+          {
+            "text": " and we do not quote above it. Scoped builds go live in 75 days or your money back. The first step is a free 30 minute scan; if the project is real, the $2,500 AI Opportunity Audit is credited in full toward the build within 90 days. The survey data behind these numbers is in "
+          },
+          {
+            "text": "our 2026 software cost breakdown",
+            "link": "softwareCost"
+          },
+          {
+            "text": ", and the build or buy question has "
+          },
+          {
+            "text": "its own write up",
+            "link": "buildVsBuy"
+          },
+          {
+            "text": "."
+          }
+        ]
+      },
       "demo": {
         "kind": "prose",
         "heading": "Built to production standard, sized to your operation.",
@@ -639,6 +694,22 @@
         {
           "question": "What does \"typically $15,000–$45,000\" cover?",
           "answer": "A focused operational system — a scheduler, portal, or monitoring module. Multi-system programs are phased so each stage pays for itself."
+        },
+        {
+          "question": "How much does custom software development cost?",
+          "answer": "Scoped builds are $15,000 to $45,000, published on our pricing page. AI automation builds start at $7,500 and web development at $6,000. The price is fixed inside that range before work starts."
+        },
+        {
+          "question": "Have you built and shipped a SaaS product?",
+          "answer": "Yes. Crawlmouse is a live website auditing SaaS we built and run, with 145 audits and 20,573 pages crawled since June 2026. The build write up is on our research page."
+        },
+        {
+          "question": "Do you build Chrome extensions?",
+          "answer": "Yes, Manifest V3 extensions built to the current Chrome Web Store policy, typically $7,500 to $18,000 for a capture or form filling extension that talks to one API, and priced as a software build when it needs its own backend."
+        },
+        {
+          "question": "Can you build for businesses outside the United States?",
+          "answer": "Yes. We work remotely, serving businesses across North America, the Gulf region, Central Asia, and New Zealand. We scope regional data rules such as PDPL and PIPEDA into the requirements and invoice in US dollars."
         }
       ],
       "headline": "Off-the-shelf stopped fitting."

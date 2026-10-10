@@ -380,6 +380,31 @@ export type Dictionary = typeof enDictionary;
  * with one space. The rest of the paragraph is character for character what
  * shipped on 13 September.
  *
+ * ── Founder-supplied, verbatim, 9 October 2026 (Canada funding refresh) ────
+ *
+ *   markets.canada.sections[].closingParagraphs
+ *   markets.canada.sections[].priceNote
+ *
+ * The dated list of open programs under the funding bullet, and the currency
+ * note after the price anchor. Inserted without rewording.
+ *
+ * ── Founder-supplied, verbatim, 9 October 2026 (software page rewrite) ─────
+ *
+ *   pages.softwareDevelopment.metaTitle, .description
+ *   servicePages.softwareDevelopment.problem, .proof, .builds, .cost
+ *   servicePages.softwareDevelopment.faq[3..6]
+ *
+ * The intro replaces the earlier one; the three sections and the four
+ * questions are additions. Nothing else on the page was reworded. The two
+ * paragraphs that carry links are stored cut at each anchor and rejoin to the
+ * approved text; `software-development.test.ts` asserts the joined text.
+ *
+ * The meta description, the intro's last sentence, the cost section's last
+ * sentence and the last answer were each replaced once before shipping, with
+ * wording the founder supplied: the description to fit the 165 guard, the
+ * two territory sentences to carry the frozen identity phrase exactly, and
+ * the cost sentence so its two anchors are not ones a post already uses.
+ *
  * ── Not yet written ───────────────────────────────────────────────────────
  *
  * 0 `[PLACEHOLDER: …]` strings remain. Every string in en.json is approved
