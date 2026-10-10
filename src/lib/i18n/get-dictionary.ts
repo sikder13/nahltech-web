@@ -380,6 +380,34 @@ export type Dictionary = typeof enDictionary;
  * with one space. The rest of the paragraph is character for character what
  * shipped on 13 September.
  *
+ * ── Founder-supplied, verbatim, 9 October 2026 (Canada funding refresh) ────
+ *
+ *   markets.canada.sections[].closingParagraphs
+ *   markets.canada.sections[].priceNote
+ *
+ * The dated list of open programs under the funding bullet, and the currency
+ * note after the price anchor. Inserted without rewording.
+ *
+ * ── Founder-supplied, verbatim, 9 October 2026 (software page rewrite) ─────
+ *
+ *   pages.softwareDevelopment.metaTitle, .description
+ *   servicePages.softwareDevelopment.problem, .proof, .builds, .cost
+ *   servicePages.softwareDevelopment.faq[3..6]
+ *
+ * The intro replaces the earlier one; the three sections and the four
+ * questions are additions. Nothing else on the page was reworded. The two
+ * paragraphs that carry links are stored cut at each anchor and rejoin to the
+ * approved text; `software-development.test.ts` asserts the joined text.
+ *
+ * The relay labels the meta description 147 characters; it measures 166, one
+ * over the 165 guard the other pages hold. It ships as approved and is
+ * reported rather than trimmed.
+ *
+ * The last new answer lists "Canada, the Gulf region, Central Asia, and New
+ * Zealand" because its question is about work outside the United States. It
+ * is the one footprint sentence `copy-provenance.test.ts` lets through by
+ * name.
+ *
  * ── Not yet written ───────────────────────────────────────────────────────
  *
  * 0 `[PLACEHOLDER: …]` strings remain. Every string in en.json is approved

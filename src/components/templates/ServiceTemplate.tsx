@@ -40,6 +40,7 @@ export function ServiceTemplate({
   demo,
   serviceKey,
   aside,
+  afterProblem,
 }: {
   t: Dictionary;
   content: ServiceContent;
@@ -51,6 +52,13 @@ export function ServiceTemplate({
    * exactly as they did.
    */
   aside?: ReactNode;
+  /**
+   * Optional sections between the problem statement and the demonstration.
+   * Only `/services/software-development` passes any: the three bands its
+   * approved copy adds. The other four service pages render exactly as
+   * they did.
+   */
+  afterProblem?: ReactNode;
   /**
    * Which service this page is. Only used to classify a lead submitted from
    * the form at the foot of the page — passed explicitly rather than inferred
@@ -66,6 +74,8 @@ export function ServiceTemplate({
         heading={t.service.problemHeading}
         body={content.problem}
       />
+
+      {afterProblem}
 
       {demo}
 
