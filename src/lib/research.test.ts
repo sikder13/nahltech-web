@@ -23,16 +23,20 @@ const ENGAGEMENTS = [
 /** The waiver-billing report: real rules, one fictional composite example. */
 const EVV_REPORT = "unbillable-regardless-of-evv";
 
+/** The dated guide to the 2026 waiver changes. Real bulletins, no example client. */
+const WAIVER_GUIDE = "indiana-medicaid-waiver-changes-2026-providers";
+
 describe("the research collection", () => {
   const articles = getPublishedResearch();
 
-  it("publishes all ten artifacts", () => {
+  it("publishes all eleven artifacts", () => {
     expect(articles.map((a) => a.slug).sort()).toEqual(
       [
         "crawlmouse-dataset-report",
         "gulf-smb-websites-ai-search-study",
         "how-we-measure",
         EVV_REPORT,
+        WAIVER_GUIDE,
         ...ENGAGEMENTS,
       ].sort(),
     );
@@ -47,6 +51,7 @@ describe("the research collection", () => {
       "data-report",
       "data-report",
       "report",
+      "report",
       "methodology",
       "sample-engagement",
       "sample-engagement",
@@ -55,6 +60,16 @@ describe("the research collection", () => {
       "sample-engagement",
       "sample-engagement",
     ]);
+  });
+
+  it("keeps the two Indiana waiver reports together, the EVV report first", () => {
+    // The guide is the newer of the two, so recency alone would lead with it.
+    // It is the calendar behind the EVV report's argument and links to it, so
+    // the report is met first and the guide directly after.
+    const hub = getResearchForHub().map((a) => a.slug);
+    const evv = hub.indexOf(EVV_REPORT);
+    expect(evv).toBeGreaterThan(0);
+    expect(hub[evv + 1]).toBe(WAIVER_GUIDE);
   });
 
   it("orders deterministically when dates tie", () => {
@@ -164,6 +179,51 @@ describe("the waiver-billing report", () => {
       "Where does a provider start?",
     ]);
     expect(faqSchema(report)).not.toBeNull();
+  });
+});
+
+describe("the 2026 waiver changes guide", () => {
+  const guide = getResearchBySlug(WAIVER_GUIDE)!;
+
+  it("is a published report by a known author, with no disclosure banner", () => {
+    expect(guide.kind).toBe("report");
+    expect(guide.draft).toBe(false);
+    expect(guide.author).toBe("Udaay Sikder");
+    expect(guide.targetKeyword).toBe("indiana medicaid waiver changes 2026");
+    // It describes no client, real or invented, so there is nothing to disclose.
+    expect(guide.sampleBanner).toBeUndefined();
+  });
+
+  it("links to the EVV report and /pricing, and nowhere else on the site", () => {
+    // Loading it at all means the validator accepted both links; this pins
+    // that they are the only two.
+    expect(internalLinks(guide.body)).toEqual([
+      `/research/${EVV_REPORT}`,
+      "/pricing",
+    ]);
+  });
+
+  it("keeps its description within the 165 characters a result shows", () => {
+    expect(guide.description.length).toBeLessThanOrEqual(165);
+  });
+
+  it("dates its publication and its revision", () => {
+    expect(guide.date).toBe("2026-10-09");
+    expect(guide.updatedAt).toBe("2026-10-09");
+    expect(researchArticleSchema(guide).dateModified).toBe(
+      "2026-10-09T00:00:00+00:00",
+    );
+  });
+
+  it("emits its five questions as FAQPage markup", () => {
+    expect(guide.faq.map((entry) => entry.question)).toEqual([
+      "Was the Indiana live in caregiver rate reduction (BT202673) implemented?",
+      "What documents must Indiana waiver providers give members under HEA 1277?",
+      "What did the FSSA attendant care audit find?",
+      "Does the August 2026 moratorium affect providers already enrolled?",
+      "What changed for Family Supports waiver documentation on January 1, 2026?",
+    ]);
+    expect(faqSchema(guide)).not.toBeNull();
   });
 });
 
