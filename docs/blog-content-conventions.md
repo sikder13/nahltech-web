@@ -32,6 +32,7 @@ failure names the file and the field.
 | --- | --- | --- |
 | `field-notes` | Research and practice writing, an SEO play | Enforced |
 | `decision` | Buyer-intent pieces answering a purchase question | Enforced |
+| `international` | Guides written for a market outside the US | Enforced |
 | `brand` | The company's own story | Waived |
 | `archive` | Heritage content migrated as-is | Waived |
 
@@ -41,7 +42,7 @@ in an essay that does not want them, not that we tolerate broken ones.
 
 ## Link gates
 
-Enforced at build time for `field-notes` and `decision`:
+Enforced at build time for `field-notes`, `decision` and `international`:
 
 1. **At least one offer link** — to `/services/*`, `/products/*` or
    `/pricing`.

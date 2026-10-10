@@ -1142,7 +1142,8 @@
           "paragraphs": [
             "Canada does not lack AI strategy — it lacks applied AI implementers: the people who wire AI into quoting, intake, scheduling, and reporting inside real businesses. That gap is what we do. Every engagement starts with a free 30-minute opportunity scan, a full audit is $2,500 fully credited toward your first project, and scoped builds go live in 75 days or your money back. Our prices are published; you can read them before you ever talk to us."
           ],
-          "priceAnchor": "For context: our full audit costs less than most Canadian agencies charge for the discovery phase alone."
+          "priceAnchor": "For context: our full audit costs less than most Canadian agencies charge for the discovery phase alone.",
+          "priceNote": "Prices are in US dollars. At current rates a $2,500 audit is about CA$3,400 and a $15,000 build is about CA$20,500; we invoice in USD and the conversion is yours to check on the day."
         },
         {
           "heading": "Where our Canadian work concentrates",
@@ -1158,6 +1159,9 @@
             "Time zones: Indianapolis runs on Eastern Time — the same working day as Toronto, Ottawa, and Montréal, one hour off Winnipeg, and a workable overlap with Calgary and Vancouver mornings.",
             "Payment and contracting: we contract as a US Delaware corporation and invoice in USD; most Canadian clients pay by wire or card exactly as they would any US software vendor.",
             "The funding question: the federal CDAP grant most articles still recommend is closed to new applicants. What remains is a changing mix of regional and provincial programs — we track what is actually open, and our audit reports note where a program could offset project costs."
+          ],
+          "closingParagraphs": [
+            "Funding changes monthly. As of October 2026 the open doors are NRC IRAP, BDC LIFT for businesses over $1 million in revenue, Mitacs AI Advantage placements, and the Regional AI Initiative in the Prairies and Quebec. Our guide to AI funding for Canadian small businesses is re verified every month and dates every claim."
           ],
           "trailingLinkAnchor": "Canada AI funding guide"
         }

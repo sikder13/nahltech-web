@@ -91,3 +91,32 @@ describe("MarketTemplate — the Canada concentration passage", () => {
     ).toBeNull();
   });
 });
+
+describe("MarketTemplate — the Canada currency note and open-programs paragraph", () => {
+  it("renders the currency note directly after the price anchor line", () => {
+    renderCanada();
+
+    const anchor = screen.getByText(/^For context: our full audit costs less/);
+    const note = screen.getByText(/^Prices are in US dollars\./);
+
+    expect(anchor.nextElementSibling).toBe(note);
+    expect(note.textContent).toBe(
+      "Prices are in US dollars. At current rates a $2,500 audit is about CA$3,400 and a $15,000 build is about CA$20,500; we invoice in USD and the conversion is yours to check on the day.",
+    );
+  });
+
+  it("renders the open-programs paragraph directly under the funding bullet's list", () => {
+    renderCanada();
+
+    const paragraph = screen.getByText(/^Funding changes monthly\./);
+    const list = paragraph.previousElementSibling;
+
+    expect(list?.tagName).toBe("UL");
+    expect(list?.lastElementChild?.textContent).toContain(
+      "The funding question",
+    );
+    expect(paragraph.textContent).toBe(
+      "Funding changes monthly. As of October 2026 the open doors are NRC IRAP, BDC LIFT for businesses over $1 million in revenue, Mitacs AI Advantage placements, and the Regional AI Initiative in the Prairies and Quebec. Our guide to AI funding for Canadian small businesses is re verified every month and dates every claim.",
+    );
+  });
+});

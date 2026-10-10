@@ -68,9 +68,14 @@ const publishedFigures = new Set(
  * `$200,000` is what the Canada page's concentration passage says a
  * specialist hire costs a client — the thing we are the alternative to,
  * not something we charge.
+ *
+ * `$3,400` and `$20,500` are the Canadian-dollar equivalents in the page's
+ * currency note ("CA$3,400", "CA$20,500"): conversions of two published US
+ * figures, stated as approximate, not prices of their own. `$1` is the
+ * "$1 million in revenue" threshold BDC sets for LIFT.
  */
 const notPrices: Partial<Record<(typeof marketRouteKeys)[number], string[]>> = {
-  marketCanada: ["$200,000"],
+  marketCanada: ["$200,000", "$3,400", "$20,500", "$1"],
 };
 
 describe("market pages quote only published prices", () => {
@@ -339,6 +344,37 @@ describe("the Canada concentration passage", () => {
       (section) => "trailingLinkAnchor" in section,
     ) as { trailingLinkAnchor: string } | undefined;
     expect(anchor).not.toBe(other!.trailingLinkAnchor);
+  });
+});
+
+describe("the Canada currency note and the open-programs paragraph", () => {
+  const sections = t.markets.canada.sections;
+
+  it("puts the currency note on the section that carries the price anchor", () => {
+    const section = sections.find((item) => "priceNote" in item) as
+      { priceAnchor?: string; priceNote: string } | undefined;
+
+    expect(section).toBeDefined();
+    // The template renders the note directly after the anchor line, so it
+    // has to live where the anchor does.
+    expect(section!.priceAnchor).toMatch(/^For context:/);
+    expect(section!.priceNote).toBe(
+      "Prices are in US dollars. At current rates a $2,500 audit is about CA$3,400 and a $15,000 build is about CA$20,500; we invoice in USD and the conversion is yours to check on the day.",
+    );
+  });
+
+  it("puts the open-programs paragraph directly under the funding bullet", () => {
+    const section = sections.find((item) => "closingParagraphs" in item) as
+      | { items: readonly string[]; closingParagraphs: readonly string[] }
+      | undefined;
+
+    expect(section).toBeDefined();
+    // Closing paragraphs render straight after the list, and the funding
+    // bullet is the list's last item.
+    expect(section!.items.at(-1)).toContain("The funding question");
+    expect(section!.closingParagraphs).toEqual([
+      "Funding changes monthly. As of October 2026 the open doors are NRC IRAP, BDC LIFT for businesses over $1 million in revenue, Mitacs AI Advantage placements, and the Regional AI Initiative in the Prairies and Quebec. Our guide to AI funding for Canadian small businesses is re verified every month and dates every claim.",
+    ]);
   });
 });
 
