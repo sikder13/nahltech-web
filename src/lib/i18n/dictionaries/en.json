@@ -1269,7 +1269,26 @@
           "trailingSentence": {
             "lead": "We also publish original research on the region: see our",
             "anchor": "study of 44 Gulf small-business websites"
-          }
+          },
+          "linkedClosing": [
+            {
+              "text": "Two things decide a Saudi project's budget in 2026 that have nothing to do with us: the ZATCA e invoicing wave your business falls into, and the PDPL rules that apply to the data your site collects. We wrote both up for small businesses: "
+            },
+            {
+              "text": "funding and support for digital and AI projects in Saudi Arabia",
+              "link": "saudiFunding"
+            },
+            {
+              "text": " and "
+            },
+            {
+              "text": "PDPL compliance for a small business website",
+              "link": "pdpl"
+            },
+            {
+              "text": "."
+            }
+          ]
         },
         {
           "heading": "How a US firm works with you honestly",
@@ -1278,7 +1297,8 @@
             "Plain pricing in the open: a free 30-minute AI opportunity scan; a $2,500 audit fully credited toward your first project; scoped builds from $6,000 with delivery in 75 days or your money back. All published.",
             "What we do not pretend: we have no Gulf office and will not claim one. For engagements that require an on-the-ground presence or Arabic-language delivery, we will say so in the first call rather than after a contract."
           ],
-          "priceAnchor": "For context: our full audit typically costs a fraction of a single month of a regional agency retainer, with every price visible before you call."
+          "priceAnchor": "For context: our full audit typically costs a fraction of a single month of a regional agency retainer, with every price visible before you call.",
+          "priceNote": "Prices are in US dollars. A $2,500 audit is about SAR 9,400 or AED 9,200; a $15,000 build is about SAR 56,000 or AED 55,000. We invoice in USD."
         }
       ],
       "faq": {

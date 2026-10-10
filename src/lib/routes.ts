@@ -175,6 +175,19 @@ export const gulfStudySlug = "gulf-smb-websites-ai-search-study";
 export const gulfStudyPath = `${routes.research}/${gulfStudySlug}`;
 
 /**
+ * The two Saudi guides `/markets/gulf` links from one paragraph.
+ *
+ * Same arrangement as the constants above: blog posts are files resolved by
+ * slug, so the page takes each href from here and `markets.test.ts` checks
+ * each still resolves to a published post. The keys are the `link` values on
+ * the paragraph's segments in the dictionary.
+ */
+export const gulfGuidePaths = {
+  saudiFunding: `${routes.blog}/saudi-arabia-small-business-funding-digital-ai-2026`,
+  pdpl: `${routes.blog}/pdpl-compliance-small-business-website-saudi-arabia`,
+} as const;
+
+/**
  * The documents `/services/software-development` links from its prose.
  *
  * Same arrangement as the constants above: two blog posts are files resolved

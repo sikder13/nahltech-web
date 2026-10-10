@@ -4,6 +4,7 @@ import { getPublishedPosts } from "./blog";
 import {
   canadaFundingGuidePath,
   canadaFundingGuideSlug,
+  gulfGuidePaths,
   marketDictionaryKeys,
   marketRouteKeys,
   routes,
@@ -375,6 +376,59 @@ describe("the Canada currency note and the open-programs paragraph", () => {
     expect(section!.closingParagraphs).toEqual([
       "Funding changes monthly. As of October 2026 the open doors are NRC IRAP, BDC LIFT for businesses over $1 million in revenue, Mitacs AI Advantage placements, and the Regional AI Initiative in the Prairies and Quebec. Our guide to AI funding for Canadian small businesses is re verified every month and dates every claim.",
     ]);
+  });
+});
+
+describe("the Gulf page's Saudi guides paragraph and currency note", () => {
+  const sections = t.markets.gulf.sections;
+
+  it("puts the paragraph under the regional research sentence and rejoins it", () => {
+    const section = sections.find((item) => "linkedClosing" in item) as
+      | {
+          trailingSentence?: { lead: string };
+          linkedClosing: readonly { text: string; link?: string }[];
+        }
+      | undefined;
+
+    expect(section).toBeDefined();
+    // The template renders it straight after the closing sentence, which is
+    // the page's regional passage.
+    expect(section!.trailingSentence?.lead).toContain("research on the region");
+    expect(section!.linkedClosing.map((segment) => segment.text).join("")).toBe(
+      "Two things decide a Saudi project's budget in 2026 that have nothing to do with us: the ZATCA e invoicing wave your business falls into, and the PDPL rules that apply to the data your site collects. We wrote both up for small businesses: funding and support for digital and AI projects in Saudi Arabia and PDPL compliance for a small business website.",
+    );
+    expect(
+      section!.linkedClosing.flatMap((segment) =>
+        segment.link ? [[segment.text, segment.link]] : [],
+      ),
+    ).toEqual([
+      [
+        "funding and support for digital and AI projects in Saudi Arabia",
+        "saudiFunding",
+      ],
+      ["PDPL compliance for a small business website", "pdpl"],
+    ]);
+  });
+
+  it("points both anchors at published posts", () => {
+    // Hard rule 7 for links that cross from a page into the post collection.
+    const published = new Set(
+      getPublishedPosts().map((post) => `/blog/${post.slug}`),
+    );
+    for (const [key, path] of Object.entries(gulfGuidePaths)) {
+      expect(published, `${key} -> ${path}`).toContain(path);
+    }
+  });
+
+  it("puts the currency note on the section that carries the price anchor", () => {
+    const section = sections.find((item) => "priceNote" in item) as
+      { priceAnchor?: string; priceNote: string } | undefined;
+
+    expect(section).toBeDefined();
+    expect(section!.priceAnchor).toMatch(/^For context:/);
+    expect(section!.priceNote).toBe(
+      "Prices are in US dollars. A $2,500 audit is about SAR 9,400 or AED 9,200; a $15,000 build is about SAR 56,000 or AED 55,000. We invoice in USD.",
+    );
   });
 });
 
