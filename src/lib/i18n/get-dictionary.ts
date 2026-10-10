@@ -420,6 +420,26 @@ export type Dictionary = typeof enDictionary;
  * the paragraph is stored cut at its two anchors and `markets.test.ts`
  * asserts the joined text.
  *
+ * ── Founder-supplied, verbatim, 10 October 2026 (NZ tourism package) ───────
+ *
+ *   pages.nzTourism.*
+ *   nzTourism.lead
+ *   nzTourism.sections
+ *   nzTourism.faq.items
+ *   nzTourism.cta.body
+ *   pricing.otherMarkets.note
+ *   markets.newZealand.sections[].linkedAfterword
+ *
+ * The `/nz` page, the New Zealand line on `/pricing` and the tourism
+ * paragraph on `/markets/new-zealand`, in New Zealand spelling and with no
+ * dash characters, both on purpose. Inserted without rewording; linked
+ * paragraphs are stored cut at their anchors and `nz-tourism.test.ts`
+ * asserts the joined text. The page closes on the site's own booking block,
+ * so its CTA heading and button label are `ctaBlock.heading` and
+ * `cta.bookCall`, not new strings. `nzTourism.faq.heading` repeats the four
+ * market pages' "FAQ", and `pricing.otherMarkets.heading` is the label the
+ * brief named for the note.
+ *
  * ── Not yet written ───────────────────────────────────────────────────────
  *
  * 0 `[PLACEHOLDER: …]` strings remain. Every string in en.json is approved

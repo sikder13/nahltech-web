@@ -207,6 +207,33 @@ describe("ContactTemplate", () => {
 });
 
 describe("PricingTemplate", () => {
+  it("notes the New Zealand package under the ladder, outside the price cards", () => {
+    render(<PricingTemplate t={en} />);
+
+    const note = screen.getByText(/^New Zealand tourism operators:/);
+    expect(note.textContent).toBe(
+      "New Zealand tourism operators: homepage rebuild and AI visibility setup, NZ$1,490 fixed, preview before payment; optional care NZ$149 a month. Details.",
+    );
+    expect(
+      screen.getByRole("link", { name: "Details" }).getAttribute("href"),
+    ).toBe("/nz");
+
+    // After the builds list and its guarantee, before the discounts.
+    const guarantee = screen.getByText(en.pricing.guarantee);
+    const discounts = screen.getByRole("heading", {
+      name: en.pricing.discounts.heading,
+    });
+    expect(
+      guarantee.compareDocumentPosition(note) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+    expect(
+      note.compareDocumentPosition(discounts) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+    expect(note.closest("li")).toBeNull();
+  });
+
   it("publishes the founding-client terms without a live counter", () => {
     render(<PricingTemplate t={en} />);
 
