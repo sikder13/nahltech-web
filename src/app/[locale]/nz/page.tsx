@@ -1,6 +1,6 @@
 import { MarketTemplate } from "@/components/templates/MarketTemplate";
 import { requireDictionary } from "@/lib/i18n/require-dictionary";
-import { nzGuidePaths, routes } from "@/lib/routes";
+import { nzTourismPageLinkPaths, routes } from "@/lib/routes";
 import {
   breadcrumbSchema,
   dictionaryFaqSchema,
@@ -35,7 +35,8 @@ export default async function Page({
   const t = await requireDictionary(locale);
 
   // The closing block is the site's own booking CTA, heading and button
-  // label included; only the line under the heading belongs to this page.
+  // label included; only the line under the heading belongs to this page,
+  // and its "Email us" opens the address the footer and /contact use.
   const content = {
     ...t.nzTourism,
     cta: {
@@ -56,7 +57,7 @@ export default async function Page({
         t={t}
         market="nzTourism"
         content={content}
-        hrefs={nzGuidePaths}
+        hrefs={nzTourismPageLinkPaths}
       />
     </>
   );

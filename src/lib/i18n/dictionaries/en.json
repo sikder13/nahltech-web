@@ -1667,7 +1667,18 @@
       ]
     },
     "cta": {
-      "body": "Questions first? Email us and we will reply within one New Zealand business day."
+      "body": [
+        {
+          "text": "Questions first? "
+        },
+        {
+          "text": "Email us",
+          "link": "email"
+        },
+        {
+          "text": " and we will reply within one New Zealand business day."
+        }
+      ]
     }
   },
   "sheets": {

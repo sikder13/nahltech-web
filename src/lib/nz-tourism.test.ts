@@ -73,6 +73,17 @@ describe("the approved copy", () => {
     ]);
   });
 
+  it("closes on the approved line, with Email us as its one link", () => {
+    expect(join(page.cta.body)).toBe(
+      "Questions first? Email us and we will reply within one New Zealand business day.",
+    );
+    expect(
+      page.cta.body.flatMap((segment) =>
+        "link" in segment ? [[segment.text, segment.link]] : [],
+      ),
+    ).toEqual([["Email us", "email"]]);
+  });
+
   it("keeps New Zealand spelling and uses no dash character", () => {
     // Both are deliberate. An Americanised word or a dash arriving in a
     // later edit is a change to approved copy, not a tidy up.

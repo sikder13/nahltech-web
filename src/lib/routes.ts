@@ -294,6 +294,15 @@ export const contactDetails = {
   country: "US",
 } as const;
 
+/**
+ * Every destination `/nz` links from its own copy: the four guides, and the
+ * contact address behind "Email us" in its closing line.
+ */
+export const nzTourismPageLinkPaths = {
+  ...nzGuidePaths,
+  email: contactDetails.emailHref,
+} as const;
+
 export const siteUrl = "https://nahltech.com";
 
 /**

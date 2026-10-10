@@ -118,7 +118,15 @@ export type MarketContent = {
   lead: string;
   sections: readonly MarketSection[];
   faq: { heading: string; items: readonly FaqItem[] };
-  cta: { heading: string; body?: string; primaryLabel: string };
+  /**
+   * `body` is a string, or segments when the approved line carries a link:
+   * the tourism package page's "Email us". Destinations come from `hrefs`.
+   */
+  cta: {
+    heading: string;
+    body?: string | readonly TextSegment[];
+    primaryLabel: string;
+  };
 };
 
 /**
@@ -171,8 +179,8 @@ export function MarketTemplate({
    */
   trailingLinkHref?: string;
   /**
-   * Destinations for a `linkedClosing` or `linkedAfterword` paragraph and
-   * for `linkItems`, by segment key.
+   * Destinations for a `linkedClosing` or `linkedAfterword` paragraph, for
+   * `linkItems` and for a linked CTA line, by segment key.
    */
   hrefs?: Readonly<Record<string, string>>;
 }) {
@@ -316,7 +324,14 @@ export function MarketTemplate({
 
       <CtaBlock
         heading={content.cta.heading}
-        body={content.cta.body}
+        body={
+          typeof content.cta.body === "string" ||
+          content.cta.body === undefined ? (
+            content.cta.body
+          ) : (
+            <LinkedText segments={content.cta.body} hrefs={hrefs} />
+          )
+        }
         primary={{
           label: content.cta.primaryLabel,
           href: bookingCta.href,

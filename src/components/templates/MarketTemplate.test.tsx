@@ -8,8 +8,10 @@ import {
   canadaFundingGuidePath,
   gulfGuidePaths,
   gulfStudyPath,
+  contactDetails,
   nzGuidePaths,
   nzTourismLinkPaths,
+  nzTourismPageLinkPaths,
 } from "@/lib/routes";
 
 /**
@@ -184,7 +186,7 @@ describe("MarketTemplate — the New Zealand tourism package page", () => {
             primaryLabel: en.cta.bookCall,
           },
         }}
-        hrefs={nzGuidePaths}
+        hrefs={nzTourismPageLinkPaths}
       />,
     );
   }
@@ -241,11 +243,16 @@ describe("MarketTemplate — the New Zealand tourism package page", () => {
     expect(
       screen.getByRole("heading", { name: en.ctaBlock.heading }),
     ).toBeTruthy();
-    expect(
-      screen.getByText(
-        "Questions first? Email us and we will reply within one New Zealand business day.",
-      ),
-    ).toBeTruthy();
+    const line = screen.getByText(/^Questions first\?/);
+    expect(line.textContent).toBe(
+      "Questions first? Email us and we will reply within one New Zealand business day.",
+    );
+    // The address the footer and /contact use, opened in the visitor's own
+    // mail app rather than a new tab.
+    const email = within(line).getByRole("link", { name: "Email us" });
+    expect(email.getAttribute("href")).toBe(contactDetails.emailHref);
+    expect(email.getAttribute("href")).toBe(`mailto:${en.footer.email}`);
+    expect(email.hasAttribute("target")).toBe(false);
     expect(screen.getByRole("link", { name: en.cta.bookCall })).toBeTruthy();
   });
 });

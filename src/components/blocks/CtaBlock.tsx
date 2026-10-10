@@ -2,6 +2,8 @@ import { PhoneLink } from "@/components/conversion/PhoneLink";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { FadeIn } from "@/components/ui/FadeIn";
 
+import type { ReactNode } from "react";
+
 export type CtaAction = { label: string; href: string; external?: boolean };
 
 /**
@@ -22,9 +24,11 @@ export function CtaBlock({
    * Optional because three of the four market pages close on a single
    * approved sentence and have no second one. Absent, the paragraph is not
    * rendered rather than rendered empty — the same treatment `phoneNote`
-   * gets, and every page that passed a body before renders unchanged.
+   * gets, and every page that passed a body before renders unchanged. A
+   * node rather than a string because one page's approved line carries a
+   * link; any link inside it takes the accent treatment prose links get.
    */
-  body?: string;
+  body?: ReactNode;
   primary: CtaAction;
   phone: CtaAction;
   orCallLabel: string;
@@ -44,7 +48,9 @@ export function CtaBlock({
           </h2>
           <span className="mt-xs heading-rule" aria-hidden="true" />
           {body ? (
-            <p className="mt-md max-w-prose text-text-muted">{body}</p>
+            <p className="mt-md max-w-prose text-text-muted [&_a]:link-accent [&_a]:underline [&_a]:decoration-accent [&_a]:decoration-2">
+              {body}
+            </p>
           ) : null}
 
           <div className="mt-lg flex flex-wrap items-center gap-md">
