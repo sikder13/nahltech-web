@@ -287,6 +287,21 @@ const KIND_ORDER: readonly ResearchKind[] = [
   "sample-engagement",
 ];
 
+/**
+ * Artifacts that read as a set, in the order they should be met.
+ *
+ * Newest-first would put the dated guide to the 2026 waiver changes ahead of
+ * the report it points at. The two Indiana waiver pieces are a pair: the
+ * report on what EVV does not cover is the argument, and the guide is the
+ * calendar that sits behind it, so the report leads and the guide follows it
+ * directly. Slugs not listed here keep the loader's order and come before the
+ * set within their kind, so a later report still leads by recency.
+ */
+const HUB_SEQUENCE: readonly string[] = [
+  "unbillable-regardless-of-evv",
+  "indiana-medicaid-waiver-changes-2026-providers",
+];
+
 export function getResearchForHub(): ResearchArticle[] {
   return getPublishedResearch()
     .slice()
@@ -294,7 +309,8 @@ export function getResearchForHub(): ResearchArticle[] {
       (a, b) =>
         Number(b.slug === datasetReportSlug) -
           Number(a.slug === datasetReportSlug) ||
-        KIND_ORDER.indexOf(a.kind) - KIND_ORDER.indexOf(b.kind),
+        KIND_ORDER.indexOf(a.kind) - KIND_ORDER.indexOf(b.kind) ||
+        HUB_SEQUENCE.indexOf(a.slug) - HUB_SEQUENCE.indexOf(b.slug),
     );
 }
 

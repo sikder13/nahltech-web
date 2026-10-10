@@ -30,7 +30,7 @@ have not been recorded yet; that does not mean nothing links them.
 
 /manufacturing: "AI and automation for manufacturers"; "AI for manufacturers"; "manufacturers"
 
-/pricing: "$2,500, fully credited"; "Details on the pricing page"; "free 30-minute scan"; "from $1,200/month"; "openly"; "our pricing page"; "pricing page"; "pricing published here"; "see what the scan and the audit cost"; "The full breakdown is on our pricing page"; "web development from $6,000"
+/pricing: "$2,500, fully credited"; "Book the scan or read the full price list"; "Details on the pricing page"; "free 30-minute scan"; "from $1,200/month"; "openly"; "our pricing page"; "pricing page"; "pricing published here"; "see what the scan and the audit cost"; "The full breakdown is on our pricing page"; "web development from $6,000"
 
 /research/how-we-measure: "here"; "how we measure"; "how we run every engagement"; "measurement methodology"; "our published method"; "published in full"; "The method behind every number above"
 
@@ -39,6 +39,8 @@ have not been recorded yet; that does not mean nothing links them.
 /research/sample-engagement-injection-molder-four-vector-screen: "our published screening method"; "The Four-Vector Screen"
 
 /research/sample-engagement-ontario-machine-builder-proposals: "a machine builder's proposal workflow, fully costed"; "proposal engineering engagement"; "The Proposal That Ate March"
+
+/research/unbillable-regardless-of-evv: "where waiver providers lose documented services even when EVV passes"
 
 /services/ai-automation: "a fixed-price automation project"; "AI automation"; "AI automation for business workflows"; "AI automation work we do"; "builds we deliver at fixed price"; "the automation we design"; "the build that follows"; "We design every regulated workflow"; "workflow automation"
 
