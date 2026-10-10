@@ -20,11 +20,11 @@ have not been recorded yet; that does not mean nothing links them.
 
 /blog/ai-opportunity-audit-worked-example: "how a full audit runs, number by number"; "our worked audit example"; "our worked example of an AI opportunity audit"; "published audit walkthrough"; "the counting stage is published in full"; "the worked example of a full audit"; "We opened one up, numbers included"; "worked example of an AI opportunity audit"
 
-/blog/build-vs-buy-software-small-business: "build vs buy software for a small business"; "custom software vs off the shelf for a small business"
+/blog/build-vs-buy-software-small-business: "custom software vs off the shelf for a small business"; "its own write up"; "whether to build or buy at all"
 
-/blog/chrome-extension-vs-web-app-cost: "Chrome extension vs web app"
+/blog/chrome-extension-vs-web-app-cost: "Chrome extension vs web app"; "when an extension beats a web app"
 
-/blog/custom-software-development-cost-2026: "custom software development cost in 2026"
+/blog/custom-software-development-cost-2026: "custom software development cost in 2026"; "our 2026 software cost breakdown"; "what a web app costs to build in 2026"
 
 /blog/how-custom-manufacturers-quote-faster: "How Custom Manufacturers Quote Faster"
 

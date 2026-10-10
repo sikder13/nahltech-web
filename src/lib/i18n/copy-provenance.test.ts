@@ -190,23 +190,8 @@ describe("the served territory is stated one way", () => {
     // Once it is a list, it has to be the whole list: this is the assertion
     // that stopped two sentences drifting a region behind the descriptor on
     // 3 September, one of them into FAQPage markup.
-    //
-    // One sentence is let through by name. The software page's FAQ answers
-    // "Can you build for businesses outside the United States?", so it lists
-    // the markets outside the US and says "Canada" where the descriptor says
-    // "North America". That is the same list the approved sentence on the
-    // Indianapolis page carries ("We also work remotely with businesses in
-    // Canada, the Gulf region, Central Asia, and New Zealand"), which this
-    // check never sees because it is assembled from parts.
-    const outsideTheUs =
-      "Yes. We work remotely with businesses in Canada, the Gulf region, Central Asia, and New Zealand, scope regional data rules such as PDPL and PIPEDA into the requirements, and invoice in US dollars.";
-    expect(strings).toContain(outsideTheUs);
-
     const footprint = strings.filter(
-      (value) =>
-        value.includes("Central Asia") &&
-        value.includes("Gulf") &&
-        value !== outsideTheUs,
+      (value) => value.includes("Central Asia") && value.includes("Gulf"),
     );
     expect(footprint.length).toBeGreaterThan(0);
 

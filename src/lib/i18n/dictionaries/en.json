@@ -149,7 +149,7 @@
     "softwareDevelopment": {
       "title": "Software Development",
       "metaTitle": "Custom Software Development, Priced and Published | Nahl Technologies",
-      "description": "Custom software, web apps, SaaS first versions, desktop apps, and browser extensions, built by the team that runs its own live product. $15,000 to $45,000, published."
+      "description": "Custom software, web apps, SaaS first versions, desktop apps, and browser extensions, built by a team that runs its own live SaaS. From $15,000, prices published."
     },
     "aiConsultingIndianapolis": {
       "title": "AI Consulting in Indianapolis",
@@ -586,7 +586,7 @@
       "headline": "You're reading our portfolio right now."
     },
     "softwareDevelopment": {
-      "problem": "We build web apps, SaaS first versions, internal tools, desktop apps, and browser extensions, and we run a live SaaS product of our own, so you can check our work in production rather than in a portfolio. Scoped builds are $15,000 to $45,000, published before we talk, with a 75 day delivery guarantee. We work with businesses across North America, the Gulf region, Central Asia, and New Zealand, in English, Bengali, and with native reviewers for Arabic when a project needs it.",
+      "problem": "We build web apps, SaaS first versions, internal tools, desktop apps, and browser extensions, and we run a live SaaS product of our own, so you can check our work in production rather than in a portfolio. Scoped builds are $15,000 to $45,000, published before we talk, with a 75 day delivery guarantee. Based in Indianapolis and serving businesses across North America, the Gulf region, Central Asia, and New Zealand, we work in English and Bengali.",
       "proof": {
         "heading": "Proof you can check",
         "body": [
@@ -624,17 +624,17 @@
             "link": "pricing"
           },
           {
-            "text": " and we do not quote above it. Scoped builds go live in 75 days or your money back. The first step is a free 30 minute scan; if the project is real, the $2,500 AI Opportunity Audit is credited in full toward the build within 90 days. For the survey data behind these numbers, read "
+            "text": " and we do not quote above it. Scoped builds go live in 75 days or your money back. The first step is a free 30 minute scan; if the project is real, the $2,500 AI Opportunity Audit is credited in full toward the build within 90 days. The survey data behind these numbers is in "
           },
           {
-            "text": "custom software development cost in 2026",
+            "text": "our 2026 software cost breakdown",
             "link": "softwareCost"
           },
           {
-            "text": "; for the build or buy question, read "
+            "text": ", and the build or buy question has "
           },
           {
-            "text": "build vs buy software for a small business",
+            "text": "its own write up",
             "link": "buildVsBuy"
           },
           {
@@ -709,7 +709,7 @@
         },
         {
           "question": "Can you build for businesses outside the United States?",
-          "answer": "Yes. We work remotely with businesses in Canada, the Gulf region, Central Asia, and New Zealand, scope regional data rules such as PDPL and PIPEDA into the requirements, and invoice in US dollars."
+          "answer": "Yes. We work remotely, serving businesses across North America, the Gulf region, Central Asia, and New Zealand. We scope regional data rules such as PDPL and PIPEDA into the requirements and invoice in US dollars."
         }
       ],
       "headline": "Off-the-shelf stopped fitting."

@@ -282,6 +282,14 @@ describe("the Crawlmouse build report", () => {
     ]);
     expect(faqSchema(report)).not.toBeNull();
   });
+
+  it("keeps the closing dateline out of the last answer", () => {
+    // The line follows the last answer, and without the rule above it the
+    // parser read it as part of that answer and put it in the markup.
+    expect(report.body).toContain("Numbers last pulled October 9, 2026");
+    expect(report.faq.at(-1)!.answer).not.toContain("Numbers last pulled");
+    expect(report.faq.at(-1)!.answer).toMatch(/can cite you\.$/);
+  });
 });
 
 describe("research link resolution", () => {

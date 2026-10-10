@@ -399,14 +399,11 @@ export type Dictionary = typeof enDictionary;
  * paragraphs that carry links are stored cut at each anchor and rejoin to the
  * approved text; `software-development.test.ts` asserts the joined text.
  *
- * The relay labels the meta description 147 characters; it measures 166, one
- * over the 165 guard the other pages hold. It ships as approved and is
- * reported rather than trimmed.
- *
- * The last new answer lists "Canada, the Gulf region, Central Asia, and New
- * Zealand" because its question is about work outside the United States. It
- * is the one footprint sentence `copy-provenance.test.ts` lets through by
- * name.
+ * The meta description, the intro's last sentence, the cost section's last
+ * sentence and the last answer were each replaced once before shipping, with
+ * wording the founder supplied: the description to fit the 165 guard, the
+ * two territory sentences to carry the frozen identity phrase exactly, and
+ * the cost sentence so its two anchors are not ones a post already uses.
  *
  * ── Not yet written ───────────────────────────────────────────────────────
  *

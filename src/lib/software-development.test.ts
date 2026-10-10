@@ -28,7 +28,7 @@ describe("the software development page copy", () => {
   it("keeps the headline and replaces the intro", () => {
     expect(page.headline).toBe("Off-the-shelf stopped fitting.");
     expect(page.problem).toBe(
-      "We build web apps, SaaS first versions, internal tools, desktop apps, and browser extensions, and we run a live SaaS product of our own, so you can check our work in production rather than in a portfolio. Scoped builds are $15,000 to $45,000, published before we talk, with a 75 day delivery guarantee. We work with businesses across North America, the Gulf region, Central Asia, and New Zealand, in English, Bengali, and with native reviewers for Arabic when a project needs it.",
+      "We build web apps, SaaS first versions, internal tools, desktop apps, and browser extensions, and we run a live SaaS product of our own, so you can check our work in production rather than in a portfolio. Scoped builds are $15,000 to $45,000, published before we talk, with a 75 day delivery guarantee. Based in Indianapolis and serving businesses across North America, the Gulf region, Central Asia, and New Zealand, we work in English and Bengali.",
     );
   });
 
@@ -54,7 +54,7 @@ describe("the software development page copy", () => {
   it("rejoins the cost section to the approved paragraph", () => {
     expect(page.cost.heading).toBe("What it costs");
     expect(join(page.cost.body)).toBe(
-      "Software development runs $15,000 to $45,000 for a scoped build; AI automation builds from $7,500; web development from $6,000. Every figure is on the pricing page and we do not quote above it. Scoped builds go live in 75 days or your money back. The first step is a free 30 minute scan; if the project is real, the $2,500 AI Opportunity Audit is credited in full toward the build within 90 days. For the survey data behind these numbers, read custom software development cost in 2026; for the build or buy question, read build vs buy software for a small business.",
+      "Software development runs $15,000 to $45,000 for a scoped build; AI automation builds from $7,500; web development from $6,000. Every figure is on the pricing page and we do not quote above it. Scoped builds go live in 75 days or your money back. The first step is a free 30 minute scan; if the project is real, the $2,500 AI Opportunity Audit is credited in full toward the build within 90 days. The survey data behind these numbers is in our 2026 software cost breakdown, and the build or buy question has its own write up.",
     );
   });
 
@@ -78,8 +78,17 @@ describe("the software development page copy", () => {
       page.faq.map((entry) => entry.question),
     );
     expect(schema.mainEntity.at(-1)!.acceptedAnswer.text).toBe(
-      "Yes. We work remotely with businesses in Canada, the Gulf region, Central Asia, and New Zealand, scope regional data rules such as PDPL and PIPEDA into the requirements, and invoice in US dollars.",
+      "Yes. We work remotely, serving businesses across North America, the Gulf region, Central Asia, and New Zealand. We scope regional data rules such as PDPL and PIPEDA into the requirements and invoice in US dollars.",
     );
+  });
+});
+
+describe("the software development page territory wording", () => {
+  it("uses the frozen identity phrase wherever it names the footprint", () => {
+    const phrase =
+      "serving businesses across North America, the Gulf region, Central Asia, and New Zealand";
+    expect(page.problem).toContain(phrase);
+    expect(page.faq.at(-1)!.answer).toContain(phrase);
   });
 });
 
@@ -88,8 +97,8 @@ describe("the software development page links", () => {
     expect([...linksOf(page.proof.body), ...linksOf(page.cost.body)]).toEqual([
       ["Read how it was built and what it runs on", "crawlmouseBuild"],
       ["pricing page", "pricing"],
-      ["custom software development cost in 2026", "softwareCost"],
-      ["build vs buy software for a small business", "buildVsBuy"],
+      ["our 2026 software cost breakdown", "softwareCost"],
+      ["its own write up", "buildVsBuy"],
     ]);
   });
 
@@ -119,7 +128,10 @@ describe("the software development page metadata", () => {
 
   it("carries the approved description", () => {
     expect(en.pages.softwareDevelopment.description).toBe(
-      "Custom software, web apps, SaaS first versions, desktop apps, and browser extensions, built by the team that runs its own live product. $15,000 to $45,000, published.",
+      "Custom software, web apps, SaaS first versions, desktop apps, and browser extensions, built by a team that runs its own live SaaS. From $15,000, prices published.",
+    );
+    expect(en.pages.softwareDevelopment.description.length).toBeLessThanOrEqual(
+      165,
     );
   });
 });
