@@ -591,14 +591,11 @@
         "heading": "Proof you can check",
         "body": [
           {
-            "text": "Crawlmouse is a website auditing SaaS we built and operate. Since June 2026 it has run 145 audits, crawled 20,573 pages, and mapped 1.3 million links, on Next.js, Supabase, Inngest, Stripe, and Vercel. "
+            "text": "Crawlmouse",
+            "link": "crawlmouse"
           },
           {
-            "text": "Read how it was built and what it runs on",
-            "link": "crawlmouseBuild"
-          },
-          {
-            "text": ". Hafsa Sastho is a Bengali language AI health companion we built for mothers in Bangladesh, now in beta, with the Android release on Google Play planned for the first week of November 2026."
+            "text": " is a website auditing SaaS we built and operate. It crawls a site, maps every internal link, grades the structure, and shows what AI crawlers can and cannot reach. It has been live since June 2026 on Next.js, Supabase, Inngest, Stripe, and Vercel, and its next major release ships in late October 2026. Hafsa Sastho is a Bengali language AI health companion we built for mothers in Bangladesh, now in beta, with the Android release on Google Play planned for the first week of November 2026."
           }
         ]
       },
@@ -701,7 +698,7 @@
         },
         {
           "question": "Have you built and shipped a SaaS product?",
-          "answer": "Yes. Crawlmouse is a live website auditing SaaS we built and run, with 145 audits and 20,573 pages crawled since June 2026. The build write up is on our research page."
+          "answer": "Yes. Crawlmouse is a live website auditing SaaS we built and run, live since June 2026, at crawlmouse.com. You can run an audit on your own site and see the product working."
         },
         {
           "question": "Do you build Chrome extensions?",

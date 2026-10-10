@@ -2,7 +2,12 @@ import { describe, expect, it } from "vitest";
 
 import { getPublishedPosts } from "./blog";
 import { getPublishedResearch } from "./research";
-import { allRoutePaths, routes, softwarePageLinkPaths } from "./routes";
+import {
+  allRoutePaths,
+  productLinks,
+  routes,
+  softwarePageLinkPaths,
+} from "./routes";
 import { dictionaryFaqSchema } from "./schema-org";
 
 import en from "@/lib/i18n/dictionaries/en.json";
@@ -35,7 +40,7 @@ describe("the software development page copy", () => {
   it("rejoins the proof section to the approved paragraph", () => {
     expect(page.proof.heading).toBe("Proof you can check");
     expect(join(page.proof.body)).toBe(
-      "Crawlmouse is a website auditing SaaS we built and operate. Since June 2026 it has run 145 audits, crawled 20,573 pages, and mapped 1.3 million links, on Next.js, Supabase, Inngest, Stripe, and Vercel. Read how it was built and what it runs on. Hafsa Sastho is a Bengali language AI health companion we built for mothers in Bangladesh, now in beta, with the Android release on Google Play planned for the first week of November 2026.",
+      "Crawlmouse is a website auditing SaaS we built and operate. It crawls a site, maps every internal link, grades the structure, and shows what AI crawlers can and cannot reach. It has been live since June 2026 on Next.js, Supabase, Inngest, Stripe, and Vercel, and its next major release ships in late October 2026. Hafsa Sastho is a Bengali language AI health companion we built for mothers in Bangladesh, now in beta, with the Android release on Google Play planned for the first week of November 2026.",
     );
   });
 
@@ -70,6 +75,24 @@ describe("the software development page copy", () => {
     ]);
   });
 
+  it("answers the SaaS question by pointing at the live product", () => {
+    const entry = page.faq.find(
+      (item) => item.question === "Have you built and shipped a SaaS product?",
+    );
+    expect(entry!.answer).toBe(
+      "Yes. Crawlmouse is a live website auditing SaaS we built and run, live since June 2026, at crawlmouse.com. You can run an audit on your own site and see the product working.",
+    );
+  });
+
+  it("quotes no usage count from the product's database", () => {
+    // The production database prunes audits after 30 days, so a count read
+    // from it understates lifetime use and shrinks daily.
+    const copy = JSON.stringify(page);
+    for (const figure of ["145 audits", "20,573", "1.3 million"]) {
+      expect(copy).not.toContain(figure);
+    }
+  });
+
   it("puts every question into the FAQPage markup", () => {
     const schema = dictionaryFaqSchema(page.faq) as {
       mainEntity: { name: string; acceptedAnswer: { text: string } }[];
@@ -95,7 +118,7 @@ describe("the software development page territory wording", () => {
 describe("the software development page links", () => {
   it("carries exactly the four anchors the copy was written with", () => {
     expect([...linksOf(page.proof.body), ...linksOf(page.cost.body)]).toEqual([
-      ["Read how it was built and what it runs on", "crawlmouseBuild"],
+      ["Crawlmouse", "crawlmouse"],
       ["pricing page", "pricing"],
       ["our 2026 software cost breakdown", "softwareCost"],
       ["its own write up", "buildVsBuy"],
@@ -114,6 +137,11 @@ describe("the software development page links", () => {
       ),
     ]);
     for (const [key, path] of Object.entries(softwarePageLinkPaths)) {
+      // The product's own site is the one link that leaves this origin.
+      if (key === "crawlmouse") {
+        expect(path).toBe(productLinks.crawlmouse);
+        continue;
+      }
       expect(published, `${key} -> ${path}`).toContain(path);
     }
   });
