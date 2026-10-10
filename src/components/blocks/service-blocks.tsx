@@ -209,12 +209,22 @@ export function ServiceProseSection({
               <p>
                 {body.map((segment) => {
                   const href = segment.link ? hrefs[segment.link] : undefined;
-                  return href ? (
+                  if (!href) return segment.text;
+                  // Internal hrefs go through next/link; anything else is a
+                  // plain anchor, the same split the article routes make.
+                  return href.startsWith("/") ? (
                     <Link key={segment.text} href={href}>
                       {segment.text}
                     </Link>
                   ) : (
-                    segment.text
+                    <a
+                      key={segment.text}
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {segment.text}
+                    </a>
                   );
                 })}
               </p>

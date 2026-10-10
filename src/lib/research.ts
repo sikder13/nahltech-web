@@ -294,14 +294,12 @@ const KIND_ORDER: readonly ResearchKind[] = [
  * the report it points at. The two Indiana waiver pieces are a pair: the
  * report on what EVV does not cover is the argument, and the guide is the
  * calendar that sits behind it, so the report leads and the guide follows it
- * directly. The Crawlmouse build report shares the guide's date and would
- * otherwise split the pair, so it is placed after them. Slugs not listed here keep the loader's order and come before the
+ * directly. Slugs not listed here keep the loader's order and come before the
  * set within their kind, so a later report still leads by recency.
  */
 const HUB_SEQUENCE: readonly string[] = [
   "unbillable-regardless-of-evv",
   "indiana-medicaid-waiver-changes-2026-providers",
-  "building-crawlmouse",
 ];
 
 export function getResearchForHub(): ResearchArticle[] {

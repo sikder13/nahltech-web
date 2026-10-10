@@ -399,6 +399,11 @@ export type Dictionary = typeof enDictionary;
  * paragraphs that carry links are stored cut at each anchor and rejoin to the
  * approved text; `software-development.test.ts` asserts the joined text.
  *
+ * The proof section and the answer to "Have you built and shipped a SaaS
+ * product?" were replaced on 10 October with founder-supplied wording that
+ * quotes no usage counts and points at crawlmouse.com: the product's database
+ * prunes audits after 30 days, so a count read from it understates use.
+ *
  * The meta description, the intro's last sentence, the cost section's last
  * sentence and the last answer were each replaced once before shipping, with
  * wording the founder supplied: the description to fit the 165 guard, the

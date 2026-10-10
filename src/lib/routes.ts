@@ -177,14 +177,14 @@ export const gulfStudyPath = `${routes.research}/${gulfStudySlug}`;
 /**
  * The documents `/services/software-development` links from its prose.
  *
- * Same arrangement as the constants above: a research artifact and two blog
- * posts are files resolved by slug, so the page takes each href from here
- * and `software-development.test.ts` checks each still resolves to a
- * published document. The keys are the `link` values on the page's text
+ * Same arrangement as the constants above: two blog posts are files resolved
+ * by slug, so the page takes each href from here and
+ * `software-development.test.ts` checks each still resolves to a published
+ * document. The product's own site is the one destination off this origin. The keys are the `link` values on the page's text
  * segments in the dictionary, which is how each anchor finds its destination.
  */
 export const softwarePageLinkPaths = {
-  crawlmouseBuild: `${routes.research}/building-crawlmouse`,
+  crawlmouse: "https://crawlmouse.com",
   pricing: routes.pricing,
   softwareCost: `${routes.blog}/custom-software-development-cost-2026`,
   buildVsBuy: `${routes.blog}/build-vs-buy-software-small-business`,
