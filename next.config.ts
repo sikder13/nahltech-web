@@ -37,9 +37,46 @@ const BASELINE_SECURITY_HEADERS = [
     : []),
 ];
 
+/**
+ * Where /demo is served from. The address lives in the environment and not in
+ * this repository. Anything that is not an https origin is ignored, so a
+ * mistyped value leaves /demo answering 404 rather than forwarding somewhere
+ * unintended.
+ */
+function demoOrigin(): string | null {
+  const raw = process.env.DEMO_ORIGIN;
+  if (!raw) return null;
+  try {
+    const url = new URL(raw);
+    return url.protocol === "https:" ? url.origin : null;
+  } catch {
+    return null;
+  }
+}
+
+const DEMO_NOINDEX = [{ key: "X-Robots-Tag", value: "noindex, nofollow" }];
+
 const nextConfig: NextConfig = {
   async headers() {
-    return [{ source: "/:path*", headers: BASELINE_SECURITY_HEADERS }];
+    return [
+      { source: "/:path*", headers: BASELINE_SECURITY_HEADERS },
+      // The middleware marks the pages; its matcher skips anything with a
+      // file extension, so this rule is what reaches their images and scripts.
+      { source: "/demo", headers: DEMO_NOINDEX },
+      { source: "/demo/:path*", headers: DEMO_NOINDEX },
+    ];
+  },
+
+  /**
+   * /demo/* is served by a separate deployment. These are the default
+   * (afterFiles) rewrites: nothing in this app lives under /demo, so every
+   * request there falls through to the forward. With DEMO_ORIGIN unset there
+   * is no rule at all and /demo is an ordinary 404.
+   */
+  async rewrites() {
+    const origin = demoOrigin();
+    if (!origin) return [];
+    return [{ source: "/demo/:path*", destination: `${origin}/demo/:path*` }];
   },
 
   /**

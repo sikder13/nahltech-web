@@ -169,6 +169,19 @@ export function middleware(request: NextRequest) {
 
   // English ships unprefixed, so /en/* is not a canonical URL. Redirect it
   // rather than serving the same page at two addresses.
+  /**
+   * /demo is forwarded to another deployment by the rewrite in
+   * next.config.ts. It is not a localized route, so it must not reach the
+   * locale rewrite below, which would turn it into /en/demo and a 404. The
+   * pages behind it are private, so they are marked noindex here as well as
+   * in the static header rule that covers their assets.
+   */
+  if (firstSegment === "demo") {
+    const response = withSecurityHeaders(NextResponse.next());
+    response.headers.set("X-Robots-Tag", "noindex, nofollow");
+    return response;
+  }
+
   if (firstSegment === defaultLocale) {
     const url = request.nextUrl.clone();
     url.pathname = pathname.slice(defaultLocale.length + 1) || "/";
