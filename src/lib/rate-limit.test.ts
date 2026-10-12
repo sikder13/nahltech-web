@@ -117,6 +117,19 @@ describe("checkLimit", () => {
     expect(result.ok).toBe(false);
   });
 
+  it("checks an hourly window when one is configured", async () => {
+    limitMock.mockResolvedValue({ success: false, reset: Date.now() + 60_000 });
+
+    const { checkLimit } = await loadModule();
+    const result = await checkLimit("demo-visit:test-demo-xyz", {
+      perHour: 30,
+    });
+
+    expect(limitMock).toHaveBeenCalledTimes(1);
+    expect(limitMock).toHaveBeenCalledWith("demo-visit:test-demo-xyz");
+    expect(result.ok).toBe(false);
+  });
+
   it("allows the request when no window is configured", async () => {
     const { checkLimit } = await loadModule();
     await expect(checkLimit("ip:1.1.1.1", {})).resolves.toEqual({ ok: true });

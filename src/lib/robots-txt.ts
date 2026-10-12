@@ -56,19 +56,30 @@ const CONTENT_SIGNAL =
   "# Content-Signal: search=yes, ai-input=yes, ai-train=yes";
 
 /**
+ * The one path no crawler is asked into.
+ *
+ * `/demo/` forwards to private pages prepared for individual businesses. They
+ * also answer with `X-Robots-Tag: noindex`, which is what actually keeps them
+ * out of an index; this line saves a well behaved crawler the request.
+ */
+const PRIVATE_PATH = "/demo/";
+
+/**
  * The whole file.
  *
  * The wildcard group, `Host` and `Sitemap` reproduce what the `robots.ts`
- * metadata route emitted, character for character — this file is additive and
- * `robots-txt.test.ts` fails if that stops being true. There are no
- * `Disallow` lines because there never were any: `/api/*` is rate-limited and
- * zod-validated rather than hidden, and adding a disallow now would be a
- * behaviour change dressed up as a comment.
+ * metadata route emitted, character for character, and `robots-txt.test.ts`
+ * fails if that stops being true. The single `Disallow` is repeated in every
+ * group on purpose: a crawler that finds a group naming it reads that group
+ * and ignores the wildcard one, so a rule left only under `*` would not reach
+ * the twelve crawlers named here. `/api/*` stays undisallowed. It is
+ * rate-limited and zod-validated rather than hidden.
  */
 export function robotsTxt(): string {
+  const rules = `Allow: /\nDisallow: ${PRIVATE_PATH}`;
   const groups = [
-    "User-Agent: *\nAllow: /",
-    ...aiCrawlers.map((agent) => `User-Agent: ${agent}\nAllow: /`),
+    `User-Agent: *\n${rules}`,
+    ...aiCrawlers.map((agent) => `User-Agent: ${agent}\n${rules}`),
   ];
 
   return [

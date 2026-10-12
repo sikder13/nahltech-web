@@ -21,11 +21,14 @@ describe("robots.txt — what was already there", () => {
     expect(siteUrl).toBe("https://nahltech.com");
   });
 
-  it("adds no Disallow, because there was never one", () => {
-    // The relay that added the allows said additions only. `/api/*` is
-    // rate-limited and zod-validated rather than hidden, and inventing a
-    // disallow here would be a behaviour change.
-    expect(txt).not.toContain("Disallow");
+  it("disallows only the private demo path, in every group", () => {
+    // `/api/*` is rate-limited and zod-validated rather than hidden, so it
+    // stays undisallowed. A crawler named in its own group ignores the
+    // wildcard group, so the rule has to be repeated in each.
+    const disallows = lines.filter((line) => line.startsWith("Disallow"));
+    expect(new Set(disallows)).toEqual(new Set(["Disallow: /demo/"]));
+    expect(disallows).toHaveLength(aiCrawlers.length + 1);
+    expect(txt).toContain("User-Agent: *\nAllow: /\nDisallow: /demo/");
   });
 });
 

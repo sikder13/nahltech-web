@@ -14,6 +14,7 @@ import { Redis } from "@upstash/redis";
 
 export type LimitConfig = {
   perMinute?: number;
+  perHour?: number;
   perDay?: number;
 };
 
@@ -80,21 +81,22 @@ function getRedis(): Redis | null {
 // request on the hot path.
 const limiters = new Map<string, Ratelimit>();
 
-function getLimiter(
-  client: Redis,
-  window: "minute" | "day",
-  limit: number,
-): Ratelimit {
+type Window = "minute" | "hour" | "day";
+
+const WINDOW_SECONDS: Record<Window, number> = {
+  minute: 60,
+  hour: 3600,
+  day: 86400,
+};
+
+function getLimiter(client: Redis, window: Window, limit: number): Ratelimit {
   const cacheKey = `${window}:${limit}`;
   const existing = limiters.get(cacheKey);
   if (existing) return existing;
 
   const created = new Ratelimit({
     redis: client,
-    limiter: Ratelimit.slidingWindow(
-      limit,
-      window === "minute" ? "60 s" : "86400 s",
-    ),
+    limiter: Ratelimit.slidingWindow(limit, `${WINDOW_SECONDS[window]} s`),
     prefix: `nahltech:${window}`,
     analytics: false,
   });
@@ -103,7 +105,7 @@ function getLimiter(
 }
 
 /**
- * Check `key` against the supplied windows. Both must pass; the first refusal
+ * Check `key` against the supplied windows. All must pass; the first refusal
  * wins and reports how long to wait.
  */
 export async function checkLimit(
@@ -113,8 +115,9 @@ export async function checkLimit(
   const client = getRedis();
   if (!client) return ALLOW;
 
-  const windows: Array<["minute" | "day", number]> = [];
+  const windows: Array<[Window, number]> = [];
   if (config.perMinute) windows.push(["minute", config.perMinute]);
+  if (config.perHour) windows.push(["hour", config.perHour]);
   if (config.perDay) windows.push(["day", config.perDay]);
   if (windows.length === 0) return ALLOW;
 

@@ -52,6 +52,27 @@ describe("middleware routing", () => {
     );
   });
 
+  it("lets /demo through to the forward untouched, marked noindex", () => {
+    // /demo is served by another deployment through a rewrite in
+    // next.config.ts. A locale rewrite here would turn it into /en/demo,
+    // which does not exist.
+    for (const path of [
+      "/demo",
+      "/demo/test-demo-xyz",
+      "/demo/test-demo-xyz/",
+    ]) {
+      const response = middleware(request(path));
+      expect(response.headers.get("x-middleware-rewrite"), path).toBeNull();
+      expect(response.headers.get("location"), path).toBeNull();
+      expect(response.headers.get("X-Robots-Tag"), path).toBe(
+        "noindex, nofollow",
+      );
+      expect(response.headers.get("Content-Security-Policy")).toContain(
+        "frame-ancestors 'none'",
+      );
+    }
+  });
+
   it("still puts the security headers on API responses", () => {
     const response = middleware(request("/api/lead"));
 
