@@ -454,6 +454,16 @@ export type Dictionary = typeof enDictionary;
  * rebuild, a 30 percent deposit refunded in full if the client does not like
  * the design, the rest at launch. Links and every other string unchanged.
  *
+ * ── Founder-supplied, verbatim, 16 October 2026 (New Zealand study links) ──
+ *
+ *   nzTourism.sections[] "Who we are" (its last sentence)
+ *   productPages.crawlmouse.evidence
+ *
+ * Two sentences pointing at the study of 80 New Zealand tourism websites.
+ * The "Who we are" paragraph is stored as `linkedParagraph` so its new last
+ * sentence can carry the link; the words before it are unchanged. Where each
+ * anchor starts and ends was not specified and is our reading.
+ *
  * ── Not yet written ───────────────────────────────────────────────────────
  *
  * 0 `[PLACEHOLDER: …]` strings remain. Every string in en.json is approved

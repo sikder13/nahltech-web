@@ -3,7 +3,7 @@ import { requireDictionary } from "@/lib/i18n/require-dictionary";
 import { breadcrumbSchema, crawlmouseSchema } from "@/lib/schema-org";
 
 import { JsonLd } from "@/components/seo/JsonLd";
-import { productLinks, routes } from "@/lib/routes";
+import { crawlmousePageLinkPaths, productLinks, routes } from "@/lib/routes";
 
 import type { Metadata } from "next";
 
@@ -42,6 +42,7 @@ export default async function Page({
         status={t.productStatus.live}
         liveUrl={productLinks.crawlmouse}
         content={t.productPages.crawlmouse}
+        hrefs={crawlmousePageLinkPaths}
       />
     </>
   );

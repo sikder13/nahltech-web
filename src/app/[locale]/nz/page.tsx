@@ -1,6 +1,6 @@
 import { MarketTemplate } from "@/components/templates/MarketTemplate";
 import { requireDictionary } from "@/lib/i18n/require-dictionary";
-import { nzTourismPageLinkPaths, routes } from "@/lib/routes";
+import { nzStudyPath, nzTourismPageLinkPaths, routes } from "@/lib/routes";
 import {
   breadcrumbSchema,
   dictionaryFaqSchema,
@@ -57,6 +57,7 @@ export default async function Page({
         t={t}
         market="nzTourism"
         content={content}
+        trailingLinkHref={nzStudyPath}
         hrefs={nzTourismPageLinkPaths}
       />
     </>

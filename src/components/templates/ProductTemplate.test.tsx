@@ -4,7 +4,11 @@ import { describe, expect, it } from "vitest";
 import { ProductTemplate } from "./ProductTemplate";
 
 import en from "@/lib/i18n/dictionaries/en.json";
-import { productLinks } from "@/lib/routes";
+import {
+  crawlmousePageLinkPaths,
+  nzStudyPath,
+  productLinks,
+} from "@/lib/routes";
 
 describe("ProductTemplate", () => {
   it("renders the hero, features and audience for a live product", () => {
@@ -34,6 +38,41 @@ describe("ProductTemplate", () => {
       }),
     ).toBeInTheDocument();
     expect(screen.getAllByRole("listitem")).not.toHaveLength(0);
+  });
+
+  it("names the New Zealand study under the Crawlmouse tagline, linked", () => {
+    render(
+      <ProductTemplate
+        t={en}
+        name="Crawlmouse"
+        status={en.productStatus.live}
+        liveUrl={productLinks.crawlmouse}
+        content={en.productPages.crawlmouse}
+        hrefs={crawlmousePageLinkPaths}
+      />,
+    );
+
+    const link = screen.getByRole("link", {
+      name: "October 2026 audit of 80 New Zealand tourism websites",
+    });
+    expect(link).toHaveAttribute("href", nzStudyPath);
+    expect(link.closest("p")).toHaveTextContent(
+      /^Crawlmouse was the instrument for our October 2026 audit of 80 New Zealand tourism websites\.$/,
+    );
+  });
+
+  it("renders no evidence line for a product without one", () => {
+    const { container } = render(
+      <ProductTemplate
+        t={en}
+        name="Hafsa Sastho"
+        status={en.productStatus.closedBeta}
+        liveUrl={productLinks.hafsaSastho}
+        content={en.productPages.hafsaSastho}
+      />,
+    );
+
+    expect(container.querySelector("section p.mt-sm")).toBeNull();
   });
 
   it("renders Try it live only when there is a public URL", () => {

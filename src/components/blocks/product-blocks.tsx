@@ -3,6 +3,8 @@ import { FadeIn } from "@/components/ui/FadeIn";
 import { Icon } from "@/components/ui/Icon";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
+import type { ReactNode } from "react";
+
 const shell = "mx-auto max-w-(--container-page) px-sm py-2xl";
 
 /**
@@ -16,6 +18,7 @@ export function ProductHero({
   status,
   liveUrl,
   liveLabel,
+  evidence,
   note,
 }: {
   name: string;
@@ -23,6 +26,12 @@ export function ProductHero({
   status: string;
   liveUrl: string | null;
   liveLabel: string;
+  /**
+   * One line under the tagline that points at work the product did, such as
+   * a published study. It may carry a link, so it is a node rather than a
+   * string, styled the way the closing CTA styles a link in muted text.
+   */
+  evidence?: ReactNode;
   note?: string;
 }) {
   return (
@@ -32,6 +41,11 @@ export function ProductHero({
         <h1 className="mt-2xs text-display text-balance text-text">{name}</h1>
         <span className="mt-md heading-rule" aria-hidden="true" />
         <p className="mt-md max-w-prose text-lg text-text-muted">{tagline}</p>
+        {evidence ? (
+          <p className="mt-sm max-w-prose text-text-muted [&_a]:link-accent [&_a]:underline [&_a]:decoration-accent [&_a]:decoration-2">
+            {evidence}
+          </p>
+        ) : null}
 
         {liveUrl ? (
           <ButtonLink href={liveUrl} external className="mt-lg">

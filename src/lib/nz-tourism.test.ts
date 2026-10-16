@@ -4,9 +4,11 @@ import path from "node:path";
 import { describe, expect, it } from "vitest";
 
 import { getPublishedPosts } from "./blog";
+import { getResearchBySlug } from "./research";
 import {
   marketRouteKeys,
   nzGuidePaths,
+  nzStudySlug,
   nzTourismLinkPaths,
   routes,
   siteUrl,
@@ -71,6 +73,19 @@ describe("the approved copy", () => {
       "Who we are",
       "Guides for New Zealand operators",
     ]);
+  });
+
+  it("ends Who we are on the study sentence, linking the study", () => {
+    // The paragraph is stored cut at its anchor so the new last sentence can
+    // carry the link. Rejoined, it must read exactly as approved.
+    const section = page.sections.find((s) => s.heading === "Who we are");
+    const linked = section?.linkedParagraph;
+    expect(linked).toBeDefined();
+    expect(`${linked!.before} ${linked!.anchor}${linked!.after}`).toBe(
+      "Nahl Technologies is a small software firm in Indianapolis, in the United States. We have no New Zealand office. We work your mornings, which are our afternoons, and we answer email the same day. We built and run our own website auditing product, Crawlmouse, and we publish every price we charge. In October 2026 we published a study of 80 New Zealand tourism websites using the same tools.",
+    );
+    expect(linked!.anchor).toBe("study of 80 New Zealand tourism websites");
+    expect(getResearchBySlug(nzStudySlug)?.draft).toBe(false);
   });
 
   it("closes on the approved line, with Email us as its one link", () => {
@@ -230,11 +245,25 @@ describe("the guides", () => {
     }
   });
 
+  it("points the AI search guide at the study, after the playbook list", () => {
+    const post = published.find(
+      (p) => `${routes.blog}/${p.slug}` === nzGuidePaths.aiSearch,
+    )!;
+    const paragraph =
+      "When we audited 80 small New Zealand tourism websites in October 2026, every one let AI crawlers in, but 53 percent of their pages carried no structured data and half the sites had pages nothing linked to. The full results are in our [study of 80 NZ tourism websites](/research/ai-search-readiness-study-new-zealand-tourism-websites).";
+    // The playbook paragraph ends on a colon and introduces its list, so the
+    // new paragraph follows the list rather than splitting the two.
+    expect(post.body).toContain(
+      `and check them every 90 days.\n\n${paragraph}\n\n## The steps, in order`,
+    );
+    expect(post.updatedAt).toBe("2026-10-16");
+  });
+
   it("keeps every international meta description inside the guard", () => {
     const cluster = published.filter(
       (post) => post.cluster === "international",
     );
-    expect(cluster).toHaveLength(7);
+    expect(cluster).toHaveLength(8);
     for (const post of cluster) {
       expect(post.description.length, post.slug).toBeLessThanOrEqual(165);
     }
