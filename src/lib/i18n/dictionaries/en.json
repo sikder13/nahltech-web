@@ -751,6 +751,14 @@
           "body": "When a site can't be measured properly — too small, blocked, JavaScript-only shell — Crawlmouse says so instead of inventing a grade. A tool that admits what it can't see is a tool you can trust."
         }
       ],
+      "evidence": [
+        { "text": "Crawlmouse was the instrument for our " },
+        {
+          "text": "October 2026 audit of 80 New Zealand tourism websites",
+          "link": "nzStudy"
+        },
+        { "text": "." }
+      ],
       "audience": [
         "Built for site owners, marketers, and agencies who want the truth about their site structure without a sales call attached."
       ],
@@ -1615,9 +1623,11 @@
       },
       {
         "heading": "Who we are",
-        "paragraphs": [
-          "Nahl Technologies is a small software firm in Indianapolis, in the United States. We have no New Zealand office. We work your mornings, which are our afternoons, and we answer email the same day. We built and run our own website auditing product, Crawlmouse, and we publish every price we charge."
-        ]
+        "linkedParagraph": {
+          "before": "Nahl Technologies is a small software firm in Indianapolis, in the United States. We have no New Zealand office. We work your mornings, which are our afternoons, and we answer email the same day. We built and run our own website auditing product, Crawlmouse, and we publish every price we charge. In October 2026 we published a",
+          "anchor": "study of 80 New Zealand tourism websites",
+          "after": " using the same tools."
+        }
       },
       {
         "heading": "Guides for New Zealand operators",

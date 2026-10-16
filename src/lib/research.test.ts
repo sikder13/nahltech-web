@@ -26,14 +26,18 @@ const EVV_REPORT = "unbillable-regardless-of-evv";
 /** The dated guide to the 2026 waiver changes. Real bulletins, no example client. */
 const WAIVER_GUIDE = "indiana-medicaid-waiver-changes-2026-providers";
 
+/** The study of 80 New Zealand tourism websites, the newest data report. */
+const NZ_STUDY = "ai-search-readiness-study-new-zealand-tourism-websites";
+
 describe("the research collection", () => {
   const articles = getPublishedResearch();
 
-  it("publishes all eleven artifacts", () => {
+  it("publishes all twelve artifacts", () => {
     expect(articles.map((a) => a.slug).sort()).toEqual(
       [
         "crawlmouse-dataset-report",
         "gulf-smb-websites-ai-search-study",
+        NZ_STUDY,
         "how-we-measure",
         EVV_REPORT,
         WAIVER_GUIDE,
@@ -48,6 +52,7 @@ describe("the research collection", () => {
     // next as the spine every other artifact points at, and the engagements
     // last, since they illustrate the method on fictional clients.
     expect(getResearchForHub().map((a) => a.kind)).toEqual([
+      "data-report",
       "data-report",
       "data-report",
       "report",
@@ -102,6 +107,20 @@ describe("the research collection", () => {
     expect(hub[0].slug).toBe("crawlmouse-dataset-report");
     expect(gulf).toBeGreaterThan(0);
     expect(hub[0].date < hub[gulf].date).toBe(true);
+  });
+
+  it("puts the New Zealand study first among the data reports after the pinned flagship", () => {
+    // It is the newest data report, so recency puts it ahead of the Gulf
+    // study; the 187-site report keeps the flagship slot the home page reads.
+    expect(
+      getResearchForHub()
+        .filter((a) => a.kind === "data-report")
+        .map((a) => a.slug),
+    ).toEqual([
+      "crawlmouse-dataset-report",
+      NZ_STUDY,
+      "gulf-smb-websites-ai-search-study",
+    ]);
   });
 
   it("carries a disclosure banner on exactly the fictional-client artifacts", () => {
@@ -363,5 +382,55 @@ describe("dataset schema", () => {
     expect(article.body).toContain(
       "https://creativecommons.org/licenses/by/4.0/",
     );
+  });
+
+  it("describes the New Zealand study's data as supplied", () => {
+    const article = getResearchBySlug(NZ_STUDY)!;
+    const dataset = datasetSchema(article) as Record<string, unknown>;
+
+    expect(dataset.temporalCoverage).toBe("2026-10-12/2026-10-15");
+    expect(dataset.spatialCoverage).toEqual({
+      "@type": "Place",
+      name: "New Zealand",
+    });
+    expect(dataset.variableMeasured).toEqual([
+      "Structured data presence",
+      "Meta description presence",
+      "H1 presence",
+      "Organization entity presence",
+      "Orphan pages",
+      "AI crawler access",
+    ]);
+    expect(dataset.license).toBe(
+      "https://creativecommons.org/licenses/by/4.0/",
+    );
+    expect(dataset.creator).toMatchObject({ name: "Nahl Technologies" });
+    expect(dataset).not.toHaveProperty("identifier");
+    // The grant is stated on the page as well as in the markup.
+    expect(article.body).toContain("CC BY 4.0");
+  });
+
+  it("gives no other dataset a place it was not given", () => {
+    // `spatialCoverage` is optional; the two earlier studies never had one.
+    for (const slug of [
+      "crawlmouse-dataset-report",
+      "gulf-smb-websites-ai-search-study",
+    ]) {
+      expect(datasetSchema(getResearchBySlug(slug)!), slug).not.toHaveProperty(
+        "spatialCoverage",
+      );
+    }
+  });
+
+  it("emits FAQPage markup for the New Zealand study's questions", () => {
+    const article = getResearchBySlug(NZ_STUDY)!;
+    expect(article.faq.map((entry) => entry.question)).toEqual([
+      "What percentage of websites use schema markup?",
+      "Do most websites block AI crawlers like GPTBot?",
+      "How many websites are missing meta descriptions?",
+      "What is AI search readiness?",
+      "How can a tourism business show up in ChatGPT and Google AI Overviews?",
+    ]);
+    expect(faqSchema(article)).not.toBeNull();
   });
 });

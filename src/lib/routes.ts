@@ -191,6 +191,18 @@ export const gulfStudySlug = "gulf-smb-websites-ai-search-study";
 export const gulfStudyPath = `${routes.research}/${gulfStudySlug}`;
 
 /**
+ * The New Zealand tourism website study, named here because `/nz` and
+ * `/products/crawlmouse` link it from their copy. Same arrangement as the
+ * Gulf study: one source for the href, and a test that the slug resolves.
+ */
+export const nzStudySlug =
+  "ai-search-readiness-study-new-zealand-tourism-websites";
+export const nzStudyPath = `${routes.research}/${nzStudySlug}`;
+
+/** Destinations for the line on `/products/crawlmouse` that names the study. */
+export const crawlmousePageLinkPaths = { nzStudy: nzStudyPath } as const;
+
+/**
  * The two Saudi guides `/markets/gulf` links from one paragraph.
  *
  * Same arrangement as the constants above: blog posts are files resolved by

@@ -22,3 +22,4 @@
 ## Research
 
 - [We Audited 187 Small-Business Websites. Half Have Pages Nothing Links To.](https://nahltech.com/research/crawlmouse-dataset-report) — Open dataset: 187 small-business website audits, licensed CC BY 4.0.
+- [AI Search Readiness Study: 80 NZ Tourism Websites (2026)](https://nahltech.com/research/ai-search-readiness-study-new-zealand-tourism-websites) — 80 New Zealand Tourism Websites and AI Search: 2026 Readiness Study. Original data, CC BY 4.0.

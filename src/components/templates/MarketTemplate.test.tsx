@@ -11,6 +11,7 @@ import {
   contactDetails,
   nzGuidePaths,
   nzTourismLinkPaths,
+  nzStudyPath,
   nzTourismPageLinkPaths,
 } from "@/lib/routes";
 
@@ -186,10 +187,23 @@ describe("MarketTemplate — the New Zealand tourism package page", () => {
             primaryLabel: en.cta.bookCall,
           },
         }}
+        trailingLinkHref={nzStudyPath}
         hrefs={nzTourismPageLinkPaths}
       />,
     );
   }
+
+  it("links the study from the last sentence of Who we are", () => {
+    renderNz();
+
+    const link = screen.getByRole("link", {
+      name: "study of 80 New Zealand tourism websites",
+    });
+    expect(link.getAttribute("href")).toBe(nzStudyPath);
+    expect(link.closest("p")?.textContent).toMatch(
+      /we publish every price we charge\. In October 2026 we published a study of 80 New Zealand tourism websites using the same tools\.$/,
+    );
+  });
 
   it("heads the page with the approved h1 and intro", () => {
     renderNz();

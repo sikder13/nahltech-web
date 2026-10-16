@@ -3,7 +3,7 @@ import path from "node:path";
 
 import { describe, expect, it } from "vitest";
 
-import { datasetReportPath, routes, siteUrl } from "./routes";
+import { datasetReportPath, nzStudyPath, routes, siteUrl } from "./routes";
 
 import en from "@/lib/i18n/dictionaries/en.json";
 
@@ -73,9 +73,17 @@ describe("llms.txt", () => {
     );
   });
 
+  it("lists the New Zealand study under Research with its approved line", () => {
+    // The link text is the study's own title; the description was supplied
+    // for this file and is pinned as written.
+    expect(txt).toContain(
+      `- [AI Search Readiness Study: 80 NZ Tourism Websites (2026)](${siteUrl}${nzStudyPath}) — 80 New Zealand Tourism Websites and AI Search: 2026 Readiness Study. Original data, CC BY 4.0.`,
+    );
+  });
+
   it("uses absolute https URLs and nothing else", () => {
     const hrefs = [...txt.matchAll(/\]\(([^)]+)\)/g)].map((m) => m[1]);
-    expect(hrefs.length).toBe(keyPages.length + 2);
+    expect(hrefs.length).toBe(keyPages.length + 3);
     for (const href of hrefs) {
       expect(href, href).toMatch(new RegExp(`^${siteUrl}/`));
     }
@@ -90,6 +98,7 @@ describe("llms.txt", () => {
     const known = new Set<string>([
       ...Object.values(routes),
       datasetReportPath,
+      nzStudyPath,
     ]);
     for (const p of paths) {
       expect(known.has(p), p).toBe(true);

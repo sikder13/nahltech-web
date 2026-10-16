@@ -301,7 +301,13 @@ export function researchArticleSchema(article: {
  */
 const DATASETS: Record<
   string,
-  { name: string; temporalCoverage: string; variableMeasured: string[] }
+  {
+    name: string;
+    temporalCoverage: string;
+    /** Where the corpus is, when the study is about one country. */
+    spatialCoverage?: string;
+    variableMeasured: string[];
+  }
 > = {
   "crawlmouse-dataset-report": {
     name: "Crawlmouse Small-Business Website Structure Dataset (2026)",
@@ -331,6 +337,21 @@ const DATASETS: Record<
       "Internal-linking grade distribution",
     ],
   },
+  // Coverage, place and the six variables are as the founder supplied them
+  // for this study; the dates match the crawl window its methodology states.
+  "ai-search-readiness-study-new-zealand-tourism-websites": {
+    name: "Crawlmouse New Zealand Tourism Website AI Search Readiness Dataset (2026)",
+    temporalCoverage: "2026-10-12/2026-10-15",
+    spatialCoverage: "New Zealand",
+    variableMeasured: [
+      "Structured data presence",
+      "Meta description presence",
+      "H1 presence",
+      "Organization entity presence",
+      "Orphan pages",
+      "AI crawler access",
+    ],
+  },
 };
 
 /**
@@ -355,6 +376,14 @@ export function datasetSchema(article: {
     description: article.description,
     url: absolute(`${routes.research}/${article.slug}`),
     temporalCoverage: dataset.temporalCoverage,
+    ...(dataset.spatialCoverage
+      ? {
+          spatialCoverage: {
+            "@type": "Place",
+            name: dataset.spatialCoverage,
+          },
+        }
+      : {}),
     variableMeasured: dataset.variableMeasured,
     // CC BY 4.0, matching the grant the report states in its own prose. Google
     // reads this field against what the page visibly says, so the two ship

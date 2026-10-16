@@ -1,0 +1,141 @@
+---
+title: "AI Search Readiness Study: 80 NZ Tourism Websites (2026)"
+description: "Original 2026 data from 80 New Zealand tourism websites: none block AI crawlers, 53% of pages lack schema markup, 51% of sites have orphan pages. Free to cite."
+date: 2026-10-16
+updatedAt: 2026-10-16
+author: "Udaay Sikder"
+kind: "data-report"
+targetKeyword: "ai search readiness study"
+draft: false
+---
+
+# 80 New Zealand tourism websites and AI search: 2026 readiness study
+
+**Short answer.** In October 2026 we audited the websites of 80 small New Zealand tour, activity and hospitality operators with [Crawlmouse](https://crawlmouse.com), the site auditing tool we build and run. None of the 80 uses robots.txt to block the crawlers behind ChatGPT, Claude, Perplexity or Google's AI features. But 53 percent of the 2,550 pages we analysed carry no schema markup, 51 percent have no meta description, and 51 percent of the sites have pages nothing else links to. The door is open; the house has no labels. The website platform predicted the gaps better than anything else we measured. All figures are free to cite under CC BY 4.0.
+
+## Key findings
+
+- **0 of 80** sites block any AI crawler in robots.txt (14 user agents and opt out tokens checked, including GPTBot, OAI-SearchBot, ClaudeBot and PerplexityBot).
+- **53%** of 2,550 pages have no structured data (schema markup); **43%** of sites have none on any page analysed.
+- **51%** of pages have no meta description.
+- **18%** of pages have no H1 heading; **67%** have some heading structure problem.
+- **46%** of homepages declare no Organization or WebSite entity.
+- **51%** of sites have orphan pages (248 pages in total).
+- **19%** of sites publish an llms.txt file, almost all of them on Wix.
+- **Platform matters:** Squarespace sites had schema markup on every page; custom built sites lacked it on 88% of pages.
+
+## Methodology: how we audited 80 New Zealand tourism websites
+
+Between 12 and 15 October 2026, Crawlmouse crawled 80 New Zealand websites (.nz domains), read 2,703 pages and mapped 130,525 internal links. For 2,550 pages it also scored AI search readiness: whether AI crawlers are allowed by robots.txt, whether content is readable without running JavaScript, and whether each page carries the labels machines use to understand it (structured data, a meta description, a clear heading outline, and an entity declaration on the homepage).
+
+The sites belong to small, mostly owner run businesses: guided tours, kayak and boat trips, fishing charters, wildlife and nature tours, food and wine experiences, and small lodges. We audited them while preparing our own outreach to New Zealand operators. **This is not a random sample of New Zealand tourism**: it leans toward smaller businesses, and we name none of them.
+
+## 0 of 80 block AI crawlers (versus 6 to 17 percent of top sites)
+
+Every one of the 80 sites allows all fourteen AI crawlers and opt out tokens Crawlmouse checks in robots.txt. That includes OpenAI's OAI-SearchBot and GPTBot, Anthropic's Claude-SearchBot and ClaudeBot, PerplexityBot, and Google-Extended. Only two sites depend on JavaScript to show their content.
+
+That is a sharp contrast with larger websites. Ahrefs' analysis of about 140 million sites, updated August 2026, found 5.89 percent block GPTBot. HasData's index of the top 10,000 sites, updated September 2026, found 8.3 percent block at least one AI crawler, rising to 53 percent among news publishers. StackFox found 17 percent of top sites with a robots.txt block GPTBot. Small tourism operators sit at the other extreme: they want to be found, and nothing in their robots.txt stops it.
+
+One limit: we measured robots.txt rules, not how each firewall responds to each AI crawler. Twenty eight sites (35 percent) sit behind a firewall or content delivery network. None blocked Crawlmouse, but a firewall can treat different user agents differently, which robots.txt does not show.
+
+## 53% of pages have no structured data
+
+Once a crawler is inside, it needs to work out what each page is: a tour, a price list, a booking page, a business. Structured data (schema markup, usually JSON-LD) is how a page says so directly.
+
+| What a machine looks for | Pages missing it | Sites missing it everywhere |
+|---|---|---|
+| Structured data (schema markup) | 1,340 of 2,550 (53%) | 34 of 80 (43%) |
+| Meta description | 1,307 of 2,550 (51%) | 12 of 80 (15%) |
+| An H1 heading | 471 of 2,550 (18%) | 9 of 80 |
+| Organization or WebSite entity on the homepage | | 37 of 80 (46%) |
+
+At the site level, 57 percent of the 80 sites had structured data on at least one page. W3Techs, which measures whole websites across the web, reports roughly 80 percent of sites use some structured data. The difference matters: a site can have schema on its homepage and none on the pages that actually sell tours, which is what page level measurement shows.
+
+An AI assistant can still read an unlabelled page. It has to guess more, and when it guesses about your kayak trip, it may name the operator whose page made it easy.
+
+## 51% of pages lack meta descriptions
+
+Half of all pages had no meta description, the one line summary search engines and many AI tools read first. Twelve sites had none on any page. Meta descriptions were missing on at least a third of pages on every platform we saw, which makes them a content habit rather than a platform setting.
+
+## 51% of sites have orphan pages
+
+Forty one of the 80 sites (51 percent) have at least one orphan page: a page that exists in the site's sitemap or index but that no other page on the site links to. There were 248 across the sample, often old tour pages, past seasonal specials, or pages a previous designer created. A crawler that follows links never reaches them, and when they hold outdated prices, they are a liability if it does.
+
+This is the third region where we have measured the same pattern. In our [study of 187 American small business websites](/research/crawlmouse-dataset-report), about half had pages nothing links to. In our [44 site study of Gulf small businesses](/research/gulf-smb-websites-ai-search-study), it was 55 percent. In New Zealand it is 51 percent.
+
+## Website platform predicts the gaps
+
+| Platform | Sites | Pages without schema | Pages without meta description | Homepages without an entity | Sites with orphan pages |
+|---|---|---|---|---|---|
+| Custom or smaller builders | 31 | 88% | 36% | 27 of 31 | 11 |
+| WordPress | 26 | 32% | 64% | 9 of 26 | 19 |
+| Wix | 12 | 52% | 57% | 0 of 12 | 5 |
+| Squarespace | 9 | 0% | 53% | 0 of 9 | 5 |
+| Webflow | 2 | 94% | 3% | 1 of 2 | 1 |
+
+This lines up with what the platforms document. Squarespace says it "automatically generates structured data" for websites, organisations, local businesses and more, and that owners cannot remove it. Wix says it "automatically creates Local Business structured data markup" for a homepage once business information is entered. Custom built sites only have the markup someone added by hand. The platform by platform fixes are in our [Wix vs Squarespace vs WordPress SEO comparison](/blog/wix-vs-squarespace-vs-wordpress-seo).
+
+## llms.txt adoption among tourism operators
+
+Fifteen of the 80 sites (19 percent) publish an llms.txt file. Twelve of the fifteen are the twelve Wix sites in the sample: Wix's help centre says it "automatically generates and maintains" the file for paid sites on a custom domain. Without Wix, adoption was 3 of 68. For comparison, Rankability found llms.txt on 8.3 percent of the top 10,000 sites in September 2026. As Crawlmouse notes in its reports, no AI search engine is known to read llms.txt as of 2026, and in our sample its presence made no difference to anything else we measured.
+
+## How these numbers compare with global studies
+
+| Measure | This study (80 NZ tourism sites) | Other published figures |
+|---|---|---|
+| Sites blocking GPTBot | 0% | 5.89% of about 140M sites (Ahrefs, 2026); 17% of top sites with robots.txt (StackFox, 2026) |
+| Sites with any structured data | 57% | about 80% (W3Techs, October 2026) |
+| Pages without structured data | 53% | not widely published at page level |
+| Sites with orphan pages | 51% | about half of 187 US sites, 55% of 44 Gulf sites (Nahl Technologies, 2026) |
+| Sites with llms.txt | 19% (3 of 68 outside Wix) | 8.3% of top 10k sites (Rankability, 2026) |
+
+## What tourism operators should fix first
+
+1. **Leave the door open.** Nothing in this sample blocked AI crawlers. Keep it that way.
+2. **Label the five pages that sell.** The homepage and the two to four pages that drive bookings each need one H1, a meta description, and structured data that matches what the page says. Tourism New Zealand's Operator AI Playbook sets the same priority.
+3. **Declare your business on the homepage.** An Organization or LocalBusiness entity with your name, location and contact details anchors your website to your newzealand.com listing and Google profile.
+4. **Find and fix orphan pages.** Link the ones that matter; remove or redirect the rest.
+5. **Check your own site.** The [free AI readiness checker](https://crawlmouse.com/ai-readiness-checker) runs the same tests used in this study on any website.
+
+Our guide to [getting named by ChatGPT and Google AI as an NZ operator](/blog/ai-search-new-zealand-tourism-operators) covers the steps beyond the website, and our [website rebuild for New Zealand operators](/nz) is the paid version, at a published price.
+
+## How to cite this study
+
+This report and its tables are published under CC BY 4.0. Cite as: Nahl Technologies, "80 New Zealand Tourism Websites and AI Search: 2026 Readiness Study", October 2026, with a link to this page. The tables on this page are the published dataset; no individual business is identified.
+
+**Limits.** Crawlmouse reads the static HTML a server returns, as a non rendering AI crawler does. On 44 of the 80 sites it read a sample of pages across the site's page templates rather than every page, so page percentages are of pages analysed. The sample is not random. We did not measure page speed, mobile layout, booking flows, or what AI assistants say about each business.
+
+## Frequently asked questions
+
+### What percentage of websites use schema markup?
+
+In this study of 80 New Zealand tourism websites, 57 percent had structured data on at least one page, but 53 percent of individual pages had none. Web wide, W3Techs reports about 80 percent of sites use some structured data.
+
+### Do most websites block AI crawlers like GPTBot?
+
+No. Ahrefs found about 6 percent of sites block GPTBot, and HasData about 8 percent of top sites block at least one AI crawler. None of the 80 small New Zealand tourism sites we audited blocked any.
+
+### How many websites are missing meta descriptions?
+
+In our sample, 51 percent of pages had no meta description and 15 percent of sites had none on any page.
+
+### What is AI search readiness?
+
+How easily AI search tools can reach, read and understand a website: whether their crawlers are allowed in, whether content is visible without JavaScript, and whether pages carry structured data, meta descriptions, clear headings and a declared business entity.
+
+### How can a tourism business show up in ChatGPT and Google AI Overviews?
+
+Keep AI crawlers allowed, label your homepage and booking pages with structured data, headings and meta descriptions, declare your business on the homepage, and keep your website, newzealand.com listing and Google Business Profile consistent.
+
+## Sources
+
+- Crawlmouse production audits, 12 to 15 October 2026 (80 sites, 2,703 pages crawled, 2,550 pages analysed).
+- Ahrefs, AI bot block rates, updated 12 August 2026.
+- HasData, AI crawler block index, updated 29 September 2026.
+- StackFox, Who blocks AI, February 2026.
+- W3Techs, Usage statistics of structured data formats, checked 15 October 2026.
+- Rankability, llms.txt adoption, 18 September 2026.
+- Squarespace Help Center, How does Squarespace optimize my site for search results.
+- Wix Help Center, Adding your site's business information; Understanding your site's llms.txt file.
+- MBIE, Using AI to improve New Zealand tourism visibility, 30 July 2026.
+- Tourism New Zealand, Operator AI Playbook V1.0.
