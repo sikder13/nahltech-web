@@ -45,18 +45,18 @@ const join = (segments: readonly { text: string }[]) =>
 describe("metadata", () => {
   it("ships the approved title, description and h1", () => {
     expect(meta.metaTitle).toBe(
-      "Tourism Websites and AI Visibility for NZ Operators | Nahl Technologies",
+      "Tourism Website Rebuilds and AI Visibility for NZ Operators | Nahl Technologies",
     );
     expect(meta.description).toBe(
-      "A homepage rebuild and AI visibility setup for New Zealand tour and activity operators. NZ$1,490 fixed, and you see the new homepage before you pay.",
+      "A full website rebuild and AI visibility setup for New Zealand tour and activity operators. NZ$1,490 fixed, with a refundable 30 percent deposit.",
     );
     expect(meta.title).toBe(
-      "Websites and AI visibility for New Zealand tourism operators",
+      "Website rebuilds and AI visibility for New Zealand tourism operators",
     );
   });
 
-  it("measures 148, inside the 165-character guard", () => {
-    expect(meta.description).toHaveLength(148);
+  it("measures 145, inside the 165-character guard", () => {
+    expect(meta.description).toHaveLength(145);
   });
 });
 
@@ -82,6 +82,16 @@ describe("the approved copy", () => {
         "link" in segment ? [[segment.text, segment.link]] : [],
       ),
     ).toEqual([["Email us", "email"]]);
+  });
+
+  it("states the terms the outreach emails make", () => {
+    // A prospect who reads the email and then this page must meet one offer:
+    // a full rebuild, a refundable 30 percent deposit, 70 percent at launch.
+    // The old terms are named so that neither can drift back in.
+    expect(copy).toContain("refundable 30 percent deposit");
+    expect(copy).toContain("the remaining 70 percent is due at launch");
+    expect(copy).not.toContain("50 percent");
+    expect(copy).not.toMatch(/homepage rebuild|preview/i);
   });
 
   it("keeps New Zealand spelling and uses no dash character", () => {
@@ -129,7 +139,7 @@ describe("the price, wherever it is quoted", () => {
 
   it("reads on /pricing as approved, linking the page", () => {
     expect(join(t.pricing.otherMarkets.note)).toBe(
-      "New Zealand tourism operators: homepage rebuild and AI visibility setup, NZ$1,490 fixed, preview before payment; optional care NZ$149 a month. Details.",
+      "New Zealand tourism operators: full website rebuild and AI visibility setup, NZ$1,490 fixed, 30 percent deposit refundable if you do not like the design; optional care NZ$149 a month. Details.",
     );
     expect(
       t.pricing.otherMarkets.note.flatMap((segment) =>
@@ -156,7 +166,7 @@ describe("the price, wherever it is quoted", () => {
 
     expect(section?.priceAnchor).toMatch(/^For context:/);
     expect(join(section!.linkedAfterword!)).toBe(
-      "For tour, activity and cellar door operators we offer one fixed price package: a homepage rebuild and AI visibility setup for NZ$1,490, with a private preview before you pay. See the tourism operator package. Our guides cover what booking platforms charge NZ operators and how to get named in AI travel answers.",
+      "For tour and activity operators we offer one fixed price package: a full website rebuild and AI visibility setup for NZ$1,490, with a homepage redesign to see before you pay. See the tourism operator package. Our guides cover what booking platforms charge NZ operators and how to get named in AI travel answers.",
     );
     expect(
       section!.linkedAfterword!.flatMap((segment) =>

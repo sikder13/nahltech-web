@@ -440,6 +440,20 @@ export type Dictionary = typeof enDictionary;
  * market pages' "FAQ", and `pricing.otherMarkets.heading` is the label the
  * brief named for the note.
  *
+ * ── Founder-supplied, verbatim, 15 October 2026 (NZ offer terms) ──────────
+ *
+ *   pages.nzTourism.*
+ *   nzTourism.lead
+ *   nzTourism.sections[] (first two lists and the steps)
+ *   nzTourism.faq.items[] (first two answers)
+ *   pricing.otherMarkets.note
+ *   markets.newZealand.sections[].linkedAfterword (first sentence)
+ *
+ * Exact replacements bringing `/nz`, the `/pricing` line and the market
+ * paragraph in line with the offer the outreach emails make: a full website
+ * rebuild, a 30 percent deposit refunded in full if the client does not like
+ * the design, the rest at launch. Links and every other string unchanged.
+ *
  * ── Not yet written ───────────────────────────────────────────────────────
  *
  * 0 `[PLACEHOLDER: …]` strings remain. Every string in en.json is approved

@@ -195,10 +195,10 @@ describe("MarketTemplate — the New Zealand tourism package page", () => {
     renderNz();
 
     expect(screen.getByRole("heading", { level: 1 }).textContent).toBe(
-      "Websites and AI visibility for New Zealand tourism operators",
+      "Website rebuilds and AI visibility for New Zealand tourism operators",
     );
     expect(
-      screen.getByText(/^We rebuild the homepage of owner run tour/),
+      screen.getByText(/^We rebuild the websites of owner run tour/),
     ).toBeTruthy();
   });
 
@@ -268,9 +268,9 @@ describe("MarketTemplate — the New Zealand page's tourism paragraph", () => {
       />,
     );
 
-    const paragraph = screen.getByText(/^For tour, activity and cellar door/);
+    const paragraph = screen.getByText(/^For tour and activity operators/);
     expect(paragraph.textContent).toBe(
-      "For tour, activity and cellar door operators we offer one fixed price package: a homepage rebuild and AI visibility setup for NZ$1,490, with a private preview before you pay. See the tourism operator package. Our guides cover what booking platforms charge NZ operators and how to get named in AI travel answers.",
+      "For tour and activity operators we offer one fixed price package: a full website rebuild and AI visibility setup for NZ$1,490, with a homepage redesign to see before you pay. See the tourism operator package. Our guides cover what booking platforms charge NZ operators and how to get named in AI travel answers.",
     );
     expect(
       within(paragraph)
