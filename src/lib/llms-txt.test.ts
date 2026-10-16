@@ -62,7 +62,7 @@ describe("llms.txt", () => {
     // The one key page whose description is not its meta description: the
     // founder supplied this line for the file, so it is pinned as written.
     expect(txt).toContain(
-      `- [${en.pages.nzTourism.title}](${siteUrl}${routes.nzTourism}) — Homepage rebuild and AI visibility setup for New Zealand tourism operators, NZ$1,490 fixed.`,
+      `- [${en.pages.nzTourism.title}](${siteUrl}${routes.nzTourism}) — Full website rebuild and AI visibility setup for New Zealand tourism operators, NZ$1,490 fixed.`,
     );
   });
 

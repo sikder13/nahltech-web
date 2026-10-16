@@ -50,7 +50,7 @@ have not been recorded yet; that does not mean nothing links them.
 
 /markets/gulf: "works with businesses in the Gulf region remotely"
 
-/nz: "Details"; "fixed NZ$1,490 price"; "fixed price homepage rebuild for NZ operators"; "homepage rebuild for operators"; "NZ$1,490 rebuild"; "the tourism operator package"
+/nz: "Details"; "fixed NZ$1,490 price"; "fixed price website rebuild for NZ operators"; "NZ$1,490 rebuild"; "the tourism operator package"; "website rebuild for operators"
 
 /pricing: "$2,500, fully credited"; "Book the scan or read the full price list"; "Details on the pricing page"; "free 30-minute scan"; "from $1,200/month"; "full price list"; "openly"; "our pricing page"; "pricing page"; "pricing published here"; "published"; "published prices"; "see what the scan and the audit cost"; "The full breakdown is on our pricing page"; "web development from $6,000"
 

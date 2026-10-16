@@ -212,7 +212,7 @@ describe("PricingTemplate", () => {
 
     const note = screen.getByText(/^New Zealand tourism operators:/);
     expect(note.textContent).toBe(
-      "New Zealand tourism operators: homepage rebuild and AI visibility setup, NZ$1,490 fixed, preview before payment; optional care NZ$149 a month. Details.",
+      "New Zealand tourism operators: full website rebuild and AI visibility setup, NZ$1,490 fixed, 30 percent deposit refundable if you do not like the design; optional care NZ$149 a month. Details.",
     );
     expect(
       screen.getByRole("link", { name: "Details" }).getAttribute("href"),
