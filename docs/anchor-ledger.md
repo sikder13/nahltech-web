@@ -56,7 +56,7 @@ have not been recorded yet; that does not mean nothing links them.
 
 /pricing: "$2,500, fully credited"; "Book the scan or read the full price list"; "Details on the pricing page"; "free 30-minute scan"; "from $1,200/month"; "full price list"; "openly"; "our pricing page"; "pricing page"; "pricing published here"; "published"; "published prices"; "see what the scan and the audit cost"; "The full breakdown is on our pricing page"; "web development from $6,000"
 
-/research/ai-search-readiness-study-new-zealand-tourism-websites: "AI search readiness study"; "October 2026 audit of 80 New Zealand tourism websites"; "study of 80 New Zealand tourism websites"; "study of 80 NZ tourism websites"
+/research/ai-search-readiness-study-new-zealand-tourism-websites: "a study of 80 New Zealand tourism websites"; "AI search readiness study"; "audit of 80 New Zealand tourism websites"; "study of 80 NZ tourism websites"
 
 /research/crawlmouse-dataset-report: "study of 187 American small business websites"
 

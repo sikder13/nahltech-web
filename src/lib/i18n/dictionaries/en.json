@@ -752,9 +752,9 @@
         }
       ],
       "evidence": [
-        { "text": "Crawlmouse was the instrument for our " },
+        { "text": "Crawlmouse was the instrument for our October 2026 " },
         {
-          "text": "October 2026 audit of 80 New Zealand tourism websites",
+          "text": "audit of 80 New Zealand tourism websites",
           "link": "nzStudy"
         },
         { "text": "." }
@@ -1624,8 +1624,8 @@
       {
         "heading": "Who we are",
         "linkedParagraph": {
-          "before": "Nahl Technologies is a small software firm in Indianapolis, in the United States. We have no New Zealand office. We work your mornings, which are our afternoons, and we answer email the same day. We built and run our own website auditing product, Crawlmouse, and we publish every price we charge. In October 2026 we published a",
-          "anchor": "study of 80 New Zealand tourism websites",
+          "before": "Nahl Technologies is a small software firm in Indianapolis, in the United States. We have no New Zealand office. We work your mornings, which are our afternoons, and we answer email the same day. We built and run our own website auditing product, Crawlmouse, and we publish every price we charge. In October 2026 we published",
+          "anchor": "a study of 80 New Zealand tourism websites",
           "after": " using the same tools."
         }
       },
