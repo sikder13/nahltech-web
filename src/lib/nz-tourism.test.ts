@@ -84,7 +84,7 @@ describe("the approved copy", () => {
     expect(`${linked!.before} ${linked!.anchor}${linked!.after}`).toBe(
       "Nahl Technologies is a small software firm in Indianapolis, in the United States. We have no New Zealand office. We work your mornings, which are our afternoons, and we answer email the same day. We built and run our own website auditing product, Crawlmouse, and we publish every price we charge. In October 2026 we published a study of 80 New Zealand tourism websites using the same tools.",
     );
-    expect(linked!.anchor).toBe("study of 80 New Zealand tourism websites");
+    expect(linked!.anchor).toBe("a study of 80 New Zealand tourism websites");
     expect(getResearchBySlug(nzStudySlug)?.draft).toBe(false);
   });
 

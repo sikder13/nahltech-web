@@ -197,7 +197,7 @@ describe("MarketTemplate — the New Zealand tourism package page", () => {
     renderNz();
 
     const link = screen.getByRole("link", {
-      name: "study of 80 New Zealand tourism websites",
+      name: "a study of 80 New Zealand tourism websites",
     });
     expect(link.getAttribute("href")).toBe(nzStudyPath);
     expect(link.closest("p")?.textContent).toMatch(

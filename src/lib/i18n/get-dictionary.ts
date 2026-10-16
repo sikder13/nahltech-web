@@ -461,8 +461,9 @@ export type Dictionary = typeof enDictionary;
  *
  * Two sentences pointing at the study of 80 New Zealand tourism websites.
  * The "Who we are" paragraph is stored as `linkedParagraph` so its new last
- * sentence can carry the link; the words before it are unchanged. Where each
- * anchor starts and ends was not specified and is our reading.
+ * sentence can carry the link; the words before it are unchanged. The link
+ * boundaries are the founder's: "a study of 80 New Zealand tourism websites"
+ * on /nz and "audit of 80 New Zealand tourism websites" on the product page.
  *
  * ── Not yet written ───────────────────────────────────────────────────────
  *

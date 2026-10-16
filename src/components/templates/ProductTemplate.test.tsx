@@ -53,7 +53,7 @@ describe("ProductTemplate", () => {
     );
 
     const link = screen.getByRole("link", {
-      name: "October 2026 audit of 80 New Zealand tourism websites",
+      name: "audit of 80 New Zealand tourism websites",
     });
     expect(link).toHaveAttribute("href", nzStudyPath);
     expect(link.closest("p")).toHaveTextContent(
